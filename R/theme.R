@@ -36,8 +36,8 @@ theme_joy <- function(font_size = 14, font_family = "", line_size = .5) {
         hjust = 1
       ),
       axis.ticks        = element_line(colour = color, size = line_size),
-      axis.line         = element_line(colour = color, size = line_size, lineend = "square"),
-      axis.line.x       = element_blank(),
+      #axis.line         = element_line(colour = color, size = line_size, lineend = "square"),
+      axis.line         = element_blank(),
       legend.key        = element_blank(),
       legend.key.size   = grid::unit(1, "lines"),
       legend.text       = element_text(size = rel(small_rel)),
