@@ -2,6 +2,7 @@
 
 export(GeomJoy)
 export(geom_joy)
+export(theme_joy)
 import(ggplot2)
 importFrom(ggplot2,GeomRibbon)
 importFrom(ggplot2,ggproto)

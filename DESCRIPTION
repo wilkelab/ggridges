@@ -21,5 +21,6 @@ VignetteBuilder: knitr
 Collate:
     'ggjoy.R'
     'geom_joy.R'
+    'theme.R'
     'utils_ggplot2.R'
 RoxygenNote: 6.0.1
