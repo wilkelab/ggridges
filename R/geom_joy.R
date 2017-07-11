@@ -45,31 +45,36 @@ geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
 #' @importFrom grid gTree gList
 #' @export
 GeomJoy <- ggproto("GeomJoy", GeomRibbon,
-                    default_aes = aes(colour = "black", fill = "grey70", size = 0.5, linetype = 1,
-                                      alpha = NA, scale = 2),
+  default_aes =
+    aes(colour = "black",
+        fill = "grey70",
+        size = 0.5,
+        linetype = 1,
+        alpha = NA,
+        scale = 2),
 
-                    required_aes = c("x", "y", "height"),
+  required_aes = c("x", "y", "height"),
 
-                    setup_data = function(data, params) {
-                      yrange = max(data$y) - min(data$y)
-                      hmax = max(data$height)
-                      n = length(unique(data$y))
-                      # calculate internal scale
-                      if (n>1) iscale = yrange/((n-1)*hmax)
-                      else iscale = 1
+  setup_data = function(data, params) {
+    yrange = max(data$y) - min(data$y)
+    hmax = max(data$height)
+    n = length(unique(data$y))
+    # calculate internal scale
+    if (n>1) iscale = yrange/((n-1)*hmax)
+    else iscale = 1
 
-                      transform(data, ymin = y, ymax = y + iscale*params$scale*height)
-                    },
+    transform(data, ymin = y, ymax = y + iscale*params$scale*height)
+  },
 
-                   draw_panel = function(self, data, panel_params, coord, ...) {
-                     groups <- split(data, factor(data$group))
-                     groups <- rev(groups) # reverse to draw back to front
-                     grobs <- lapply(groups, function(group) {
-                       self$draw_group(group, panel_params, coord, ...)
-                     })
+  draw_panel = function(self, data, panel_params, coord, ...) {
+     groups <- split(data, factor(data$group))
+     groups <- rev(groups) # reverse to draw back to front
+     grobs <- lapply(groups, function(group) {
+       self$draw_group(group, panel_params, coord, ...)
+     })
 
-                     ggname(snake_class(self), gTree(
+     ggname(snake_class(self), gTree(
                        children = do.call("gList", grobs)
-                     ))
-                   }
+     ))
+  }
 )
