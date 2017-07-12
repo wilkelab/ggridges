@@ -80,31 +80,31 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
     # munching for polygon
     positions <- plyr::summarise(data,
                                  x = c(x, rev(x)), y = c(ymax, rev(ymin)), id = c(ids, rev(ids)))
-    munched_poly <- coord_munch(coord, positions, panel_params)
+    munched_poly <- ggplot2::coord_munch(coord, positions, panel_params)
 
     # munching for line
     positions <- plyr::summarise(data, x = x, y = ymax, id = ids)
-    munched_line <- coord_munch(coord, positions, panel_params)
+    munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
 
     lg <- ggname("geom_ridgeline",
-           polylineGrob(
+           grid::polylineGrob(
                         munched_line$x, munched_line$y, id = munched_line$id,
                         default.units = "native",
-                        gp = gpar(
+                        gp = grid::gpar(
                           col = aes$colour,
                           lwd = aes$size * .pt,
                           lty = aes$linetype)
                       ))
 
     ag <- ggname("geom_ridgeline",
-                 polygonGrob(
+                 grid::polygonGrob(
                    munched_poly$x, munched_poly$y, id = munched_poly$id,
                    default.units = "native",
-                   gp = gpar(
+                   gp = grid::gpar(
                      fill = alpha(aes$fill, aes$alpha),
                      lty = 0)
                  ))
-    grobTree(ag, lg)
+    grid::grobTree(ag, lg)
     }
 )
 
