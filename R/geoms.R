@@ -143,11 +143,10 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
 #' # evolution of movie lengths over time
 #' # requires the ggplot2movies package
 #' library(ggplot2movies)
-#' ggplot(movies, aes(x=length, y=year, group=year, height = ..density..)) +
-#'   geom_joy(scale=10) +
+#' ggplot(movies, aes(x=length, y=year, group=year, height=..density..)) +
+#'   geom_joy(scale=10, size=0.25) + theme_joy() +
 #'   scale_x_log10(limits=c(1, 500), breaks=c(1,10,100,1000), expand=c(0.01, 0)) +
-#'   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0)) +
-#'   theme_joy()
+#'   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
 geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
                      position = "identity", na.rm = FALSE, show.legend = NA, scale = 1.8,
                      inherit.aes = TRUE, ...) {
