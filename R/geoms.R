@@ -28,7 +28,8 @@ geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @export
 GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
   default_aes = plyr::defaults(
-    aes(colour = "black", fill = "grey80", y = 0, size = 0.5, linetype = 1, alpha = NA),
+    aes(colour = "black", fill = "grey80", y = 0, size = 0.5, linetype = 1,
+        min_height = 0, alpha = NA),
     GeomRibbon$default_aes
   ),
 
@@ -56,10 +57,11 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
   },
 
   draw_group = function(data, panel_params, coord, na.rm = FALSE) {
-    #print(data)
-    #print(panel_params)
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
     data <- data[order(data$group, data$x), ]
+
+    # remove all points that fall below the minimum height
+    data$ymax[data$height < data$min_height] <- NA
 
     # Check that aesthetics are constant
     aes <- unique(data[c("colour", "fill", "size", "linetype", "alpha")])
@@ -150,7 +152,8 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
 #'   scale_x_log10(limits=c(1, 500), breaks=c(1,10,100,1000), expand=c(0.01, 0)) +
 #'   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
 geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
-                     position = "identity", na.rm = FALSE, show.legend = NA, scale = 1.8,
+                     position = "identity", na.rm = FALSE, show.legend = NA,
+                     scale = 1.8, rel_min_height = 0.01,
                      inherit.aes = TRUE, ...) {
   layer(
     data = data,
@@ -163,6 +166,7 @@ geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
     params = list(
       na.rm = na.rm,
       scale = scale,
+      rel_min_height = rel_min_height,
       ...
     )
   )
@@ -175,26 +179,30 @@ geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
 #' @importFrom grid gTree gList
 #' @export
 GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
-                   default_aes =
-                     aes(colour = "black",
-                         fill = "grey70",
-                         size = 0.5,
-                         linetype = 1,
-                         alpha = NA,
-                         scale = 2),
+  default_aes =
+    aes(colour = "black",
+        fill = "grey70",
+        size = 0.5,
+        linetype = 1,
+        alpha = NA,
+        scale = 1.8,
+        rel_min_height = 0.01),
 
-                   required_aes = c("x", "y", "height"),
+   required_aes = c("x", "y", "height"),
 
-                   setup_data = function(data, params) {
-                     yrange = max(data$y) - min(data$y)
-                     hmax = max(data$height)
-                     n = length(unique(data$y))
-                     # calculate internal scale
-                     if (n>1) iscale = yrange/((n-1)*hmax)
-                     else iscale = 1
+   setup_data = function(data, params) {
+     yrange = max(data$y) - min(data$y)
+     hmax = max(data$height)
+     n = length(unique(data$y))
+     # calculate internal scale
+     if (n>1) iscale = yrange/((n-1)*hmax)
+     else iscale = 1
 
-                     transform(data, ymin = y, ymax = y + iscale*params$scale*height)
-                   }
+     transform(data,
+               ymin = y,
+               ymax = y + iscale*params$scale*height,
+               min_height = hmax*params$rel_min_height)
+  }
 )
 
 
