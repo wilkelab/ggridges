@@ -56,6 +56,8 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
   },
 
   draw_group = function(data, panel_params, coord, na.rm = FALSE) {
+    #print(data)
+    #print(panel_params)
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
     data <- data[order(data$group, data$x), ]
 

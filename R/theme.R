@@ -6,15 +6,29 @@
 #' @param font_size Overall font size. Default is 14.
 #' @param font_family Default font family.
 #' @param line_size Default line size.
+#' @param grid Boolean indicating whether a background grid should be drawn (`TRUE`) or not (`FALSE`).
 #' @return The theme.
 #' @examples
 #' # still to do
 #' @export
-theme_joy <- function(font_size = 14, font_family = "", line_size = .5) {
+theme_joy <- function(font_size = 14, font_family = "", line_size = .5, grid = TRUE) {
   half_line <- font_size / 2
   small_rel <- 0.857
   small_size <- small_rel * font_size
   color <- "grey90"
+
+  if (grid)
+  {
+    panel.grid.major <- element_line(colour = color, size = line_size)
+    axis.ticks       <- element_line(colour = color, size = line_size)
+    axis.ticks.y     <- axis.ticks
+  }
+  else
+  {
+    panel.grid.major <- element_blank()
+    axis.ticks       <- element_line(colour = "black", size = line_size)
+    axis.ticks.y     <- element_blank()
+  }
 
   theme_grey(base_size = font_size, base_family = font_family) %+replace%
     theme(
@@ -35,8 +49,8 @@ theme_joy <- function(font_size = 14, font_family = "", line_size = .5) {
         margin = ggplot2::margin(r = small_size / 2, l = small_size / 4),
         hjust = 1
       ),
-      axis.ticks        = element_line(colour = color, size = line_size),
-      #axis.line         = element_line(colour = color, size = line_size, lineend = "square"),
+      axis.ticks        = axis.ticks,
+      axis.ticks.y      = axis.ticks.y,
       axis.line         = element_blank(),
       legend.key        = element_blank(),
       legend.key.size   = grid::unit(1, "lines"),
@@ -45,15 +59,14 @@ theme_joy <- function(font_size = 14, font_family = "", line_size = .5) {
       panel.background  = element_blank(),
       panel.border      = element_blank(),
       # make grid lines
-      panel.grid.major  = element_line(colour = color, size = line_size),
-      #panel.grid.major.y = element_blank(),
+      panel.grid.major  = panel.grid.major,
       panel.grid.minor  = element_blank(),
       strip.text        = element_text(size = rel(small_rel)),
       strip.background  = element_rect(fill = color, colour = "grey50", size = 0),
       plot.background   = element_blank(),
       plot.title        = element_text(face = "bold",
                                        size = font_size,
-                                       margin = ggplot2::margin(b = half_line)),
+                                       margin = ggplot2::margin(b = half_line), hjust = 0),
 
       complete = TRUE
     )
