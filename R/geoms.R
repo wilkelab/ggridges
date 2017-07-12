@@ -4,7 +4,7 @@
 #'
 #' d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
 #'                 height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
-#' ggplot(d, aes(x, y, height = height, group = y))) + geom_ridgeline()
+#' ggplot(d, aes(x, y, height = height, group = y)) + geom_ridgeline(fill="lightblue")
 #'
 #' @export
 geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
@@ -113,19 +113,27 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
 #' @importFrom ggplot2 layer
 #' @export
 #' @examples
-#' p1 <- ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
+#' ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
 #'   geom_joy() +
-#'   scale_y_discrete(expand=c(0,0)) +
-#'   scale_x_continuous(expand=c(0,0))
-#' print(p1)
+#'   scale_y_discrete(expand=c(0.01, 0)) +
+#'   scale_x_continuous(expand=c(0.01, 0)) +
+#'   theme_joy()
 #'
 #'
-#' # set the scale argument in `geom_joy()` to determine how much overlap there is among the plots
-#' p2 <- ggplot(diamonds, aes(x=price, y=cut, group=cut, height=..density..)) +
+#' # set the scale argument in `geom_joy2()` to determine how much overlap there is among the plots
+#' ggplot(diamonds, aes(x=price, y=cut, group=cut, height=..density..)) +
 #'   geom_joy(scale=4) +
-#'   scale_y_discrete(expand=c(0,0)) +
-#'   scale_x_continuous(expand=c(0,0))
-#' print(p2)
+#'   scale_y_discrete(expand=c(0.01, 0)) +
+#'   scale_x_continuous(expand=c(0.01, 0)) +
+#'   theme_joy()
+#'
+#' # the same figure with fun colors
+#' ggplot(diamonds, aes(x=price, y=cut, fill=cut, height=..density..)) +
+#'   geom_joy(scale=4) +
+#'   scale_y_discrete(expand=c(0.01, 0)) +
+#'   scale_x_continuous(expand=c(0.01, 0)) +
+#'   scale_fill_brewer(palette = 4) +
+#'   theme_joy() + theme(legend.position="none")
 geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
                      position = "identity", na.rm = FALSE, show.legend = NA, scale = 1.8,
                      inherit.aes = TRUE, ...) {
@@ -183,19 +191,19 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 #' @importFrom ggplot2 layer
 #' @export
 #' @examples
-#' p1 <- ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
+#' ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
 #'   geom_joy2() +
-#'   scale_y_discrete(expand=c(0,0)) +
-#'   scale_x_continuous(expand=c(0,0))
-#' print(p1)
+#'   scale_y_discrete(expand=c(0.01, 0)) +
+#'   scale_x_continuous(expand=c(0.01, 0)) +
+#'   theme_joy()
 #'
 #'
 #' # set the scale argument in `geom_joy2()` to determine how much overlap there is among the plots
-#' p2 <- ggplot(diamonds, aes(x=price, y=cut, group=cut, height=..density..)) +
+#' ggplot(diamonds, aes(x=price, y=cut, group=cut, height=..density..)) +
 #'   geom_joy2(scale=4) +
-#'   scale_y_discrete(expand=c(0,0)) +
-#'   scale_x_continuous(expand=c(0,0))
-#' print(p2)
+#'   scale_y_discrete(expand=c(0.01, 0)) +
+#'   scale_x_continuous(expand=c(0.01, 0)) +
+#'   theme_joy()
 geom_joy2 <- function(mapping = NULL, data = NULL, stat = "density",
                       position = "identity", na.rm = FALSE, show.legend = NA, scale = 1.8,
                       inherit.aes = TRUE, ...) {
