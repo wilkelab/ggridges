@@ -35,5 +35,14 @@ ggplot(diamonds, aes(x=price, y=cut, fill=cut, height=..density..)) +
   scale_x_continuous(expand=c(0.01, 0)) +
   scale_fill_brewer(palette = 4) +
   theme_joy() + theme(legend.position="none")
+
+# evolution of movie lengths over time
+# requires the ggplot2movies package
+library(ggplot2movies)
+ggplot(movies, aes(x=length, y=year, group=year, height = ..density..)) +
+  geom_joy(scale=10) +
+  scale_x_log10(limits=c(1, 500), breaks=c(1,10,100,1000), expand=c(0.01, 0)) +
+  scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0)) +
+  theme_joy()
 }
 \keyword{datasets}

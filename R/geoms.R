@@ -40,7 +40,12 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
 
   draw_panel = function(self, data, panel_params, coord, ...) {
     groups <- split(data, factor(data$group))
-    groups <- rev(groups) # reverse to draw back to front
+
+    # sort list so highest ymin values are in the front
+    # we take a shortcut here and look only at the first ymin value given
+    o <- order(unlist(lapply(groups, function(data){data$ymin[1]})), decreasing = TRUE)
+    groups <- groups[o]
+
     grobs <- lapply(groups, function(group) {
       self$draw_group(group, panel_params, coord, ...)
     })
@@ -134,6 +139,15 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   scale_fill_brewer(palette = 4) +
 #'   theme_joy() + theme(legend.position="none")
+#'
+#' # evolution of movie lengths over time
+#' # requires the ggplot2movies package
+#' library(ggplot2movies)
+#' ggplot(movies, aes(x=length, y=year, group=year, height = ..density..)) +
+#'   geom_joy(scale=10) +
+#'   scale_x_log10(limits=c(1, 500), breaks=c(1,10,100,1000), expand=c(0.01, 0)) +
+#'   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0)) +
+#'   theme_joy()
 geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
                      position = "identity", na.rm = FALSE, show.legend = NA, scale = 1.8,
                      inherit.aes = TRUE, ...) {
@@ -230,37 +244,42 @@ geom_joy2 <- function(mapping = NULL, data = NULL, stat = "density",
 #' @importFrom grid gTree gList
 #' @export
 GeomJoy2 <- ggproto("GeomJoy2", GeomRibbon,
-                    default_aes =
-                      aes(colour = "black",
-                          fill = "grey70",
-                          size = 0.5,
-                          linetype = 1,
-                          alpha = NA,
-                          scale = 2),
+  default_aes =
+    aes(colour = "black",
+        fill = "grey70",
+        size = 0.5,
+        linetype = 1,
+        alpha = NA,
+        scale = 2),
 
-                    required_aes = c("x", "y", "height"),
+  required_aes = c("x", "y", "height"),
 
-                    setup_data = function(data, params) {
-                      yrange = max(data$y) - min(data$y)
-                      hmax = max(data$height)
-                      n = length(unique(data$y))
-                      # calculate internal scale
-                      if (n>1) iscale = yrange/((n-1)*hmax)
-                      else iscale = 1
+  setup_data = function(data, params) {
+    yrange = max(data$y) - min(data$y)
+    hmax = max(data$height)
+    n = length(unique(data$y))
+    # calculate internal scale
+    if (n>1) iscale = yrange/((n-1)*hmax)
+    else iscale = 1
 
-                      transform(data, ymin = y, ymax = y + iscale*params$scale*height)
-                    },
+    transform(data, ymin = y, ymax = y + iscale*params$scale*height)
+  },
 
-                    draw_panel = function(self, data, panel_params, coord, ...) {
-                      groups <- split(data, factor(data$group))
-                      groups <- rev(groups) # reverse to draw back to front
-                      grobs <- lapply(groups, function(group) {
-                        self$draw_group(group, panel_params, coord, ...)
-                      })
+  draw_panel = function(self, data, panel_params, coord, ...) {
+    groups <- split(data, factor(data$group))
 
-                      ggname(snake_class(self), gTree(
-                        children = do.call("gList", grobs)
-                      ))
-                    }
+    # sort list so highest ymin values are in the front
+    # we take a shortcut here and look only at the first ymin value given
+    o <- order(unlist(lapply(groups, function(data){data$ymin[1]})), decreasing = TRUE)
+    groups <- groups[o]
+
+    grobs <- lapply(groups, function(group) {
+      self$draw_group(group, panel_params, coord, ...)
+    })
+
+    ggname(snake_class(self), gTree(
+      children = do.call("gList", grobs)
+    ))
+  }
 )
 
