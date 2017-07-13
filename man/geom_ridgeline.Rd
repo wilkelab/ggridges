@@ -10,10 +10,6 @@ geom_ridgeline(mapping = NULL, data = NULL, stat = "identity",
   position = "identity", min_height = 0, na.rm = FALSE,
   show.legend = NA, inherit.aes = TRUE, ...)
 }
-\arguments{
-\item{min_height}{A height cutoff on the drawn ridgelines. All values that fall below this cutoff will be removed.
-The main purpose of this cutoff is to remove long tails right at the baseline level, but other uses are possible.}
-}
 \description{
 Plots the sum of the `y` and `height` aesthetics versus `x`, filling the area between `y` and `y + height` with a color.
 Thus, the data mapped onto y and onto height must be in the same units.
@@ -29,7 +25,9 @@ If you want relative scaling of the heights, you can use `geom_joy` with `stat =
 \item \code{scale} A scaling factor to scale the height of the ridgelines.
 A value of 1 indicates that the heights are taken as is. This aesthetic can be used to convert
 \code{height} units into \code{y} units.
-\item \code{min_height} Lines with heights below this cutoff will be removed. The cutoff is applied before any height
+\item \code{min_height} A height cutoff on the drawn ridgelines. All values that fall below this cutoff will be removed.
+The main purpose of this cutoff is to remove long tails right at the baseline level, but other uses are possible.
+The cutoff is applied before any height
 scaling is applied via the \code{scale} aesthetic. Default is 0, so nothing is removed.
 }
 }

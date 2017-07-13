@@ -4,17 +4,16 @@
 \name{geom_joy2}
 \alias{geom_joy2}
 \alias{GeomJoy2}
-\title{Joy plot based on closed polygons}
+\title{Create joyplot based on closed polygons}
 \usage{
-geom_joy2(mapping = NULL, data = NULL, stat = "density",
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+geom_joy2(mapping = NULL, data = NULL, stat = "joy", na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, ...)
 }
 \description{
-`geom_joy2` is similar to `geom_joy` but draws closed polygons rather than ridgelines.
+`geom_joy2` is virtually identical to `geom_joy` but draws closed polygons rather than ridgelines.
 }
 \examples{
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
+ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
   geom_joy2() +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +
@@ -22,7 +21,7 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)
 
 
 # set the scale argument in `geom_joy2()` to determine how much overlap there is among the plots
-ggplot(diamonds, aes(x=price, y=cut, group=cut, height=..density..)) +
+ggplot(diamonds, aes(x=price, y=cut, group=cut)) +
   geom_joy2(scale=4) +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +

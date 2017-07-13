@@ -4,11 +4,10 @@
 \name{geom_joy}
 \alias{geom_joy}
 \alias{GeomJoy}
-\title{Joy plot based on ridgelines}
+\title{Create joyplot based on ridgelines}
 \usage{
-geom_joy(mapping = NULL, data = NULL, stat = "density",
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+geom_joy(mapping = NULL, data = NULL, stat = "joy", na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, ...)
 }
 \description{
 \code{geom_joy} arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
@@ -17,7 +16,8 @@ geom_joy(mapping = NULL, data = NULL, stat = "density",
 By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
 not wanted, use \code{stat="identity"} or use \code{geom_ridgeline}. The difference between \code{geom_joy} and \code{geom_ridgeline}
 is that \code{geom_joy} will provide automatic scaling of the ridgelines (controlled by the \code{scale} aesthetic), whereas
-\code{geom_ridgeline} will plot the data as is.
+\code{geom_ridgeline} will plot the data as is. Note that when you set \code{stat="identity"}, the \code{height} aesthetic must
+be provided.
 }
 \section{Aesthetics}{
 
@@ -25,7 +25,8 @@ is that \code{geom_joy} will provide automatic scaling of the ridgelines (contro
 \itemize{
 \item \code{x} (required)
 \item \code{y} (required)
-\item \code{height} (required)
+\item \code{height} The height of each ridgeline at the respective x value. Automatically calculated and
+provided by \code{stat_joy} if the default stat is not changed.
 \item \code{scale} A scaling factor to scale the height of the ridgelines relative to the spacing between them.
 A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
 even spacing between baselines.
@@ -36,7 +37,7 @@ ridgelines. Default is 0, so nothing is removed.
 }
 
 \examples{
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
+ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
   geom_joy(rel_min_height = 0.005) +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +
@@ -44,14 +45,14 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)
 
 
 # set the scale argument in `geom_joy()` to determine how much overlap there is among the plots
-ggplot(diamonds, aes(x=price, y=cut, group=cut, height=..density..)) +
+ggplot(diamonds, aes(x=price, y=cut, group=cut)) +
   geom_joy(scale=4) +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +
   theme_joy()
 
 # the same figure with fun colors
-ggplot(diamonds, aes(x=price, y=cut, fill=cut, height=..density..)) +
+ggplot(diamonds, aes(x=price, y=cut, fill=cut)) +
   geom_joy(scale=4) +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +
@@ -61,7 +62,7 @@ ggplot(diamonds, aes(x=price, y=cut, fill=cut, height=..density..)) +
 # evolution of movie lengths over time
 # requires the ggplot2movies package
 library(ggplot2movies)
-ggplot(movies[movies$year>1912,], aes(x=length, y=year, group=year, height=..density..)) +
+ggplot(movies[movies$year>1912,], aes(x=length, y=year, group=year)) +
   geom_joy(scale=10, size=0.25, rel_min_height=0.03) +
   theme_joy() +
   scale_x_continuous(limits=c(1, 200), expand=c(0.01, 0)) +
