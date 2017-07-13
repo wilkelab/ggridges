@@ -161,7 +161,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
 
 
-#' Joy plot based on ridgelines
+#' Create joyplot based on ridgelines
 #'
 #' \code{geom_joy} arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
 #'
@@ -283,9 +283,9 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 )
 
 
-#' Joy plot based on closed polygons
+#' Create joyplot based on closed polygons
 #'
-#' `geom_joy2` is similar to `geom_joy` but draws closed polygons rather than ridgelines.
+#' `geom_joy2` is virtually identical to `geom_joy` but draws closed polygons rather than ridgelines.
 #'
 #' @name geom_joy2
 #' @importFrom ggplot2 layer
