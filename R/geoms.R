@@ -221,7 +221,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'   scale_x_continuous(limits=c(1, 200), expand=c(0.01, 0)) +
 #'   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
 geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
-                     na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
+                     na.rm = TRUE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,
@@ -306,7 +306,7 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   theme_joy()
 geom_joy2 <- function(mapping = NULL, data = NULL, stat = "joy",
-                      na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
+                      na.rm = TRUE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,

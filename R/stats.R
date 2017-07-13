@@ -49,8 +49,7 @@ StatJoy <- ggproto("StatJoy", Stat,
       bandwidth = params$bandwidth,
       min = min,
       max = max,
-      #na.rm = params$na.rm
-      na.rm = TRUE
+      na.rm = params$na.rm
     )
   },
 
