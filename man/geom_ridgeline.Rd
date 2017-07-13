@@ -19,6 +19,21 @@ Plots the sum of the `y` and `height` aesthetics versus `x`, filling the area be
 Thus, the data mapped onto y and onto height must be in the same units.
 If you want relative scaling of the heights, you can use `geom_joy` with `stat = "identity"`.
 }
+\section{Aesthetics}{
+
+
+\itemize{
+\item \code{x} (required)
+\item \code{y} (required)
+\item \code{height} (required) Assumed to be positive, though this is not required.
+\item \code{scale} A scaling factor to scale the height of the ridgelines.
+A value of 1 indicates that the heights are taken as is. This aesthetic can be used to convert
+\code{height} units into \code{y} units.
+\item \code{min_height} Lines with heights below this cutoff will be removed. The cutoff is applied before any height
+scaling is applied via the \code{scale} aesthetic. Default is 0, so nothing is removed.
+}
+}
+
 \examples{
 d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
                 height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))

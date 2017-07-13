@@ -7,27 +7,34 @@
 \title{Joy plot based on ridgelines}
 \usage{
 geom_joy(mapping = NULL, data = NULL, stat = "density",
-  position = "identity", na.rm = FALSE, show.legend = NA, scale = 1.8,
-  rel_min_height = 0, inherit.aes = TRUE, ...)
-}
-\arguments{
-\item{scale}{A scaling factor to scale the height of the ridgelines relative to the spacing between them.
-A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
-even spacing between baselines.}
-
-\item{rel_min_height}{Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
-overall maximum, so `rel_min_height=0.01` would remove everything that is 1% or less than the highest point among all
-joylines. Default is 0, so nothing is removed.}
+  position = "identity", na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE, ...)
 }
 \description{
-`geom_joy` arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album.
+\code{geom_joy} arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
 }
 \details{
 By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
-not wanted, use `stat="identity"` or use `geom_ridgeline`. The difference between `geom_joy` and `geom_ridgeline`
-is that `geom_joy` will provide automatic scaling of the ridgelines (controlled by the `scale` parameter), whereas
-`geom_ridgeline` will plot the data as is.
+not wanted, use \code{stat="identity"} or use \code{geom_ridgeline}. The difference between \code{geom_joy} and \code{geom_ridgeline}
+is that \code{geom_joy} will provide automatic scaling of the ridgelines (controlled by the \code{scale} aesthetic), whereas
+\code{geom_ridgeline} will plot the data as is.
 }
+\section{Aesthetics}{
+
+
+\itemize{
+\item \code{x} (required)
+\item \code{y} (required)
+\item \code{height} (required)
+\item \code{scale} A scaling factor to scale the height of the ridgelines relative to the spacing between them.
+A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
+even spacing between baselines.
+\item \code{rel_min_height} Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
+overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1\% or less than the highest point among all
+ridgelines. Default is 0, so nothing is removed.
+}
+}
+
 \examples{
 ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
   geom_joy(rel_min_height = 0.005) +

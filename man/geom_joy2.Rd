@@ -7,8 +7,8 @@
 \title{Joy plot based on closed polygons}
 \usage{
 geom_joy2(mapping = NULL, data = NULL, stat = "density",
-  position = "identity", na.rm = FALSE, show.legend = NA, scale = 1.8,
-  rel_min_height = 0, inherit.aes = TRUE, ...)
+  position = "identity", na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE, ...)
 }
 \description{
 `geom_joy2` is similar to `geom_joy` but draws closed polygons rather than ridgelines.

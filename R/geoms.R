@@ -4,8 +4,20 @@
 #' Thus, the data mapped onto y and onto height must be in the same units.
 #' If you want relative scaling of the heights, you can use `geom_joy` with `stat = "identity"`.
 #'
-#' @param min_height A height cutoff on the drawn ridgelines. All values that fall below this cutoff will be removed.
+#' @section Aesthetics:
+#'
+#' \itemize{
+#' \item \code{x} (required)
+#' \item \code{y} (required)
+#' \item \code{height} (required) Assumed to be positive, though this is not required.
+#' \item \code{scale} A scaling factor to scale the height of the ridgelines.
+#' A value of 1 indicates that the heights are taken as is. This aesthetic can be used to convert
+#' \code{height} units into \code{y} units.
+#' \item \code{min_height} A height cutoff on the drawn ridgelines. All values that fall below this cutoff will be removed.
 #' The main purpose of this cutoff is to remove long tails right at the baseline level, but other uses are possible.
+#' The cutoff is applied before any height
+#' scaling is applied via the \code{scale} aesthetic. Default is 0, so nothing is removed.
+#' }
 #'
 #' @examples
 #' d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
@@ -43,8 +55,23 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
   required_aes = c("x", "y", "height"),
 
-  setup_data = function(data, params) {
-    transform(data, ymin = y, ymax = y + height)
+  setup_data = function(self, data, params) {
+
+    if (!"scale" %in% names(data)) {
+      if (!"scale" %in% names(params))
+        data <- cbind(data, scale = self$default_aes$scale)
+      else
+        data <- cbind(data, scale = params$scale)
+    }
+
+    if (!"min_height" %in% names(data)){
+      if (!"min_height" %in% names(params))
+        data <- cbind(data, min_height = self$default_aes$min_height)
+      else
+        data <- cbind(data, min_height = params$min_height)
+    }
+
+    transform(data, ymin = y, ymax = y + scale*height)
   },
 
   draw_key = draw_key_polygon,
@@ -136,19 +163,27 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
 #' Joy plot based on ridgelines
 #'
-#' `geom_joy` arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album.
+#' \code{geom_joy} arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
 #'
 #' By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
-#' not wanted, use `stat="identity"` or use `geom_ridgeline`. The difference between `geom_joy` and `geom_ridgeline`
-#' is that `geom_joy` will provide automatic scaling of the ridgelines (controlled by the `scale` parameter), whereas
-#' `geom_ridgeline` will plot the data as is.
+#' not wanted, use \code{stat="identity"} or use \code{geom_ridgeline}. The difference between \code{geom_joy} and \code{geom_ridgeline}
+#' is that \code{geom_joy} will provide automatic scaling of the ridgelines (controlled by the \code{scale} aesthetic), whereas
+#' \code{geom_ridgeline} will plot the data as is.
 #'
-#' @param scale A scaling factor to scale the height of the ridgelines relative to the spacing between them.
+#' @section Aesthetics:
+#'
+#' \itemize{
+#' \item \code{x} (required)
+#' \item \code{y} (required)
+#' \item \code{height} (required)
+#' \item \code{scale} A scaling factor to scale the height of the ridgelines relative to the spacing between them.
 #' A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
 #' even spacing between baselines.
-#' @param rel_min_height Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
-#' overall maximum, so `rel_min_height=0.01` would remove everything that is 1% or less than the highest point among all
-#' joylines. Default is 0, so nothing is removed.
+#' \item \code{rel_min_height} Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
+#' overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1\% or less than the highest point among all
+#' ridgelines. Default is 0, so nothing is removed.
+#' }
+#'
 #' @name geom_joy
 #' @importFrom ggplot2 layer
 #' @export
@@ -185,7 +220,6 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
 geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
                      position = "identity", na.rm = FALSE, show.legend = NA,
-                     scale = 1.8, rel_min_height = 0,
                      inherit.aes = TRUE, ...) {
   layer(
     data = data,
@@ -197,8 +231,6 @@ geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
     inherit.aes = inherit.aes,
     params = list(
       na.rm = na.rm,
-      scale = scale,
-      rel_min_height = rel_min_height,
       ...
     )
   )
@@ -221,7 +253,7 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 
    required_aes = c("x", "y", "height"),
 
-   setup_data = function(data, params) {
+   setup_data = function(self, data, params) {
      yrange = max(data$y) - min(data$y)
      hmax = max(data$height)
      n = length(unique(data$y))
@@ -229,10 +261,24 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
      if (n>1) iscale = yrange/((n-1)*hmax)
      else iscale = 1
 
+     if (!"scale" %in% names(data)) {
+       if (!"scale" %in% names(params))
+         data <- cbind(data, scale = self$default_aes$scale)
+       else
+         data <- cbind(data, scale = params$scale)
+     }
+
+     if (!"rel_min_height" %in% names(data)){
+       if (!"rel_min_height" %in% names(params))
+         data <- cbind(data, rel_min_height = self$default_aes$rel_min_height)
+       else
+         data <- cbind(data, rel_min_height = params$rel_min_height)
+     }
+
      transform(data,
                ymin = y,
-               ymax = y + iscale*params$scale*height,
-               min_height = hmax*params$rel_min_height)
+               ymax = y + iscale*scale*height,
+               min_height = hmax*rel_min_height)
   }
 )
 
@@ -260,7 +306,6 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 #'   theme_joy()
 geom_joy2 <- function(mapping = NULL, data = NULL, stat = "density",
                      position = "identity", na.rm = FALSE, show.legend = NA,
-                     scale = 1.8, rel_min_height = 0,
                      inherit.aes = TRUE, ...) {
   layer(
     data = data,
@@ -272,8 +317,6 @@ geom_joy2 <- function(mapping = NULL, data = NULL, stat = "density",
     inherit.aes = inherit.aes,
     params = list(
       na.rm = na.rm,
-      scale = scale,
-      rel_min_height = rel_min_height,
       ...
     )
   )
@@ -284,16 +327,16 @@ geom_joy2 <- function(mapping = NULL, data = NULL, stat = "density",
 #' @usage NULL
 #' @export
 GeomJoy2 <- ggproto("GeomJoy2", GeomJoy,
-                   make_group_grob = function(munched_line, munched_poly, aes) {
-                     ggname("geom_joy2",
-                            grid::polygonGrob(
-                              munched_poly$x, munched_poly$y, id = munched_poly$id,
-                              default.units = "native",
-                              gp = grid::gpar(
-                                fill = ggplot2::alpha(aes$fill, aes$alpha),
-                                col = aes$colour,
-                                lwd = aes$size * .pt,
-                                lty = aes$linetype)
-                            ))
-                   }
+  make_group_grob = function(munched_line, munched_poly, aes) {
+    ggname("geom_joy2",
+           grid::polygonGrob(
+             munched_poly$x, munched_poly$y, id = munched_poly$id,
+             default.units = "native",
+             gp = grid::gpar(
+             fill = ggplot2::alpha(aes$fill, aes$alpha),
+             col = aes$colour,
+             lwd = aes$size * .pt,
+             lty = aes$linetype)
+           ))
+  }
 )
