@@ -19,6 +19,7 @@ Suggests:
     knitr
 VignetteBuilder: knitr
 Collate:
+    'data.R'
     'ggjoy.R'
     'geoms.R'
     'stats.R'
