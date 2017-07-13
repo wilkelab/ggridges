@@ -132,11 +132,11 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
 #'
 #' By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
 #' not wanted, use `stat="identity"` or use `geom_ridgeline`. The difference between `geom_joy` and `geom_ridgeline`
-#' is that `geom_joy` will provide automatic scaling of the joylines (controlled by the `scale` parameter), whereas
+#' is that `geom_joy` will provide automatic scaling of the ridgelines (controlled by the `scale` parameter), whereas
 #' `geom_ridgeline` will plot the data as is.
 #'
-#' @param scale A scaling factor to scale the height of the joylines relative to the spacing between them.
-#' A value of 1 indicates that the maximum point of any joyline touches the baseline right above, assuming
+#' @param scale A scaling factor to scale the height of the ridgelines relative to the spacing between them.
+#' A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
 #' even spacing between baselines.
 #' @param rel_min_height Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
 #' overall maximum, so `rel_min_height=0.01` would remove everything that is 1% or less than the highest point among all
@@ -152,7 +152,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
 #'   theme_joy()
 #'
 #'
-#' # set the scale argument in `geom_joy2()` to determine how much overlap there is among the plots
+#' # set the scale argument in `geom_joy()` to determine how much overlap there is among the plots
 #' ggplot(diamonds, aes(x=price, y=cut, group=cut, height=..density..)) +
 #'   geom_joy(scale=4) +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
