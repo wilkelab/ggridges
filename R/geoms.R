@@ -274,37 +274,10 @@ geom_joy2 <- function(mapping = NULL, data = NULL, stat = "density",
 #' @rdname geom_joy2
 #' @format NULL
 #' @usage NULL
-#' @importFrom grid gTree gList
 #' @export
-GeomJoy2 <- ggproto("GeomJoy2", GeomRidgeline,
-                   default_aes =
-                     aes(colour = "black",
-                         fill = "grey70",
-                         size = 0.5,
-                         linetype = 1,
-                         alpha = NA,
-                         scale = 1.8,
-                         rel_min_height = 0),
-
-                   required_aes = c("x", "y", "height"),
-
-                   setup_data = function(data, params) {
-                     yrange = max(data$y) - min(data$y)
-                     hmax = max(data$height)
-                     n = length(unique(data$y))
-                     # calculate internal scale
-                     if (n>1) iscale = yrange/((n-1)*hmax)
-                     else iscale = 1
-
-                     transform(data,
-                               ymin = y,
-                               ymax = y + iscale*params$scale*height,
-                               min_height = hmax*params$rel_min_height)
-                   },
-
-
+GeomJoy2 <- ggproto("GeomJoy2", GeomJoy,
                    make_group_grob = function(munched_line, munched_poly, aes) {
-                     ggname("geom_ridgeline",
+                     ggname("geom_joy2",
                             grid::polygonGrob(
                               munched_poly$x, munched_poly$y, id = munched_poly$id,
                               default.units = "native",
