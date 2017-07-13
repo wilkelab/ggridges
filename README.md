@@ -18,7 +18,7 @@ https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twit
     library(ggplot2)
     library(ggjoy)
     
-    ggplot(diamonds, aes(x=price, y=cut, group=cut, height=..density..)) +
+    ggplot(diamonds, aes(x=price, y=cut, group=cut)) +
          geom_joy(scale=4) +
          scale_y_discrete(expand=c(0.01, 0)) +
          scale_x_continuous(expand=c(0, 0)) + theme_joy()
