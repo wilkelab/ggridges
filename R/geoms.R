@@ -62,7 +62,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
     ))
   },
 
-  draw_group = function(data, panel_params, coord, na.rm = FALSE) {
+  draw_group = function(self, data, panel_params, coord, na.rm = FALSE) {
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
     data <- data[order(data$group, data$x), ]
 
@@ -96,26 +96,32 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
     positions <- plyr::summarise(data, x = x, y = ymax, id = ids)
     munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
 
+    # placing the actual grob generation into a separate function allows us to override for geom_joy2
+    self$make_group_grob(munched_line, munched_poly, aes)
+  },
+
+  make_group_grob = function(munched_line, munched_poly, aes) {
     lg <- ggname("geom_ridgeline",
-           grid::polylineGrob(
-                        munched_line$x, munched_line$y, id = munched_line$id,
-                        default.units = "native",
-                        gp = grid::gpar(
-                          col = aes$colour,
-                          lwd = aes$size * .pt,
-                          lty = aes$linetype)
-                      ))
+               grid::polylineGrob(
+                 munched_line$x, munched_line$y, id = munched_line$id,
+                 default.units = "native",
+                 gp = grid::gpar(
+                   col = aes$colour,
+                   lwd = aes$size * .pt,
+                   lty = aes$linetype)
+               ))
 
     ag <- ggname("geom_ridgeline",
-                 grid::polygonGrob(
-                   munched_poly$x, munched_poly$y, id = munched_poly$id,
-                   default.units = "native",
-                   gp = grid::gpar(
-                     fill = alpha(aes$fill, aes$alpha),
-                     lty = 0)
-                 ))
+               grid::polygonGrob(
+                 munched_poly$x, munched_poly$y, id = munched_poly$id,
+                 default.units = "native",
+                 gp = grid::gpar(
+                   fill = ggplot2::alpha(aes$fill, aes$alpha),
+                   lty = 0)
+               ))
     grid::grobTree(ag, lg)
-    }
+  }
+
 )
 
 
@@ -193,7 +199,6 @@ geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
 #' @rdname geom_joy
 #' @format NULL
 #' @usage NULL
-#' @importFrom ggplot2 ggproto GeomRibbon
 #' @importFrom grid gTree gList
 #' @export
 GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
@@ -246,8 +251,9 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   theme_joy()
 geom_joy2 <- function(mapping = NULL, data = NULL, stat = "density",
-                      position = "identity", na.rm = FALSE, show.legend = NA, scale = 1.8,
-                      inherit.aes = TRUE, ...) {
+                     position = "identity", na.rm = FALSE, show.legend = NA,
+                     scale = 1.8, rel_min_height = 0,
+                     inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,
@@ -259,6 +265,7 @@ geom_joy2 <- function(mapping = NULL, data = NULL, stat = "density",
     params = list(
       na.rm = na.rm,
       scale = scale,
+      rel_min_height = rel_min_height,
       ...
     )
   )
@@ -267,46 +274,45 @@ geom_joy2 <- function(mapping = NULL, data = NULL, stat = "density",
 #' @rdname geom_joy2
 #' @format NULL
 #' @usage NULL
-#' @importFrom ggplot2 ggproto GeomRibbon
 #' @importFrom grid gTree gList
 #' @export
-GeomJoy2 <- ggproto("GeomJoy2", GeomRibbon,
-  default_aes =
-    aes(colour = "black",
-        fill = "grey70",
-        size = 0.5,
-        linetype = 1,
-        alpha = NA,
-        scale = 2),
+GeomJoy2 <- ggproto("GeomJoy2", GeomRidgeline,
+                   default_aes =
+                     aes(colour = "black",
+                         fill = "grey70",
+                         size = 0.5,
+                         linetype = 1,
+                         alpha = NA,
+                         scale = 1.8,
+                         rel_min_height = 0),
 
-  required_aes = c("x", "y", "height"),
+                   required_aes = c("x", "y", "height"),
 
-  setup_data = function(data, params) {
-    yrange = max(data$y) - min(data$y)
-    hmax = max(data$height)
-    n = length(unique(data$y))
-    # calculate internal scale
-    if (n>1) iscale = yrange/((n-1)*hmax)
-    else iscale = 1
+                   setup_data = function(data, params) {
+                     yrange = max(data$y) - min(data$y)
+                     hmax = max(data$height)
+                     n = length(unique(data$y))
+                     # calculate internal scale
+                     if (n>1) iscale = yrange/((n-1)*hmax)
+                     else iscale = 1
 
-    transform(data, ymin = y, ymax = y + iscale*params$scale*height)
-  },
+                     transform(data,
+                               ymin = y,
+                               ymax = y + iscale*params$scale*height,
+                               min_height = hmax*params$rel_min_height)
+                   },
 
-  draw_panel = function(self, data, panel_params, coord, ...) {
-    groups <- split(data, factor(data$group))
 
-    # sort list so highest ymin values are in the front
-    # we take a shortcut here and look only at the first ymin value given
-    o <- order(unlist(lapply(groups, function(data){data$ymin[1]})), decreasing = TRUE)
-    groups <- groups[o]
-
-    grobs <- lapply(groups, function(group) {
-      self$draw_group(group, panel_params, coord, ...)
-    })
-
-    ggname(snake_class(self), gTree(
-      children = do.call("gList", grobs)
-    ))
-  }
+                   make_group_grob = function(munched_line, munched_poly, aes) {
+                     ggname("geom_ridgeline",
+                            grid::polygonGrob(
+                              munched_poly$x, munched_poly$y, id = munched_poly$id,
+                              default.units = "native",
+                              gp = grid::gpar(
+                                fill = ggplot2::alpha(aes$fill, aes$alpha),
+                                col = aes$colour,
+                                lwd = aes$size * .pt,
+                                lty = aes$linetype)
+                            ))
+                   }
 )
-
