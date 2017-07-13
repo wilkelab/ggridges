@@ -12,6 +12,7 @@
 #'                 height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
 #' ggplot(d, aes(x, y, height = height, group = y)) + geom_ridgeline(fill="lightblue")
 #'
+#' @importFrom ggplot2 layer
 #' @export
 geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
                       position = "identity", min_height = 0, na.rm = FALSE, show.legend = NA,
@@ -31,18 +32,25 @@ geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
   )
 }
 
+#' @rdname geom_ridgeline
+#' @format NULL
+#' @usage NULL
+#' @importFrom ggplot2 ggproto Geom draw_key_polygon
 #' @export
-GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
-  default_aes = plyr::defaults(
-    aes(colour = "black", fill = "grey80", y = 0, size = 0.5, linetype = 1,
-        min_height = 0, alpha = NA),
-    GeomRibbon$default_aes
-  ),
+GeomRidgeline <- ggproto("GeomRidgeline", Geom,
+  default_aes = aes(colour = "black", fill = "grey80", y = 0, size = 0.5, linetype = 1,
+        min_height = 0, scale = 1, alpha = NA),
 
   required_aes = c("x", "y", "height"),
 
   setup_data = function(data, params) {
     transform(data, ymin = y, ymax = y + height)
+  },
+
+  draw_key = draw_key_polygon,
+
+  handle_na = function(data, params) {
+    data
   },
 
   draw_panel = function(self, data, panel_params, coord, ...) {
@@ -72,7 +80,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
     # Check that aesthetics are constant
     aes <- unique(data[c("colour", "fill", "size", "linetype", "alpha")])
     if (nrow(aes) > 1) {
-      stop("Aesthetics can not vary with a ribbon")
+      stop("Aesthetics can not vary along a ridgeline")
     }
     aes <- as.list(aes)
 

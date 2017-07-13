@@ -11,8 +11,8 @@ geom_joy(mapping = NULL, data = NULL, stat = "density",
   rel_min_height = 0, inherit.aes = TRUE, ...)
 }
 \arguments{
-\item{scale}{A scaling factor to scale the height of the joylines relative to the spacing between them.
-A value of 1 indicates that the maximum point of any joyline touches the baseline right above, assuming
+\item{scale}{A scaling factor to scale the height of the ridgelines relative to the spacing between them.
+A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
 even spacing between baselines.}
 
 \item{rel_min_height}{Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
@@ -25,7 +25,7 @@ joylines. Default is 0, so nothing is removed.}
 \details{
 By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
 not wanted, use `stat="identity"` or use `geom_ridgeline`. The difference between `geom_joy` and `geom_ridgeline`
-is that `geom_joy` will provide automatic scaling of the joylines (controlled by the `scale` parameter), whereas
+is that `geom_joy` will provide automatic scaling of the ridgelines (controlled by the `scale` parameter), whereas
 `geom_ridgeline` will plot the data as is.
 }
 \examples{
@@ -36,7 +36,7 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)
   theme_joy()
 
 
-# set the scale argument in `geom_joy2()` to determine how much overlap there is among the plots
+# set the scale argument in `geom_joy()` to determine how much overlap there is among the plots
 ggplot(diamonds, aes(x=price, y=cut, group=cut, height=..density..)) +
   geom_joy(scale=4) +
   scale_y_discrete(expand=c(0.01, 0)) +
