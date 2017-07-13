@@ -21,7 +21,7 @@ https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twit
     ggplot(diamonds, aes(x=price, y=cut, group=cut)) +
          geom_joy(scale=4) + theme_joy() +
          scale_y_discrete(expand=c(0.01, 0)) +   # will generally have to set the `expand` option
-         scale_x_continuous(expand=c(0, 0)) +    # for both axes to remove unneeded padding
+         scale_x_continuous(expand=c(0, 0))      # for both axes to remove unneeded padding
  
  ## Documentation and Examples
  
