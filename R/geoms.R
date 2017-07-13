@@ -1,14 +1,20 @@
 #' Plot a ridgeline (line with filled area underneath)
 #'
-#' @examples
+#' Plots the sum of the `y` and `height` aesthetics versus `x`, filling the area between `y` and `y + height` with a color.
+#' Thus, the data mapped onto y and onto height must be in the same units.
+#' If you want relative scaling of the heights, you can use `geom_joy` with `stat = "identity"`.
 #'
+#' @param min_height A height cutoff on the drawn ridgelines. All values that fall below this cutoff will be removed.
+#' The main purpose of this cutoff is to remove long tails right at the baseline level, but other uses are possible.
+#'
+#' @examples
 #' d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
 #'                 height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
 #' ggplot(d, aes(x, y, height = height, group = y)) + geom_ridgeline(fill="lightblue")
 #'
 #' @export
 geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
-                      position = "identity", na.rm = FALSE, show.legend = NA,
+                      position = "identity", min_height = 0, na.rm = FALSE, show.legend = NA,
                       inherit.aes = TRUE, ...) {
   layer(
     data = data,
@@ -118,12 +124,23 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
 #'
 #' `geom_joy` arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album.
 #'
+#' By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
+#' not wanted, use `stat="identity"` or use `geom_ridgeline`. The difference between `geom_joy` and `geom_ridgeline`
+#' is that `geom_joy` will provide automatic scaling of the joylines (controlled by the `scale` parameter), whereas
+#' `geom_ridgeline` will plot the data as is.
+#'
+#' @param scale A scaling factor to scale the height of the joylines relative to the spacing between them.
+#' A value of 1 indicates that the maximum point of any joyline touches the baseline right above, assuming
+#' even spacing between baselines.
+#' @param rel_min_height Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
+#' overall maximum, so `rel_min_height=0.01` would remove everything that is 1% or less than the highest point among all
+#' joylines. Default is 0, so nothing is removed.
 #' @name geom_joy
 #' @importFrom ggplot2 layer
 #' @export
 #' @examples
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
-#'   geom_joy() +
+#'   geom_joy(rel_min_height = 0.005) +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   theme_joy()
@@ -147,13 +164,14 @@ GeomRidgeline <- ggproto("GeomRidgeline", GeomRibbon,
 #' # evolution of movie lengths over time
 #' # requires the ggplot2movies package
 #' library(ggplot2movies)
-#' ggplot(movies, aes(x=length, y=year, group=year, height=..density..)) +
-#'   geom_joy(scale=10, size=0.25) + theme_joy() +
-#'   scale_x_log10(limits=c(1, 500), breaks=c(1,10,100,1000), expand=c(0.01, 0)) +
+#' ggplot(movies[movies$year>1912,], aes(x=length, y=year, group=year, height=..density..)) +
+#'   geom_joy(scale=10, size=0.25, rel_min_height=0.03) +
+#'   theme_joy() +
+#'   scale_x_continuous(limits=c(1, 200), expand=c(0.01, 0)) +
 #'   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
 geom_joy <- function(mapping = NULL, data = NULL, stat = "density",
                      position = "identity", na.rm = FALSE, show.legend = NA,
-                     scale = 1.8, rel_min_height = 0.01,
+                     scale = 1.8, rel_min_height = 0,
                      inherit.aes = TRUE, ...) {
   layer(
     data = data,
@@ -186,7 +204,7 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
         linetype = 1,
         alpha = NA,
         scale = 1.8,
-        rel_min_height = 0.01),
+        rel_min_height = 0),
 
    required_aes = c("x", "y", "height"),
 

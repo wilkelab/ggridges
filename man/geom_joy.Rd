@@ -8,14 +8,29 @@
 \usage{
 geom_joy(mapping = NULL, data = NULL, stat = "density",
   position = "identity", na.rm = FALSE, show.legend = NA, scale = 1.8,
-  inherit.aes = TRUE, ...)
+  rel_min_height = 0, inherit.aes = TRUE, ...)
+}
+\arguments{
+\item{scale}{A scaling factor to scale the height of the joylines relative to the spacing between them.
+A value of 1 indicates that the maximum point of any joyline touches the baseline right above, assuming
+even spacing between baselines.}
+
+\item{rel_min_height}{Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
+overall maximum, so `rel_min_height=0.01` would remove everything that is 1% or less than the highest point among all
+joylines. Default is 0, so nothing is removed.}
 }
 \description{
 `geom_joy` arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album.
 }
+\details{
+By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
+not wanted, use `stat="identity"` or use `geom_ridgeline`. The difference between `geom_joy` and `geom_ridgeline`
+is that `geom_joy` will provide automatic scaling of the joylines (controlled by the `scale` parameter), whereas
+`geom_ridgeline` will plot the data as is.
+}
 \examples{
 ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
-  geom_joy() +
+  geom_joy(rel_min_height = 0.005) +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +
   theme_joy()
@@ -39,9 +54,10 @@ ggplot(diamonds, aes(x=price, y=cut, fill=cut, height=..density..)) +
 # evolution of movie lengths over time
 # requires the ggplot2movies package
 library(ggplot2movies)
-ggplot(movies, aes(x=length, y=year, group=year, height = ..density..)) +
-  geom_joy(scale=10) + theme_joy() +
-  scale_x_log10(limits=c(1, 500), breaks=c(1,10,100,1000), expand=c(0.01, 0)) +
+ggplot(movies[movies$year>1912,], aes(x=length, y=year, group=year, height=..density..)) +
+  geom_joy(scale=10, size=0.25, rel_min_height=0.03) +
+  theme_joy() +
+  scale_x_continuous(limits=c(1, 200), expand=c(0.01, 0)) +
   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
 }
 \keyword{datasets}

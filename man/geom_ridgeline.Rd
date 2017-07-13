@@ -5,14 +5,19 @@
 \title{Plot a ridgeline (line with filled area underneath)}
 \usage{
 geom_ridgeline(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  position = "identity", min_height = 0, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, ...)
+}
+\arguments{
+\item{min_height}{A height cutoff on the drawn ridgelines. All values that fall below this cutoff will be removed.
+The main purpose of this cutoff is to remove long tails right at the baseline level, but other uses are possible.}
 }
 \description{
-Plot a ridgeline (line with filled area underneath)
+Plots the sum of the `y` and `height` aesthetics versus `x`, filling the area between `y` and `y + height` with a color.
+Thus, the data mapped onto y and onto height must be in the same units.
+If you want relative scaling of the heights, you can use `geom_joy` with `stat = "identity"`.
 }
 \examples{
-
 d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
                 height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
 ggplot(d, aes(x, y, height = height, group = y)) + geom_ridgeline(fill="lightblue")

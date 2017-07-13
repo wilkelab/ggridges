@@ -2,6 +2,7 @@
 #' A custom theme specifically for use with joyplots
 #'
 #' This theme has some special modifications that make joyplots look better, such as properly aligned y axis labels.
+#' It can draw plots with and without background grids (see examples).
 #'
 #' @param font_size Overall font size. Default is 14.
 #' @param font_family Default font family.
@@ -9,7 +10,20 @@
 #' @param grid Boolean indicating whether a background grid should be drawn (`TRUE`) or not (`FALSE`).
 #' @return The theme.
 #' @examples
-#' # still to do
+#' # Example with grid
+#' ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
+#'   geom_joy(rel_min_height = 0.005) +
+#'   scale_y_discrete(expand=c(0.01, 0)) +
+#'   scale_x_continuous(expand=c(0.01, 0)) +
+#'   theme_joy()
+#'
+#' # Example without grid
+#' ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
+#'   geom_joy() +
+#'   scale_y_discrete(expand=c(0.01, 0)) +
+#'   scale_x_continuous(expand=c(0.01, 0)) +
+#'   theme_joy(grid=F)
+#'
 #' @export
 theme_joy <- function(font_size = 14, font_family = "", line_size = .5, grid = TRUE) {
   half_line <- font_size / 2

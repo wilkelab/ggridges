@@ -4,7 +4,8 @@
 \alias{theme_joy}
 \title{A custom theme specifically for use with joyplots}
 \usage{
-theme_joy(font_size = 14, font_family = "", line_size = 0.5)
+theme_joy(font_size = 14, font_family = "", line_size = 0.5,
+  grid = TRUE)
 }
 \arguments{
 \item{font_size}{Overall font size. Default is 14.}
@@ -12,13 +13,29 @@ theme_joy(font_size = 14, font_family = "", line_size = 0.5)
 \item{font_family}{Default font family.}
 
 \item{line_size}{Default line size.}
+
+\item{grid}{Boolean indicating whether a background grid should be drawn (`TRUE`) or not (`FALSE`).}
 }
 \value{
 The theme.
 }
 \description{
 This theme has some special modifications that make joyplots look better, such as properly aligned y axis labels.
+It can draw plots with and without background grids (see examples).
 }
 \examples{
-# still to do
+# Example with grid
+ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
+  geom_joy(rel_min_height = 0.005) +
+  scale_y_discrete(expand=c(0.01, 0)) +
+  scale_x_continuous(expand=c(0.01, 0)) +
+  theme_joy()
+
+# Example without grid
+ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species, height = ..density..)) +
+  geom_joy() +
+  scale_y_discrete(expand=c(0.01, 0)) +
+  scale_x_continuous(expand=c(0.01, 0)) +
+  theme_joy(grid=F)
+
 }
