@@ -93,7 +93,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 1)
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 5)
 ```
 
-The scaling is calculated separately per panel, so if we facet-wrap by species each density curve exactly touches the next higher baseline.
+The scaling is calculated separately per panel, so if we facet-wrap by species each density curve exactly touches the next higher baseline. (This can be disabled by setting `panel_scaling = FALSE`.)
 ```{r message=FALSE}
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
   geom_joy(scale = 1) + facet_wrap(~Species)

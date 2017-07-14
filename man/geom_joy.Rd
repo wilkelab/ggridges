@@ -8,11 +8,13 @@
 \alias{GeomJoy2}
 \title{Create joyplot}
 \usage{
-geom_joy(mapping = NULL, data = NULL, stat = "joy", na.rm = TRUE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+geom_joy(mapping = NULL, data = NULL, stat = "joy",
+  panel_scaling = TRUE, na.rm = TRUE, show.legend = NA,
+  inherit.aes = TRUE, ...)
 
-geom_joy2(mapping = NULL, data = NULL, stat = "joy", na.rm = TRUE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+geom_joy2(mapping = NULL, data = NULL, stat = "joy",
+  panel_scaling = TRUE, na.rm = TRUE, show.legend = NA,
+  inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{ggplot2::aes()}} or
@@ -35,6 +37,9 @@ will be used as the layer data.}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
+
+\item{panel_scaling}{Should scaling be calculated separately for each panel (default) or
+(if set to \code{FALSE}) globally.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}

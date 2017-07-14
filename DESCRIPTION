@@ -17,7 +17,8 @@ License: GPL-2 | file LICENSE
 LazyData: true
 Suggests:
     knitr,
-    ggplot2movies
+    ggplot2movies,
+    cowplot
 VignetteBuilder: knitr
 Collate:
     'data.R'

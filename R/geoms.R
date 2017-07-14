@@ -211,6 +211,8 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' be provided.
 #'
 #' @inheritParams geom_ridgeline
+#' @param panel_scaling Should scaling be calculated separately for each panel (default) or
+#'  (if set to `FALSE`) globally.
 #'
 #' @section Aesthetics:
 #'
@@ -266,6 +268,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
 #' }
 geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
+                     panel_scaling = TRUE,
                      na.rm = TRUE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
@@ -277,6 +280,7 @@ geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
     inherit.aes = inherit.aes,
     params = list(
       na.rm = na.rm,
+      panel_scaling = panel_scaling,
       ...
     )
   )
@@ -299,17 +303,34 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 
    required_aes = c("x", "y", "height"),
 
+   extra_params = c("na.rm", "panel_scaling"),
+
    setup_data = function(self, data, params) {
+     # calculate internal scale
      yrange = max(data$y) - min(data$y)
-     hmax = max(data$height)
      n = length(unique(data$y))
-     # calculate internal scale; this is done separately per panel
-     if (n>1) {
-       heights = split(data$height, data$PANEL)
-       max_heights = vapply(heights, max, numeric(1), na.rm = TRUE)
-       data <- cbind(data, iscale = yrange/((n-1)*max_heights[data$PANEL]))
+     if (n<2) {
+       hmax <- max(data$height, na.rm = TRUE)
+       iscale <- 1
      }
-     else data <- cbind(data, iscale = 1)
+     else {
+       # scale per panel or globally?
+       if (params$panel_scaling) {
+         heights <- split(data$height, data$PANEL)
+         max_heights <- vapply(heights, max, numeric(1), na.rm = TRUE)
+         hmax <- max_heights[data$PANEL]
+         iscale <- yrange/((n-1)*hmax)
+       }
+       else {
+         hmax <- max(data$height, na.rm = TRUE)
+         iscale <- yrange/((n-1)*hmax)
+       }
+     }
+
+     #print(iscale)
+     #print(hmax)
+
+     data <- cbind(data, iscale)
 
      if (!"scale" %in% names(data)) {
        if (!"scale" %in% names(params))
@@ -347,6 +368,7 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   theme_joy()
 geom_joy2 <- function(mapping = NULL, data = NULL, stat = "joy",
+                      panel_scaling = TRUE,
                       na.rm = TRUE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
@@ -358,6 +380,7 @@ geom_joy2 <- function(mapping = NULL, data = NULL, stat = "joy",
     inherit.aes = inherit.aes,
     params = list(
       na.rm = na.rm,
+      panel_scaling = panel_scaling,
       ...
     )
   )
