@@ -30,4 +30,4 @@ https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twit
      ?geom_ridgeline
      ?theme_joy
      
- More to come.
+A vignette is [available here.](https://htmlpreview.github.io/?https://github.com/clauswilke/ggjoy/blob/master/inst/doc/introduction.html)

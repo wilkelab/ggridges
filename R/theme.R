@@ -81,6 +81,7 @@ theme_joy <- function(font_size = 14, font_family = "", line_size = .5, grid = T
       plot.title        = element_text(face = "bold",
                                        size = font_size,
                                        margin = ggplot2::margin(b = half_line), hjust = 0),
+      plot.margin       = ggplot2::margin(half_line, font_size, half_line, half_line),
 
       complete = TRUE
     )

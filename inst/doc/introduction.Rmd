@@ -4,14 +4,19 @@ author: "Claus O. Wilke"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
-    fig_width: 5
+    fig_width: 4.5
+    fig_height: 3
 vignette: >
   %\VignetteIndexEntry{Introduction to ggjoy}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
 
-# Basic usage
+# Geoms
+
+This package provides two geoms, `geom_ridgeline` and `geom_joy`. The former takes height values directly to draw ridgelines, and the latter first estimates data densities and then draws those using ridgelines.
+
+## Ridgelines
 
 The geom `geom_ridgeline` can be used to draw lines with a filled area underneath.
 ```{r}
@@ -23,29 +28,84 @@ ggplot(data, aes(x, y, height = height)) + geom_ridgeline()
 
 ```
 
+Negative heights are allowed, but are cut off unless the `min_height` parameter is set negative as well.
+```{r message=FALSE, fig.width=9, fig.height=3}
+# for side-by-side plotting
+library(cowplot); theme_set(theme_gray())
 
-By contrast, the geom `geom_joy` calculates density estimates from the provided data and then plots those, using the ridgeline visualization.
+data <- data.frame(x = 1:5, y = rep(1, 5), height = c(0, 1, -1, 3, 2))
+plot_base <- ggplot(data, aes(x, y, height = height))
+plot_grid(plot_base + geom_ridgeline(),
+          plot_base + geom_ridgeline(min_height = -2))
+```
+
+
+Multiple ridgelines can be drawn at the same time. They will be ordered such that the ones drawn higher up are in the background. When drawing multiple ridgelines at once, the `group` aesthetic must be specified so that the geom knows which parts of the data belong to which ridgeline.
+```{r}
+d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(2, 5)),
+                height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
+ggplot(d, aes(x, y, height = height, group = y)) + geom_ridgeline(fill = "lightblue")
+```
+
+It is also possible to draw ridgelines with `geom_joy` if we set `stat="identity"`. In this case, the heights are automatically scaled such that the highest ridgeline just touches the one above at `scale=1`.
+```{r}
+ggplot(d, aes(x, y, height = height, group = y)) + 
+  geom_joy(stat = "identity", scale = 1)
+```
+
+## Density joyplots
+
+The geom `geom_joy` calculates density estimates from the provided data and then plots those, using the ridgeline visualization. The `height` aesthetic does not need to be specified in this case.
 ```{r message=FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) + geom_joy()
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy()
 ```
 
 There is also `geom_joy2`, which is identical to `geom_joy` except it uses closed polygons instead of ridgelines for drawing.
 ```{r message=FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) + geom_joy2()
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy2()
 ```
+
+The grouping aesthetic does not need to be provided if a categorical variable is mapped onto the y axis, but it does need to be provided if the variable is numerical.
+```{r message=FALSE}
+# modified dataset that represents species as a number
+iris_num <- transform(iris, Species_num = as.numeric(Species))
+
+# does not work, causes error
+# ggplot(iris_num, aes(x = Sepal.Length, y = Species)) + geom_joy()
+
+# works 
+ggplot(iris_num, aes(x = Sepal.Length, y = Species_num, group = Species_num)) + geom_joy()
+```
+
+Trailing tails can be cut off using the `rel_min_height` aesthetic. This aesthetic sets a percent cutoff relative to the highest point of any of the density curves. A value of 0.01 usually works well, but you may have to modify this parameter for different datasets.
+```{r message=FALSE}
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(rel_min_height = 0.01)
+```
+
+The extent to which the different densities overlap can be controlled with the scale parameter. A setting of `scale=1` means the tallest density curve just touches the baseline of the next higher one. Smaller values create a separation between the curves, and larger values create more overlap.
+
+```{r message=FALSE}
+# scale = 0.9, not quite touching
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 0.9)
+# scale = 1, exactly touching
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 1)
+# scale = 5, substantial overlap
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 5)
+```
+
 
 # Theme
 
 Joyplots tend to require some theme modifications to look good. Most importantly, the y-axis labels should be vertically aligned so that they are flush with the axis ticks rather than vertically centered. The ggjoy package provides a theme `theme_joy` that does this and a few other theme modifications.
 
 ```{r message=FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) + geom_joy() + theme_joy()
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy() + theme_joy()
 ```
 
 However, without any further modifications, there are still a few issues with this plot. First, the ridgeline for the virginica species is slightly cut off at the very top point. Second, the space between the x and y axis labels and the ridgelines is too large. We can fix both issues using the `expand` option for the axis scales.
 
 ```{r message=FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) + 
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
   geom_joy() + theme_joy() +
   scale_x_continuous(expand = c(0.01, 0)) +
   scale_y_discrete(expand = c(0.01, 0))
@@ -53,7 +113,7 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
 
 By default, `theme_joy` adds a grid, but the grid can be switched off when not needed.
 ```{r message=FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) + 
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
   geom_joy() + theme_joy(grid = FALSE) +
   scale_x_continuous(expand = c(0.01, 0)) +
   scale_y_discrete(expand = c(0.01, 0))
@@ -75,9 +135,9 @@ ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`)) +
 Evolution of movie lengths over time. Data from the IMDB, as provided in the ggplot2movies package.
 ```{r message=FALSE, fig.width = 6, fig.height = 6}
 library(ggplot2movies)
-ggplot(movies[movies$year>1912,], aes(x=length, y=year, group=year)) +
-  geom_joy(scale=10, size=0.25, rel_min_height=0.03) +
+ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
+  geom_joy(scale = 10, size = 0.25, rel_min_height = 0.03) +
   theme_joy() +
-  scale_x_continuous(limits=c(1, 190), expand=c(0.01, 0)) +
-  scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
+  scale_x_continuous(limits=c(1, 200), expand = c(0.01, 0)) +
+  scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand = c(0.01, 0))
 ```

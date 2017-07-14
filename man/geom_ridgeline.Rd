@@ -63,6 +63,8 @@ Required aesthetics are in bold.
 \item \strong{\code{x}}
 \item \strong{\code{y}}
 \item \strong{\code{height}} Height of the ridgeline, measured from the respective \code{y} value. Assumed to be positive, though this is not required.
+\item \code{group} Defines the grouping. Required when the dataset contains multiple distinct ridgelines. Will typically be the same
+variable as is mapped to \code{y}.
 \item \code{scale} A scaling factor to scale the height of the ridgelines.
 A value of 1 indicates that the heights are taken as is. This aesthetic can be used to convert
 \code{height} units into \code{y} units.
@@ -70,7 +72,7 @@ A value of 1 indicates that the heights are taken as is. This aesthetic can be u
 The main purpose of this cutoff is to remove long tails right at the baseline level, but other uses are possible.
 The cutoff is applied before any height
 scaling is applied via the \code{scale} aesthetic. Default is 0, so negative values are removed.
-\item \code{colour} Color of the ridgeline
+\item \code{color} Color of the ridgeline
 \item \code{fill} Fill color of the area under the ridgeline
 \item \code{group} Grouping, to draw multiple ridgelines from one dataset
 \item \code{linetype} Linetype of the ridgeline

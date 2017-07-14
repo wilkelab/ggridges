@@ -70,6 +70,8 @@ Required aesthetics are in bold.
 \itemize{
 \item \strong{\code{x}}
 \item \strong{\code{y}}
+\item \code{group} Defines the grouping. Not needed if a categorical variable is mapped onto \code{y}, but needed otherwise. Will typically be the same
+variable as is mapped to \code{y}.
 \item \code{height} The height of each ridgeline at the respective x value. Automatically calculated and
 provided by \link{stat_joy} if the default stat is not changed.
 \item \code{scale} A scaling factor to scale the height of the ridgelines relative to the spacing between them.
@@ -79,20 +81,20 @@ even spacing between baselines.
 overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1\% or less than the highest point among all
 ridgelines. Default is 0, so nothing is removed.
 alpha
-\item \code{colour}, \code{fill}, \code{group}, \code{linetype}, \code{size}, as in \link{geom_ridgeline}.
+\item \code{color}, \code{fill}, \code{group}, \code{linetype}, \code{size}, as in \link{geom_ridgeline}.
 }
 }
 
 \examples{
 # set the `rel_min_height` argument to remove tails
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
+ggplot(iris, aes(x=Sepal.Length, y=Species)) +
   geom_joy(rel_min_height = 0.005) +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +
   theme_joy()
 
 # set the `scale` to determine how much overlap there is among the plots
-ggplot(diamonds, aes(x=price, y=cut, group=cut)) +
+ggplot(diamonds, aes(x=price, y=cut)) +
   geom_joy(scale=4) +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +
@@ -117,7 +119,7 @@ ggplot(movies[movies$year>1912,], aes(x=length, y=year, group=year)) +
 }
 
 # use geom_joy2() instead of geom_joy() for solid polygons
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
+ggplot(iris, aes(x=Sepal.Length, y=Species)) +
   geom_joy2() +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +

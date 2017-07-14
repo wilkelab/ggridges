@@ -43,6 +43,8 @@
 #' * **`x`**
 #' * **`y`**
 #' * **`height`** Height of the ridgeline, measured from the respective `y` value. Assumed to be positive, though this is not required.
+#' * `group` Defines the grouping. Required when the dataset contains multiple distinct ridgelines. Will typically be the same
+#' variable as is mapped to `y`.
 #' * `scale` A scaling factor to scale the height of the ridgelines.
 #' A value of 1 indicates that the heights are taken as is. This aesthetic can be used to convert
 #' `height` units into `y` units.
@@ -50,7 +52,7 @@
 #' The main purpose of this cutoff is to remove long tails right at the baseline level, but other uses are possible.
 #' The cutoff is applied before any height
 #' scaling is applied via the `scale` aesthetic. Default is 0, so negative values are removed.
-#' * `colour` Color of the ridgeline
+#' * `color` Color of the ridgeline
 #' * `fill` Fill color of the area under the ridgeline
 #' * `group` Grouping, to draw multiple ridgelines from one dataset
 #' * `linetype` Linetype of the ridgeline
@@ -87,7 +89,7 @@ geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @importFrom ggplot2 ggproto Geom draw_key_polygon
 #' @export
 GeomRidgeline <- ggproto("GeomRidgeline", Geom,
-  default_aes = aes(colour = "black", fill = "grey80", y = 0, size = 0.5, linetype = 1,
+  default_aes = aes(color = "black", fill = "grey80", y = 0, size = 0.5, linetype = 1,
         min_height = 0, scale = 1, alpha = NA),
 
   required_aes = c("x", "y", "height"),
@@ -216,6 +218,8 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'
 #' * **`x`**
 #' * **`y`**
+#' * `group` Defines the grouping. Not needed if a categorical variable is mapped onto `y`, but needed otherwise. Will typically be the same
+#' variable as is mapped to `y`.
 #' * `height` The height of each ridgeline at the respective x value. Automatically calculated and
 #' provided by [stat_joy] if the default stat is not changed.
 #' * `scale` A scaling factor to scale the height of the ridgelines relative to the spacing between them.
@@ -225,20 +229,20 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' overall maximum, so `rel_min_height=0.01` would remove everything that is 1\% or less than the highest point among all
 #' ridgelines. Default is 0, so nothing is removed.
 #' alpha
-#' * `colour`, `fill`, `group`, `linetype`, `size`, as in [geom_ridgeline].
+#' * `color`, `fill`, `group`, `linetype`, `size`, as in [geom_ridgeline].
 #'
 #' @importFrom ggplot2 layer
 #' @export
 #' @examples
 #' # set the `rel_min_height` argument to remove tails
-#' ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
+#' ggplot(iris, aes(x=Sepal.Length, y=Species)) +
 #'   geom_joy(rel_min_height = 0.005) +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   theme_joy()
 #'
 #' # set the `scale` to determine how much overlap there is among the plots
-#' ggplot(diamonds, aes(x=price, y=cut, group=cut)) +
+#' ggplot(diamonds, aes(x=price, y=cut)) +
 #'   geom_joy(scale=4) +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
 #'   scale_x_continuous(expand=c(0.01, 0)) +
@@ -285,7 +289,7 @@ geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
 #' @export
 GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
   default_aes =
-    aes(colour = "black",
+    aes(color = "black",
         fill = "grey70",
         size = 0.5,
         linetype = 1,
@@ -333,7 +337,7 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 #' @examples
 #'
 #' # use geom_joy2() instead of geom_joy() for solid polygons
-#' ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
+#' ggplot(iris, aes(x=Sepal.Length, y=Species)) +
 #'   geom_joy2() +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
 #'   scale_x_continuous(expand=c(0.01, 0)) +
