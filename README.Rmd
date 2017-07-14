@@ -1,37 +1,46 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-ggjoy
-=====
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+```
+
+# ggjoy
 
 Geoms to make joyplots using ggplot2, written by Claus O. Wilke
 
 This package has now been officially relased on CRAN. Most things should work as expected, and the API should now be relatively stable. For feedback and feature requests, please open issues on github.
 
-About joyplots
---------------
+## About joyplots
 
-Joyplots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. The name "joyplot" was [proposed](https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twitter on April 24, 2017, in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album *Unknown Pleasures*.
+Joyplots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. The name "joyplot" was [proposed](
+https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twitter on April 24, 2017, in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album _Unknown Pleasures_.
 
-Installation
-------------
+## Installation
 
 Stable release:
 
-``` r
+```{r eval = FALSE}
 install.packages("ggjoy")
 ```
 
 Latest development version:
 
-``` r
+```{r eval = FALSE}
 library(devtools)
 install_github("clauswilke/ggjoy")
 ```
 
-Usage
------
+## Usage
 
-``` r
+```{r diamonds}
 library(ggplot2)
 library(ggjoy)
     
@@ -39,12 +48,8 @@ ggplot(diamonds, aes(x = price, y = cut)) +
   geom_joy(scale = 4) + theme_joy() +
   scale_y_discrete(expand = c(0.01, 0)) +   # will generally have to set the `expand` option
   scale_x_continuous(expand = c(0, 0))      # for both axes to remove unneeded padding
-#> Picking joint bandwidth of 458
 ```
 
-![](man/figures/README-diamonds-1.png)
-
-Documentation and Examples
---------------------------
+## Documentation and Examples
 
 First read the [package vignette.](https://cran.r-project.org/web/packages/ggjoy/vignettes/introduction.html) Then read the [reference manual.](https://cran.r-project.org/web/packages/ggjoy/ggjoy.pdf)
