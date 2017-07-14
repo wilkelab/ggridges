@@ -52,6 +52,10 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 1)
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 5)
 
 ## ----message=FALSE-------------------------------------------------------
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
+  geom_joy(scale = 1) + facet_wrap(~Species)
+
+## ----message=FALSE-------------------------------------------------------
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy() + theme_joy()
 
 ## ----message=FALSE-------------------------------------------------------

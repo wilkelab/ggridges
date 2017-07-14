@@ -82,7 +82,7 @@ Trailing tails can be cut off using the `rel_min_height` aesthetic. This aesthet
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(rel_min_height = 0.01)
 ```
 
-The extent to which the different densities overlap can be controlled with the scale parameter. A setting of `scale=1` means the tallest density curve just touches the baseline of the next higher one. Smaller values create a separation between the curves, and larger values create more overlap.
+The extent to which the different densities overlap can be controlled with the `scale` parameter. A setting of `scale=1` means the tallest density curve just touches the baseline of the next higher one. Smaller values create a separation between the curves, and larger values create more overlap.
 
 ```{r message=FALSE}
 # scale = 0.9, not quite touching
@@ -91,6 +91,12 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 0.9)
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 1)
 # scale = 5, substantial overlap
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 5)
+```
+
+The scaling is calculated separately per panel, so if we facet-wrap by species each density curve exactly touches the next higher baseline.
+```{r message=FALSE}
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
+  geom_joy(scale = 1) + facet_wrap(~Species)
 ```
 
 

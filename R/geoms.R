@@ -303,9 +303,13 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
      yrange = max(data$y) - min(data$y)
      hmax = max(data$height)
      n = length(unique(data$y))
-     # calculate internal scale
-     if (n>1) iscale = yrange/((n-1)*hmax)
-     else iscale = 1
+     # calculate internal scale; this is done separately per panel
+     if (n>1) {
+       heights = split(data$height, data$PANEL)
+       max_heights = vapply(heights, max, numeric(1), na.rm = TRUE)
+       data <- cbind(data, iscale = yrange/((n-1)*max_heights[data$PANEL]))
+     }
+     else data <- cbind(data, iscale = 1)
 
      if (!"scale" %in% names(data)) {
        if (!"scale" %in% names(params))
