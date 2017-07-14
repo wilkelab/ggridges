@@ -210,6 +210,10 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' [geom_ridgeline] will plot the data as is. Note that when you set `stat="identity"`, the `height` aesthetic must
 #' be provided.
 #'
+#' Note that the default [stat_joy] makes joint density estimation across all datasets. This may not generate
+#' the desired result when using faceted plots. As an alternative, you can set `stat = "density"` to use [stat_density].
+#' In this case, it is required to add the aesthetic mapping `height = ..density..` (see examples).
+#'
 #' @inheritParams geom_ridgeline
 #' @param panel_scaling Should scaling be calculated separately for each panel (default) or
 #'  (if set to `FALSE`) globally.
@@ -237,35 +241,35 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' @export
 #' @examples
 #' # set the `rel_min_height` argument to remove tails
-#' ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+#' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_joy(rel_min_height = 0.005) +
-#'   scale_y_discrete(expand=c(0.01, 0)) +
-#'   scale_x_continuous(expand=c(0.01, 0)) +
+#'   scale_y_discrete(expand = c(0.01, 0)) +
+#'   scale_x_continuous(expand = c(0.01, 0)) +
 #'   theme_joy()
 #'
 #' # set the `scale` to determine how much overlap there is among the plots
-#' ggplot(diamonds, aes(x=price, y=cut)) +
-#'   geom_joy(scale=4) +
+#' ggplot(diamonds, aes(x = price, y = cut)) +
+#'   geom_joy(scale = 4) +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   theme_joy()
 #'
-#' # the same figure with colors
-#' ggplot(diamonds, aes(x=price, y=cut, fill=cut)) +
-#'   geom_joy(scale=4) +
-#'   scale_y_discrete(expand=c(0.01, 0)) +
-#'   scale_x_continuous(expand=c(0.01, 0)) +
+#' # the same figure with colors, and using the ggplot2 density stat
+#' ggplot(diamonds, aes(x = price, y = cut, fill = cut, height = ..density..)) +
+#'   geom_joy(scale = 4, stat = "density") +
+#'   scale_y_discrete(expand = c(0.01, 0)) +
+#'   scale_x_continuous(expand = c(0.01, 0)) +
 #'   scale_fill_brewer(palette = 4) +
-#'   theme_joy() + theme(legend.position="none")
+#'   theme_joy() + theme(legend.position = "none")
 #' \donttest{
 #' # evolution of movie lengths over time
 #' # requires the ggplot2movies package
 #' library(ggplot2movies)
-#' ggplot(movies[movies$year>1912,], aes(x=length, y=year, group=year)) +
-#'   geom_joy(scale=10, size=0.25, rel_min_height=0.03) +
+#' ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
+#'   geom_joy(scale = 10, size = 0.25, rel_min_height = 0.03) +
 #'   theme_joy() +
-#'   scale_x_continuous(limits=c(1, 200), expand=c(0.01, 0)) +
-#'   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
+#'   scale_x_continuous(limits = c(1, 200), expand = c(0.01, 0)) +
+#'   scale_y_reverse(breaks = c(2000, 1980, 1960, 1940, 1920, 1900), expand = c(0.01, 0))
 #' }
 geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
                      panel_scaling = TRUE,
@@ -362,10 +366,10 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 #' @examples
 #'
 #' # use geom_joy2() instead of geom_joy() for solid polygons
-#' ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+#' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_joy2() +
-#'   scale_y_discrete(expand=c(0.01, 0)) +
-#'   scale_x_continuous(expand=c(0.01, 0)) +
+#'   scale_y_discrete(expand = c(0.01, 0)) +
+#'   scale_x_continuous(expand = c(0.01, 0)) +
 #'   theme_joy()
 geom_joy2 <- function(mapping = NULL, data = NULL, stat = "joy",
                       panel_scaling = TRUE,

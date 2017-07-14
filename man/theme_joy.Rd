@@ -25,17 +25,17 @@ It can draw plots with and without background grids (see examples).
 }
 \examples{
 # Example with background grid
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
+ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species)) +
   geom_joy(rel_min_height = 0.005) +
-  scale_y_discrete(expand=c(0.01, 0)) +
-  scale_x_continuous(expand=c(0.01, 0)) +
+  scale_y_discrete(expand = c(0.01, 0)) +
+  scale_x_continuous(expand = c(0.01, 0)) +
   theme_joy()
 
 # Example without background grid
-ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
+ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species)) +
   geom_joy() +
-  scale_y_discrete(expand=c(0.01, 0)) +
-  scale_x_continuous(expand=c(0.01, 0)) +
-  theme_joy(grid=FALSE)
+  scale_y_discrete(expand = c(0.01, 0)) +
+  scale_x_continuous(expand = c(0.01, 0)) +
+  theme_joy(grid = FALSE)
 
 }
