@@ -6,7 +6,7 @@ Geoms to make joyplots using ggplot2, written by Claus O. Wilke
 ## About joyplots
 
 Joyplots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. The name "joyplot" was [proposed](
-https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twitter on April 24, 2017, in memory of the band Joy Division whose 1979 album Unknown Pleasures contained such a plot on its cover. 
+https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twitter on April 24, 2017, in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album _Unknown Pleasures_.
 
 ## Installation
 
