@@ -2,22 +2,59 @@
 #'
 #' Plots the sum of the `y` and `height` aesthetics versus `x`, filling the area between `y` and `y + height` with a color.
 #' Thus, the data mapped onto y and onto height must be in the same units.
-#' If you want relative scaling of the heights, you can use `geom_joy` with `stat = "identity"`.
+#' If you want relative scaling of the heights, you can use [geom_joy] with `stat = "identity"`.
+#'
+#' @param mapping Set of aesthetic mappings created by [ggplot2::aes()] or
+#'   [ggplot2::aes_()]. If specified and `inherit.aes = TRUE` (the
+#'   default), it is combined with the default mapping at the top level of the
+#'   plot. You must supply `mapping` if there is no plot mapping.
+#' @param data The data to be displayed in this layer. There are three
+#'    options:
+#'
+#'    If `NULL`, the default, the data is inherited from the plot
+#'    data as specified in the call to [ggplot2::ggplot()].
+#'
+#'    A `data.frame`, or other object, will override the plot
+#'    data.
+#'
+#'    A `function` will be called with a single argument,
+#'    the plot data. The return value must be a `data.frame.`, and
+#'    will be used as the layer data.
+#' @param stat The statistical transformation to use on the data for this
+#'    layer, as a string.
+#' @param position Position adjustment, either as a string, or the result of
+#'  a call to a position adjustment function.
+#' @param show.legend logical. Should this layer be included in the legends?
+#'   `NA`, the default, includes if any aesthetics are mapped.
+#'   `FALSE` never includes, and `TRUE` always includes.
+#' @param inherit.aes If `FALSE`, overrides the default aesthetics,
+#'   rather than combining with them.
+#' @param na.rm If `FALSE`, the default, missing values are removed with
+#'   a warning. If `TRUE`, missing values are silently removed.
+#' @param ... other arguments passed on to [ggplot2::layer()]. These are
+#'   often aesthetics, used to set an aesthetic to a fixed value, like
+#'   `color = "red"` or `size = 3`. They may also be parameters
+#'   to the paired geom/stat.
 #'
 #' @section Aesthetics:
 #'
-#' \itemize{
-#' \item \code{x} (required)
-#' \item \code{y} (required)
-#' \item \code{height} (required) Assumed to be positive, though this is not required.
-#' \item \code{scale} A scaling factor to scale the height of the ridgelines.
+#' Required aesthetics are in bold.
+#'
+#' * **`x`**
+#' * **`y`**
+#' * **`height`** Height of the ridgeline, measured from the respective `y` value. Assumed to be positive, though this is not required.
+#' * `scale` A scaling factor to scale the height of the ridgelines.
 #' A value of 1 indicates that the heights are taken as is. This aesthetic can be used to convert
-#' \code{height} units into \code{y} units.
-#' \item \code{min_height} A height cutoff on the drawn ridgelines. All values that fall below this cutoff will be removed.
+#' `height` units into `y` units.
+#' * `min_height` A height cutoff on the drawn ridgelines. All values that fall below this cutoff will be removed.
 #' The main purpose of this cutoff is to remove long tails right at the baseline level, but other uses are possible.
 #' The cutoff is applied before any height
-#' scaling is applied via the \code{scale} aesthetic. Default is 0, so nothing is removed.
-#' }
+#' scaling is applied via the `scale` aesthetic. Default is 0, so negative values are removed.
+#' * `colour` Color of the ridgeline
+#' * `fill` Fill color of the area under the ridgeline
+#' * `group` Grouping, to draw multiple ridgelines from one dataset
+#' * `linetype` Linetype of the ridgeline
+#' * `size` Line thickness
 #'
 #' @examples
 #' d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
@@ -27,7 +64,7 @@
 #' @importFrom ggplot2 layer
 #' @export
 geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
-                      position = "identity", min_height = 0, na.rm = FALSE, show.legend = NA,
+                      position = "identity", na.rm = FALSE, show.legend = NA,
                       inherit.aes = TRUE, ...) {
   layer(
     data = data,
@@ -161,57 +198,60 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
 
 
-#' Create joyplot based on ridgelines
+#' Create joyplot
 #'
-#' \code{geom_joy} arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
+#' `geom_joy` arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
 #'
 #' By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
-#' not wanted, use \code{stat="identity"} or use \code{geom_ridgeline}. The difference between \code{geom_joy} and \code{geom_ridgeline}
-#' is that \code{geom_joy} will provide automatic scaling of the ridgelines (controlled by the \code{scale} aesthetic), whereas
-#' \code{geom_ridgeline} will plot the data as is. Note that when you set \code{stat="identity"}, the \code{height} aesthetic must
+#' not wanted, use `stat="identity"` or use [geom_ridgeline]. The difference between `geom_joy` and [geom_ridgeline]
+#' is that `geom_joy` will provide automatic scaling of the ridgelines (controlled by the `scale` aesthetic), whereas
+#' [geom_ridgeline] will plot the data as is. Note that when you set `stat="identity"`, the `height` aesthetic must
 #' be provided.
+#'
+#' @inheritParams geom_ridgeline
 #'
 #' @section Aesthetics:
 #'
-#' \itemize{
-#' \item \code{x} (required)
-#' \item \code{y} (required)
-#' \item \code{height} The height of each ridgeline at the respective x value. Automatically calculated and
-#' provided by \code{stat_joy} if the default stat is not changed.
-#' \item \code{scale} A scaling factor to scale the height of the ridgelines relative to the spacing between them.
+#' Required aesthetics are in bold.
+#'
+#' * **`x`**
+#' * **`y`**
+#' * `height` The height of each ridgeline at the respective x value. Automatically calculated and
+#' provided by [stat_joy] if the default stat is not changed.
+#' * `scale` A scaling factor to scale the height of the ridgelines relative to the spacing between them.
 #' A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
 #' even spacing between baselines.
-#' \item \code{rel_min_height} Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
-#' overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1\% or less than the highest point among all
+#' * `rel_min_height` Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
+#' overall maximum, so `rel_min_height=0.01` would remove everything that is 1\% or less than the highest point among all
 #' ridgelines. Default is 0, so nothing is removed.
-#' }
+#' alpha
+#' * `colour`, `fill`, `group`, `linetype`, `size`, as in [geom_ridgeline].
 #'
-#' @name geom_joy
 #' @importFrom ggplot2 layer
 #' @export
 #' @examples
+#' # set the `rel_min_height` argument to remove tails
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
 #'   geom_joy(rel_min_height = 0.005) +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   theme_joy()
 #'
-#'
-#' # set the scale argument in `geom_joy()` to determine how much overlap there is among the plots
+#' # set the `scale` to determine how much overlap there is among the plots
 #' ggplot(diamonds, aes(x=price, y=cut, group=cut)) +
 #'   geom_joy(scale=4) +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   theme_joy()
 #'
-#' # the same figure with fun colors
+#' # the same figure with colors
 #' ggplot(diamonds, aes(x=price, y=cut, fill=cut)) +
 #'   geom_joy(scale=4) +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   scale_fill_brewer(palette = 4) +
 #'   theme_joy() + theme(legend.position="none")
-#'
+#' \donttest{
 #' # evolution of movie lengths over time
 #' # requires the ggplot2movies package
 #' library(ggplot2movies)
@@ -220,6 +260,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'   theme_joy() +
 #'   scale_x_continuous(limits=c(1, 200), expand=c(0.01, 0)) +
 #'   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
+#' }
 geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
                      na.rm = TRUE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
@@ -284,24 +325,16 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 )
 
 
-#' Create joyplot based on closed polygons
+#' \code{geom_joy2} is identical to \code{geom_joy} except it draws closed polygons rather than ridgelines.
 #'
-#' `geom_joy2` is virtually identical to `geom_joy` but draws closed polygons rather than ridgelines.
-#'
-#' @name geom_joy2
+#' @rdname geom_joy
 #' @importFrom ggplot2 layer
 #' @export
 #' @examples
+#'
+#' # use geom_joy2() instead of geom_joy() for solid polygons
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
 #'   geom_joy2() +
-#'   scale_y_discrete(expand=c(0.01, 0)) +
-#'   scale_x_continuous(expand=c(0.01, 0)) +
-#'   theme_joy()
-#'
-#'
-#' # set the scale argument in `geom_joy2()` to determine how much overlap there is among the plots
-#' ggplot(diamonds, aes(x=price, y=cut, group=cut)) +
-#'   geom_joy2(scale=4) +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
 #'   scale_x_continuous(expand=c(0.01, 0)) +
 #'   theme_joy()
@@ -322,7 +355,7 @@ geom_joy2 <- function(mapping = NULL, data = NULL, stat = "joy",
   )
 }
 
-#' @rdname geom_joy2
+#' @rdname geom_joy
 #' @format NULL
 #' @usage NULL
 #' @export

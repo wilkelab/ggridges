@@ -6,10 +6,10 @@
 \title{Weather in Lincoln, Nebraska in 2016.}
 \format{A tibble with 366 rows and 24 variables:
 \describe{
-  \item{CST}{Day of the measurement}
-  \item{Max Temperature [F]}{Maximum temperature in Fahrenheit}
-  \item{Mean Temperature [F]}{Maximum temperature in Fahrenheit}
-  \item{Month}{The month in which the measurement was taken}
+\item{CST}{Day of the measurement}
+\item{Max Temperature \link{F}}{Maximum temperature in Fahrenheit}
+\item{Mean Temperature \link{F}}{Maximum temperature in Fahrenheit}
+\item{Month}{The month in which the measurement was taken}
 }}
 \usage{
 lincoln_weather

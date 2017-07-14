@@ -5,18 +5,19 @@ Version: 0.1
 Authors@R: c( 
     person("Claus O.", "Wilke", , "wilke@austin.utexas.edu", c("cre", "aut")),
     person("RStudio", role = c("cph")))
-Description: Make joyplots in ggplot2
+Description: This package provides the geoms and stats necessary to create ridgelines and joyplots in ggplot2.
 URL: https://github.com/clauswilke/ggjoy
 Depends:
     R (>= 3.3.0),
-    ggplot2 (>= 2.1.0),
+    ggplot2 (>= 2.2.0),
 Imports:
     grid (>= 3.0.0),
-    plyr (>= 1.8.2),
-License: GPL-2
+    plyr (>= 1.8.0)
+License: GPL-2 | file LICENSE
 LazyData: true
 Suggests:
-    knitr
+    knitr,
+    ggplot2movies
 VignetteBuilder: knitr
 Collate:
     'data.R'
@@ -26,3 +27,4 @@ Collate:
     'theme.R'
     'utils_ggplot2.R'
 RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)

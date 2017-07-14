@@ -4,61 +4,108 @@
 \name{geom_joy}
 \alias{geom_joy}
 \alias{GeomJoy}
-\title{Create joyplot based on ridgelines}
+\alias{geom_joy2}
+\alias{GeomJoy2}
+\title{Create joyplot}
 \usage{
-geom_joy(mapping = NULL, data = NULL, stat = "joy", na.rm = FALSE,
+geom_joy(mapping = NULL, data = NULL, stat = "joy", na.rm = TRUE,
   show.legend = NA, inherit.aes = TRUE, ...)
+
+geom_joy2(mapping = NULL, data = NULL, stat = "joy", na.rm = TRUE,
+  show.legend = NA, inherit.aes = TRUE, ...)
+}
+\arguments{
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{ggplot2::aes()}} or
+\code{\link[ggplot2:aes_]{ggplot2::aes_()}}. If specified and \code{inherit.aes = TRUE} (the
+default), it is combined with the default mapping at the top level of the
+plot. You must supply \code{mapping} if there is no plot mapping.}
+
+\item{data}{The data to be displayed in this layer. There are three
+options:
+
+If \code{NULL}, the default, the data is inherited from the plot
+data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}.
+
+A \code{data.frame}, or other object, will override the plot
+data.
+
+A \code{function} will be called with a single argument,
+the plot data. The return value must be a \code{data.frame.}, and
+will be used as the layer data.}
+
+\item{stat}{The statistical transformation to use on the data for this
+layer, as a string.}
+
+\item{na.rm}{If \code{FALSE}, the default, missing values are removed with
+a warning. If \code{TRUE}, missing values are silently removed.}
+
+\item{show.legend}{logical. Should this layer be included in the legends?
+\code{NA}, the default, includes if any aesthetics are mapped.
+\code{FALSE} never includes, and \code{TRUE} always includes.}
+
+\item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
+rather than combining with them.}
+
+\item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+\code{color = "red"} or \code{size = 3}. They may also be parameters
+to the paired geom/stat.}
 }
 \description{
 \code{geom_joy} arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
+
+\code{geom_joy2} is identical to \code{geom_joy} except it draws closed polygons rather than ridgelines.
 }
 \details{
 By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
-not wanted, use \code{stat="identity"} or use \code{geom_ridgeline}. The difference between \code{geom_joy} and \code{geom_ridgeline}
+not wanted, use \code{stat="identity"} or use \link{geom_ridgeline}. The difference between \code{geom_joy} and \link{geom_ridgeline}
 is that \code{geom_joy} will provide automatic scaling of the ridgelines (controlled by the \code{scale} aesthetic), whereas
-\code{geom_ridgeline} will plot the data as is. Note that when you set \code{stat="identity"}, the \code{height} aesthetic must
+\link{geom_ridgeline} will plot the data as is. Note that when you set \code{stat="identity"}, the \code{height} aesthetic must
 be provided.
 }
 \section{Aesthetics}{
 
 
+Required aesthetics are in bold.
 \itemize{
-\item \code{x} (required)
-\item \code{y} (required)
+\item \strong{\code{x}}
+\item \strong{\code{y}}
 \item \code{height} The height of each ridgeline at the respective x value. Automatically calculated and
-provided by \code{stat_joy} if the default stat is not changed.
+provided by \link{stat_joy} if the default stat is not changed.
 \item \code{scale} A scaling factor to scale the height of the ridgelines relative to the spacing between them.
 A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
 even spacing between baselines.
 \item \code{rel_min_height} Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
 overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1\% or less than the highest point among all
 ridgelines. Default is 0, so nothing is removed.
+alpha
+\item \code{colour}, \code{fill}, \code{group}, \code{linetype}, \code{size}, as in \link{geom_ridgeline}.
 }
 }
 
 \examples{
+# set the `rel_min_height` argument to remove tails
 ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
   geom_joy(rel_min_height = 0.005) +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +
   theme_joy()
 
-
-# set the scale argument in `geom_joy()` to determine how much overlap there is among the plots
+# set the `scale` to determine how much overlap there is among the plots
 ggplot(diamonds, aes(x=price, y=cut, group=cut)) +
   geom_joy(scale=4) +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +
   theme_joy()
 
-# the same figure with fun colors
+# the same figure with colors
 ggplot(diamonds, aes(x=price, y=cut, fill=cut)) +
   geom_joy(scale=4) +
   scale_y_discrete(expand=c(0.01, 0)) +
   scale_x_continuous(expand=c(0.01, 0)) +
   scale_fill_brewer(palette = 4) +
   theme_joy() + theme(legend.position="none")
-
+\donttest{
 # evolution of movie lengths over time
 # requires the ggplot2movies package
 library(ggplot2movies)
@@ -67,5 +114,13 @@ ggplot(movies[movies$year>1912,], aes(x=length, y=year, group=year)) +
   theme_joy() +
   scale_x_continuous(limits=c(1, 200), expand=c(0.01, 0)) +
   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand=c(0.01, 0))
+}
+
+# use geom_joy2() instead of geom_joy() for solid polygons
+ggplot(iris, aes(x=Sepal.Length, y=Species, group=Species)) +
+  geom_joy2() +
+  scale_y_discrete(expand=c(0.01, 0)) +
+  scale_x_continuous(expand=c(0.01, 0)) +
+  theme_joy()
 }
 \keyword{datasets}

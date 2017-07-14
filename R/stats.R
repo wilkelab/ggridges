@@ -2,14 +2,17 @@
 
 #' Stat for density joyplots
 #'
-#' This stat is the default stat used by \code{geom_joy}. It is very similar to \code{stat_density},
+#' This stat is the default stat used by [geom_joy]. It is very similar to [ggplot2::stat_density],
 #' however there are a few differences. Most importantly, the density bandwidth is chosen across
 #' the entire dataset.
 #'
+#' @param geom The geometric object to use to display the data.
+#' @param bandwidth Bandwidth used for density calculation. If not provided, is estimated from the data.
+#' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @export
 stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
-                     position = "identity", na.rm = TRUE, show.legend = NA,
+                     position = "identity", na.rm = FALSE, show.legend = NA,
                      inherit.aes = TRUE, bandwidth = NULL, ...)
 {
   layer(
@@ -25,6 +28,9 @@ stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
 }
 
 
+#' @rdname stat_joy
+#' @format NULL
+#' @usage NULL
 #' @importFrom ggplot2 ggproto Stat
 #' @export
 StatJoy <- ggproto("StatJoy", Stat,
@@ -53,8 +59,8 @@ StatJoy <- ggproto("StatJoy", Stat,
     )
   },
 
-  compute_group = function(data, scales, min, max, bandwidth = 1, na.rm = TRUE) {
-    d <- density(data$x, bw = bandwidth, from = min, to = max, na.rm)
+  compute_group = function(data, scales, min, max, bandwidth = 1) {
+    d <- density(data$x, bw = bandwidth, from = min, to = max, na.rm = TRUE)
     data.frame(x = d$x, density = d$y)
   }
 )
