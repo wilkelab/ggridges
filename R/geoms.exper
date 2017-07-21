@@ -144,11 +144,12 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     data$ymax[data$height < data$min_height] <- NA
 
     # Check that aesthetics are constant
-    aes <- unique(data[c("colour", "fill", "size", "linetype", "alpha")])
+    aes <- unique(data[c("colour", "size", "linetype")])
     if (nrow(aes) > 1) {
-      stop("Aesthetics can not vary along a ridgeline")
+      stop("These aesthetics can not vary along a ridgeline: color, size, linetype")
     }
     aes <- as.list(aes)
+    data$fillalpha <- ggplot2::alpha(data$fill, data$alpha)
 
     # Instead of removing NA values from the data and plotting a single
     # polygon, we want to "stop" plotting the polygon whenever we're
@@ -160,15 +161,42 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     missing_pos <- !stats::complete.cases(data[c("x", "ymin", "ymax")])
     ids <- cumsum(missing_pos) + 1
     ids[missing_pos] <- NA
+    data <- cbind(data, ids)
+    data <- data[!missing_pos,]
+
+    # munching for line
+    positions <- plyr::summarise(data, x = x, y = ymax, id = ids)
+    munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
+
+    # We now break down the polygons further by fill color, since
+    # we need to draw a separate polygon for each color
+
+    # calculate all the positions where the fill type changes
+    fillchange <- c(FALSE, data$fillalpha[2:nrow(data)] != data$fillalpha[1:nrow(data)-1])
+    # and where the id changes
+    idchange <- c(TRUE, data$ids[2:nrow(data)] != data$ids[1:nrow(data)-1])
+
+    # make new ids from all changes in fill style or original id
+    data$ids <- cumsum(fillchange | idchange)
+    # get fill color for all ids
+    fillalpha <- data$fillalpha[fillchange | idchange]
+    # append to aes list
+    aes <- c(aes, list(fill=fillalpha))
+
+    # rows to be duplicated
+    dupl_rows <- which(fillchange & !idchange)
+    if (length(dupl_rows)>0){
+      rows <- data[dupl_rows, ]
+      rows$ids <- data$ids[dupl_rows-1]
+      # combine original and duplicated data
+      data <- rbind(data, rows)
+    }
 
     # munching for polygon
     positions <- plyr::summarise(data,
                                  x = c(x, rev(x)), y = c(ymax, rev(ymin)), id = c(ids, rev(ids)))
     munched_poly <- ggplot2::coord_munch(coord, positions, panel_params)
 
-    # munching for line
-    positions <- plyr::summarise(data, x = x, y = ymax, id = ids)
-    munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
 
     # placing the actual grob generation into a separate function allows us to override for geom_joy2
     self$make_group_grob(munched_line, munched_poly, aes)
@@ -190,7 +218,10 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
                  munched_poly$x, munched_poly$y, id = munched_poly$id,
                  default.units = "native",
                  gp = grid::gpar(
-                   fill = ggplot2::alpha(aes$fill, aes$alpha),
+#                   fill = ggplot2::alpha(aes$fill, aes$alpha),
+                   fill = aes$fill,
+                   col = aes$fill,
+                   lwd = 0.5,
                    lty = 0)
                ))
     grid::grobTree(ag, lg)
@@ -273,7 +304,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' }
 geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
                      panel_scaling = TRUE,
-                     na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
+                     na.rm = TRUE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,
@@ -310,12 +341,6 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
    extra_params = c("na.rm", "panel_scaling"),
 
    setup_data = function(self, data, params) {
-     # provide default for panel scaling parameter if it doesn't exist,
-     # happens if the geom is called from a stat
-     if (is.null(params$panel_scaling)) {
-       params$panel_scaling <- TRUE
-     }
-
      # calculate internal scale
      yrange = max(data$y) - min(data$y)
      n = length(unique(data$y))
@@ -379,7 +404,7 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 #'   theme_joy()
 geom_joy2 <- function(mapping = NULL, data = NULL, stat = "joy",
                       panel_scaling = TRUE,
-                      na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
+                      na.rm = TRUE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,
@@ -401,6 +426,44 @@ geom_joy2 <- function(mapping = NULL, data = NULL, stat = "joy",
 #' @usage NULL
 #' @export
 GeomJoy2 <- ggproto("GeomJoy2", GeomJoy,
+  draw_group = function(self, data, panel_params, coord, na.rm = FALSE) {
+    if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
+    data <- data[order(data$group, data$x), ]
+
+    # remove all points that fall below the minimum height
+    data$ymax[data$height < data$min_height] <- NA
+
+    # Check that aesthetics are constant
+    aes <- unique(data[c("colour", "fill", "size", "linetype", "alpha")])
+    if (nrow(aes) > 1) {
+      stop("Aesthetics can not vary along a ridgeline")
+    }
+    aes <- as.list(aes)
+
+    # Instead of removing NA values from the data and plotting a single
+    # polygon, we want to "stop" plotting the polygon whenever we're
+    # missing values and "start" a new polygon as soon as we have new
+    # values.  We do this by creating an id vector for polygonGrob that
+    # has distinct polygon numbers for sequences of non-NA values and NA
+    # for NA values in the original data.  Example: c(NA, 2, 2, 2, NA, NA,
+    # 4, 4, 4, NA)
+    missing_pos <- !stats::complete.cases(data[c("x", "ymin", "ymax")])
+    ids <- cumsum(missing_pos) + 1
+    ids[missing_pos] <- NA
+
+    # munching for polygon
+    positions <- plyr::summarise(data,
+                                 x = c(x, rev(x)), y = c(ymax, rev(ymin)), id = c(ids, rev(ids)))
+    munched_poly <- ggplot2::coord_munch(coord, positions, panel_params)
+
+    # munching for line
+    positions <- plyr::summarise(data, x = x, y = ymax, id = ids)
+    munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
+
+    # placing the actual grob generation into a separate function allows us to override for geom_joy2
+    self$make_group_grob(munched_line, munched_poly, aes)
+  },
+
   make_group_grob = function(munched_line, munched_poly, aes) {
     ggname("geom_joy2",
            grid::polygonGrob(

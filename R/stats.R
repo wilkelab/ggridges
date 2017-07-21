@@ -64,3 +64,132 @@ StatJoy <- ggproto("StatJoy", Stat,
     data.frame(x = d$x, density = d$y)
   }
 )
+
+
+#' Stat for histogram joyplots
+#'
+#' Works like `stat_bin` except that the output is a ridgeline describing the histogram rather than
+#' a set of counts.
+#'
+#' @param draw_baseline If `FALSE`, removes lines along 0 counts. Default is `TRUE`.
+#'
+#' @examples
+#' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
+#'   geom_joy(stat = "binline", bins = 20, scale = 2.2) +
+#'   scale_y_discrete(expand = c(0.01, 0)) +
+#'   scale_x_continuous(expand = c(0.01, 0)) +
+#'   theme_joy()
+#'
+#' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
+#'   stat_binline(bins = 20, scale = 2.2, draw_baseline = FALSE) +
+#'   scale_y_discrete(expand = c(0.01, 0)) +
+#'   scale_x_continuous(expand = c(0.01, 0)) +
+#'   theme_joy()
+#'
+#' require(ggplot2movies)
+#' ggplot(movies[movies$year>1989,], aes(x = length, y = year, group = year)) +
+#'   stat_binline(scale = .9, size = 0.25) +
+#'     theme_joy() +
+#'     scale_x_continuous(limits = c(1, 200), expand = c(0.01, 0)) +
+#'     scale_y_reverse(expand = c(0.01, 0))
+#'
+#' @export
+stat_binline <- function(mapping = NULL, data = NULL,
+                     geom = "joy", position = "identity",
+                     ...,
+                     binwidth = NULL,
+                     bins = NULL,
+                     center = NULL,
+                     boundary = NULL,
+                     breaks = NULL,
+                     closed = c("right", "left"),
+                     pad = TRUE,
+                     draw_baseline = TRUE,
+                     na.rm = FALSE,
+                     show.legend = NA,
+                     inherit.aes = TRUE) {
+
+  layer(
+    data = data,
+    mapping = mapping,
+    stat = StatBinline,
+    geom = geom,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(
+      binwidth = binwidth,
+      bins = bins,
+      center = center,
+      boundary = boundary,
+      breaks = breaks,
+      closed = closed,
+      pad = pad,
+      draw_baseline = draw_baseline,
+      na.rm = na.rm,
+      ...
+    )
+  )
+}
+
+
+#' @export
+StatBinline <- ggproto("StatBinline", StatBin,
+  required_aes = "x",
+
+  default_aes = aes(height = ..density..),
+
+  setup_params = function(data, params) {
+    if (is.integer(data$x)) {
+      stop('StatBinline requires a continuous x variable: the x variable is discrete. Perhaps you want stat="count"?',
+           call. = FALSE)
+    }
+
+    # provide default value if not given, happens when stat is called from a geom
+    if (is.null(params$pad)) {
+      params$pad <- TRUE
+    }
+
+    # provide default value if not given, happens when stat is called from a geom
+    if (is.null(params$draw_baseline)) {
+      params$draw_baseline <- TRUE
+    }
+
+    if (!is.null(params$boundary) && !is.null(params$center)) {
+      stop("Only one of `boundary` and `center` may be specified.", call. = FALSE)
+    }
+
+    if (is.null(params$breaks) && is.null(params$binwidth) && is.null(params$bins)) {
+      message("`stat_binline()` using `bins = 30`. Pick better value with `binwidth`.")
+      params$bins <- 30
+    }
+
+    params
+  },
+
+  compute_group = function(self, data, scales, binwidth = NULL, bins = NULL,
+                           center = NULL, boundary = NULL,
+                           closed = c("right", "left"), pad = TRUE,
+                           breaks = NULL, origin = NULL, right = NULL,
+                           drop = NULL, width = NULL, draw_baseline = TRUE) {
+    binned <- ggproto_parent(StatBin, self)$compute_group(data = data,
+                  scales = scales, binwidth = binwidth,
+                  bins = bins, center = center, boundary = boundary,
+                  closed = closed, pad = pad, breaks = breaks)
+
+    result <- rbind(transform(binned, x=xmin), transform(binned, x=xmax-0.00001*width))
+    result <- result[order(result$x), ]
+
+    # remove zero counts if requested
+    if (!draw_baseline) {
+      zeros <- result$count == 0
+      protected <- (zeros & !c(zeros[2:length(zeros)], TRUE)) | (zeros & !c(TRUE, zeros[1:length(zeros)-1]))
+      to_remove <- zeros & !protected
+      result$count[to_remove] <- NA
+      result$density[to_remove] <- NA
+    }
+
+    result
+  }
+
+)
