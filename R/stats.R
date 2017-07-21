@@ -41,7 +41,8 @@ StatJoy <- ggproto("StatJoy", Stat,
     if (is.null(params$bandwidth)) {
       xdata <- na.omit(data.frame(x=data$x, group=data$group))
       xs <- split(xdata$x, xdata$group)
-      bws <- vapply(xs, bw.nrd0, numeric(1))
+      xs_mask <- vapply(xs, length, numeric(1)) > 1
+      bws <- vapply(xs[xs_mask], bw.nrd0, numeric(1))
       bw <- mean(bws, na.rm = TRUE)
       message("Picking joint bandwidth of ", signif(bw, 3))
 
@@ -60,6 +61,9 @@ StatJoy <- ggproto("StatJoy", Stat,
   },
 
   compute_group = function(data, scales, min, max, bandwidth = 1) {
+    # ignore too small groups
+    if(nrow(data) < 3) return(data.frame())
+
     d <- density(data$x, bw = bandwidth, from = min, to = max, na.rm = TRUE)
     data.frame(x = d$x, density = d$y)
   }

@@ -138,6 +138,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
   draw_group = function(self, data, panel_params, coord, na.rm = FALSE) {
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
+    if (nrow(data) == 0) return(grid::nullGrob())
     data <- data[order(data$group, data$x), ]
 
     # remove all points that fall below the minimum height
