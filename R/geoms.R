@@ -138,7 +138,10 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
   draw_group = function(self, data, panel_params, coord, na.rm = FALSE) {
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
+
+    #if dataframe is empty there's nothing to draw
     if (nrow(data) == 0) return(grid::nullGrob())
+
     data <- data[order(data$group, data$x), ]
 
     # remove all points that fall below the minimum height
@@ -215,9 +218,9 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' the desired result when using faceted plots. As an alternative, you can set `stat = "density"` to use [stat_density].
 #' In this case, it is required to add the aesthetic mapping `height = ..density..` (see examples).
 #'
-#' @inheritParams geom_ridgeline
 #' @param panel_scaling Should scaling be calculated separately for each panel (default) or
 #'  (if set to `FALSE`) globally.
+#' @inheritParams geom_ridgeline
 #'
 #' @section Aesthetics:
 #'

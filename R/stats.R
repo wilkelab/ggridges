@@ -75,7 +75,10 @@ StatJoy <- ggproto("StatJoy", Stat,
 #' Works like `stat_bin` except that the output is a ridgeline describing the histogram rather than
 #' a set of counts.
 #'
-#' @param draw_baseline If `FALSE`, removes lines along 0 counts. Default is `TRUE`.
+#' @param draw_baseline If `FALSE`, removes lines along 0 counts. Defaults to `TRUE`.
+#' @param pad If `TRUE`, adds empty bins at either end of x. This ensures that the binline always goes
+#'   back down to 0. Defaults to `TRUE`.
+#' @inheritParams ggplot2::stat_bin
 #'
 #' @examples
 #' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
@@ -88,14 +91,18 @@ StatJoy <- ggproto("StatJoy", Stat,
 #'   stat_binline(bins = 20, scale = 2.2, draw_baseline = FALSE) +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_x_continuous(expand = c(0.01, 0)) +
-#'   theme_joy()
+#'   scale_fill_grey() +
+#'   theme_joy() + theme(legend.position = 'none')
 #'
 #' require(ggplot2movies)
-#' ggplot(movies[movies$year>1989,], aes(x = length, y = year, group = year)) +
-#'   stat_binline(scale = .9, size = 0.25) +
-#'     theme_joy() +
-#'     scale_x_continuous(limits = c(1, 200), expand = c(0.01, 0)) +
-#'     scale_y_reverse(expand = c(0.01, 0))
+#' require(viridis)
+#' ggplot(movies[movies$year>1989,], aes(x = length, y = year, fill = factor(year))) +
+#'    stat_binline(scale = 1.9, bins = 40) +
+#'    theme_joy() + theme(legend.position = "none") +
+#'    scale_x_continuous(limits = c(1, 180), expand = c(0.01, 0)) +
+#'    scale_y_reverse(expand = c(0.01, 0)) +
+#'    scale_fill_viridis(begin = 0.3, discrete = TRUE, option = "B") +
+#'    labs(title = "Movie lengths 1990 - 2005")
 #'
 #' @export
 stat_binline <- function(mapping = NULL, data = NULL,
@@ -137,6 +144,10 @@ stat_binline <- function(mapping = NULL, data = NULL,
 }
 
 
+#' @rdname stat_binline
+#' @format NULL
+#' @usage NULL
+#' @importFrom ggplot2 ggproto StatBin
 #' @export
 StatBinline <- ggproto("StatBinline", StatBin,
   required_aes = "x",

@@ -19,7 +19,8 @@ LazyData: true
 Suggests:
     knitr,
     ggplot2movies,
-    cowplot
+    cowplot,
+    viridis
 VignetteBuilder: knitr
 Collate:
     'data.R'
