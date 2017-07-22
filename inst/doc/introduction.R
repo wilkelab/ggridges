@@ -70,20 +70,22 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   scale_x_continuous(expand = c(0.01, 0)) +
   scale_y_discrete(expand = c(0.01, 0))
 
-## ----message=FALSE, fig.width = 7.5, fig.height = 5----------------------
-ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`)) +
-  geom_joy(scale = 3, rel_min_height = 0.01) +
-  scale_x_continuous(expand = c(0.01, 0)) +
-  scale_y_discrete(expand = c(0.01, 0)) +
-  labs(title = 'Temperatures in Lincoln NE',
-       subtitle = 'Mean temperatures (Fahrenheit) by month for 2016\nData: Original CSV from the Weather Underground') +
-  theme_joy(font_size = 13, grid = T) + theme(axis.title.y = element_blank())
+## ----message=FALSE-------------------------------------------------------
+ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
+  geom_joy(stat = "density")
 
-## ----message=FALSE, fig.width = 6, fig.height = 6------------------------
-library(ggplot2movies)
-ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
-  geom_joy(scale = 10, size = 0.25, rel_min_height = 0.03) +
-  theme_joy() +
-  scale_x_continuous(limits=c(1, 200), expand = c(0.01, 0)) +
-  scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand = c(0.01, 0))
+## ----message=FALSE-------------------------------------------------------
+library(dplyr)
+iris %>% group_by(Species) %>%
+  do(ggplot2:::compute_density(.$Sepal.Length, NULL)) %>%
+  rename(Sepal.Length = x) -> iris_densities
+head(iris_densities)
+
+## ----message=FALSE-------------------------------------------------------
+ggplot(iris_densities, aes(x = Sepal.Length, y = Species, height = density)) + 
+  geom_joy(stat = "identity")
+
+## ----message=FALSE-------------------------------------------------------
+ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
+  geom_joy(stat = "binline", bins = 20, scale = 0.95, draw_baseline = FALSE)
 

@@ -6,10 +6,30 @@
 \title{Weather in Lincoln, Nebraska in 2016.}
 \format{A tibble with 366 rows and 24 variables:
 \describe{
-\item{CST}{Day of the measurement}
-\item{Max Temperature \link{F}}{Maximum temperature in Fahrenheit}
-\item{Mean Temperature \link{F}}{Maximum temperature in Fahrenheit}
-\item{Month}{The month in which the measurement was taken}
+\item{\code{CST}}{Day of the measurement}
+\item{\code{Max Temperature [F]}}{}
+\item{\code{Mean Temperature [F]}}{}
+\item{\code{Min Temperature [F]}}{}
+\item{\code{Max Dew Point [F]}}{}
+\item{\code{Mean Dew Point [F]}}{}
+\item{\code{Min Dewpoint [F]}}{}
+\item{\code{Max Humidity}}{}
+\item{\code{Mean Humidity}}{}
+\item{\code{Min Humidity}}{}
+\item{\code{Max Sea Level Pressure [In]}}{}
+\item{\code{Mean Sea Level Pressure [In]}}{}
+\item{\code{Min Sea Level Pressure [In]}}{}
+\item{\code{Max Visibility [Miles]}}{}
+\item{\code{Mean Visibility [Miles]}}{}
+\item{\code{Min Visibility [Miles]}}{}
+\item{\code{Max Wind Speed [MPH]}}{}
+\item{\code{Mean Wind Speed[MPH]}}{}
+\item{\code{Max Gust Speed [MPH]}}{}
+\item{\code{Precipitation [In]}}{}
+\item{\code{CloudCover}}{}
+\item{\code{Events}}{Specific weather events, such as rain, snow, or fog.}
+\item{\code{WindDir [Degrees]}}{}
+\item{\code{Month}}{The month in which the measurement was taken}
 }}
 \usage{
 lincoln_weather
@@ -17,6 +37,7 @@ lincoln_weather
 \description{
 A dataset containing weather information from Lincoln, Nebraska, from 2016.
 Originally downloaded from Weather Underground by Austin Wehrwein, http://austinwehrwein.com/.
-The variables are as follows:
+The variables are listed below. Most are self-explanatory. Max, mean, and min measurements are
+calculated relative to the specific day of measurement.
 }
 \keyword{datasets}

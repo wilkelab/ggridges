@@ -12,11 +12,14 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-# Geoms
+Joyplots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. The name "joyplot" was [proposed](
+https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twitter on April 24, 2017, in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album _Unknown Pleasures_.
 
-This package provides two geoms, `geom_ridgeline` and `geom_joy`. The former takes height values directly to draw ridgelines, and the latter first estimates data densities and then draws those using ridgelines.
+## Geoms
 
-## Ridgelines
+The **ggjoy** package provides two main geoms, `geom_ridgeline` and `geom_joy`. The former takes height values directly to draw ridgelines, and the latter first estimates data densities and then draws those using ridgelines.
+
+### Ridgelines
 
 The geom `geom_ridgeline` can be used to draw lines with a filled area underneath.
 ```{r}
@@ -53,7 +56,7 @@ ggplot(d, aes(x, y, height = height, group = y)) +
   geom_joy(stat = "identity", scale = 1)
 ```
 
-## Density joyplots
+### Density joyplots
 
 The geom `geom_joy` calculates density estimates from the provided data and then plots those, using the ridgeline visualization. The `height` aesthetic does not need to be specified in this case.
 ```{r message=FALSE}
@@ -100,7 +103,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 ```
 
 
-# Theme
+## Theme
 
 Joyplots tend to require some theme modifications to look good. Most importantly, the y-axis labels should be vertically aligned so that they are flush with the axis ticks rather than vertically centered. The ggjoy package provides a theme `theme_joy` that does this and a few other theme modifications.
 
@@ -125,25 +128,38 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   scale_y_discrete(expand = c(0.01, 0))
 ```
 
-# Gallery of examples
+## Stats
 
-Temperatures in Lincoln, Nebraska. Modified from a [blog post](http://austinwehrwein.com/data-visualization/it-brings-me-ggjoy/) by Austin Wehrwein.
-```{r message=FALSE, fig.width = 7.5, fig.height = 5}
-ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`)) +
-  geom_joy(scale = 3, rel_min_height = 0.01) +
-  scale_x_continuous(expand = c(0.01, 0)) +
-  scale_y_discrete(expand = c(0.01, 0)) +
-  labs(title = 'Temperatures in Lincoln NE',
-       subtitle = 'Mean temperatures (Fahrenheit) by month for 2016\nData: Original CSV from the Weather Underground') +
-  theme_joy(font_size = 13, grid = T) + theme(axis.title.y = element_blank())
+The default stat used with `geom_joy` is `stat_joy`. However, it may not do exactly what you want it to do, and there are other stats that can be used that may be better for your respective application.
+
+First, `stat_joy` estimates the data range and bandwidth for the density estimation from the entire data at once, rather than from each individual group of data. This choice makes joyplots look more uniform, but the density estimates can in some cases look quite different from what you would get from `geom_density` or `stat_density`. This problem can be remidied by using `stat_density` with `geom_joy`. This works just fine, we just need to make sure that we map the calculated density onto the `height` aesthetic.
+```{r message=FALSE}
+ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
+  geom_joy(stat = "density")
 ```
 
-Evolution of movie lengths over time. Data from the IMDB, as provided in the ggplot2movies package.
-```{r message=FALSE, fig.width = 6, fig.height = 6}
-library(ggplot2movies)
-ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
-  geom_joy(scale = 10, size = 0.25, rel_min_height = 0.03) +
-  theme_joy() +
-  scale_x_continuous(limits=c(1, 200), expand = c(0.01, 0)) +
-  scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand = c(0.01, 0))
+Second, there may be scenarios in which you don't want `geom_joy` to do any density estimation, for example because you have done so already yourself. In this case, you can use `stat_identity`. The benefit of using `geom_joy` with `stat_identiy` over using `geom_ridgeline` directly is that `geom_joy` provides automatic scaling.
+
+As an example, assume we have calculated density curves for the `Sepal.Length` column in the `iris` dataset:
+```{r message=FALSE}
+library(dplyr)
+iris %>% group_by(Species) %>%
+  do(ggplot2:::compute_density(.$Sepal.Length, NULL)) %>%
+  rename(Sepal.Length = x) -> iris_densities
+head(iris_densities)
 ```
+
+We can plot these as follows:
+```{r message=FALSE}
+ggplot(iris_densities, aes(x = Sepal.Length, y = Species, height = density)) + 
+  geom_joy(stat = "identity")
+```
+
+Notice how this plot looks different from the one generated using `stat = "density"`, even though the density computation was exactly the same: (i) The density curves extend all the way to zero. (ii) There is no horizontal line extending all the way to the limits of the x axis. 
+
+Finally, if you prefer histograms to density plots, you can also use `stat_binline`. Note that overlapping histograms can look strange, so this option is probably best used with a `scale` parameter < 1. The option `draw_baseline = FALSE` removes trailing lines to either side of the histogram. (For histograms, the `rel_min_height` parameter doesn't work very well.)
+```{r message=FALSE}
+ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
+  geom_joy(stat = "binline", bins = 20, scale = 0.95, draw_baseline = FALSE)
+```
+
