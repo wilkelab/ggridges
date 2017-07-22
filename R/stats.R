@@ -155,11 +155,6 @@ StatBinline <- ggproto("StatBinline", StatBin,
   default_aes = aes(height = ..density..),
 
   setup_params = function(data, params) {
-    if (is.integer(data$x)) {
-      stop('StatBinline requires a continuous x variable: the x variable is discrete. Perhaps you want stat="count"?',
-           call. = FALSE)
-    }
-
     # provide default value if not given, happens when stat is called from a geom
     if (is.null(params$pad)) {
       params$pad <- TRUE

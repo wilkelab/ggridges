@@ -26,6 +26,7 @@ Collate:
     'data.R'
     'ggjoy.R'
     'geoms.R'
+    'geoms-gradient.R'
     'stats.R'
     'theme.R'
     'utils_ggplot2.R'

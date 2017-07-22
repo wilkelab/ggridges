@@ -14,7 +14,7 @@ vignette: >
 
 # Geoms
 
-This package provides two geoms, `geom_ridgeline` and `geom_joy`. The former takes height values directly to draw ridgelines, and the latter first estimates data densities and then draws those using ridgelines.
+This package provides two main geoms, `geom_ridgeline` and `geom_joy`. The former takes height values directly to draw ridgelines, and the latter first estimates data densities and then draws those using ridgelines.
 
 ## Ridgelines
 
@@ -135,7 +135,7 @@ ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`)) +
   scale_y_discrete(expand = c(0.01, 0)) +
   labs(title = 'Temperatures in Lincoln NE',
        subtitle = 'Mean temperatures (Fahrenheit) by month for 2016\nData: Original CSV from the Weather Underground') +
-  theme_joy(font_size = 13, grid = T) + theme(axis.title.y = element_blank())
+  theme_joy(font_size = 13, grid = TRUE) + theme(axis.title.y = element_blank())
 ```
 
 Evolution of movie lengths over time. Data from the IMDB, as provided in the ggplot2movies package.

@@ -54,6 +54,7 @@
 #' scaling is applied via the `scale` aesthetic. Default is 0, so negative values are removed.
 #' * `color` Color of the ridgeline
 #' * `fill` Fill color of the area under the ridgeline
+#' * `alpha` Transparency level of `color` and `fill`
 #' * `group` Grouping, to draw multiple ridgelines from one dataset
 #' * `linetype` Linetype of the ridgeline
 #' * `size` Line thickness
@@ -218,8 +219,8 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' the desired result when using faceted plots. As an alternative, you can set `stat = "density"` to use [stat_density].
 #' In this case, it is required to add the aesthetic mapping `height = ..density..` (see examples).
 #'
-#' @param panel_scaling Should scaling be calculated separately for each panel (default) or
-#'  (if set to `FALSE`) globally.
+#' @param panel_scaling If `TRUE`, the default, relative scaling is calculated separately
+#' for each panel. If `FALSE`, relative scaling is calculated globally.
 #' @inheritParams geom_ridgeline
 #'
 #' @section Aesthetics:
@@ -239,7 +240,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' overall maximum, so `rel_min_height=0.01` would remove everything that is 1\% or less than the highest point among all
 #' ridgelines. Default is 0, so nothing is removed.
 #' alpha
-#' * `color`, `fill`, `group`, `linetype`, `size`, as in [geom_ridgeline].
+#' * `color`, `fill`, `group`, `alpha`, `linetype`, `size`, as in [geom_ridgeline].
 #'
 #' @importFrom ggplot2 layer
 #' @export
@@ -265,7 +266,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'   scale_x_continuous(expand = c(0.01, 0)) +
 #'   scale_fill_brewer(palette = 4) +
 #'   theme_joy() + theme(legend.position = "none")
-#' \donttest{
+#'
 #' # evolution of movie lengths over time
 #' # requires the ggplot2movies package
 #' library(ggplot2movies)
@@ -274,7 +275,6 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'   theme_joy() +
 #'   scale_x_continuous(limits = c(1, 200), expand = c(0.01, 0)) +
 #'   scale_y_reverse(breaks = c(2000, 1980, 1960, 1940, 1920, 1900), expand = c(0.01, 0))
-#' }
 geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
                      panel_scaling = TRUE,
                      na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
@@ -368,7 +368,7 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 )
 
 
-#' \code{geom_joy2} is identical to \code{geom_joy} except it draws closed polygons rather than ridgelines.
+#' `geom_joy2` is identical to `geom_joy` except it draws closed polygons rather than ridgelines.
 #'
 #' @rdname geom_joy
 #' @importFrom ggplot2 layer
