@@ -27,7 +27,7 @@
 \item{\code{Max Gust Speed [MPH]}}{}
 \item{\code{Precipitation [In]}}{}
 \item{\code{CloudCover}}{}
-\item{\code{Events}}{Specific weather events, such as rain, snow, or fog.}
+\item{\code{Events}}{Specific weather events, such as rain, snow, or fog}
 \item{\code{WindDir [Degrees]}}{}
 \item{\code{Month}}{The month in which the measurement was taken}
 }}
