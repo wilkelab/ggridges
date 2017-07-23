@@ -20,6 +20,8 @@ Suggests:
     knitr,
     ggplot2movies,
     cowplot,
+    forcats,
+    tidyverse,
     viridis
 VignetteBuilder: knitr
 Collate:

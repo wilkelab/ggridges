@@ -37,7 +37,7 @@ StatJoy <- ggproto("StatJoy", Stat,
   required_aes = "x",
   default_aes = aes(height = ..density..),
 
-  setup_params = function(data, params) {
+  calc_panel_params = function(data, params) {
     if (is.null(params$bandwidth)) {
       xdata <- na.omit(data.frame(x=data$x, group=data$group))
       xs <- split(xdata$x, xdata$group)
@@ -49,13 +49,31 @@ StatJoy <- ggproto("StatJoy", Stat,
       params$bandwidth <- bw
     }
 
-    min <- min(data$x, na.rm=TRUE) - 3 * params$bandwidth
-    max <- max(data$x, na.rm=TRUE) + 3 * params$bandwidth
+    if (is.null(params$min)) {
+      params$min <- min(data$x, na.rm=TRUE) - 3 * params$bandwidth
+    }
+
+    if (is.null(params$max)) {
+      params$max <- max(data$x, na.rm=TRUE) + 3 * params$bandwidth
+    }
+
+    data.frame(
+      bandwidth = params$bandwidth,
+      min = params$min,
+      max = params$max
+    )
+  },
+
+  setup_params = function(self, data, params) {
+    # calculate bandwidth, min, and max for each panel separately
+    panels <- split(data, data$PANEL)
+    pardata <- lapply(panels, self$calc_panel_params, params)
+    pardata <- purrr::reduce(pardata, rbind)
 
     list(
-      bandwidth = params$bandwidth,
-      min = min,
-      max = max,
+      bandwidth = pardata$bandwidth,
+      min = pardata$min,
+      max = pardata$max,
       na.rm = params$na.rm
     )
   },
@@ -64,7 +82,13 @@ StatJoy <- ggproto("StatJoy", Stat,
     # ignore too small groups
     if(nrow(data) < 3) return(data.frame())
 
-    d <- density(data$x, bw = bandwidth, from = min, to = max, na.rm = TRUE)
+    panel <- unique(data$PANEL)
+    if (length(panel) > 1) {
+      stop("Error: more than one panel in compute group; something's wrong.")
+    }
+    panel_id <- as.numeric(panel)
+
+    d <- density(data$x, bw = bandwidth[panel_id], from = min[panel_id], to = max[panel_id], na.rm = TRUE)
     data.frame(x = d$x, density = d$y)
   }
 )

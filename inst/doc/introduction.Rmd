@@ -142,7 +142,7 @@ Second, there may be scenarios in which you don't want `geom_joy` to do any dens
 
 As an example, assume we have calculated density curves for the `Sepal.Length` column in the `iris` dataset:
 ```{r message=FALSE}
-library(dplyr)
+library(tidyverse)
 iris %>% group_by(Species) %>%
   do(ggplot2:::compute_density(.$Sepal.Length, NULL)) %>%
   rename(Sepal.Length = x) -> iris_densities

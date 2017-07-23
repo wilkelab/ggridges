@@ -117,15 +117,6 @@ ggplot(diamonds, aes(x = price, y = cut, fill = cut, height = ..density..)) +
   scale_fill_brewer(palette = 4) +
   theme_joy() + theme(legend.position = "none")
 
-# evolution of movie lengths over time
-# requires the ggplot2movies package
-library(ggplot2movies)
-ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
-  geom_joy(scale = 10, size = 0.25, rel_min_height = 0.03) +
-  theme_joy() +
-  scale_x_continuous(limits = c(1, 200), expand = c(0.01, 0)) +
-  scale_y_reverse(breaks = c(2000, 1980, 1960, 1940, 1920, 1900), expand = c(0.01, 0))
-
 # use geom_joy2() instead of geom_joy() for solid polygons
 ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_joy2() +

@@ -266,15 +266,6 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'   scale_x_continuous(expand = c(0.01, 0)) +
 #'   scale_fill_brewer(palette = 4) +
 #'   theme_joy() + theme(legend.position = "none")
-#'
-#' # evolution of movie lengths over time
-#' # requires the ggplot2movies package
-#' library(ggplot2movies)
-#' ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
-#'   geom_joy(scale = 10, size = 0.25, rel_min_height = 0.03) +
-#'   theme_joy() +
-#'   scale_x_continuous(limits = c(1, 200), expand = c(0.01, 0)) +
-#'   scale_y_reverse(breaks = c(2000, 1980, 1960, 1940, 1920, 1900), expand = c(0.01, 0))
 geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
                      panel_scaling = TRUE,
                      na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {

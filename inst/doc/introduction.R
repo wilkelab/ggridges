@@ -75,7 +75,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) +
   geom_joy(stat = "density")
 
 ## ----message=FALSE-------------------------------------------------------
-library(dplyr)
+library(tidyverse)
 iris %>% group_by(Species) %>%
   do(ggplot2:::compute_density(.$Sepal.Length, NULL)) %>%
   rename(Sepal.Length = x) -> iris_densities
