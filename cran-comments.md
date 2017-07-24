@@ -1,13 +1,11 @@
-This is the second try to submit a new package ggjoy, which provides new geoms for ggplot2.
+This is a minor version increase for ggjoy, providing numerous improvements and new features.
 
-I received two requests for changes in response to the first try:
-
-> Please single quote ggplot2.
-Done.
+I received the following request at a previous submission:
 
 > Can you provide a reference for joyplot in the form 
 > Authors (year) <DOI:.....> (with no space after 'DOI:')?
-No, no such reference exists at this time. I only have the code on github.
+
+Answer: No, no such reference exists at this time. I only have the code on github.
 
 ## Test environments
 * R devel and R 3.4.1 on win-builder [ via devtools::build_win() ]
@@ -23,5 +21,5 @@ Possibly mis-spelled words in DESCRIPTION:
 The spelling is correct.
 
 ## Downstream dependencies
-None, this is a first-time submission.
+None at this time.
 

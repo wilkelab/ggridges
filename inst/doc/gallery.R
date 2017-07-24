@@ -25,14 +25,15 @@ library(forcats)
 Catalan_elections %>%
   mutate(Alt = (as.numeric(as.factor(Year))-1) %% 2 + 1) %>%
   ggplot(aes(y = as.factor(Year) %>% fct_rev())) +
-  geom_joy(aes(x = Percent, fill = paste(Option, Alt)), alpha = .8, color = "white") +
+  geom_joy(aes(x = Percent, fill = paste(Option, Alt)), 
+           alpha = .8, color = "white", from = 0, to = 100) +
   labs(x = "Vote (%)",
        y = "Election Year",
        title = "Indy vs Unionist vote in Catalan elections",
        subtitle = "Analysis unit: municipalities (n = 949)",
        caption = "Marc Belzunces (@marcbeldata) | Source: Idescat") +
   scale_y_discrete(expand = c(0.01, 0)) +
-  scale_x_continuous(limits = c(0, 100), expand = c(0.01, 0)) +
+  scale_x_continuous(expand = c(0.01, 0)) +
   scale_fill_manual(breaks = c("Indy 1", "Unionist 1"),
                     labels = c(`Indy 1` = "Indy", `Unionist 1` = "Unionist"),
                     values = c("#ff0000", "#ff8080", "#0000ff", "#8080ff"),

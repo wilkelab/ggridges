@@ -71,6 +71,13 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   scale_y_discrete(expand = c(0.01, 0))
 
 ## ----message=FALSE-------------------------------------------------------
+ ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
+   geom_joy() + 
+   theme_minimal(base_size = 14) + theme(axis.text.y = element_text(vjust = 0)) +
+   scale_x_continuous(expand = c(0.01, 0)) +
+   scale_y_discrete(expand = c(0.01, 0))
+
+## ----message=FALSE-------------------------------------------------------
 ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
   geom_joy(stat = "density")
 
