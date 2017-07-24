@@ -133,6 +133,17 @@ StatJoy <- ggproto("StatJoy", Stat,
 #'    scale_fill_viridis(begin = 0.3, discrete = TRUE, option = "B") +
 #'    labs(title = "Movie lengths 1990 - 2005")
 #'
+#' # modified after an example provided by Noam Ross
+#' count_data <- data.frame(group = rep(letters[1:5], each = 20),
+#'                          mean = rep(1:5, each = 20))
+#' count_data$group <- factor(count_data$group, levels = letters[5:1])
+#' count_data$count <- rpois(nrow(count_data), count_data$mean)
+#' ggplot(count_data, aes(x = count, y = group, fill = group)) +
+#'   geom_joy(stat = "binline", binwidth = 1, scale = 0.9) +
+#'   theme_joy() +
+#'   scale_x_continuous(breaks = c(0:12), limits = c(-1, 13), expand = c(0, 0)) +
+#'   scale_y_discrete(expand = c(0.01, 0)) +
+#'   guides(fill = guide_legend(reverse = TRUE))
 #' @export
 stat_binline <- function(mapping = NULL, data = NULL,
                      geom = "joy", position = "identity",

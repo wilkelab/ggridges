@@ -1,7 +1,7 @@
 Package: ggjoy
 Type: Package
 Title: Joyplots in 'ggplot2'
-Version: 0.2.0
+Version: 0.2.0.9990
 Authors@R: c( 
     person("Claus O.", "Wilke", , "wilke@austin.utexas.edu", c("cre", "aut")),
     person("RStudio", role = c("cph")))
