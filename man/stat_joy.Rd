@@ -8,7 +8,7 @@
 \usage{
 stat_joy(mapping = NULL, data = NULL, geom = "joy",
   position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, bandwidth = NULL, ...)
+  inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{ggplot2::aes()}} or
@@ -45,6 +45,9 @@ a warning. If \code{TRUE}, missing values are silently removed.}
 rather than combining with them.}
 
 \item{bandwidth}{Bandwidth used for density calculation. If not provided, is estimated from the data.}
+
+\item{from, to}{The left and right-most points of the grid at which the density is to be estimated,
+as in \code{\link[=density]{density()}}. If not provided, there are estimated from the data range and the bandwidth.}
 
 \item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like

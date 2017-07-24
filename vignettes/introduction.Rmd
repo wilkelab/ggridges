@@ -103,9 +103,9 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 ```
 
 
-## Theme
+## Themes
 
-Joyplots tend to require some theme modifications to look good. Most importantly, the y-axis labels should be vertically aligned so that they are flush with the axis ticks rather than vertically centered. The ggjoy package provides a theme `theme_joy` that does this and a few other theme modifications.
+Joyplots tend to require some theme modifications to look good. Most importantly, the y-axis tick labels should be vertically aligned so that they are flush with the axis ticks rather than vertically centered. The ggjoy package provides a theme `theme_joy` that does this and a few other theme modifications.
 
 ```{r message=FALSE}
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy() + theme_joy()
@@ -127,6 +127,16 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   scale_x_continuous(expand = c(0.01, 0)) +
   scale_y_discrete(expand = c(0.01, 0))
 ```
+
+If you prefer to use a different theme than `theme_joy`, for example `theme_minimal`, it is still advisable to adjust the alignment of the axis tick labels and the axis scales.
+```{r message=FALSE}
+ ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
+   geom_joy() + 
+   theme_minimal(base_size = 14) + theme(axis.text.y = element_text(vjust = 0)) +
+   scale_x_continuous(expand = c(0.01, 0)) +
+   scale_y_discrete(expand = c(0.01, 0))
+```
+
 
 ## Stats
 

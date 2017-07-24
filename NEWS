@@ -1,0 +1,13 @@
+ggjoy 0.2.0
+----------------------------------------------------------------
+Numerous improvements:
+- New stat `binline` that can be used to draw histogram joyplots.
+- Various improvements in `stat_joy`. In particular, it now works properly
+  with multiple panels. It also now has parameters `from` and `to` to limit the
+  range of density estimation, just like `density()`.
+- Improvements in the vignettes
+- New geoms `geom_ridgeline_gradient` and `geom_joy_gradient` that can handle gradient fills.
+
+ggjoy 0.1.0
+----------------------------------------------------------------
+First complete implementation ready for initial release

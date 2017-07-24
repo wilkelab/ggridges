@@ -8,12 +8,14 @@
 #'
 #' @param geom The geometric object to use to display the data.
 #' @param bandwidth Bandwidth used for density calculation. If not provided, is estimated from the data.
+#' @param from,to The left and right-most points of the grid at which the density is to be estimated,
+#'   as in [density()]. If not provided, there are estimated from the data range and the bandwidth.
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @export
 stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
                      position = "identity", na.rm = FALSE, show.legend = NA,
-                     inherit.aes = TRUE, bandwidth = NULL, ...)
+                     inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL, ...)
 {
   layer(
     stat = StatJoy,
@@ -23,7 +25,10 @@ stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(bandwidth = bandwidth, na.rm = na.rm, ...)
+    params = list(bandwidth = bandwidth,
+                  from = from,
+                  to = to,
+                  na.rm = na.rm, ...)
   )
 }
 
@@ -49,18 +54,18 @@ StatJoy <- ggproto("StatJoy", Stat,
       params$bandwidth <- bw
     }
 
-    if (is.null(params$min)) {
-      params$min <- min(data$x, na.rm=TRUE) - 3 * params$bandwidth
+    if (is.null(params$from)) {
+      params$from <- min(data$x, na.rm=TRUE) - 3 * params$bandwidth
     }
 
-    if (is.null(params$max)) {
-      params$max <- max(data$x, na.rm=TRUE) + 3 * params$bandwidth
+    if (is.null(params$to)) {
+      params$to <- max(data$x, na.rm=TRUE) + 3 * params$bandwidth
     }
 
     data.frame(
       bandwidth = params$bandwidth,
-      min = params$min,
-      max = params$max
+      from = params$from,
+      to = params$to
     )
   },
 
@@ -72,13 +77,13 @@ StatJoy <- ggproto("StatJoy", Stat,
 
     list(
       bandwidth = pardata$bandwidth,
-      min = pardata$min,
-      max = pardata$max,
+      from = pardata$from,
+      to = pardata$to,
       na.rm = params$na.rm
     )
   },
 
-  compute_group = function(data, scales, min, max, bandwidth = 1) {
+  compute_group = function(data, scales, from, to, bandwidth = 1) {
     # ignore too small groups
     if(nrow(data) < 3) return(data.frame())
 
@@ -88,7 +93,7 @@ StatJoy <- ggproto("StatJoy", Stat,
     }
     panel_id <- as.numeric(panel)
 
-    d <- density(data$x, bw = bandwidth[panel_id], from = min[panel_id], to = max[panel_id], na.rm = TRUE)
+    d <- density(data$x, bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE)
     data.frame(x = d$x, density = d$y)
   }
 )
