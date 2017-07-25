@@ -74,25 +74,28 @@ ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`, fill = ..x.
 
 Inspired by a [ggjoy example](https://twitter.com/noamross/status/888405434381545472) by Noam Ross.
 ```{r message=FALSE, fig.width = 6, fig.height = 6}
+# generate data
 set.seed(1234)
 pois_data <- data.frame(mean = rep(1:5, each = 10))
 pois_data$group <- factor(pois_data$mean, levels=5:1)
 pois_data$value <- rpois(nrow(pois_data), pois_data$mean)
+
+# make plot
 ggplot(pois_data, aes(x = value, y = group, group = group)) +
   geom_joy2(stat = "binline", binwidth = 1, scale = 0.75,
           aes(fill = ifelse(as.numeric(group) %% 2 == 0, "light", "dark"))) +
   # dummy text labels just to extend the y axis sufficiently
   geom_text(stat = "bin",
-          aes(y = group+0.75*..count../max(..count..)),
+          aes(y = group + 0.75*(..count../max(..count..))),
           label = "", vjust = 1, nudge_y = 0.2, binwidth = 1) +
   # now the actual text labels
   geom_text(stat = "bin",
-          aes(y = group+0.75*..count../max(..count..),
+          aes(y = group + 0.75*(..count../max(..count..)),
               label = ifelse(..count..>0, ..count.., "")),
           vjust = -.3, size = 4, binwidth = 1) +
   scale_x_continuous(breaks = c(0:12), limits = c(-.5, 13), expand = c(0, 0),
                      name = "random value") +
-  scale_y_discrete(expand = c(0.01, 0), name = "Poisson mean",
+  scale_y_discrete(expand = c(0.01, 0.5), name = "Poisson mean",
                    labels = c("5.0", "4.0", "3.0", "2.0", "1.0")) +
   scale_fill_manual(values = c("dark" = "#0000B0", "light" = "#7070D0")) +
   labs(title = "Poisson random samples with different means",
