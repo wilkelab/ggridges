@@ -98,10 +98,12 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
  ggplot(diamonds, aes(x = price, y = cut, fill = cut, color = cut)) + 
    geom_joy(scale = 4, size = 1) + 
    scale_fill_cyclical(values = c("blue", "green"), guide = "legend",
-                       labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline"),
+                       labels = c("Fair" = "blue w/ black outline",
+                                  "Good" = "green w/ yellow outline"),
                        name = "Color scheme") +
    scale_color_cyclical(values = c("black", "yellow"), guide = "legend",
-                       labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline"),
+                       labels = c("Fair" = "blue w/ black outline",
+                                  "Good" = "green w/ yellow outline"),
                        name = "Color scheme")
 
 ## ----message=FALSE, fig.width = 6.5--------------------------------------

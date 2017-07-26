@@ -140,7 +140,7 @@ If you prefer to use a different theme than `theme_joy`, for example `theme_mini
 
 ## Cyclical scales
 
-Many joyplots improve in appearance if the filled areas are drawn with alternating colors. To simplify the generation of such plots, **ggjoy** provides cyclical scales. These are scales that cycle through the aesthetic values provided. For example, if we use `scale_fill_cyclical(values = c("blue", "green"))` then ggplot will cycle through these two fill colors throughout the plot.
+Many joyplots improve in appearance if the filled areas are drawn with alternating colors. To simplify the generation of such plots, **ggjoy** provides cyclical scales. These are scales that cycle through the aesthetic values provided. For example, if we use `scale_fill_cyclical(values = c("blue", "green"))` then `ggplot` will cycle through these two fill colors throughout the plot.
 
 ```{r message=FALSE}
  ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
@@ -148,7 +148,7 @@ Many joyplots improve in appearance if the filled areas are drawn with alternati
    scale_fill_cyclical(values = c("blue", "green"))
 ```
 
-By default, the cyclical scales will not draw a legend, because the legend will usually be confusing unless the labels are manually altered. Legends can be switched on via the `guide = "legend"` option, as usual.
+By default, the cyclical scales will not draw a legend, because the legend will usually be confusing unless the labels are manually altered. Legends can be switched on via the `guide = "legend"` option, just like for all other scales.
 
 ```{r message=FALSE, fig.width = 5.5}
  ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
@@ -156,7 +156,7 @@ By default, the cyclical scales will not draw a legend, because the legend will 
    scale_fill_cyclical(values = c("blue", "green"), guide = "legend")
 ```
 
-Legends can be modified as usual:
+Legends can be modified as usual.
 ```{r message=FALSE, fig.width = 5.5}
  ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
    geom_joy(scale = 4) + 
@@ -170,10 +170,12 @@ Cyclical scales are defined for all the common aesthetics one might want to chan
  ggplot(diamonds, aes(x = price, y = cut, fill = cut, color = cut)) + 
    geom_joy(scale = 4, size = 1) + 
    scale_fill_cyclical(values = c("blue", "green"), guide = "legend",
-                       labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline"),
+                       labels = c("Fair" = "blue w/ black outline",
+                                  "Good" = "green w/ yellow outline"),
                        name = "Color scheme") +
    scale_color_cyclical(values = c("black", "yellow"), guide = "legend",
-                       labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline"),
+                       labels = c("Fair" = "blue w/ black outline",
+                                  "Good" = "green w/ yellow outline"),
                        name = "Color scheme")
 ```
 
