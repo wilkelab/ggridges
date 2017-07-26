@@ -11,8 +11,8 @@ stat_joy(mapping = NULL, data = NULL, geom = "joy",
   inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL, ...)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{ggplot2::aes()}} or
-\code{\link[ggplot2:aes_]{ggplot2::aes_()}}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
+\code{\link[=aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -20,7 +20,7 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 options:
 
 If \code{NULL}, the default, the data is inherited from the plot
-data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}.
+data as specified in the call to \code{\link[=ggplot]{ggplot()}}.
 
 A \code{data.frame}, or other object, will override the plot
 data.
@@ -49,13 +49,13 @@ rather than combining with them.}
 \item{from, to}{The left and right-most points of the grid at which the density is to be estimated,
 as in \code{\link[=density]{density()}}. If not provided, there are estimated from the data range and the bandwidth.}
 
-\item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}. These are
+\item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{color = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 }
 \description{
-This stat is the default stat used by \link{geom_joy}. It is very similar to \link[ggplot2:stat_density]{ggplot2::stat_density},
+This stat is the default stat used by \code{\link{geom_joy}}. It is very similar to \code{\link{stat_density}},
 however there are a few differences. Most importantly, the density bandwidth is chosen across
 the entire dataset.
 }

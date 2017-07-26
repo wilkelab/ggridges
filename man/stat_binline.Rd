@@ -123,8 +123,7 @@ count_data <- data.frame(group = rep(letters[1:5], each = 10),
 count_data$group <- factor(count_data$group, levels = letters[5:1])
 count_data$count <- rpois(nrow(count_data), count_data$mean)
 ggplot(count_data, aes(x = count, y = group, group = group)) +
-  geom_joy2(stat = "binline", binwidth = 1, scale = 0.95,
-          aes(fill = ifelse(as.numeric(group) \%\% 2 == 0, "light", "dark"))) +
+  geom_joy2(stat = "binline", aes(fill = group), binwidth = 1, scale = 0.95) +
   geom_text(stat = "bin",
           aes(y = group+0.9*..count../max(..count..),
           label = ifelse(..count..>0, ..count.., "")),
@@ -132,8 +131,7 @@ ggplot(count_data, aes(x = count, y = group, group = group)) +
   theme_joy(grid = FALSE) +
   scale_x_continuous(breaks = c(0:12), limits = c(-.5, 13), expand = c(0, 0)) +
   scale_y_discrete(expand = c(0.01, 0)) +
-  scale_fill_manual(values = c("dark" = "#0000B0", "light" = "#7070D0")) +
-  guides(y = "none",
-         fill = "none")
+  scale_fill_cyclical(values = c("#0000B0", "#7070D0")) +
+  guides(y = "none")
 }
 \keyword{datasets}

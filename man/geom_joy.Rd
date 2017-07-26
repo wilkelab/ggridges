@@ -17,8 +17,8 @@ geom_joy2(mapping = NULL, data = NULL, stat = "joy",
   inherit.aes = TRUE, ...)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{ggplot2::aes()}} or
-\code{\link[ggplot2:aes_]{ggplot2::aes_()}}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
+\code{\link[=aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -26,7 +26,7 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 options:
 
 If \code{NULL}, the default, the data is inherited from the plot
-data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}.
+data as specified in the call to \code{\link[=ggplot]{ggplot()}}.
 
 A \code{data.frame}, or other object, will override the plot
 data.
@@ -51,7 +51,7 @@ a warning. If \code{TRUE}, missing values are silently removed.}
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them.}
 
-\item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}. These are
+\item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{color = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
@@ -63,13 +63,13 @@ to the paired geom/stat.}
 }
 \details{
 By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
-not wanted, use \code{stat="identity"} or use \link{geom_ridgeline}. The difference between \code{geom_joy} and \link{geom_ridgeline}
+not wanted, use \code{stat="identity"} or use \code{\link{geom_ridgeline}}. The difference between \code{geom_joy} and \code{\link{geom_ridgeline}}
 is that \code{geom_joy} will provide automatic scaling of the ridgelines (controlled by the \code{scale} aesthetic), whereas
 \link{geom_ridgeline} will plot the data as is. Note that when you set \code{stat="identity"}, the \code{height} aesthetic must
 be provided.
 
-Note that the default \link{stat_joy} makes joint density estimation across all datasets. This may not generate
-the desired result when using faceted plots. As an alternative, you can set \code{stat = "density"} to use \link{stat_density}.
+Note that the default \code{\link{stat_joy}} makes joint density estimation across all datasets. This may not generate
+the desired result when using faceted plots. As an alternative, you can set \code{stat = "density"} to use \code{\link{stat_density}}.
 In this case, it is required to add the aesthetic mapping \code{height = ..density..} (see examples).
 }
 \section{Aesthetics}{
@@ -82,7 +82,7 @@ Required aesthetics are in bold.
 \item \code{group} Defines the grouping. Not needed if a categorical variable is mapped onto \code{y}, but needed otherwise. Will typically be the same
 variable as is mapped to \code{y}.
 \item \code{height} The height of each ridgeline at the respective x value. Automatically calculated and
-provided by \link{stat_joy} if the default stat is not changed.
+provided by \code{\link{stat_joy}} if the default stat is not changed.
 \item \code{scale} A scaling factor to scale the height of the ridgelines relative to the spacing between them.
 A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
 even spacing between baselines.
@@ -90,7 +90,7 @@ even spacing between baselines.
 overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1\% or less than the highest point among all
 ridgelines. Default is 0, so nothing is removed.
 alpha
-\item \code{color}, \code{fill}, \code{group}, \code{alpha}, \code{linetype}, \code{size}, as in \link{geom_ridgeline}.
+\item \code{color}, \code{fill}, \code{group}, \code{alpha}, \code{linetype}, \code{size}, as in \code{\link{geom_ridgeline}}.
 }
 }
 

@@ -26,7 +26,7 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 options:
 
 If \code{NULL}, the default, the data is inherited from the plot
-data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}.
+data as specified in the call to \code{\link[=ggplot]{ggplot()}}.
 
 A \code{data.frame}, or other object, will override the plot
 data.
