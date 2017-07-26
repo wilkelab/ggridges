@@ -88,7 +88,7 @@ cyclical_scale <- function(aesthetics, values, name = waiver(),
                            na.translate = TRUE, na.value = NA, drop = TRUE,
                            guide = "none", position = "left") {
 
-  ggplot2:::check_breaks_labels(breaks, labels)
+  check_breaks_labels(breaks, labels)
 
   position <- match.arg(position, c("left", "right", "top", "bottom"))
 
@@ -109,7 +109,7 @@ cyclical_scale <- function(aesthetics, values, name = waiver(),
     scale_name = "cyclical",
     palette = pal,
 
-    range = ggplot2:::discrete_range(),
+    range = discrete_range(),
     limits = limits,
     na.value = na.value,
     na.translate = na.translate,
@@ -144,3 +144,18 @@ ScaleCyclical <- ggproto("ScaleCyclical", ScaleDiscrete,
     return(na.omit(labels[1:self$cycle_length]))
   }
 )
+
+
+# internal functions, copied over from ggplot2
+check_breaks_labels <- function(breaks, labels) {
+  if (is.null(breaks)) return(TRUE)
+  if (is.null(labels)) return(TRUE)
+
+  bad_labels <- is.atomic(breaks) && is.atomic(labels) &&
+    length(breaks) != length(labels)
+  if (bad_labels) {
+    stop("`breaks` and `labels` must have the same length", call. = FALSE)
+  }
+
+  TRUE
+}

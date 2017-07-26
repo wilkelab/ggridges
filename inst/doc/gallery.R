@@ -63,8 +63,7 @@ ggplot(pois_data, aes(x = value, y = group, group = group)) +
   scale_fill_cyclical(values = c("#0000B0", "#7070D0")) +
   labs(title = "Poisson random samples with different means",
        subtitle = "sample size n=10") +
-  guides(y = "none",
-         fill = "none") +
+  guides(y = "none") +
   theme_joy(grid = FALSE) +
   theme(axis.title.x = element_text(hjust = 0.5),
         axis.title.y = element_text(hjust = 0.5))

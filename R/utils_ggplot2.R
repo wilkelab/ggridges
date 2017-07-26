@@ -1,6 +1,6 @@
 # code that needed to be copied from ggplot2
 
-# Name ggplot grid object
+# Name ggplot grid object, from ggplot2/R/utilities-grid.r
 # Convenience function to name grid objects
 #
 # @keyword internal
@@ -9,6 +9,7 @@ ggname <- function(prefix, grob) {
   grob
 }
 
+# From ggplot2/R/utilities.r
 snakeize <- function(x) {
   x <- gsub("([A-Za-z])([A-Z])([a-z])", "\\1_\\2\\3", x)
   x <- gsub(".", "_", x, fixed = TRUE)
@@ -20,5 +21,42 @@ snake_class <- function(x) {
   snakeize(class(x)[1])
 }
 
+
+# ggplot2 range code, from ggplot2/R/range.r
+
+#' @importFrom ggplot2 ggproto
+#' @noRd
+Range <- ggproto("Range", NULL,
+  range = NULL,
+  reset = function(self) {
+    self$range <- NULL
+  }
+)
+
+RangeDiscrete <- ggproto("RangeDiscrete", Range,
+  train = function(self, x, drop = FALSE, na.rm = FALSE) {
+    self$range <- scales::train_discrete(x, self$range, drop = drop, na.rm = na.rm)
+  }
+)
+
+discrete_range <- function() {
+  ggproto(NULL, RangeDiscrete)
+}
+
+
+# ggplot2 aes code, from ggplot2/R/aes.r
+
+# Look up the scale that should be used for a given aesthetic
+aes_to_scale <- function(var) {
+  var[var %in% c("x", "xmin", "xmax", "xend", "xintercept")] <- "x"
+  var[var %in% c("y", "ymin", "ymax", "yend", "yintercept")] <- "y"
+
+  var
+}
+
+# Figure out if an aesthetic is a position aesthetic or not
+is_position_aes <- function(vars) {
+  aes_to_scale(vars) %in% c("x", "y")
+}
 
 

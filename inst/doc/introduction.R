@@ -117,7 +117,7 @@ ggplot(mpg, aes(x = class, fill = class, color = class)) +
                       name = "Color scheme")
 
 ## ----message=FALSE, fig.width=5.5----------------------------------------
-library(dplyr)
+library(tidyverse)
 mpg %>% group_by(class) %>% tally() %>% arrange(desc(n)) %>%
   mutate(class = factor(class, levels=class)) %>%
   ggplot(aes(x = class, y = n, fill = class)) + 
