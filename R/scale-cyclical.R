@@ -1,10 +1,42 @@
 #' Create a discrete scale that cycles between values
 #'
-#' @examples
-#' ggplot(mtcars, aes(mpg, wt, color = factor(carb))) +
-#'   geom_point() +
-#'   scale_color_cyclical(values = c("blue", "green"))
+#' The readability of joyplots can often be improved by alternating between fill colors and
+#' other aesthetics. The various cyclical scales make it easy to create plots with this feature,
+#' simply map your grouping variable to the respective aesthetic (e.g., `fill`) and then use
+#' `scale_fill_cyclical` to define the fill colors between you want to alternate. Note that the
+#' cyclical scales do not draw legends by default, because the legends will usually be wrong
+#' unless the labels are properly adjusted. To draw legends, set the `guide` argument to `"legend"`,
+#' as shown in the examples.
 #'
+#' @param values The aesthetic values that the scale should cycle through, e.g. colors if it is
+#'   a scale for the color or fill aesthetic.
+#' @param ... Common discrete scale parameters: `name`, `breaks`, `labels`, `na.value`, `limits` and `guide`.
+#'   See [`discrete_scale`] for more details.
+#'
+#' @examples
+#' # By default, scale_cyclical sets `guide = "none"`, i.e., no legend
+#' # is drawn
+#' ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +
+#'   geom_joy(scale = 4) +
+#'   scale_fill_cyclical(values = c("#3030D0", "#9090F0"))
+#'
+#' # However, legends can be turned on by setting `guide = "legend"`
+#' ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +
+#'   geom_joy(scale = 4) +
+#'   scale_fill_cyclical(values = c("#3030D0", "#9090F0"),
+#'                       guide = "legend", name = "Fill colors",
+#'                       labels = c("dark blue", "light blue"))
+#'
+#' # Cyclical scales are also available for the various other aesthetics
+#' ggplot(diamonds, aes(x = price, y = cut, fill = cut,
+#'                      color = cut, size = cut,
+#'                      alpha = cut, linetype = cut)) +
+#'   geom_joy(scale = 4, fill = "blue") +
+#'   scale_fill_cyclical(values = c("blue", "green")) +
+#'   scale_color_cyclical(values = c("black", "white")) +
+#'   scale_size_cyclical(values = c(2, 1)) +
+#'   scale_alpha_cyclical(values = c(0.4, 0.8)) +
+#'   scale_linetype_cyclical(values = c(1, 2))
 #'
 #' @name scale_cyclical
 #' @aliases NULL
@@ -27,15 +59,34 @@ scale_fill_cyclical <- function(..., values) {
   cyclical_scale("fill", values, ...)
 }
 
-#' Cyclical scale constructor
-#'
+#' @rdname scale_cyclical
+#' @export
+scale_alpha_cyclical <- function(..., values) {
+  cyclical_scale("alpha", values, ...)
+}
+
+#' @rdname scale_cyclical
+#' @export
+scale_linetype_cyclical <- function(..., values) {
+  cyclical_scale("linetype", values, ...)
+}
+
+#' @rdname scale_cyclical
+#' @export
+scale_size_cyclical <- function(..., values) {
+  cyclical_scale("size", values, ...)
+}
+
+
+#' @format NULL
+#' @usage NULL
 #' @importFrom ggplot2 ggproto ScaleDiscrete
 #' @rdname scale_cyclical
 #' @export
 cyclical_scale <- function(aesthetics, values, name = waiver(),
                            breaks = waiver(), labels = waiver(), limits = NULL, expand = waiver(),
                            na.translate = TRUE, na.value = NA, drop = TRUE,
-                           guide = "legend", position = "left") {
+                           guide = "none", position = "left") {
 
   ggplot2:::check_breaks_labels(breaks, labels)
 
@@ -85,11 +136,11 @@ cyclical_scale <- function(aesthetics, values, name = waiver(),
 ScaleCyclical <- ggproto("ScaleCyclical", ScaleDiscrete,
   get_breaks = function(self, limits = self$get_limits()){
     breaks <- ggproto_parent(ScaleDiscrete, self)$get_breaks(limits)
-    return(breaks[1:self$cycle_length])
+    return(na.omit(breaks[1:self$cycle_length]))
   },
 
   get_labels = function(self, breaks = self$get_breaks()){
     labels <- ggproto_parent(ScaleDiscrete, self)$get_labels(breaks)
-    return(labels[1:self$cycle_length])
+    return(na.omit(labels[1:self$cycle_length]))
   }
 )
