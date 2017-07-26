@@ -2,14 +2,14 @@
 
 #' Stat for density joyplots
 #'
-#' This stat is the default stat used by [geom_joy]. It is very similar to [ggplot2::stat_density],
+#' This stat is the default stat used by [`geom_joy`]. It is very similar to [`stat_density`],
 #' however there are a few differences. Most importantly, the density bandwidth is chosen across
 #' the entire dataset.
 #'
 #' @param geom The geometric object to use to display the data.
 #' @param bandwidth Bandwidth used for density calculation. If not provided, is estimated from the data.
 #' @param from,to The left and right-most points of the grid at which the density is to be estimated,
-#'   as in [density()]. If not provided, there are estimated from the data range and the bandwidth.
+#'   as in [`density()`]. If not provided, there are estimated from the data range and the bandwidth.
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @export

@@ -78,6 +78,52 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
    scale_y_discrete(expand = c(0.01, 0))
 
 ## ----message=FALSE-------------------------------------------------------
+ ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
+   geom_joy(scale = 4) + 
+   scale_fill_cyclical(values = c("blue", "green"))
+
+## ----message=FALSE, fig.width = 5.5--------------------------------------
+ ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
+   geom_joy(scale = 4) + 
+   scale_fill_cyclical(values = c("blue", "green"), guide = "legend")
+
+## ----message=FALSE, fig.width = 5.5--------------------------------------
+ ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
+   geom_joy(scale = 4) + 
+   scale_fill_cyclical(values = c("blue", "green"), guide = "legend",
+                       labels = c("Fair" = "blue", "Good" = "green"),
+                       name = "Fill colors")
+
+## ----message=FALSE, fig.width = 6.5--------------------------------------
+ ggplot(diamonds, aes(x = price, y = cut, fill = cut, color = cut)) + 
+   geom_joy(scale = 4, size = 1) + 
+   scale_fill_cyclical(values = c("blue", "green"), guide = "legend",
+                       labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline"),
+                       name = "Color scheme") +
+   scale_color_cyclical(values = c("black", "yellow"), guide = "legend",
+                       labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline"),
+                       name = "Color scheme")
+
+## ----message=FALSE, fig.width = 6.5--------------------------------------
+ggplot(mpg, aes(x = class, fill = class, color = class)) + 
+  geom_bar(size = 1.5) +
+  scale_fill_cyclical(values = c("blue", "green"), guide = "legend",
+                      labels = c("blue w/ black outline", "green w/ yellow outline"),
+                      name = "Color scheme") +
+  scale_color_cyclical(values = c("black", "yellow"), guide = "legend",
+                      labels = c("blue w/ black outline", "green w/ yellow outline"),
+                      name = "Color scheme")
+
+## ----message=FALSE, fig.width=5.5----------------------------------------
+library(dplyr)
+mpg %>% group_by(class) %>% tally() %>% arrange(desc(n)) %>%
+  mutate(class = factor(class, levels=class)) %>%
+  ggplot(aes(x = class, y = n, fill = class)) + 
+    geom_col() + theme_minimal() +
+    scale_fill_cyclical(values = c("#4040B0", "#9090F0")) +
+    scale_y_continuous(expand = c(0, 0))
+
+## ----message=FALSE-------------------------------------------------------
 ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
   geom_joy(stat = "density")
 

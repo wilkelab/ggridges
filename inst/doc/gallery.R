@@ -14,9 +14,9 @@ ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
 library(tidyverse)
 library(forcats)
 Catalan_elections %>%
-  mutate(Alt = (as.numeric(as.factor(Year))-1) %% 2 + 1) %>%
-  ggplot(aes(y = as.factor(Year) %>% fct_rev())) +
-  geom_joy(aes(x = Percent, fill = paste(Option, Alt)), 
+  mutate(YearFct = fct_rev(as.factor(Year))) %>%
+  ggplot(aes(y = YearFct)) +
+  geom_joy(aes(x = Percent, fill = paste(YearFct, Option)), 
            alpha = .8, color = "white", from = 0, to = 100) +
   labs(x = "Vote (%)",
        y = "Election Year",
@@ -25,10 +25,10 @@ Catalan_elections %>%
        caption = "Marc Belzunces (@marcbeldata) | Source: Idescat") +
   scale_y_discrete(expand = c(0.01, 0)) +
   scale_x_continuous(expand = c(0.01, 0)) +
-  scale_fill_manual(breaks = c("Indy 1", "Unionist 1"),
-                    labels = c(`Indy 1` = "Indy", `Unionist 1` = "Unionist"),
-                    values = c("#ff0000", "#ff8080", "#0000ff", "#8080ff"),
-                    name = "Option") +
+  scale_fill_cyclical(breaks = c("1980 Indy", "1980 Unionist"),
+                      labels = c(`1980 Indy` = "Indy", `1980 Unionist` = "Unionist"),
+                      values = c("#ff0000", "#0000ff", "#ff8080", "#8080ff"),
+                      name = "Option", guide = "legend") +
   theme_joy(grid = FALSE)
 
 ## ----message=FALSE, fig.width = 7.5, fig.height = 5----------------------
@@ -42,28 +42,25 @@ ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`, fill = ..x.
        subtitle = 'Mean temperatures (Fahrenheit) by month for 2016\nData: Original CSV from the Weather Underground') +
   theme_joy(font_size = 13, grid = TRUE) + theme(axis.title.y = element_blank())
 
-## ----message=FALSE, fig.width = 6, fig.height = 6------------------------
+## ----message=FALSE, fig.width = 6, fig.height = 7------------------------
+# generate data
 set.seed(1234)
 pois_data <- data.frame(mean = rep(1:5, each = 10))
 pois_data$group <- factor(pois_data$mean, levels=5:1)
 pois_data$value <- rpois(nrow(pois_data), pois_data$mean)
+
+# make plot
 ggplot(pois_data, aes(x = value, y = group, group = group)) +
-  geom_joy2(stat = "binline", binwidth = 1, scale = 0.75,
-          aes(fill = ifelse(as.numeric(group) %% 2 == 0, "light", "dark"))) +
-  # dummy text labels just to extend the y axis sufficiently
+  geom_joy2(aes(fill = group), stat = "binline", binwidth = 1, scale = 0.95) +
   geom_text(stat = "bin",
-          aes(y = group+0.75*..count../max(..count..)),
-          label = "", vjust = 1, nudge_y = 0.2, binwidth = 1) +
-  # now the actual text labels
-  geom_text(stat = "bin",
-          aes(y = group+0.75*..count../max(..count..),
+          aes(y = group + 0.95*(..count../max(..count..)),
               label = ifelse(..count..>0, ..count.., "")),
-          vjust = -.3, size = 4, binwidth = 1) +
+          vjust = 1.4, size = 3, color = "white", binwidth = 1) +
   scale_x_continuous(breaks = c(0:12), limits = c(-.5, 13), expand = c(0, 0),
                      name = "random value") +
   scale_y_discrete(expand = c(0.01, 0), name = "Poisson mean",
                    labels = c("5.0", "4.0", "3.0", "2.0", "1.0")) +
-  scale_fill_manual(values = c("dark" = "#0000B0", "light" = "#7070D0")) +
+  scale_fill_cyclical(values = c("#0000B0", "#7070D0")) +
   labs(title = "Poisson random samples with different means",
        subtitle = "sample size n=10") +
   guides(y = "none",

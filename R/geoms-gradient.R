@@ -1,19 +1,19 @@
 #' Plot ridgelines and joyplots with fill gradients along the x axis
 #'
-#' The geoms `geom_ridgeline_gradient` and `geom_joy_gradient` work just like [geom_ridgeline] and [geom_joy] except
+#' The geoms `geom_ridgeline_gradient` and `geom_joy_gradient` work just like [`geom_ridgeline`] and [`geom_joy`] except
 #' that the `fill` aesthetic can vary along the x axis. Because filling with color gradients is fraught with issues,
 #' these geoms should be considered experimental. Don't use them unless you really need to. Note that due to limitations
 #' in R's graphics system, transparency (`alpha`) has to be disabled for gradient fills.
 #'
-#' @param mapping Set of aesthetic mappings created by [ggplot2::aes()] or
-#'   [ggplot2::aes_()]. If specified and `inherit.aes = TRUE` (the
+#' @param mapping Set of aesthetic mappings created by [`aes()`] or
+#'   [`aes_()`]. If specified and `inherit.aes = TRUE` (the
 #'   default), it is combined with the default mapping at the top level of the
 #'   plot. You must supply `mapping` if there is no plot mapping.
 #' @param data The data to be displayed in this layer. There are three
 #'    options:
 #'
 #'    If `NULL`, the default, the data is inherited from the plot
-#'    data as specified in the call to [ggplot2::ggplot()].
+#'    data as specified in the call to [`ggplot()`].
 #'
 #'    A `data.frame`, or other object, will override the plot
 #'    data.
@@ -32,7 +32,7 @@
 #'   rather than combining with them.
 #' @param na.rm If `FALSE`, the default, missing values are removed with
 #'   a warning. If `TRUE`, missing values are silently removed.
-#' @param ... other arguments passed on to [ggplot2::layer()]. These are
+#' @param ... other arguments passed on to [`layer()`]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
 #'   `color = "red"` or `size = 3`. They may also be parameters
 #'   to the paired geom/stat.

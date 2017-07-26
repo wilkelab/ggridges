@@ -138,6 +138,69 @@ If you prefer to use a different theme than `theme_joy`, for example `theme_mini
 ```
 
 
+## Cyclical scales
+
+Many joyplots improve in appearance if the filled areas are drawn with alternating colors. To simplify the generation of such plots, **ggjoy** provides cyclical scales. These are scales that cycle through the aesthetic values provided. For example, if we use `scale_fill_cyclical(values = c("blue", "green"))` then ggplot will cycle through these two fill colors throughout the plot.
+
+```{r message=FALSE}
+ ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
+   geom_joy(scale = 4) + 
+   scale_fill_cyclical(values = c("blue", "green"))
+```
+
+By default, the cyclical scales will not draw a legend, because the legend will usually be confusing unless the labels are manually altered. Legends can be switched on via the `guide = "legend"` option, as usual.
+
+```{r message=FALSE, fig.width = 5.5}
+ ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
+   geom_joy(scale = 4) + 
+   scale_fill_cyclical(values = c("blue", "green"), guide = "legend")
+```
+
+Legends can be modified as usual:
+```{r message=FALSE, fig.width = 5.5}
+ ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
+   geom_joy(scale = 4) + 
+   scale_fill_cyclical(values = c("blue", "green"), guide = "legend",
+                       labels = c("Fair" = "blue", "Good" = "green"),
+                       name = "Fill colors")
+```
+
+Cyclical scales are defined for all the common aesthetics one might want to change, such as color, size, alpha, and linetype, and the legends are combined when possible
+```{r message=FALSE, fig.width = 6.5}
+ ggplot(diamonds, aes(x = price, y = cut, fill = cut, color = cut)) + 
+   geom_joy(scale = 4, size = 1) + 
+   scale_fill_cyclical(values = c("blue", "green"), guide = "legend",
+                       labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline"),
+                       name = "Color scheme") +
+   scale_color_cyclical(values = c("black", "yellow"), guide = "legend",
+                       labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline"),
+                       name = "Color scheme")
+```
+
+Because these cyclical scales are generic **ggplot2** scales, they work with any geom that accepts the respective aesthetic. Thus, for example, we can make histograms with alternatingly colored bars.
+
+```{r message=FALSE, fig.width = 6.5}
+ggplot(mpg, aes(x = class, fill = class, color = class)) + 
+  geom_bar(size = 1.5) +
+  scale_fill_cyclical(values = c("blue", "green"), guide = "legend",
+                      labels = c("blue w/ black outline", "green w/ yellow outline"),
+                      name = "Color scheme") +
+  scale_color_cyclical(values = c("black", "yellow"), guide = "legend",
+                      labels = c("blue w/ black outline", "green w/ yellow outline"),
+                      name = "Color scheme")
+```
+
+While the previous example won't win any design awards, more subtle effects can be helpful.
+```{r message=FALSE, fig.width=5.5}
+library(dplyr)
+mpg %>% group_by(class) %>% tally() %>% arrange(desc(n)) %>%
+  mutate(class = factor(class, levels=class)) %>%
+  ggplot(aes(x = class, y = n, fill = class)) + 
+    geom_col() + theme_minimal() +
+    scale_fill_cyclical(values = c("#4040B0", "#9090F0")) +
+    scale_y_continuous(expand = c(0, 0))
+```
+
 ## Stats
 
 The default stat used with `geom_joy` is `stat_joy`. However, it may not do exactly what you want it to do, and there are other stats that can be used that may be better for your respective application.

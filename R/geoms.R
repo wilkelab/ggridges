@@ -2,17 +2,17 @@
 #'
 #' Plots the sum of the `y` and `height` aesthetics versus `x`, filling the area between `y` and `y + height` with a color.
 #' Thus, the data mapped onto y and onto height must be in the same units.
-#' If you want relative scaling of the heights, you can use [geom_joy] with `stat = "identity"`.
+#' If you want relative scaling of the heights, you can use [`geom_joy`] with `stat = "identity"`.
 #'
-#' @param mapping Set of aesthetic mappings created by [ggplot2::aes()] or
-#'   [ggplot2::aes_()]. If specified and `inherit.aes = TRUE` (the
+#' @param mapping Set of aesthetic mappings created by [`aes()`] or
+#'   [`aes_()`]. If specified and `inherit.aes = TRUE` (the
 #'   default), it is combined with the default mapping at the top level of the
 #'   plot. You must supply `mapping` if there is no plot mapping.
 #' @param data The data to be displayed in this layer. There are three
 #'    options:
 #'
 #'    If `NULL`, the default, the data is inherited from the plot
-#'    data as specified in the call to [ggplot2::ggplot()].
+#'    data as specified in the call to [`ggplot()`].
 #'
 #'    A `data.frame`, or other object, will override the plot
 #'    data.
@@ -31,7 +31,7 @@
 #'   rather than combining with them.
 #' @param na.rm If `FALSE`, the default, missing values are removed with
 #'   a warning. If `TRUE`, missing values are silently removed.
-#' @param ... other arguments passed on to [ggplot2::layer()]. These are
+#' @param ... other arguments passed on to [`layer()`]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
 #'   `color = "red"` or `size = 3`. They may also be parameters
 #'   to the paired geom/stat.
@@ -210,13 +210,13 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' `geom_joy` arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
 #'
 #' By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
-#' not wanted, use `stat="identity"` or use [geom_ridgeline]. The difference between `geom_joy` and [geom_ridgeline]
+#' not wanted, use `stat="identity"` or use [`geom_ridgeline`]. The difference between `geom_joy` and [`geom_ridgeline`]
 #' is that `geom_joy` will provide automatic scaling of the ridgelines (controlled by the `scale` aesthetic), whereas
 #' [geom_ridgeline] will plot the data as is. Note that when you set `stat="identity"`, the `height` aesthetic must
 #' be provided.
 #'
-#' Note that the default [stat_joy] makes joint density estimation across all datasets. This may not generate
-#' the desired result when using faceted plots. As an alternative, you can set `stat = "density"` to use [stat_density].
+#' Note that the default [`stat_joy`] makes joint density estimation across all datasets. This may not generate
+#' the desired result when using faceted plots. As an alternative, you can set `stat = "density"` to use [`stat_density`].
 #' In this case, it is required to add the aesthetic mapping `height = ..density..` (see examples).
 #'
 #' @param panel_scaling If `TRUE`, the default, relative scaling is calculated separately
@@ -232,7 +232,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' * `group` Defines the grouping. Not needed if a categorical variable is mapped onto `y`, but needed otherwise. Will typically be the same
 #' variable as is mapped to `y`.
 #' * `height` The height of each ridgeline at the respective x value. Automatically calculated and
-#' provided by [stat_joy] if the default stat is not changed.
+#' provided by [`stat_joy`] if the default stat is not changed.
 #' * `scale` A scaling factor to scale the height of the ridgelines relative to the spacing between them.
 #' A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
 #' even spacing between baselines.
@@ -240,7 +240,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' overall maximum, so `rel_min_height=0.01` would remove everything that is 1\% or less than the highest point among all
 #' ridgelines. Default is 0, so nothing is removed.
 #' alpha
-#' * `color`, `fill`, `group`, `alpha`, `linetype`, `size`, as in [geom_ridgeline].
+#' * `color`, `fill`, `group`, `alpha`, `linetype`, `size`, as in [`geom_ridgeline`].
 #'
 #' @importFrom ggplot2 layer
 #' @export
