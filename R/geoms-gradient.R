@@ -32,6 +32,8 @@
 #'   rather than combining with them.
 #' @param na.rm If `FALSE`, the default, missing values are removed with
 #'   a warning. If `TRUE`, missing values are silently removed.
+#' @param gradient_lwd A parameter to needed to remove rendering artifacts inside the
+#'   rendered gradients. Should ideally be 0, but often needs to be around 0.5 or higher.
 #' @param ... other arguments passed on to [`layer()`]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
 #'   `color = "red"` or `size = 3`. They may also be parameters
@@ -50,7 +52,7 @@
 #' @importFrom ggplot2 layer
 #' @export
 geom_ridgeline_gradient <- function(mapping = NULL, data = NULL, stat = "identity",
-                      position = "identity", na.rm = FALSE, show.legend = NA,
+                      position = "identity", na.rm = FALSE, gradient_lwd = 0.5, show.legend = NA,
                       inherit.aes = TRUE, ...) {
   layer(
     data = data,
@@ -62,6 +64,7 @@ geom_ridgeline_gradient <- function(mapping = NULL, data = NULL, stat = "identit
     inherit.aes = inherit.aes,
     params = list(
       na.rm = na.rm,
+      gradient_lwd = gradient_lwd,
       ...
     )
   )
@@ -120,7 +123,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     ))
   },
 
-  draw_group = function(self, data, panel_params, coord, na.rm = FALSE) {
+  draw_group = function(self, data, panel_params, coord, na.rm = FALSE, gradient_lwd = 0.5) {
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
     data <- data[order(data$group, data$x), ]
 
@@ -185,10 +188,10 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
 
 
     # placing the actual grob generation into a separate function allows us to override for geom_joy2
-    self$make_group_grob(munched_line, munched_poly, aes)
+    self$make_group_grob(munched_line, munched_poly, aes, gradient_lwd)
   },
 
-  make_group_grob = function(munched_line, munched_poly, aes) {
+  make_group_grob = function(munched_line, munched_poly, aes, gradient_lwd) {
     lg <- ggname("geom_ridgeline_gradient",
                grid::polylineGrob(
                  munched_line$x, munched_line$y, id = munched_line$id,
@@ -206,7 +209,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
                  gp = grid::gpar(
                    fill = aes$fill,
                    col = aes$fill,  # we need to draw polygons with colored outlines
-                   lwd = 0.5,       # to prevent drawing artifacts at polygon boundaries
+                   lwd = gradient_lwd,       # to prevent drawing artifacts at polygon boundaries
                    lty = 1)
                ))
     grid::grobTree(ag, lg)
@@ -224,7 +227,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
 #' @export
 geom_joy_gradient <- function(mapping = NULL, data = NULL, stat = "joy",
                      panel_scaling = TRUE,
-                     na.rm = TRUE, show.legend = NA, inherit.aes = TRUE, ...) {
+                     na.rm = TRUE, gradient_lwd = 0.5, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,
@@ -235,6 +238,7 @@ geom_joy_gradient <- function(mapping = NULL, data = NULL, stat = "joy",
     inherit.aes = inherit.aes,
     params = list(
       na.rm = na.rm,
+      gradient_lwd = gradient_lwd,
       panel_scaling = panel_scaling,
       ...
     )

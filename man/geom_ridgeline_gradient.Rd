@@ -9,12 +9,12 @@
 \title{Plot ridgelines and joyplots with fill gradients along the x axis}
 \usage{
 geom_ridgeline_gradient(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  position = "identity", na.rm = FALSE, gradient_lwd = 0.5,
+  show.legend = NA, inherit.aes = TRUE, ...)
 
 geom_joy_gradient(mapping = NULL, data = NULL, stat = "joy",
-  panel_scaling = TRUE, na.rm = TRUE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  panel_scaling = TRUE, na.rm = TRUE, gradient_lwd = 0.5,
+  show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -43,6 +43,9 @@ a call to a position adjustment function.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
+
+\item{gradient_lwd}{A parameter to needed to remove rendering artifacts. Should ideally be 0,
+but often needs to be around 0.5 or higher.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
