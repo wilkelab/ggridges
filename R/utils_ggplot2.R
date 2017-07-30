@@ -33,6 +33,8 @@ Range <- ggproto("Range", NULL,
   }
 )
 
+#' @importFrom scales train_discrete
+#' @noRd
 RangeDiscrete <- ggproto("RangeDiscrete", Range,
   train = function(self, x, drop = FALSE, na.rm = FALSE) {
     self$range <- scales::train_discrete(x, self$range, drop = drop, na.rm = na.rm)
