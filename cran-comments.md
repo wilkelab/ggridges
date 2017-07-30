@@ -1,11 +1,10 @@
-This is a minor version increase for ggjoy, providing numerous improvements and new features.
+This is a minor version increase for ggjoy, providing numerous improvements and new features. It also adds
+a missing import statement that wasn't flagged by CRAN check for some reason.
 
-I received the following request at a previous submission:
-
-> Can you provide a reference for joyplot in the form 
-> Authors (year) <DOI:.....> (with no space after 'DOI:')?
-
-Answer: No, no such reference exists at this time. I only have the code on github.
+One data file contains UTF-8 marked strings. The file contains election results from Catalania,
+and the municipality names contain non-ASCII characters. None of these names make it into the
+example figure that is generated from this file, so I think it is best to leave the file as is
+for completeness.
 
 ## Test environments
 * R devel and R 3.4.1 on win-builder [ via devtools::build_win() ]

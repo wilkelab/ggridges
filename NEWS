@@ -1,4 +1,4 @@
-ggjoy 0.2.0.9990
+ggjoy 0.3.0
 ----------------------------------------------------------------
 - Added cyclical scales that make it easy to alternate between fill colors
   and other aesthetics.
