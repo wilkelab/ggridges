@@ -1,5 +1,5 @@
 This is a minor version increase for ggjoy, providing numerous improvements and new features. It also adds
-a missing import statement that wasn't flagged by CRAN check for some reason.
+a missing import statement that wasn't flagged by CRAN check for the previous submission.
 
 One data file contains UTF-8 marked strings. The file contains election results from Catalania,
 and the municipality names contain non-ASCII characters. None of these names make it into the
