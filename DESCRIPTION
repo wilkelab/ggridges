@@ -4,7 +4,7 @@ Title: Joyplots in 'ggplot2'
 Version: 0.2.0.9990
 Authors@R: c( 
     person("Claus O.", "Wilke", , "wilke@austin.utexas.edu", c("cre", "aut")),
-    person("RStudio", role = c("cph")))
+    person("RStudio", role = c("cph"), comment = "Copyright for ggplot2 code copied to ggjoy."))
 Description: Joyplots provide a convenient way of visualizing changes in distributions over 
     time or space. This package enables the creation of such plots in 'ggplot2'.
 URL: https://github.com/clauswilke/ggjoy

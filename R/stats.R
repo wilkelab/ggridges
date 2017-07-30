@@ -37,6 +37,7 @@ stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
 #' @format NULL
 #' @usage NULL
 #' @importFrom ggplot2 ggproto Stat
+#' @importFrom purrr reduce
 #' @export
 StatJoy <- ggproto("StatJoy", Stat,
   required_aes = "x",
@@ -73,7 +74,7 @@ StatJoy <- ggproto("StatJoy", Stat,
     # calculate bandwidth, min, and max for each panel separately
     panels <- split(data, data$PANEL)
     pardata <- lapply(panels, self$calc_panel_params, params)
-    pardata <- purrr::reduce(pardata, rbind)
+    pardata <- reduce(pardata, rbind)
 
     list(
       bandwidth = pardata$bandwidth,

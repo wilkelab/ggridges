@@ -88,6 +88,7 @@ geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @format NULL
 #' @usage NULL
 #' @importFrom ggplot2 ggproto Geom draw_key_polygon
+#' @importFrom plyr summarise
 #' @export
 GeomRidgeline <- ggproto("GeomRidgeline", Geom,
   default_aes = aes(color = "black", fill = "grey80", y = 0, size = 0.5, linetype = 1,

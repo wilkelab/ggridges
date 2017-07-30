@@ -44,8 +44,8 @@ a call to a position adjustment function.}
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
-\item{gradient_lwd}{A parameter to needed to remove rendering artifacts. Should ideally be 0,
-but often needs to be around 0.5 or higher.}
+\item{gradient_lwd}{A parameter to needed to remove rendering artifacts inside the
+rendered gradients. Should ideally be 0, but often needs to be around 0.5 or higher.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
