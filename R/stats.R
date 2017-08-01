@@ -82,6 +82,14 @@ StatJoy <- ggproto("StatJoy", Stat,
     pardata <- lapply(panels, self$calc_panel_params, params)
     pardata <- reduce(pardata, rbind)
 
+    if (is.null(params$calc_ecdf)) {
+      params$calc_ecdf <- FALSE
+    }
+
+    if (is.null(params$ntiles_n)) {
+      params$ntiles_n <- 5
+    }
+
     list(
       bandwidth = pardata$bandwidth,
       from = pardata$from,
@@ -110,7 +118,7 @@ StatJoy <- ggproto("StatJoy", Stat,
       ecdf <- c(0, cumsum(d$y[1:(n-1)]*(d$x[2:n]-d$x[1:(n-1)])))
       ntile <- 1 + floor(ntiles_n * ecdf)
       ntile[ntile>ntiles_n] <- ntiles_n
-      data.frame(
+      d <- data.frame(
         x = d$x,
         density = d$y,
         ecdf = ecdf,
