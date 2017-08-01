@@ -13,6 +13,7 @@
 #' @param calc_ecdf If `TRUE`, `stat_joy` returns a variable `ecdf` and a variable `ntile`. Both can
 #'   be mapped onto aesthetics via `..ecdf..` and `..ntile..`, respectively.
 #' @param ntiles_n Sets the number of quantiles the data should be broken into if `calc_ecdf = TRUE`.
+#' If is a vector of probabilities will split range by probabilities.
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @export
@@ -105,6 +106,8 @@ StatJoy <- ggproto("StatJoy", Stat,
 
     d <- density(data$x, bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE)
 
+    if(is.null(calc_ecdf)) calc_ecdf <- FALSE
+
     if (calc_ecdf) {
       n <- length(d$x)
 
@@ -126,8 +129,8 @@ StatJoy <- ggproto("StatJoy", Stat,
         ecdf = ecdf,
         ntile = ntile
       )
-    }
-    else {
+
+    } else {
       data.frame(x = d$x, density = d$y)
     }
   }
