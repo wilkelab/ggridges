@@ -9,7 +9,7 @@
 stat_joy(mapping = NULL, data = NULL, geom = "joy",
   position = "identity", na.rm = FALSE, show.legend = NA,
   inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
-  calc_ecdf = FALSE, ntiles_n = 5, ...)
+  calc_ecdf = FALSE, quantiles = 5, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -53,8 +53,9 @@ as in \code{\link[=density]{density()}}. If not provided, there are estimated fr
 \item{calc_ecdf}{If \code{TRUE}, \code{stat_joy} returns a variable \code{ecdf} and a variable \code{ntile}. Both can
 be mapped onto aesthetics via \code{..ecdf..} and \code{..ntile..}, respectively.}
 
-\item{ntiles_n}{Sets the number of quantiles the data should be broken into if \code{calc_ecdf = TRUE}.
-If is a vector of probabilities will split range by probabilities.}
+\item{quantiles}{Sets the number of quantiles the data should be broken into if \code{calc_ecdf = TRUE}.
+If it is an integer then range will be cut into equal parts as the value of quantiles,
+if it is a vector of probabilities the range will cut by them.}
 
 \item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
