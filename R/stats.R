@@ -112,8 +112,8 @@ StatJoy <- ggproto("StatJoy", Stat,
       params$quantiles <- 5
     }
 
-    if (length(params$quantiles) > 1 &
-       (max(params$quantiles, na.rm = TRUE) > 1 | min(params$quantiles, na.rm = TRUE) < 0)) {
+    if (length(params$quantiles) > 1 &&
+       (max(params$quantiles, na.rm = TRUE) > 1 || min(params$quantiles, na.rm = TRUE) < 0)) {
          stop('invalid quantiles used: c(', paste0(params$quantiles, collapse = ','), ') must be within [0, 1] range')
     }
 
@@ -146,7 +146,7 @@ StatJoy <- ggproto("StatJoy", Stat,
       n <- length(d$x)
       ecdf <- c(0, cumsum(d$y[1:(n-1)]*(d$x[2:n]-d$x[1:(n-1)])))
 
-      if (length(quantiles)==1) {
+      if (length(quantiles)==1 && quantiles >= 1) {
         ntile <- 1 + floor(quantiles * ecdf)
         ntile[ntile>quantiles] <- quantiles
       }
