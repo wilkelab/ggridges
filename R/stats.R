@@ -10,12 +10,16 @@
 #' @param bandwidth Bandwidth used for density calculation. If not provided, is estimated from the data.
 #' @param from,to The left and right-most points of the grid at which the density is to be estimated,
 #'   as in [`density()`]. If not provided, there are estimated from the data range and the bandwidth.
+#' @param calc_ecdf If `TRUE`, `stat_joy` returns a variable `ecdf` and a variable `ntile`. Both can
+#'   be mapped onto aesthetics via `..ecdf..` and `..ntile..`, respectively.
+#' @param ntiles_n Sets the number of quantiles the data should be broken into if `calc_ecdf = TRUE`.
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @export
 stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
                      position = "identity", na.rm = FALSE, show.legend = NA,
-                     inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL, ...)
+                     inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
+                     calc_ecdf = FALSE, ntiles_n = 5,...)
 {
   layer(
     stat = StatJoy,
@@ -28,6 +32,8 @@ stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
     params = list(bandwidth = bandwidth,
                   from = from,
                   to = to,
+                  calc_ecdf = calc_ecdf,
+                  ntiles_n = ntiles_n,
                   na.rm = na.rm, ...)
   )
 }
@@ -80,11 +86,14 @@ StatJoy <- ggproto("StatJoy", Stat,
       bandwidth = pardata$bandwidth,
       from = pardata$from,
       to = pardata$to,
+      calc_ecdf = params$calc_ecdf,
+      ntiles_n = params$ntiles_n,
       na.rm = params$na.rm
     )
   },
 
-  compute_group = function(data, scales, from, to, bandwidth = 1) {
+  compute_group = function(data, scales, from, to, bandwidth = 1,
+                           calc_ecdf = FALSE, ntiles_n = 5) {
     # ignore too small groups
     if(nrow(data) < 3) return(data.frame())
 
@@ -95,7 +104,22 @@ StatJoy <- ggproto("StatJoy", Stat,
     panel_id <- as.numeric(panel)
 
     d <- density(data$x, bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE)
-    data.frame(x = d$x, density = d$y)
+
+    if (calc_ecdf) {
+      n <- length(d$x)
+      ecdf <- c(0, cumsum(d$y[1:(n-1)]*(d$x[2:n]-d$x[1:(n-1)])))
+      ntile <- 1 + floor(ntiles_n * ecdf)
+      ntile[ntile>ntiles_n] <- ntiles_n
+      data.frame(
+        x = d$x,
+        density = d$y,
+        ecdf = ecdf,
+        ntile = ntile
+      )
+    }
+    else {
+      data.frame(x = d$x, density = d$y)
+    }
   }
 )
 

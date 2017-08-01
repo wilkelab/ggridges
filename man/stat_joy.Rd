@@ -8,7 +8,8 @@
 \usage{
 stat_joy(mapping = NULL, data = NULL, geom = "joy",
   position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL, ...)
+  inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
+  calc_ecdf = FALSE, ntiles_n = 5, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -48,6 +49,11 @@ rather than combining with them.}
 
 \item{from, to}{The left and right-most points of the grid at which the density is to be estimated,
 as in \code{\link[=density]{density()}}. If not provided, there are estimated from the data range and the bandwidth.}
+
+\item{calc_ecdf}{If \code{TRUE}, \code{stat_joy} returns a variable \code{ecdf} and a variable \code{ntile}. Both can
+be mapped onto aesthetics via \code{..ecdf..} and \code{..ntile..}, respectively.}
+
+\item{ntiles_n}{Sets the number of quantiles the data should be broken into if \code{calc_ecdf = TRUE}.}
 
 \item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
