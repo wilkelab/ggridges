@@ -50,12 +50,13 @@ rather than combining with them.}
 \item{from, to}{The left and right-most points of the grid at which the density is to be estimated,
 as in \code{\link[=density]{density()}}. If not provided, there are estimated from the data range and the bandwidth.}
 
-\item{calc_ecdf}{If \code{TRUE}, \code{stat_joy} returns a variable \code{ecdf} and a variable \code{ntile}. Both can
-be mapped onto aesthetics via \code{..ecdf..} and \code{..ntile..}, respectively.}
+\item{calc_ecdf}{If \code{TRUE}, \code{stat_joy} calculates an empirical cumulative distribution function (ecdf)
+and returns a variable \code{ecdf} and a variable \code{quantile}. Both can be mapped onto aesthetics via
+\code{..ecdf..} and \code{..quantile..}, respectively.}
 
 \item{quantiles}{Sets the number of quantiles the data should be broken into if \code{calc_ecdf = TRUE}.
-If it is an integer then range will be cut into equal parts as the value of quantiles,
-if it is a vector of probabilities the range will cut by them.}
+If it is an integer then the data will be cut into that many equal quantiles.
+If it is a vector of probabilities then the ecdf will cut by them.}
 
 \item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
@@ -66,5 +67,25 @@ to the paired geom/stat.}
 This stat is the default stat used by \code{\link{geom_joy}}. It is very similar to \code{\link{stat_density}},
 however there are a few differences. Most importantly, the density bandwidth is chosen across
 the entire dataset.
+}
+\examples{
+# Examples of coloring by ecdf or quantiles
+library(viridis)
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
+  geom_joy_gradient(calc_ecdf = TRUE, quantiles = 5) +
+  scale_fill_viridis(discrete = TRUE, name = "Quintiles") + theme_joy() +
+  scale_y_discrete(expand = c(0.01, 0))
+
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
+  geom_joy_gradient(calc_ecdf = TRUE) +
+  scale_fill_viridis(name = "Tail probability", direction = -1) + theme_joy() +
+  scale_y_discrete(expand = c(0.01, 0))
+
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
+  geom_joy_gradient(calc_ecdf = TRUE, quantiles = c(0.05, 0.95)) +
+  scale_fill_manual(name = "Probability\\nranges",
+                    values = c("red", "grey80", "blue")) +
+  theme_joy() + scale_y_discrete(expand = c(0.01, 0))
+
 }
 \keyword{datasets}

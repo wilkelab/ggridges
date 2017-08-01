@@ -10,13 +10,33 @@
 #' @param bandwidth Bandwidth used for density calculation. If not provided, is estimated from the data.
 #' @param from,to The left and right-most points of the grid at which the density is to be estimated,
 #'   as in [`density()`]. If not provided, there are estimated from the data range and the bandwidth.
-#' @param calc_ecdf If `TRUE`, `stat_joy` returns a variable `ecdf` and a variable `ntile`. Both can
-#'   be mapped onto aesthetics via `..ecdf..` and `..ntile..`, respectively.
+#' @param calc_ecdf If `TRUE`, `stat_joy` calculates an empirical cumulative distribution function (ecdf)
+#'   and returns a variable `ecdf` and a variable `quantile`. Both can be mapped onto aesthetics via
+#'   `..ecdf..` and `..quantile..`, respectively.
 #' @param quantiles Sets the number of quantiles the data should be broken into if `calc_ecdf = TRUE`.
-#' If it is an integer then range will be cut into equal parts as the value of quantiles,
-#' if it is a vector of probabilities the range will cut by them.
+#' If it is an integer then the data will be cut into that many equal quantiles.
+#' If it is a vector of probabilities then the ecdf will cut by them.
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
+#' @examples
+#' # Examples of coloring by ecdf or quantiles
+#' library(viridis)
+#' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
+#'   geom_joy_gradient(calc_ecdf = TRUE, quantiles = 5) +
+#'   scale_fill_viridis(discrete = TRUE, name = "Quintiles") + theme_joy() +
+#'   scale_y_discrete(expand = c(0.01, 0))
+#'
+#' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
+#'   geom_joy_gradient(calc_ecdf = TRUE) +
+#'   scale_fill_viridis(name = "Tail probability", direction = -1) + theme_joy() +
+#'   scale_y_discrete(expand = c(0.01, 0))
+#'
+#' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
+#'   geom_joy_gradient(calc_ecdf = TRUE, quantiles = c(0.05, 0.95)) +
+#'   scale_fill_manual(name = "Probability\nranges",
+#'                     values = c("red", "grey80", "blue")) +
+#'   theme_joy() + scale_y_discrete(expand = c(0.01, 0))
+#'
 #' @export
 stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
                      position = "identity", na.rm = FALSE, show.legend = NA,
@@ -92,6 +112,11 @@ StatJoy <- ggproto("StatJoy", Stat,
       params$quantiles <- 5
     }
 
+    if (length(params$quantiles) > 1 &
+       (max(params$quantiles, na.rm = TRUE) > 1 | min(params$quantiles, na.rm = TRUE) < 0)) {
+         stop('invalid quantiles used: c(', paste0(params$quantiles, collapse = ','), ') must be within [0, 1] range')
+    }
+
     list(
       bandwidth = pardata$bandwidth,
       from = pardata$from,
@@ -119,29 +144,26 @@ StatJoy <- ggproto("StatJoy", Stat,
 
     if (calc_ecdf) {
       n <- length(d$x)
-
       ecdf <- c(0, cumsum(d$y[1:(n-1)]*(d$x[2:n]-d$x[1:(n-1)])))
-      if(length(quantiles)==1){
 
-      ntile <- 1 + floor(quantiles * ecdf)
-      ntile[ntile>quantiles] <- quantiles
-
-      }else{
-
-      if(max(quantiles,na.rm = TRUE)>1|min(quantiles,na.rm = TRUE)<0) stop('invalid quantiles used: c(',paste0(quantiles,collapse=','), ') must be within [0,1] range')
-
-      ntile <- cut(ecdf, unique(c(min(ecdf,na.rm = TRUE),quantiles,max(ecdf,na.rm = TRUE))), include.lowest = TRUE, right = TRUE)
-
+      if (length(quantiles)==1) {
+        ntile <- 1 + floor(quantiles * ecdf)
+        ntile[ntile>quantiles] <- quantiles
+      }
+      else {
+        ntile <- cut(ecdf,
+                     unique(c(min(ecdf, na.rm = TRUE), quantiles, max(ecdf, na.rm = TRUE))),
+                     include.lowest = TRUE, right = TRUE)
       }
 
       data.frame(
         x = d$x,
         density = d$y,
         ecdf = ecdf,
-        ntile = ntile
+        quantile = ntile
       )
-
-    } else {
+    }
+    else {
       data.frame(x = d$x, density = d$y)
     }
   }
