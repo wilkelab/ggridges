@@ -107,9 +107,19 @@ StatJoy <- ggproto("StatJoy", Stat,
 
     if (calc_ecdf) {
       n <- length(d$x)
+
       ecdf <- c(0, cumsum(d$y[1:(n-1)]*(d$x[2:n]-d$x[1:(n-1)])))
+      if(length(ntiles_n)==1){
+
       ntile <- 1 + floor(ntiles_n * ecdf)
       ntile[ntile>ntiles_n] <- ntiles_n
+
+      }else{
+
+      ntile <- as.numeric(cut(ecdf,c(min(ecdf),ntiles_n,max(ecdf)),include.lowest = TRUE,right = TRUE))
+
+      }
+
       data.frame(
         x = d$x,
         density = d$y,
