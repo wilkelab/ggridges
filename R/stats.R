@@ -118,7 +118,7 @@ StatJoy <- ggproto("StatJoy", Stat,
       ecdf <- c(0, cumsum(d$y[1:(n-1)]*(d$x[2:n]-d$x[1:(n-1)])))
       ntile <- 1 + floor(ntiles_n * ecdf)
       ntile[ntile>ntiles_n] <- ntiles_n
-      d <- data.frame(
+      data.frame(
         x = d$x,
         density = d$y,
         ecdf = ecdf,
