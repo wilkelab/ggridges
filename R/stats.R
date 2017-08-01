@@ -12,14 +12,16 @@
 #'   as in [`density()`]. If not provided, there are estimated from the data range and the bandwidth.
 #' @param calc_ecdf If `TRUE`, `stat_joy` returns a variable `ecdf` and a variable `ntile`. Both can
 #'   be mapped onto aesthetics via `..ecdf..` and `..ntile..`, respectively.
-#' @param ntiles_n Sets the number of quantiles the data should be broken into if `calc_ecdf = TRUE`.
+#' @param quantiles Sets the number of quantiles the data should be broken into if `calc_ecdf = TRUE`.
+#' If it is an integer then range will be cut into equal parts as the value of quantiles,
+#' if it is a vector of probabilities the range will cut by them.
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @export
 stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
                      position = "identity", na.rm = FALSE, show.legend = NA,
                      inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
-                     calc_ecdf = FALSE, ntiles_n = 5,...)
+                     calc_ecdf = FALSE, quantiles = 5,...)
 {
   layer(
     stat = StatJoy,
@@ -33,7 +35,7 @@ stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
                   from = from,
                   to = to,
                   calc_ecdf = calc_ecdf,
-                  ntiles_n = ntiles_n,
+                  quantiles = quantiles,
                   na.rm = na.rm, ...)
   )
 }
@@ -86,8 +88,8 @@ StatJoy <- ggproto("StatJoy", Stat,
       params$calc_ecdf <- FALSE
     }
 
-    if (is.null(params$ntiles_n)) {
-      params$ntiles_n <- 5
+    if (is.null(params$quantiles)) {
+      params$quantiles <- 5
     }
 
     list(
@@ -95,13 +97,13 @@ StatJoy <- ggproto("StatJoy", Stat,
       from = pardata$from,
       to = pardata$to,
       calc_ecdf = params$calc_ecdf,
-      ntiles_n = params$ntiles_n,
+      quantiles = params$quantiles,
       na.rm = params$na.rm
     )
   },
 
   compute_group = function(data, scales, from, to, bandwidth = 1,
-                           calc_ecdf = FALSE, ntiles_n = 5) {
+                           calc_ecdf = FALSE, quantiles = 5) {
     # ignore too small groups
     if(nrow(data) < 3) return(data.frame())
 
@@ -113,19 +115,33 @@ StatJoy <- ggproto("StatJoy", Stat,
 
     d <- density(data$x, bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE)
 
+    if(is.null(calc_ecdf)) calc_ecdf <- FALSE
+
     if (calc_ecdf) {
       n <- length(d$x)
+
       ecdf <- c(0, cumsum(d$y[1:(n-1)]*(d$x[2:n]-d$x[1:(n-1)])))
-      ntile <- 1 + floor(ntiles_n * ecdf)
-      ntile[ntile>ntiles_n] <- ntiles_n
+      if(length(quantiles)==1){
+
+      ntile <- 1 + floor(quantiles * ecdf)
+      ntile[ntile>quantiles] <- quantiles
+
+      }else{
+
+      if(max(quantiles,na.rm = TRUE)>1|min(quantiles,na.rm = TRUE)<0) stop('invalid quantiles used: c(',paste0(quantiles,collapse=','), ') must be within [0,1] range')
+
+      ntile <- cut(ecdf, unique(c(min(ecdf,na.rm = TRUE),quantiles,max(ecdf,na.rm = TRUE))), include.lowest = TRUE, right = TRUE)
+
+      }
+
       data.frame(
         x = d$x,
         density = d$y,
         ecdf = ecdf,
         ntile = ntile
       )
-    }
-    else {
+
+    } else {
       data.frame(x = d$x, density = d$y)
     }
   }
