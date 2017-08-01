@@ -83,6 +83,14 @@ StatJoy <- ggproto("StatJoy", Stat,
     pardata <- lapply(panels, self$calc_panel_params, params)
     pardata <- reduce(pardata, rbind)
 
+    if (is.null(params$calc_ecdf)) {
+      params$calc_ecdf <- FALSE
+    }
+
+    if (is.null(params$ntiles_n)) {
+      params$ntiles_n <- 5
+    }
+
     list(
       bandwidth = pardata$bandwidth,
       from = pardata$from,
