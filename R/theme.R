@@ -7,7 +7,9 @@
 #' @param font_size Overall font size. Default is 14.
 #' @param font_family Default font family.
 #' @param line_size Default line size.
-#' @param grid Boolean indicating whether a background grid should be drawn (`TRUE`) or not (`FALSE`).
+#' @param grid If `TRUE` (default), a background grid is drawn. If `FALSE`, background is left empty.
+#' @param center_axis_labels If `TRUE`, axis lables are drawn centered. If `FALSE` (default), axis lables are
+#'   drawn right/top-aligned.
 #' @return The theme.
 #' @examples
 #' # Example with background grid
@@ -25,23 +27,28 @@
 #'   theme_joy(grid = FALSE)
 #'
 #' @export
-theme_joy <- function(font_size = 14, font_family = "", line_size = .5, grid = TRUE) {
+theme_joy <- function(font_size = 14, font_family = "", line_size = .5, grid = TRUE, center_axis_labels = FALSE) {
   half_line <- font_size / 2
   small_rel <- 0.857
   small_size <- small_rel * font_size
   color <- "grey90"
 
-  if (grid)
-  {
+  if (grid) {
     panel.grid.major <- element_line(colour = color, size = line_size)
     axis.ticks       <- element_line(colour = color, size = line_size)
     axis.ticks.y     <- axis.ticks
   }
-  else
-  {
+  else {
     panel.grid.major <- element_blank()
     axis.ticks       <- element_line(colour = "black", size = line_size)
     axis.ticks.y     <- element_blank()
+  }
+
+  if (center_axis_labels) {
+    axis_just <- 0.5
+  }
+  else {
+    axis_just <- 1.0
   }
 
   theme_grey(base_size = font_size, base_family = font_family) %+replace%
@@ -56,12 +63,12 @@ theme_joy <- function(font_size = 14, font_family = "", line_size = .5, grid = T
       axis.text.y       = element_text(margin = ggplot2::margin(r = small_size / 4), hjust = 1, vjust = 0),
       axis.title.x      = element_text(
         margin = ggplot2::margin(t = small_size / 2, b = small_size / 4),
-        hjust = 1
+        hjust = axis_just
       ),
       axis.title.y      = element_text(
         angle = 90,
         margin = ggplot2::margin(r = small_size / 2, l = small_size / 4),
-        hjust = 1
+        hjust = axis_just
       ),
       axis.ticks        = axis.ticks,
       axis.ticks.y      = axis.ticks.y,

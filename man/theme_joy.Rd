@@ -5,7 +5,7 @@
 \title{A custom theme specifically for use with joyplots}
 \usage{
 theme_joy(font_size = 14, font_family = "", line_size = 0.5,
-  grid = TRUE)
+  grid = TRUE, center_axis_labels = FALSE)
 }
 \arguments{
 \item{font_size}{Overall font size. Default is 14.}
@@ -14,7 +14,10 @@ theme_joy(font_size = 14, font_family = "", line_size = 0.5,
 
 \item{line_size}{Default line size.}
 
-\item{grid}{Boolean indicating whether a background grid should be drawn (\code{TRUE}) or not (\code{FALSE}).}
+\item{grid}{If \code{TRUE} (default), a background grid is drawn. If \code{FALSE}, background is left empty.}
+
+\item{center_axis_labels}{If \code{TRUE}, axis lables are drawn centered. If \code{FALSE} (default), axis lables are
+drawn right/top-aligned.}
 }
 \value{
 The theme.
