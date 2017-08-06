@@ -30,6 +30,7 @@ Collate:
     'data.R'
     'ggjoy.R'
     'geoms.R'
+    'geomsv.R'
     'geoms-gradient.R'
     'scale-cyclical.R'
     'stats.R'
