@@ -13,7 +13,7 @@ test_that("from and to arguments work", {
   out <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_joy(from = -2, to = 2))
 
   expect_equal(-2, min(out$x))
-  expect_equal(3, max(out$x))
+  expect_equal(2, max(out$x))
 })
 
 
