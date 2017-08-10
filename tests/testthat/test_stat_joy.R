@@ -8,6 +8,15 @@ test_that("no ecdf or quantiles by default", {
   expect_false("quantile" %in% names(out))
 })
 
+test_that("from and to arguments work", {
+  df <- data.frame(x = rnorm(100))
+  out <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_joy(from = -2, to = 2))
+
+  expect_equal(-2, min(out$x))
+  expect_equal(3, max(out$x))
+})
+
+
 test_that("calculation of ecdf and quantiles can be turned on", {
   df <- data.frame(x = rnorm(100))
   out <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_joy(calc_ecdf = TRUE, quantiles = 5))
