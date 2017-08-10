@@ -24,6 +24,8 @@ Suggests:
     cowplot,
     forcats,
     tidyverse,
+    testthat,
+    vdiffr,
     viridis
 VignetteBuilder: knitr
 Collate:
