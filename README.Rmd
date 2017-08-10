@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 # ggjoy
 
 [![Build Status](https://travis-ci.org/clauswilke/ggjoy.svg?branch=master)](https://travis-ci.org/clauswilke/ggjoy)
+[![Coverage Status](https://img.shields.io/codecov/c/github/clauswilke/ggjoy/master.svg)](https://codecov.io/github/clauswilke/ggjoy?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggjoy)](https://CRAN.R-project.org/package=ggjoy)
 [![CRAN_Downloads_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggjoy?color=brightgreen)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggjoy)
 

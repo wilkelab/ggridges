@@ -3,7 +3,7 @@
 ggjoy
 =====
 
-[![Build Status](https://travis-ci.org/clauswilke/ggjoy.svg?branch=master)](https://travis-ci.org/clauswilke/ggjoy) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggjoy)](https://CRAN.R-project.org/package=ggjoy) [![CRAN\_Downloads\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggjoy?color=brightgreen)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggjoy)
+[![Build Status](https://travis-ci.org/clauswilke/ggjoy.svg?branch=master)](https://travis-ci.org/clauswilke/ggjoy) [![Coverage Status](https://img.shields.io/codecov/c/github/clauswilke/ggjoy/master.svg)](https://codecov.io/github/clauswilke/ggjoy?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggjoy)](https://CRAN.R-project.org/package=ggjoy) [![CRAN\_Downloads\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggjoy?color=brightgreen)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggjoy)
 
 Geoms to make joyplots using ggplot2, written by Claus O. Wilke
 
