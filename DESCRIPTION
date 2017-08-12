@@ -9,7 +9,7 @@ Description: Joyplots provide a convenient way of visualizing changes in distrib
     time or space. This package enables the creation of such plots in 'ggplot2'.
 URL: https://github.com/clauswilke/ggjoy
 Depends:
-    R (>= 3.3.0),
+    R (>= 3.2),
     ggplot2 (>= 2.2.0),
 Imports:
     grid (>= 3.0.0),
