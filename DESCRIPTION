@@ -14,8 +14,7 @@ Depends:
 Imports:
     grid (>= 3.0.0),
     plyr (>= 1.8.0),
-    scales (>= 0.4.1),
-    purrr (>= 0.2.2)  
+    scales (>= 0.4.1)
 License: GPL-2 | file LICENSE
 LazyData: true
 Suggests:
@@ -39,5 +38,6 @@ Collate:
     'stats.R'
     'theme.R'
     'utils_ggplot2.R'
+    'utils.R'
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
