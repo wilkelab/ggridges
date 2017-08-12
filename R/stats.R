@@ -65,7 +65,6 @@ stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
 #' @format NULL
 #' @usage NULL
 #' @importFrom ggplot2 ggproto Stat
-#' @importFrom purrr reduce
 #' @export
 StatJoy <- ggproto("StatJoy", Stat,
   required_aes = "x",
