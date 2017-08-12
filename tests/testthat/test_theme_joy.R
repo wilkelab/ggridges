@@ -1,6 +1,18 @@
 context("theme_joy")
 
+test_that("key theme_joy settings", {
+  # y axis labels are vertically aligned
+  expect_equal(theme_joy()$axis.text.y$vjust, 0)
+  # no minor grid
+  expect_equal(theme_joy()$panel.grid.minor, ggplot2::element_blank())
 
+  # major grid can be switched off
+  expect_equal(theme_joy(grid = FALSE)$panel.grid.major, ggplot2::element_blank())
+
+  # centered axis labels can be switched on
+  expect_equal(theme_joy(center_axis_labels = TRUE)$axis.title.x$hjust, 0.5)
+  expect_equal(theme_joy(center_axis_labels = TRUE)$axis.title.y$hjust, 0.5)
+})
 
 # Visual tests ------------------------------------------------------------
 
