@@ -19,6 +19,13 @@ test_that("basic tests", {
   # make sure color pattern repeats as expected
   expect_equal(d$colour[order(d$x)], rep(c("#F00000", "#0000F0", "#F0F000"), 9)[1:26])
 
+  # test that breaks must match labels
+  expect_error(
+    ggplot(df, aes(x, y, label=letters, color=factor(x))) + geom_text() +
+      scale_color_cyclical(values = c("#F00000", "#0000F0", "#F0F000"),
+                           breaks = c(1, 2, 3),
+                           labels = c("red", "blue")),
+    "`breaks` and `labels` must have the same length")
 })
 
 
