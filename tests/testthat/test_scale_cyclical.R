@@ -11,13 +11,19 @@ test_that("basic tests", {
   # make sure color pattern repeats as expected
   expect_equal(d$colour, rep(c("#F00000", "#0000F0"), 13))
 
-  # once again, different aesthetic, different cyclical pattern
+  # make sure there is no legend being generated
+  expect_equal("guide-box" %in% ggplotGrob(p)$layout$name, FALSE)
+
+  # once again, different aesthetic, different cyclical pattern, now with legend
   p <- ggplot(df, aes(x, y, label=letters, color=factor(x))) + geom_text() +
-    scale_color_cyclical(values = c("#F00000", "#0000F0", "#F0F000"))
+    scale_color_cyclical(values = c("#F00000", "#0000F0", "#F0F000"), guide = "legend")
   d <- layer_data(p)
 
   # make sure color pattern repeats as expected
   expect_equal(d$colour[order(d$x)], rep(c("#F00000", "#0000F0", "#F0F000"), 9)[1:26])
+
+  # make sure there is a legend
+  expect_equal("guide-box" %in% ggplotGrob(p)$layout$name, TRUE)
 
   # test that breaks must match labels
   expect_error(
@@ -26,6 +32,12 @@ test_that("basic tests", {
                            breaks = c(1, 2, 3),
                            labels = c("red", "blue")),
     "`breaks` and `labels` must have the same length")
+
+  # test that legend is omitted if breaks are manually set to NULL, even when legend is switched on
+  p <- ggplot(df, aes(x, y, label=letters, color=factor(x))) + geom_text() +
+    scale_color_cyclical(values = c("#F00000", "#0000F0", "#F0F000"), breaks = NULL, guide = "legend")
+  expect_equal("guide-box" %in% ggplotGrob(p)$layout$name, FALSE)
+
 })
 
 
