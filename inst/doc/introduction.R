@@ -1,6 +1,6 @@
 ## ------------------------------------------------------------------------
 library(ggplot2)
-library(ggjoy)
+library(ggridges)
 
 data <- data.frame(x = 1:5, y = rep(1, 5), height = c(0, 1, 3, 4, 2))
 ggplot(data, aes(x, y, height = height)) + geom_ridgeline()
@@ -8,12 +8,12 @@ ggplot(data, aes(x, y, height = height)) + geom_ridgeline()
 
 ## ----message=FALSE, fig.width=9, fig.height=3----------------------------
 # for side-by-side plotting
-library(cowplot); theme_set(theme_gray())
+library(gridExtra)
 
 data <- data.frame(x = 1:5, y = rep(1, 5), height = c(0, 1, -1, 3, 2))
 plot_base <- ggplot(data, aes(x, y, height = height))
-plot_grid(plot_base + geom_ridgeline(),
-          plot_base + geom_ridgeline(min_height = -2))
+grid.arrange(plot_base + geom_ridgeline(),
+          plot_base + geom_ridgeline(min_height = -2), ncol = 2)
 
 ## ------------------------------------------------------------------------
 d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(2, 5)),
@@ -22,81 +22,81 @@ ggplot(d, aes(x, y, height = height, group = y)) + geom_ridgeline(fill = "lightb
 
 ## ------------------------------------------------------------------------
 ggplot(d, aes(x, y, height = height, group = y)) + 
-  geom_joy(stat = "identity", scale = 1)
+  geom_density_ridges(stat = "identity", scale = 1)
 
 ## ----message=FALSE-------------------------------------------------------
-ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy()
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges()
 
 ## ----message=FALSE-------------------------------------------------------
-ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy2()
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges2()
 
 ## ----message=FALSE-------------------------------------------------------
 # modified dataset that represents species as a number
 iris_num <- transform(iris, Species_num = as.numeric(Species))
 
 # does not work, causes error
-# ggplot(iris_num, aes(x = Sepal.Length, y = Species)) + geom_joy()
+# ggplot(iris_num, aes(x = Sepal.Length, y = Species)) + geom_density_ridges()
 
 # works 
-ggplot(iris_num, aes(x = Sepal.Length, y = Species_num, group = Species_num)) + geom_joy()
+ggplot(iris_num, aes(x = Sepal.Length, y = Species_num, group = Species_num)) + geom_density_ridges()
 
 ## ----message=FALSE-------------------------------------------------------
-ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(rel_min_height = 0.01)
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges(rel_min_height = 0.01)
 
 ## ----message=FALSE-------------------------------------------------------
 # scale = 0.9, not quite touching
-ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 0.9)
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges(scale = 0.9)
 # scale = 1, exactly touching
-ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 1)
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges(scale = 1)
 # scale = 5, substantial overlap
-ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 5)
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges(scale = 5)
 
 ## ----message=FALSE-------------------------------------------------------
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
-  geom_joy(scale = 1) + facet_wrap(~Species)
+  geom_density_ridges(scale = 1) + facet_wrap(~Species)
 
 ## ----message=FALSE-------------------------------------------------------
-ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy() + theme_joy()
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges() + theme_ridges()
 
 ## ----message=FALSE-------------------------------------------------------
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
-  geom_joy() + theme_joy() +
+  geom_density_ridges() + theme_ridges() +
   scale_x_continuous(expand = c(0.01, 0)) +
   scale_y_discrete(expand = c(0.01, 0))
 
 ## ----message=FALSE-------------------------------------------------------
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
-  geom_joy() + theme_joy(grid = FALSE) +
+  geom_density_ridges() + theme_ridges(grid = FALSE) +
   scale_x_continuous(expand = c(0.01, 0)) +
   scale_y_discrete(expand = c(0.01, 0))
 
 ## ----message=FALSE-------------------------------------------------------
  ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
-   geom_joy() + 
+   geom_density_ridges() + 
    theme_minimal(base_size = 14) + theme(axis.text.y = element_text(vjust = 0)) +
    scale_x_continuous(expand = c(0.01, 0)) +
    scale_y_discrete(expand = c(0.01, 0))
 
 ## ----message=FALSE-------------------------------------------------------
  ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
-   geom_joy(scale = 4) + 
+   geom_density_ridges(scale = 4) + 
    scale_fill_cyclical(values = c("blue", "green"))
 
 ## ----message=FALSE, fig.width = 5.5--------------------------------------
  ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
-   geom_joy(scale = 4) + 
+   geom_density_ridges(scale = 4) + 
    scale_fill_cyclical(values = c("blue", "green"), guide = "legend")
 
 ## ----message=FALSE, fig.width = 5.5--------------------------------------
  ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
-   geom_joy(scale = 4) + 
+   geom_density_ridges(scale = 4) + 
    scale_fill_cyclical(values = c("blue", "green"), guide = "legend",
                        labels = c("Fair" = "blue", "Good" = "green"),
                        name = "Fill colors")
 
 ## ----message=FALSE, fig.width = 6.5--------------------------------------
  ggplot(diamonds, aes(x = price, y = cut, fill = cut, color = cut)) + 
-   geom_joy(scale = 4, size = 1) + 
+   geom_density_ridges(scale = 4, size = 1) + 
    scale_fill_cyclical(values = c("blue", "green"), guide = "legend",
                        labels = c("Fair" = "blue w/ black outline",
                                   "Good" = "green w/ yellow outline"),
@@ -127,7 +127,7 @@ mpg %>% group_by(class) %>% tally() %>% arrange(desc(n)) %>%
 
 ## ----message=FALSE-------------------------------------------------------
 ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
-  geom_joy(stat = "density")
+  geom_density_ridges(stat = "density")
 
 ## ----message=FALSE-------------------------------------------------------
 library(tidyverse)
@@ -138,9 +138,9 @@ head(iris_densities)
 
 ## ----message=FALSE-------------------------------------------------------
 ggplot(iris_densities, aes(x = Sepal.Length, y = Species, height = density)) + 
-  geom_joy(stat = "identity")
+  geom_density_ridges(stat = "identity")
 
 ## ----message=FALSE-------------------------------------------------------
 ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
-  geom_joy(stat = "binline", bins = 20, scale = 0.95, draw_baseline = FALSE)
+  geom_density_ridges(stat = "binline", bins = 20, scale = 0.95, draw_baseline = FALSE)
 

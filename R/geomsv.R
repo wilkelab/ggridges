@@ -178,7 +178,7 @@ GeomVRidgeline <- ggproto("GeomVRidgeline", Geom,
     positions <- plyr::summarise(data, y = y, x = xmax, id = ids)
     munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
 
-    # placing the actual grob generation into a separate function allows us to override for geom_joy2
+    # placing the actual grob generation into a separate function allows us to override for geom_density_ridges2
     self$make_group_grob(munched_line, munched_poly, aes)
   },
 

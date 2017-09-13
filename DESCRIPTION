@@ -1,13 +1,13 @@
-Package: ggjoy
+Package: ggridges
 Type: Package
-Title: Joyplots in 'ggplot2'
-Version: 0.3.0.9000
+Title: Ridgeline plots in 'ggplot2'
+Version: 0.4.0
 Authors@R: c( 
     person("Claus O.", "Wilke", , "wilke@austin.utexas.edu", c("cre", "aut")),
-    person("RStudio", role = c("cph"), comment = "Copyright for ggplot2 code copied to ggjoy"))
-Description: Joyplots provide a convenient way of visualizing changes in distributions over 
+    person("RStudio", role = c("cph"), comment = "Copyright for ggplot2 code copied to ggridges"))
+Description: Ridgeline plots provide a convenient way of visualizing changes in distributions over 
     time or space. This package enables the creation of such plots in 'ggplot2'.
-URL: https://github.com/clauswilke/ggjoy
+URL: https://github.com/clauswilke/ggridges
 Depends:
     R (>= 3.2),
     ggplot2 (>= 2.2.0),
@@ -30,7 +30,7 @@ Suggests:
 VignetteBuilder: knitr
 Collate:
     'data.R'
-    'ggjoy.R'
+    'ggridges.R'
     'geoms.R'
     'geomsv.R'
     'geoms-gradient.R'

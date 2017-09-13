@@ -2,7 +2,7 @@
 #'
 #' Plots the sum of the `y` and `height` aesthetics versus `x`, filling the area between `y` and `y + height` with a color.
 #' Thus, the data mapped onto y and onto height must be in the same units.
-#' If you want relative scaling of the heights, you can use [`geom_joy`] with `stat = "identity"`.
+#' If you want relative scaling of the heights, you can use [`geom_density_ridges`] with `stat = "identity"`.
 #'
 #' @param mapping Set of aesthetic mappings created by [`aes()`] or
 #'   [`aes_()`]. If specified and `inherit.aes = TRUE` (the
@@ -176,7 +176,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     positions <- plyr::summarise(data, x = x, y = ymax, id = ids)
     munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
 
-    # placing the actual grob generation into a separate function allows us to override for geom_joy2
+    # placing the actual grob generation into a separate function allows us to override for geom_density_ridges2
     self$make_group_grob(munched_line, munched_poly, aes)
   },
 
@@ -206,17 +206,17 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
 
 
-#' Create joyplot
+#' Create ridgeline plot
 #'
-#' `geom_joy` arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
+#' `geom_density_ridges` arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
 #'
 #' By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
-#' not wanted, use `stat="identity"` or use [`geom_ridgeline`]. The difference between `geom_joy` and [`geom_ridgeline`]
-#' is that `geom_joy` will provide automatic scaling of the ridgelines (controlled by the `scale` aesthetic), whereas
+#' not wanted, use `stat="identity"` or use [`geom_ridgeline`]. The difference between `geom_density_ridges` and [`geom_ridgeline`]
+#' is that `geom_density_ridges` will provide automatic scaling of the ridgelines (controlled by the `scale` aesthetic), whereas
 #' [geom_ridgeline] will plot the data as is. Note that when you set `stat="identity"`, the `height` aesthetic must
 #' be provided.
 #'
-#' Note that the default [`stat_joy`] makes joint density estimation across all datasets. This may not generate
+#' Note that the default [`stat_density_ridges`] makes joint density estimation across all datasets. This may not generate
 #' the desired result when using faceted plots. As an alternative, you can set `stat = "density"` to use [`stat_density`].
 #' In this case, it is required to add the aesthetic mapping `height = ..density..` (see examples).
 #'
@@ -233,7 +233,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' * `group` Defines the grouping. Not needed if a categorical variable is mapped onto `y`, but needed otherwise. Will typically be the same
 #' variable as is mapped to `y`.
 #' * `height` The height of each ridgeline at the respective x value. Automatically calculated and
-#' provided by [`stat_joy`] if the default stat is not changed.
+#' provided by [`stat_density_ridges`] if the default stat is not changed.
 #' * `scale` A scaling factor to scale the height of the ridgelines relative to the spacing between them.
 #' A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
 #' even spacing between baselines.
@@ -248,33 +248,33 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' @examples
 #' # set the `rel_min_height` argument to remove tails
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
-#'   geom_joy(rel_min_height = 0.005) +
+#'   geom_density_ridges(rel_min_height = 0.005) +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_x_continuous(expand = c(0.01, 0)) +
-#'   theme_joy()
+#'   theme_ridges()
 #'
 #' # set the `scale` to determine how much overlap there is among the plots
 #' ggplot(diamonds, aes(x = price, y = cut)) +
-#'   geom_joy(scale = 4) +
+#'   geom_density_ridges(scale = 4) +
 #'   scale_y_discrete(expand=c(0.01, 0)) +
 #'   scale_x_continuous(expand=c(0.01, 0)) +
-#'   theme_joy()
+#'   theme_ridges()
 #'
 #' # the same figure with colors, and using the ggplot2 density stat
 #' ggplot(diamonds, aes(x = price, y = cut, fill = cut, height = ..density..)) +
-#'   geom_joy(scale = 4, stat = "density") +
+#'   geom_density_ridges(scale = 4, stat = "density") +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_x_continuous(expand = c(0.01, 0)) +
 #'   scale_fill_brewer(palette = 4) +
-#'   theme_joy() + theme(legend.position = "none")
-geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
+#'   theme_ridges() + theme(legend.position = "none")
+geom_density_ridges <- function(mapping = NULL, data = NULL, stat = "density_ridges",
                      panel_scaling = TRUE,
                      na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
-    geom = GeomJoy,
+    geom = GeomDensityRidges,
     position = "identity",
     show.legend = show.legend,
     inherit.aes = inherit.aes,
@@ -286,12 +286,12 @@ geom_joy <- function(mapping = NULL, data = NULL, stat = "joy",
   )
 }
 
-#' @rdname geom_joy
+#' @rdname geom_density_ridges
 #' @format NULL
 #' @usage NULL
 #' @importFrom grid gTree gList
 #' @export
-GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
+GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
   default_aes =
     aes(color = "black",
         fill = "grey70",
@@ -360,27 +360,27 @@ GeomJoy <- ggproto("GeomJoy", GeomRidgeline,
 )
 
 
-#' `geom_joy2` is identical to `geom_joy` except it draws closed polygons rather than ridgelines.
+#' `geom_density_ridges2` is identical to `geom_density_ridges` except it draws closed polygons rather than ridgelines.
 #'
-#' @rdname geom_joy
+#' @rdname geom_density_ridges
 #' @importFrom ggplot2 layer
 #' @export
 #' @examples
 #'
-#' # use geom_joy2() instead of geom_joy() for solid polygons
+#' # use geom_density_ridges2() instead of geom_density_ridges() for solid polygons
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
-#'   geom_joy2() +
+#'   geom_density_ridges2() +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_x_continuous(expand = c(0.01, 0)) +
-#'   theme_joy()
-geom_joy2 <- function(mapping = NULL, data = NULL, stat = "joy",
+#'   theme_ridges()
+geom_density_ridges2 <- function(mapping = NULL, data = NULL, stat = "density_ridges",
                       panel_scaling = TRUE,
                       na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
-    geom = GeomJoy2,
+    geom = GeomDensityRidges2,
     position = "identity",
     show.legend = show.legend,
     inherit.aes = inherit.aes,
@@ -392,13 +392,13 @@ geom_joy2 <- function(mapping = NULL, data = NULL, stat = "joy",
   )
 }
 
-#' @rdname geom_joy
+#' @rdname geom_density_ridges
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomJoy2 <- ggproto("GeomJoy2", GeomJoy,
+GeomDensityRidges2 <- ggproto("GeomDensityRidges2", GeomDensityRidges,
   make_group_grob = function(munched_line, munched_poly, aes) {
-    ggname("geom_joy2",
+    ggname("geom_density_ridges2",
            grid::polygonGrob(
              munched_poly$x, munched_poly$y, id = munched_poly$id,
              default.units = "native",

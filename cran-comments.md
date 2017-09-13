@@ -1,4 +1,4 @@
-This is a minor version increase for ggjoy, providing numerous improvements and new features. It also adds
+This is a minor version increase for ggridges, providing numerous improvements and new features. It also adds
 a missing import statement that wasn't flagged by CRAN check for the previous submission.
 
 One data file contains UTF-8 marked strings. The file contains election results from Catalania,
@@ -15,7 +15,7 @@ There were no ERRORs or WARNINGs.
 
 There is one NOTE, about spelling:
 Possibly mis-spelled words in DESCRIPTION:
-  Joyplots (3:8, 8:14)
+  ridgeline plots (3:8, 8:14)
 
 The spelling is correct.
 

@@ -4,17 +4,17 @@
 \name{geom_ridgeline_gradient}
 \alias{geom_ridgeline_gradient}
 \alias{GeomRidgelineGradient}
-\alias{geom_joy_gradient}
-\alias{GeomJoyGradient}
-\title{Plot ridgelines and joyplots with fill gradients along the x axis}
+\alias{geom_density_ridges_gradient}
+\alias{GeomDensityRidgesGradient}
+\title{Plot ridgelines and ridgeline plots with fill gradients along the x axis}
 \usage{
 geom_ridgeline_gradient(mapping = NULL, data = NULL, stat = "identity",
   position = "identity", na.rm = FALSE, gradient_lwd = 0.5,
   show.legend = NA, inherit.aes = TRUE, ...)
 
-geom_joy_gradient(mapping = NULL, data = NULL, stat = "joy",
-  panel_scaling = TRUE, na.rm = TRUE, gradient_lwd = 0.5,
-  show.legend = NA, inherit.aes = TRUE, ...)
+geom_density_ridges_gradient(mapping = NULL, data = NULL,
+  stat = "density_ridges", panel_scaling = TRUE, na.rm = TRUE,
+  gradient_lwd = 0.5, show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -59,11 +59,11 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 \code{color = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
-\item{panel_scaling}{Argument only to \code{geom_joy_gradient}. If \code{TRUE}, the default, relative scaling is calculated separately
+\item{panel_scaling}{Argument only to \code{geom_density_ridges_gradient}. If \code{TRUE}, the default, relative scaling is calculated separately
 for each panel. If \code{FALSE}, relative scaling is calculated globally.}
 }
 \description{
-The geoms \code{geom_ridgeline_gradient} and \code{geom_joy_gradient} work just like \code{\link{geom_ridgeline}} and \code{\link{geom_joy}} except
+The geoms \code{geom_ridgeline_gradient} and \code{geom_density_ridges_gradient} work just like \code{\link{geom_ridgeline}} and \code{\link{geom_density_ridges}} except
 that the \code{fill} aesthetic can vary along the x axis. Because filling with color gradients is fraught with issues,
 these geoms should be considered experimental. Don't use them unless you really need to. Note that due to limitations
 in R's graphics system, transparency (\code{alpha}) has to be disabled for gradient fills.
@@ -79,13 +79,13 @@ ggplot(d, aes(x, y, height = height, group = y, fill = factor(x+y))) +
   scale_fill_viridis(discrete = TRUE, direction = -1) +
   theme(legend.position = 'none')
 
-# Example for `geom_joy_gradient()`
+# Example for `geom_density_ridges_gradient()`
 ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`, fill = ..x..)) +
-  geom_joy_gradient(scale = 3, rel_min_height = 0.01) +
+  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
   scale_x_continuous(expand = c(0.01, 0)) +
   scale_y_discrete(expand = c(0.01, 0)) +
   scale_fill_viridis(name = "Temp. [F]", option = "C") +
   labs(title = 'Temperatures in Lincoln NE in 2016') +
-  theme_joy(font_size = 13, grid = TRUE) + theme(axis.title.y = element_blank())
+  theme_ridges(font_size = 13, grid = TRUE) + theme(axis.title.y = element_blank())
 }
 \keyword{datasets}

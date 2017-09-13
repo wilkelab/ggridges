@@ -1,21 +1,21 @@
-context("geom_joy")
+context("geom_density_ridges")
 
 
 
 # Visual tests ------------------------------------------------------------
 
-test_that("geom_joy draws correctly", {
-  p <- ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy()
-  vdiffr::expect_doppelganger("geom_joy basic", p)
+test_that("geom_density_ridges draws correctly", {
+  p <- ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges()
+  vdiffr::expect_doppelganger("geom_density_ridges basic", p)
 
-  p <- ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(rel_min_height = 0.005)
-  vdiffr::expect_doppelganger("geom_joy no trailing lines", p)
+  p <- ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges(rel_min_height = 0.005)
+  vdiffr::expect_doppelganger("geom_density_ridges no trailing lines", p)
 
-  p <- ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy(scale = 3)
+  p <- ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges(scale = 3)
 
-  vdiffr::expect_doppelganger("geom_joy scale=3", p)
+  vdiffr::expect_doppelganger("geom_density_ridges scale=3", p)
 
-  p <- ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_joy2()
+  p <- ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges2()
 
-  vdiffr::expect_doppelganger("geom_joy2 solid polygons", p)
+  vdiffr::expect_doppelganger("geom_density_ridges2 solid polygons", p)
 })

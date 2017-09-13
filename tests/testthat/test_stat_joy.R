@@ -1,8 +1,8 @@
-context("stat_joy")
+context("stat_density_ridges")
 
 test_that("no ecdf or quantiles by default", {
   df <- data.frame(x = rnorm(100))
-  out <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_joy())
+  out <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_density_ridges())
 
   expect_false("ecdf" %in% names(out))
   expect_false("quantile" %in% names(out))
@@ -10,7 +10,7 @@ test_that("no ecdf or quantiles by default", {
 
 test_that("from and to arguments work", {
   df <- data.frame(x = rnorm(100))
-  out <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_joy(from = -2, to = 2))
+  out <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_density_ridges(from = -2, to = 2))
 
   expect_equal(-2, min(out$x))
   expect_equal(2, max(out$x))
@@ -19,7 +19,7 @@ test_that("from and to arguments work", {
 
 test_that("calculation of ecdf and quantiles can be turned on", {
   df <- data.frame(x = rnorm(100))
-  out <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_joy(calc_ecdf = TRUE, quantiles = 5))
+  out <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_density_ridges(calc_ecdf = TRUE, quantiles = 5))
 
   expect_true("ecdf" %in% names(out))
   expect_true("quantile" %in% names(out))

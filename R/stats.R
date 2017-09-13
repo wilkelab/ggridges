@@ -1,8 +1,8 @@
-# Code for stat_joy based on stat_density_common in the "extending ggplot2" vignette
+# Code for stat_density_ridges based on stat_density_common in the "extending ggplot2" vignette
 
-#' Stat for density joyplots
+#' Stat for density ridgeline plots
 #'
-#' This stat is the default stat used by [`geom_joy`]. It is very similar to [`stat_density`],
+#' This stat is the default stat used by [`geom_density_ridges`]. It is very similar to [`stat_density`],
 #' however there are a few differences. Most importantly, the density bandwidth is chosen across
 #' the entire dataset.
 #'
@@ -10,7 +10,7 @@
 #' @param bandwidth Bandwidth used for density calculation. If not provided, is estimated from the data.
 #' @param from,to The left and right-most points of the grid at which the density is to be estimated,
 #'   as in [`density()`]. If not provided, there are estimated from the data range and the bandwidth.
-#' @param calc_ecdf If `TRUE`, `stat_joy` calculates an empirical cumulative distribution function (ecdf)
+#' @param calc_ecdf If `TRUE`, `stat_density_ridges` calculates an empirical cumulative distribution function (ecdf)
 #'   and returns a variable `ecdf` and a variable `quantile`. Both can be mapped onto aesthetics via
 #'   `..ecdf..` and `..quantile..`, respectively.
 #' @param quantiles Sets the number of quantiles the data should be broken into if `calc_ecdf = TRUE`.
@@ -22,29 +22,29 @@
 #' # Examples of coloring by ecdf or quantiles
 #' library(viridis)
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-#'   geom_joy_gradient(calc_ecdf = TRUE, quantiles = 5) +
-#'   scale_fill_viridis(discrete = TRUE, name = "Quintiles") + theme_joy() +
+#'   geom_density_ridges_gradient(calc_ecdf = TRUE, quantiles = 5) +
+#'   scale_fill_viridis(discrete = TRUE, name = "Quintiles") + theme_ridges() +
 #'   scale_y_discrete(expand = c(0.01, 0))
 #'
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
-#'   geom_joy_gradient(calc_ecdf = TRUE) +
-#'   scale_fill_viridis(name = "Tail probability", direction = -1) + theme_joy() +
+#'   geom_density_ridges_gradient(calc_ecdf = TRUE) +
+#'   scale_fill_viridis(name = "Tail probability", direction = -1) + theme_ridges() +
 #'   scale_y_discrete(expand = c(0.01, 0))
 #'
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-#'   geom_joy_gradient(calc_ecdf = TRUE, quantiles = c(0.05, 0.95)) +
+#'   geom_density_ridges_gradient(calc_ecdf = TRUE, quantiles = c(0.05, 0.95)) +
 #'   scale_fill_manual(name = "Probability\nranges",
 #'                     values = c("red", "grey80", "blue")) +
-#'   theme_joy() + scale_y_discrete(expand = c(0.01, 0))
+#'   theme_ridges() + scale_y_discrete(expand = c(0.01, 0))
 #'
 #' @export
-stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
+stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_ridges",
                      position = "identity", na.rm = FALSE, show.legend = NA,
                      inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
                      calc_ecdf = FALSE, quantiles = 5,...)
 {
   layer(
-    stat = StatJoy,
+    stat = StatDensityRidges,
     data = data,
     mapping = mapping,
     geom = geom,
@@ -61,12 +61,12 @@ stat_joy <- function(mapping = NULL, data = NULL, geom = "joy",
 }
 
 
-#' @rdname stat_joy
+#' @rdname stat_density_ridges
 #' @format NULL
 #' @usage NULL
 #' @importFrom ggplot2 ggproto Stat
 #' @export
-StatJoy <- ggproto("StatJoy", Stat,
+StatDensityRidges <- ggproto("StatDensityRidges", Stat,
   required_aes = "x",
   default_aes = aes(height = ..density..),
 
@@ -169,7 +169,7 @@ StatJoy <- ggproto("StatJoy", Stat,
 )
 
 
-#' Stat for histogram joyplots
+#' Stat for histogram ridgeline plots
 #'
 #' Works like `stat_bin` except that the output is a ridgeline describing the histogram rather than
 #' a set of counts.
@@ -181,23 +181,23 @@ StatJoy <- ggproto("StatJoy", Stat,
 #'
 #' @examples
 #' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
-#'   geom_joy(stat = "binline", bins = 20, scale = 2.2) +
+#'   geom_density_ridges(stat = "binline", bins = 20, scale = 2.2) +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_x_continuous(expand = c(0.01, 0)) +
-#'   theme_joy()
+#'   theme_ridges()
 #'
 #' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
 #'   stat_binline(bins = 20, scale = 2.2, draw_baseline = FALSE) +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_x_continuous(expand = c(0.01, 0)) +
 #'   scale_fill_grey() +
-#'   theme_joy() + theme(legend.position = 'none')
+#'   theme_ridges() + theme(legend.position = 'none')
 #'
 #' require(ggplot2movies)
 #' require(viridis)
 #' ggplot(movies[movies$year>1989,], aes(x = length, y = year, fill = factor(year))) +
 #'    stat_binline(scale = 1.9, bins = 40) +
-#'    theme_joy() + theme(legend.position = "none") +
+#'    theme_ridges() + theme(legend.position = "none") +
 #'    scale_x_continuous(limits = c(1, 180), expand = c(0.01, 0)) +
 #'    scale_y_reverse(expand = c(0.01, 0)) +
 #'    scale_fill_viridis(begin = 0.3, discrete = TRUE, option = "B") +
@@ -208,19 +208,19 @@ StatJoy <- ggproto("StatJoy", Stat,
 #' count_data$group <- factor(count_data$group, levels = letters[5:1])
 #' count_data$count <- rpois(nrow(count_data), count_data$mean)
 #' ggplot(count_data, aes(x = count, y = group, group = group)) +
-#'   geom_joy2(stat = "binline", aes(fill = group), binwidth = 1, scale = 0.95) +
+#'   geom_density_ridges2(stat = "binline", aes(fill = group), binwidth = 1, scale = 0.95) +
 #'   geom_text(stat = "bin",
 #'           aes(y = group+0.9*..count../max(..count..),
 #'           label = ifelse(..count..>0, ..count.., "")),
 #'           vjust = 1.2, size = 3, color = "white", binwidth = 1) +
-#'   theme_joy(grid = FALSE) +
+#'   theme_ridges(grid = FALSE) +
 #'   scale_x_continuous(breaks = c(0:12), limits = c(-.5, 13), expand = c(0, 0)) +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_fill_cyclical(values = c("#0000B0", "#7070D0")) +
 #'   guides(y = "none")
 #' @export
 stat_binline <- function(mapping = NULL, data = NULL,
-                     geom = "joy", position = "identity",
+                     geom = "density_ridges", position = "identity",
                      ...,
                      binwidth = NULL,
                      bins = NULL,

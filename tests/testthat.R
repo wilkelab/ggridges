@@ -1,4 +1,4 @@
 library(testthat)
-library(ggjoy)
+library(ggridges)
 
-test_check("ggjoy")
+test_check("ggridges")

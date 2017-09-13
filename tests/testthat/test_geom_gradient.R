@@ -9,18 +9,18 @@ test_that("visual appearance", {
   p <- ggplot(df, aes(x, y = 0, height = height, group = 0, fill = type)) + geom_ridgeline_gradient()
   vdiffr::expect_doppelganger("geom_ridgeline_gradient basic fill pattern", p)
 
-  p <- ggplot(iris, aes(x = Sepal.Length, y = Species, fill = ..x..)) + geom_joy_gradient()
-  vdiffr::expect_doppelganger("geom_joy_gradient continuous fill", p)
+  p <- ggplot(iris, aes(x = Sepal.Length, y = Species, fill = ..x..)) + geom_density_ridges_gradient()
+  vdiffr::expect_doppelganger("geom_density_ridges_gradient continuous fill", p)
 
   p <- ggplot(iris, aes(x = Sepal.Length, y = Species, fill = ..ecdf..)) +
-    geom_joy_gradient(calc_ecdf = TRUE)
-  vdiffr::expect_doppelganger("geom_joy_gradient ecdf fill", p)
+    geom_density_ridges_gradient(calc_ecdf = TRUE)
+  vdiffr::expect_doppelganger("geom_density_ridges_gradient ecdf fill", p)
 
   p <- ggplot(iris, aes(x = Sepal.Length, y = Species, fill = ..quantile..)) +
-    geom_joy_gradient(calc_ecdf = TRUE, quantiles = 5)
-  vdiffr::expect_doppelganger("geom_joy_gradient quintiles", p)
+    geom_density_ridges_gradient(calc_ecdf = TRUE, quantiles = 5)
+  vdiffr::expect_doppelganger("geom_density_ridges_gradient quintiles", p)
 
   p <- ggplot(iris, aes(x = Sepal.Length, y = Species, fill = ..quantile..)) +
-    geom_joy_gradient(calc_ecdf = TRUE, quantiles = c(0.05, 0.95))
-  vdiffr::expect_doppelganger("geom_joy_gradient probability tails", p)
+    geom_density_ridges_gradient(calc_ecdf = TRUE, quantiles = c(0.05, 0.95))
+  vdiffr::expect_doppelganger("geom_density_ridges_gradient probability tails", p)
 })

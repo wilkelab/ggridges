@@ -30,7 +30,7 @@ See \code{\link{discrete_scale}} for more details.}
 a scale for the color or fill aesthetic.}
 }
 \description{
-The readability of joyplots can often be improved by alternating between fill colors and
+The readability of ridgeline plots can often be improved by alternating between fill colors and
 other aesthetics. The various cyclical scales make it easy to create plots with this feature,
 simply map your grouping variable to the respective aesthetic (e.g., \code{fill}) and then use
 \code{scale_fill_cyclical} to define the fill colors between you want to alternate. Note that the
@@ -42,12 +42,12 @@ as shown in the examples.
 # By default, scale_cyclical sets `guide = "none"`, i.e., no legend
 # is drawn
 ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +
-  geom_joy(scale = 4) +
+  geom_density_ridges(scale = 4) +
   scale_fill_cyclical(values = c("#3030D0", "#9090F0"))
 
 # However, legends can be turned on by setting `guide = "legend"`
 ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +
-  geom_joy(scale = 4) +
+  geom_density_ridges(scale = 4) +
   scale_fill_cyclical(values = c("#3030D0", "#9090F0"),
                       guide = "legend", name = "Fill colors",
                       labels = c("dark blue", "light blue"))
@@ -56,7 +56,7 @@ ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +
 ggplot(diamonds, aes(x = price, y = cut, fill = cut,
                      color = cut, size = cut,
                      alpha = cut, linetype = cut)) +
-  geom_joy(scale = 4, fill = "blue") +
+  geom_density_ridges(scale = 4, fill = "blue") +
   scale_fill_cyclical(values = c("blue", "green")) +
   scale_color_cyclical(values = c("black", "white")) +
   scale_size_cyclical(values = c(2, 1)) +

@@ -1,7 +1,7 @@
 
-#' A custom theme specifically for use with joyplots
+#' A custom theme specifically for use with ridgeline plots
 #'
-#' This theme has some special modifications that make joyplots look better, such as properly aligned y axis labels.
+#' This theme has some special modifications that make ridgeline plots look better, such as properly aligned y axis labels.
 #' It can draw plots with and without background grids (see examples).
 #'
 #' @param font_size Overall font size. Default is 14.
@@ -14,20 +14,20 @@
 #' @examples
 #' # Example with background grid
 #' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species)) +
-#'   geom_joy(rel_min_height = 0.005) +
+#'   geom_density_ridges(rel_min_height = 0.005) +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_x_continuous(expand = c(0.01, 0)) +
-#'   theme_joy()
+#'   theme_ridges()
 #'
 #' # Example without background grid
 #' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species)) +
-#'   geom_joy() +
+#'   geom_density_ridges() +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_x_continuous(expand = c(0.01, 0)) +
-#'   theme_joy(grid = FALSE)
+#'   theme_ridges(grid = FALSE)
 #'
 #' @export
-theme_joy <- function(font_size = 14, font_family = "", line_size = .5, grid = TRUE, center_axis_labels = FALSE) {
+theme_ridges <- function(font_size = 14, font_family = "", line_size = .5, grid = TRUE, center_axis_labels = FALSE) {
   half_line <- font_size / 2
   small_rel <- 0.857
   small_size <- small_rel * font_size

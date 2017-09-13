@@ -1,6 +1,6 @@
-#' Plot ridgelines and joyplots with fill gradients along the x axis
+#' Plot ridgelines and ridgeline plots with fill gradients along the x axis
 #'
-#' The geoms `geom_ridgeline_gradient` and `geom_joy_gradient` work just like [`geom_ridgeline`] and [`geom_joy`] except
+#' The geoms `geom_ridgeline_gradient` and `geom_density_ridges_gradient` work just like [`geom_ridgeline`] and [`geom_density_ridges`] except
 #' that the `fill` aesthetic can vary along the x axis. Because filling with color gradients is fraught with issues,
 #' these geoms should be considered experimental. Don't use them unless you really need to. Note that due to limitations
 #' in R's graphics system, transparency (`alpha`) has to be disabled for gradient fills.
@@ -187,7 +187,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     munched_poly <- ggplot2::coord_munch(coord, positions, panel_params)
 
 
-    # placing the actual grob generation into a separate function allows us to override for geom_joy2
+    # placing the actual grob generation into a separate function allows us to override for geom_density_ridges2
     self$make_group_grob(munched_line, munched_poly, aes, gradient_lwd)
   },
 
@@ -219,20 +219,20 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
 
 
 
-#' @param panel_scaling Argument only to `geom_joy_gradient`. If `TRUE`, the default, relative scaling is calculated separately
+#' @param panel_scaling Argument only to `geom_density_ridges_gradient`. If `TRUE`, the default, relative scaling is calculated separately
 #' for each panel. If `FALSE`, relative scaling is calculated globally.
 #'
 #' @rdname geom_ridgeline_gradient
 #' @importFrom ggplot2 layer
 #' @export
-geom_joy_gradient <- function(mapping = NULL, data = NULL, stat = "joy",
+geom_density_ridges_gradient <- function(mapping = NULL, data = NULL, stat = "density_ridges",
                      panel_scaling = TRUE,
                      na.rm = TRUE, gradient_lwd = 0.5, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
-    geom = GeomJoyGradient,
+    geom = GeomDensityRidgesGradient,
     position = "identity",
     show.legend = show.legend,
     inherit.aes = inherit.aes,
@@ -251,16 +251,16 @@ geom_joy_gradient <- function(mapping = NULL, data = NULL, stat = "joy",
 #' @importFrom grid gTree gList
 #' @examples
 #'
-#' # Example for `geom_joy_gradient()`
+#' # Example for `geom_density_ridges_gradient()`
 #' ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`, fill = ..x..)) +
-#'   geom_joy_gradient(scale = 3, rel_min_height = 0.01) +
+#'   geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
 #'   scale_x_continuous(expand = c(0.01, 0)) +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_fill_viridis(name = "Temp. [F]", option = "C") +
 #'   labs(title = 'Temperatures in Lincoln NE in 2016') +
-#'   theme_joy(font_size = 13, grid = TRUE) + theme(axis.title.y = element_blank())
+#'   theme_ridges(font_size = 13, grid = TRUE) + theme(axis.title.y = element_blank())
 #' @export
-GeomJoyGradient <- ggproto("GeomJoyGradient", GeomRidgelineGradient,
+GeomDensityRidgesGradient <- ggproto("GeomDensityRidgesGradient", GeomRidgelineGradient,
   default_aes =
     aes(color = "black",
         fill = "grey70",

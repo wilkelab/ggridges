@@ -53,7 +53,7 @@ to the paired geom/stat.}
 \description{
 Plots the sum of the \code{y} and \code{height} aesthetics versus \code{x}, filling the area between \code{y} and \code{y + height} with a color.
 Thus, the data mapped onto y and onto height must be in the same units.
-If you want relative scaling of the heights, you can use \code{\link{geom_joy}} with \code{stat = "identity"}.
+If you want relative scaling of the heights, you can use \code{\link{geom_density_ridges}} with \code{stat = "identity"}.
 }
 \section{Aesthetics}{
 
