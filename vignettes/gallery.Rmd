@@ -58,7 +58,7 @@ Catalan_elections %>%
 
 ## Temperatures in Lincoln, Nebraska
 
-Modified from a [blog post](http://austinwehrwein.com/data-visualization/it-brings-me-ggridges/) by Austin Wehrwein.
+Modified from a [blog post](http://austinwehrwein.com/data-visualization/it-brings-me-ggjoy/) by Austin Wehrwein.
 ```{r message=FALSE, fig.width = 7.5, fig.height = 5}
 library(viridis)
 ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`, fill = ..x..)) +
