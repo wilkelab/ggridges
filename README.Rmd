@@ -26,8 +26,8 @@ This package has now been officially relased on CRAN. Most things should work as
 
 ## About ridgeline plots
 
-ridgeline plots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. The name "ridgeline plot" was [proposed](
-https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twitter on April 24, 2017, in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album _Unknown Pleasures_.
+Ridgeline plots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. These types of plots have also been called ["joyplots"](
+https://twitter.com/JennyBryan/status/856674638981550080), in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album _Unknown Pleasures_. However, given the [unfortunate origin](https://en.wikipedia.org/wiki/House_of_Dolls) of the name Joy Division, the term "joyplot" is now discouraged.
 
 ## Installation
 

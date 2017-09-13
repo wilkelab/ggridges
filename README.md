@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 ggridges
-=====
+========
 
 [![Build Status](https://travis-ci.org/clauswilke/ggridges.svg?branch=master)](https://travis-ci.org/clauswilke/ggridges) [![Coverage Status](https://img.shields.io/codecov/c/github/clauswilke/ggridges/master.svg)](https://codecov.io/github/clauswilke/ggridges?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges) [![CRAN\_Downloads\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggridges?color=brightgreen)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
 
@@ -10,9 +10,9 @@ Geoms to make ridgeline plots using ggplot2, written by Claus O. Wilke
 This package has now been officially relased on CRAN. Most things should work as expected, and the API should now be relatively stable. For feedback and feature requests, please open issues on github.
 
 About ridgeline plots
---------------
+---------------------
 
-ridgeline plots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. The name "ridgeline plot" was [proposed](https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twitter on April 24, 2017, in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album *Unknown Pleasures*.
+Ridgeline plots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. These types of plots have also been called ["joyplots"](https://twitter.com/JennyBryan/status/856674638981550080), in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album *Unknown Pleasures*. However, given the [unfortunate origin](https://en.wikipedia.org/wiki/House_of_Dolls) of the name Joy Division, the term "joyplot" is now discouraged.
 
 Installation
 ------------
