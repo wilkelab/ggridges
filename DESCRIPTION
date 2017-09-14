@@ -1,6 +1,6 @@
 Package: ggridges
 Type: Package
-Title: Ridgeline plots in 'ggplot2'
+Title: Ridgeline Plots in 'ggplot2'
 Version: 0.4.0
 Authors@R: c( 
     person("Claus O.", "Wilke", , "wilke@austin.utexas.edu", c("cre", "aut")),
