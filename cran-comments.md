@@ -1,6 +1,5 @@
-Apologies for submitting a bug-fix release 1 day after submitting the original package. The package currently on CRAN doesn't build on some architectures, due to visual tests that are likely to fail due to minor changes in the build platform: https://cran.r-project.org/web/checks/check_results_ggridges.html
-
-These tests should be automatically skipped but apparently that isn't happening. So I'm now manually disabling them on CRAN.
+Apologies for submitting a bug-fix release 1 day after submitting the original package. The package currently on CRAN doesn't build on some architectures, due to failing visual tests: https://cran.r-project.org/web/checks/check_results_ggridges.html
+Visual tests (via vdiffr) are known to be highly dependent on minor changes in the build platform and thus should be skipped whenever there are any changes. This should have happened automatically but apparently has not. So I have now manually disabled these tests when building on CRAN.
 
 I have also fixed the problem with double spaces in the Description.
 
@@ -14,13 +13,7 @@ for completeness.
 * local OS X install x86_64-apple-darwin15.6.0 (64-bit), R 3.4.1
 
 ## R CMD check results
-There were no ERRORs or WARNINGs.
-
-There was one Note:
-Possibly mis-spelled words in DESCRIPTION:
-  Ridgeline (3:8, 8:14)
-
-The spelling is correct.
+There were no ERRORs, WARNINGs, or NOTEs.
 
 ## Downstream dependencies
 None at this time.
