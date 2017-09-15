@@ -3,6 +3,8 @@ context("geom_*_gradient")
 
 # Visual tests ------------------------------------------------------------
 test_that("visual appearance", {
+  testthat::skip_on_cran()
+
   df <- data.frame(x = c(1, 2, 3, 4, 5, 6),
                    height = c(1, 2, 3, 2, 1, 2),
                    type = c("A", "A", "B", "B", "C", "C"))

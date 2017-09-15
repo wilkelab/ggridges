@@ -1,6 +1,8 @@
-This packages is meant as a replacement for the package 'ggjoy' currently on CRAN. I have changed the name because the term "joyplot" has an unfortunate history. It comes from the band Joy Division, which was named after Nazi concentration camp brothels (see here: https://en.wikipedia.org/wiki/House_of_Dolls ). In the 'ggridges' package, all references to "joyplots" have been changed into "ridgeline plots", and functions such as 'geom_joy' have been renamed into appropriate terms (e.g., 'geom_density_ridges').
+Apologies for submitting a bug-fix release 1 day after submitting the original package. The package currently on CRAN doesn't build on some architectures, due to visual tests that are likely to fail due to minor changes in the build platform: https://cran.r-project.org/web/checks/check_results_ggridges.html
 
-Once 'ggridges' is on CRAN, I will replace the 'ggjoy' package with a placeholder package that simply exports the 'ggridges' functions under the old 'ggjoy' name and warns users that 'ggjoy' is deprecated.
+These tests should be automatically skipped but apparently that isn't happening. So I'm now manually disabling them on CRAN.
+
+I have also fixed the problem with double spaces in the Description.
 
 One data file contains UTF-8 marked strings. The file contains election results from Catalania,
 and the municipality names contain non-ASCII characters. None of these names make it into the

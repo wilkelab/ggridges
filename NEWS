@@ -1,3 +1,7 @@
+ggridges 0.4.1
+----------------------------------------------------------------
+- Skip vdiffr visual tests when compiling on CRAN
+
 ggridges 0.4.0
 ----------------------------------------------------------------
 - Initial import of code base from ggjoy, and renaming:

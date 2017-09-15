@@ -5,6 +5,8 @@ context("geom_density_ridges")
 # Visual tests ------------------------------------------------------------
 
 test_that("geom_density_ridges draws correctly", {
+  testthat::skip_on_cran()
+
   p <- ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges()
   vdiffr::expect_doppelganger("geom_density_ridges basic", p)
 
