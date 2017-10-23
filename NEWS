@@ -1,6 +1,10 @@
 ggridges 0.4.1
 ----------------------------------------------------------------
 - Skip vdiffr visual tests when compiling on CRAN
+- Added `geom_density_line()` which is a drop-in replacement for
+  `geom_density()` but draws a ridgeline rather than a closed
+  polygon.
+
 
 ggridges 0.4.0
 ----------------------------------------------------------------

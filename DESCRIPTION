@@ -33,6 +33,7 @@ Collate:
     'geoms.R'
     'geomsv.R'
     'geoms-gradient.R'
+    'geom-density-line.R'
     'scale-cyclical.R'
     'stats.R'
     'theme.R'
