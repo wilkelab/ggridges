@@ -3,7 +3,7 @@
 ggridges
 ========
 
-[![Build Status](https://travis-ci.org/clauswilke/ggridges.svg?branch=master)](https://travis-ci.org/clauswilke/ggridges) [![Coverage Status](https://img.shields.io/codecov/c/github/clauswilke/ggridges/master.svg)](https://codecov.io/github/clauswilke/ggridges?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges) [![CRAN\_Downloads\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggridges?color=brightgreen)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
+[![Build Status](https://travis-ci.org/clauswilke/ggridges.svg?branch=master)](https://travis-ci.org/clauswilke/ggridges) [![Coverage Status](https://img.shields.io/codecov/c/github/clauswilke/ggridges/master.svg)](https://codecov.io/github/clauswilke/ggridges?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges) [![CRAN\_Downloads\_Badge](http://cranlogs.r-pkg.org/badges/ggridges)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
 
 Geoms to make ridgeline plots using ggplot2, written by Claus O. Wilke
 
