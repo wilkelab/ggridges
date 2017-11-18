@@ -1,0 +1,29 @@
+Things to do before next release
+================================
+- Properly document the new options `jittered_points` and `quantile_lines`.
+- Add regression tests for new version of `stat_density_ridges`.
+- Document gradient geoms in the vignette.
+
+
+Some code to integrate into extended documentation:
+library(viridis)
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill=..x..)) +
+  geom_density_ridges_gradient(jittered_points = TRUE, quantile_lines = TRUE, quantiles = 2) +
+  scale_fill_viridis(begin = 0.2, name = "Length") +
+  scale_y_discrete(expand = c(0.01, 0)) +
+  theme_ridges(grid = FALSE, center = TRUE)
+
+
+cols = c("#E69F00", "#56B4E9", "#009E73")
+cols_dark = c('#C18511', '#289ACF', '#0D8561')
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
+  geom_density_ridges(aes(point_color = Species), alpha = .2, jittered_points = TRUE) +
+  scale_fill_manual(values = cols, guide = "none") + scale_y_discrete(expand = c(0.01, 0)) +
+  ggplot2:::manual_scale("point_color", values = cols_dark, guide = "none") +
+  theme_ridges(grid = FALSE, center = TRUE)
+
+
+ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+  geom_density_ridges(quantile_lines = TRUE, quantiles = c(0.25, 0.5, 0.75)) +
+  scale_y_discrete(expand = c(0.01, 0)) +
+  theme_ridges(grid = FALSE, center = TRUE)
