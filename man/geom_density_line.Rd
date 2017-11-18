@@ -3,7 +3,7 @@
 \docType{data}
 \name{geom_density_line}
 \alias{geom_density_line}
-\alias{GeomDensity}
+\alias{GeomDensityLine}
 \title{Smoothed density estimates drawn with a ridgeline rather than area}
 \usage{
 geom_density_line(mapping = NULL, data = NULL, stat = "density",
@@ -67,7 +67,7 @@ ggplot(diamonds, aes(carat)) +
   geom_density_line(adjust = 5)
 
 ggplot(diamonds, aes(depth, colour = cut)) +
-  geom_density_line() +
+  geom_density_line(alpha = 0.5) +
   xlim(55, 70)
 ggplot(diamonds, aes(depth, fill = cut, colour = cut)) +
   geom_density_line(alpha = 0.1) +

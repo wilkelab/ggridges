@@ -91,8 +91,15 @@ geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @importFrom plyr summarise
 #' @export
 GeomRidgeline <- ggproto("GeomRidgeline", Geom,
-  default_aes = aes(color = "black", fill = "grey80", y = 0, size = 0.5, linetype = 1,
-        min_height = 0, scale = 1, alpha = NA),
+  default_aes = aes(
+    # ridgeline aesthetics
+    color = "black", fill = "grey70", y = 0, size = 0.5, linetype = 1,
+    min_height = 0, scale = 1, alpha = NA, datatype = "ridgeline",
+
+    # point aesthetics
+    point_shape = 19, point_color = "black", point_size = 1.5, point_fill = NA,
+    point_alpha = NA, point_stroke = 0.5
+    ),
 
   required_aes = c("x", "y", "height"),
 
@@ -141,9 +148,20 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
   draw_group = function(self, data, panel_params, coord, na.rm = FALSE) {
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
 
-    #if dataframe is empty there's nothing to draw
-    if (nrow(data) == 0) return(grid::nullGrob())
+    # split data into data types (ridgeline, stud, point)
+    data_list <- split(data, factor(data$datatype))
 
+    point_grob <- self$make_point_grob(data_list[["point"]], panel_params, coord)
+    stud_grob <- self$make_stud_grob(data_list[["stud"]], panel_params, coord)
+
+    data <- data_list[["ridgeline"]]
+
+    # if the final data set is empty then we're done here
+    if (is.null(data)) {
+      return(grid::grobTree(stud_grob, point_grob))
+    }
+
+    # otherwise, continue. First we order the data, in preparation for polygon drawing
     data <- data[order(data$group, data$x), ]
 
     # remove all points that fall below the minimum height
@@ -176,31 +194,72 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     positions <- plyr::summarise(data, x = x, y = ymax, id = ids)
     munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
 
-    # placing the actual grob generation into a separate function allows us to override for geom_density_ridges2
-    self$make_group_grob(munched_line, munched_poly, aes)
+    # calculate line and area grobs
+    line_grob <- self$make_line_grob(munched_line, munched_poly, aes)
+    area_grob <- self$make_area_grob(munched_poly, aes)
+
+    # combine everything and return
+    grid::grobTree(area_grob, stud_grob, point_grob, line_grob)
   },
 
-  make_group_grob = function(munched_line, munched_poly, aes) {
-    lg <- ggname("geom_ridgeline",
-               grid::polylineGrob(
-                 munched_line$x, munched_line$y, id = munched_line$id,
-                 default.units = "native",
-                 gp = grid::gpar(
-                   col = aes$colour,
-                   lwd = aes$size * .pt,
-                   lty = aes$linetype)
-               ))
 
-    ag <- ggname("geom_ridgeline",
-               grid::polygonGrob(
-                 munched_poly$x, munched_poly$y, id = munched_poly$id,
-                 default.units = "native",
-                 gp = grid::gpar(
-                   fill = ggplot2::alpha(aes$fill, aes$alpha),
-                   lty = 0)
-               ))
-    grid::grobTree(ag, lg)
+  make_point_grob = function(data, panel_params, coord) {
+    if (is.null(data)) {
+      return(grid::nullGrob())
+    }
+    data$y <- data$ymax
+    coords <- coord$transform(data, panel_params)
+    ggname("geom_ridgeline",
+           grid::pointsGrob(
+             coords$x, coords$y,
+             pch = coords$point_shape,
+             gp = grid::gpar(
+               col = alpha(coords$point_color, coords$point_alpha),
+               fill = alpha(coords$point_fill, coords$point_alpha),
+               # Stroke is added around the outside of the point
+               fontsize = coords$point_size * .pt + coords$point_stroke * .stroke / 2,
+               lwd = coords$point_stroke * .stroke / 2
+             )
+           )
+    )
+  },
+
+  make_stud_grob = function(data, panel_params, coord) {
+    if (is.null(data)) {
+      return(grid::nullGrob())
+    }
+    data$xend <- data$x
+    data$y <- data$ymin
+    data$yend <- data$ymax
+    data$alpha <- NA
+    ggplot2::GeomSegment$draw_panel(data, panel_params, coord)
+  },
+
+  make_line_grob = function(munched_line, munched_poly, aes) {
+    ggname("geom_ridgeline",
+           grid::polylineGrob(
+             munched_line$x, munched_line$y, id = munched_line$id,
+             default.units = "native",
+             gp = grid::gpar(
+               col = aes$colour,
+               lwd = aes$size * .pt,
+               lty = aes$linetype)
+             )
+           )
+  },
+
+  make_area_grob = function(munched_poly, aes) {
+    ggname("geom_ridgeline",
+           grid::polygonGrob(
+             munched_poly$x, munched_poly$y, id = munched_poly$id,
+             default.units = "native",
+             gp = grid::gpar(
+               fill = ggplot2::alpha(aes$fill, aes$alpha),
+               lty = 0)
+             )
+           )
   }
+
 
 )
 
@@ -292,70 +351,71 @@ geom_density_ridges <- function(mapping = NULL, data = NULL, stat = "density_rid
 #' @importFrom grid gTree gList
 #' @export
 GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
-  default_aes =
-    aes(color = "black",
-        fill = "grey70",
-        size = 0.5,
-        linetype = 1,
-        alpha = NA,
-        scale = 1.8,
-        rel_min_height = 0),
+  default_aes = aes(
+    # ridgeline aesthetics
+    color = "black", fill = "grey70", size = 0.5, linetype = 1,
+    rel_min_height = 0, scale = 1.8, alpha = NA, datatype = "ridgeline",
 
-   required_aes = c("x", "y", "height"),
+    # point aesthetics
+    point_shape = 19, point_color = "black", point_size = 1.5, point_fill = NA,
+    point_alpha = NA, point_stroke = 0.5
+  ),
 
-   extra_params = c("na.rm", "panel_scaling"),
+  required_aes = c("x", "y", "height"),
 
-   setup_data = function(self, data, params) {
-     # provide default for panel scaling parameter if it doesn't exist,
-     # happens if the geom is called from a stat
-     if (is.null(params$panel_scaling)) {
-       params$panel_scaling <- TRUE
-     }
+  extra_params = c("na.rm", "panel_scaling"),
 
-     # calculate internal scale
-     yrange = max(data$y) - min(data$y)
-     n = length(unique(data$y))
-     if (n<2) {
-       hmax <- max(data$height, na.rm = TRUE)
-       iscale <- 1
-     }
-     else {
-       # scale per panel or globally?
-       if (params$panel_scaling) {
-         heights <- split(data$height, data$PANEL)
-         max_heights <- vapply(heights, max, numeric(1), na.rm = TRUE)
-         hmax <- max_heights[data$PANEL]
-         iscale <- yrange/((n-1)*hmax)
-       }
-       else {
-         hmax <- max(data$height, na.rm = TRUE)
-         iscale <- yrange/((n-1)*hmax)
-       }
-     }
+  setup_data = function(self, data, params) {
+    # provide default for panel scaling parameter if it doesn't exist,
+    # happens if the geom is called from a stat
+    if (is.null(params$panel_scaling)) {
+      params$panel_scaling <- TRUE
+    }
 
-     #print(iscale)
-     #print(hmax)
+    # calculate internal scale
+    yrange = max(data$y) - min(data$y)
+    n = length(unique(data$y))
+    if (n<2) {
+      hmax <- max(data$height, na.rm = TRUE)
+      iscale <- 1
+    }
+    else {
+      # scale per panel or globally?
+      if (params$panel_scaling) {
+        heights <- split(data$height, data$PANEL)
+        max_heights <- vapply(heights, max, numeric(1), na.rm = TRUE)
+        hmax <- max_heights[data$PANEL]
+        iscale <- yrange/((n-1)*hmax)
+      }
+      else {
+        hmax <- max(data$height, na.rm = TRUE)
+        iscale <- yrange/((n-1)*hmax)
+      }
+    }
 
-     data <- cbind(data, iscale)
+    #print(iscale)
+    #print(hmax)
 
-     if (!"scale" %in% names(data)) {
-       if (!"scale" %in% names(params))
-         data <- cbind(data, scale = self$default_aes$scale)
-       else
-         data <- cbind(data, scale = params$scale)
-     }
+    data <- cbind(data, iscale)
 
-     if (!"rel_min_height" %in% names(data)){
-       if (!"rel_min_height" %in% names(params))
-         data <- cbind(data, rel_min_height = self$default_aes$rel_min_height)
-       else
-         data <- cbind(data, rel_min_height = params$rel_min_height)
-     }
+    if (!"scale" %in% names(data)) {
+      if (!"scale" %in% names(params))
+        data <- cbind(data, scale = self$default_aes$scale)
+      else
+        data <- cbind(data, scale = params$scale)
+    }
 
-     transform(data,
-               ymin = y,
-               ymax = y + iscale*scale*height,
-               min_height = hmax*rel_min_height)
+    if (!"rel_min_height" %in% names(data)){
+      if (!"rel_min_height" %in% names(params))
+        data <- cbind(data, rel_min_height = self$default_aes$rel_min_height)
+      else
+        data <- cbind(data, rel_min_height = params$rel_min_height)
+    }
+
+    transform(data,
+              ymin = y,
+              ymax = y + iscale*scale*height,
+              min_height = hmax*rel_min_height)
   }
 )
 
@@ -397,7 +457,11 @@ geom_density_ridges2 <- function(mapping = NULL, data = NULL, stat = "density_ri
 #' @usage NULL
 #' @export
 GeomDensityRidges2 <- ggproto("GeomDensityRidges2", GeomDensityRidges,
-  make_group_grob = function(munched_line, munched_poly, aes) {
+  make_line_grob = function(munched_line, munched_poly, aes) {
+    grid::nullGrob()
+  },
+
+  make_area_grob = function(munched_poly, aes) {
     ggname("geom_density_ridges2",
            grid::polygonGrob(
              munched_poly$x, munched_poly$y, id = munched_poly$id,

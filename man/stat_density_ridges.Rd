@@ -3,13 +3,14 @@
 \docType{data}
 \name{stat_density_ridges}
 \alias{stat_density_ridges}
+\alias{StatDensityRidgesOld}
 \alias{StatDensityRidges}
 \title{Stat for density ridgeline plots}
 \usage{
 stat_density_ridges(mapping = NULL, data = NULL, geom = "density_ridges",
   position = "identity", na.rm = FALSE, show.legend = NA,
   inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
-  calc_ecdf = FALSE, quantiles = 5, ...)
+  calc_ecdf = FALSE, quantiles = 4, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
