@@ -5,9 +5,13 @@
 \alias{scale_point_size_continuous}
 \alias{scale_point_color_hue}
 \alias{scale_point_fill_hue}
+\alias{scale_point_color_gradient}
+\alias{scale_point_fill_gradient}
 \alias{scale_point_shape_discrete}
 \alias{scale_point_color_discrete}
 \alias{scale_point_fill_discrete}
+\alias{scale_point_color_continuous}
+\alias{scale_point_fill_continuous}
 \title{Scales for point aesthetics}
 \description{
 These are various scales that can be applied to point aesthetics, such as
@@ -21,4 +25,10 @@ same usage as existing standard ggplot2 scales, only the name differs.
 \code{scale_point_color_hue}: Equivalent to \code{\link{scale_colour_hue}}.
 
 \code{scale_point_fill_hue}: Equivalent to \code{\link{scale_fill_hue}}.
+
+\code{scale_point_color_gradient}: Equivalent to \code{\link{scale_colour_gradient}}. Note that this scale cannot
+draw a legend, however, because of limitations in \code{\link{guide_colorbar}}.
+
+\code{scale_point_fill_gradient}: Equivalent to \code{\link{scale_fill_gradient}}. Note that this scale cannot
+draw a legend, however, because of limitations in \code{\link{guide_colorbar}}.
 }

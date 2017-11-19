@@ -29,8 +29,6 @@ scale_point_size_continuous <- function(name = ggplot2::waiver(), breaks = ggplo
                    guide = guide)
 }
 
-
-
 #' `scale_point_color_hue`: Equivalent to [`scale_colour_hue`].
 #' @rdname scale_point
 #' @usage NULL
@@ -48,6 +46,24 @@ scale_point_color_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.st
 #' @export
 scale_point_fill_hue <- function(...) scale_point_color_hue(..., aesthetics = "point_fill")
 
+#' `scale_point_color_gradient`: Equivalent to [`scale_colour_gradient`]. Note that this scale cannot
+#'   draw a legend, however, because of limitations in [`guide_colorbar`].
+#' @rdname scale_point
+#' @usage NULL
+#' @export
+scale_point_color_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
+                                        na.value = "grey50", guide = "none", aesthetics = "point_color")
+{
+  ggplot2::continuous_scale(aesthetics, "gradient", scales::seq_gradient_pal(low, high, space),
+                            na.value = na.value, guide = guide, ...)
+}
+
+#' `scale_point_fill_gradient`: Equivalent to [`scale_fill_gradient`]. Note that this scale cannot
+#'   draw a legend, however, because of limitations in [`guide_colorbar`].
+#' @rdname scale_point
+#' @usage NULL
+#' @export
+scale_point_fill_gradient <- function(...) scale_point_color_gradient(..., aesthetics = "point_fill")
 
 #' Generic discrete manual scale
 #'
@@ -86,3 +102,13 @@ scale_point_color_discrete <- scale_point_color_hue
 #' @usage NULL
 #' @export
 scale_point_fill_discrete <- scale_point_fill_hue
+
+#' @rdname scale_point
+#' @usage NULL
+#' @export
+scale_point_color_continuous <- scale_point_color_gradient
+
+#' @rdname scale_point
+#' @usage NULL
+#' @export
+scale_point_fill_continuous <- scale_point_fill_gradient
