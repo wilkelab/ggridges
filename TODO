@@ -3,6 +3,7 @@ Things to do before next release
 - Properly document the new options `jittered_points` and `quantile_lines`.
 - Add regression tests for new version of `stat_density_ridges`.
 - Document gradient geoms in the vignette.
+- Add default scales for all the new aesthetics. Done already for `point_shape`.
 
 
 Some code to integrate into extended documentation:
@@ -14,12 +15,12 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, fill=..x..)) +
   theme_ridges(grid = FALSE, center = TRUE)
 
 
-cols = c("#E69F00", "#56B4E9", "#009E73")
-cols_dark = c('#C18511', '#289ACF', '#0D8561')
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
-  geom_density_ridges(aes(point_color = Species), alpha = .2, jittered_points = TRUE) +
-  scale_fill_manual(values = cols, guide = "none") + scale_y_discrete(expand = c(0.01, 0)) +
-  ggplot2:::manual_scale("point_color", values = cols_dark, guide = "none") +
+  geom_density_ridges(aes(point_color = Species, point_fill = Species, point_shape = Species),
+                      alpha = .2, jittered_points = TRUE) +
+  scale_y_discrete(expand = c(0.01, 0)) +
+  scale_point_color_hue(l=40) +
+  scale_discrete_manual(aesthetic = "point_shape", values = c(21, 22, 23)) +
   theme_ridges(grid = FALSE, center = TRUE)
 
 

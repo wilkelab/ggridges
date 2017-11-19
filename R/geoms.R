@@ -87,7 +87,7 @@ geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @rdname geom_ridgeline
 #' @format NULL
 #' @usage NULL
-#' @importFrom ggplot2 ggproto Geom draw_key_polygon
+#' @importFrom ggplot2 ggproto Geom
 #' @importFrom plyr summarise
 #' @export
 GeomRidgeline <- ggproto("GeomRidgeline", Geom,
@@ -122,7 +122,38 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     transform(data, ymin = y, ymax = y + scale*height)
   },
 
-  draw_key = draw_key_polygon,
+  draw_key = function(data, params, size) {
+    lwd <- min(data$size, min(size) / 4)
+
+    rect_grob <- grid::rectGrob(
+      width = grid::unit(1, "npc") - grid::unit(lwd, "mm"),
+      height = grid::unit(1, "npc") - grid::unit(lwd, "mm"),
+      gp = grid::gpar(
+        col = data$colour,
+        fill = alpha(data$fill, data$alpha),
+        lty = data$linetype,
+        lwd = lwd * .pt,
+        linejoin = "mitre"
+      ))
+
+    if (params$jittered_points) {
+      # if jittered points were drawn then we need to add them to the legend also
+      point_grob <- grid::pointsGrob(0.5, 0.5,
+        pch = data$point_shape,
+        gp = grid::gpar(
+          col = alpha(data$point_color, data$point_alpha),
+          fill = alpha(data$point_fill, data$point_alpha),
+          fontsize = data$point_size * .pt + data$point_stroke * .stroke / 2,
+          lwd = data$point_stroke * .stroke / 2
+        )
+      )
+
+      grid::grobTree(rect_grob, point_grob)
+    }
+    else {
+      rect_grob
+    }
+  },
 
   handle_na = function(data, params) {
     data
