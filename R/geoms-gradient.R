@@ -121,22 +121,22 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
         linejoin = "mitre"
       ))
 
-    if (params$jittered_points) {
+    if (is.null(params$jittered_points) || !params$jittered_points) {
+      rect_grob
+    }
+    else {
       # if jittered points were drawn then we need to add them to the legend also
       point_grob <- grid::pointsGrob(0.5, 0.5,
-                                     pch = data$point_shape,
-                                     gp = grid::gpar(
-                                       col = alpha(data$point_color, data$point_alpha),
-                                       fill = alpha(data$point_fill, data$point_alpha),
-                                       fontsize = data$point_size * .pt + data$point_stroke * .stroke / 2,
-                                       lwd = data$point_stroke * .stroke / 2
-                                     )
+        pch = data$point_shape,
+        gp = grid::gpar(
+          col = alpha(data$point_color, data$point_alpha),
+          fill = alpha(data$point_fill, data$point_alpha),
+          fontsize = data$point_size * .pt + data$point_stroke * .stroke / 2,
+          lwd = data$point_stroke * .stroke / 2
+        )
       )
 
       grid::grobTree(rect_grob, point_grob)
-    }
-    else {
-      rect_grob
     }
   },
 

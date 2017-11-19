@@ -27,6 +27,8 @@ scale_point_fill_hue <- function(...) scale_point_color_hue(..., aesthetic = "po
 
 #' Generic discrete manual scale
 #'
+#' Generic discrete manual scale.
+#'
 #' @param aesthetic The aesthetic for which this scale should be used
 #' @param values List of values to be used as palette
 #' @param ... Other parameters handed off to [discrete_scale]

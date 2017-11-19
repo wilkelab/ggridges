@@ -136,7 +136,10 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
         linejoin = "mitre"
       ))
 
-    if (params$jittered_points) {
+    if (is.null(params$jittered_points) || !params$jittered_points) {
+      rect_grob
+    }
+    else {
       # if jittered points were drawn then we need to add them to the legend also
       point_grob <- grid::pointsGrob(0.5, 0.5,
         pch = data$point_shape,
@@ -149,9 +152,6 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
       )
 
       grid::grobTree(rect_grob, point_grob)
-    }
-    else {
-      rect_grob
     }
   },
 

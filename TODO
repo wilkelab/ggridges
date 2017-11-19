@@ -4,6 +4,7 @@ Things to do before next release
 - Add regression tests for new version of `stat_density_ridges`.
 - Document gradient geoms in the vignette.
 - Add default scales for all the new aesthetics. Done already for `point_shape`.
+- In legend drawing code, detect presence of jittered points from the input data, not from the parameter setting.
 
 
 Some code to integrate into extended documentation:

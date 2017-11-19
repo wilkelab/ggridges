@@ -14,5 +14,5 @@ scale_discrete_manual(aesthetic, values, ...)
 \item{...}{Other parameters handed off to \link{discrete_scale}}
 }
 \description{
-Generic discrete manual scale
+Generic discrete manual scale.
 }
