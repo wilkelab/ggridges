@@ -17,6 +17,20 @@ scale_point_shape <- function(..., solid = TRUE)
   discrete_scale("point_shape", "shape_d", scales::shape_pal(solid), ...)
 }
 
+#' `scale_point_size_continuous`: Equivalent to [`scale_size_continuous`].
+#' @rdname scale_point
+#' @usage NULL
+#' @export
+scale_point_size_continuous <- function(name = ggplot2::waiver(), breaks = ggplot2::waiver(), labels = ggplot2::waiver(),
+                                  limits = NULL, range = c(1, 6),
+                                  trans = "identity", guide = "legend", aesthetics = "point_size") {
+  ggplot2::continuous_scale(aesthetics, "area", scales::area_pal(range), name = name,
+                   breaks = breaks, labels = labels, limits = limits, trans = trans,
+                   guide = guide)
+}
+
+
+
 #' `scale_point_color_hue`: Equivalent to [`scale_colour_hue`].
 #' @rdname scale_point
 #' @usage NULL

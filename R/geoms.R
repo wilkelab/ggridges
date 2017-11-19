@@ -103,6 +103,8 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
   required_aes = c("x", "y", "height"),
 
+  extra_params = c("na.rm", "jittered_points"),
+
   setup_data = function(self, data, params) {
 
     if (!"scale" %in% names(data)) {
@@ -394,7 +396,7 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
 
   required_aes = c("x", "y", "height"),
 
-  extra_params = c("na.rm", "panel_scaling"),
+  extra_params = c("na.rm", "panel_scaling", "jittered_points"),
 
   setup_data = function(self, data, params) {
     # provide default for panel scaling parameter if it doesn't exist,

@@ -88,6 +88,8 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
 
   required_aes = c("x", "y", "height"),
 
+  extra_params = c("na.rm", "jittered_points"),
+
   setup_data = function(self, data, params) {
 
     if (!"scale" %in% names(data)) {
@@ -386,7 +388,7 @@ GeomDensityRidgesGradient <- ggproto("GeomDensityRidgesGradient", GeomRidgelineG
 
   required_aes = c("x", "y", "height"),
 
-  extra_params = c("na.rm", "panel_scaling"),
+  extra_params = c("na.rm", "panel_scaling", "jittered_points"),
 
   setup_data = function(self, data, params) {
     # calculate internal scale

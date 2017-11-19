@@ -2,6 +2,7 @@
 % Please edit documentation in R/point-scales.R
 \name{scale_point}
 \alias{scale_point_shape}
+\alias{scale_point_size_continuous}
 \alias{scale_point_color_hue}
 \alias{scale_point_fill_hue}
 \alias{scale_point_shape_discrete}
@@ -10,10 +11,12 @@
 \title{Scales for point aesthetics}
 \description{
 These are various scales that can be applied to point aesthetics, such as
-\code{point_color}, \code{point_fill}, \code{point_size}. The individual scales are all equivalent
-to existing standard ggplot2 scales.
+\code{point_color}, \code{point_fill}, \code{point_size}. The individual scales all have the
+same usage as existing standard ggplot2 scales, only the name differs.
 
 \code{scale_point_shape}: Equivalent to \code{\link{scale_shape}}.
+
+\code{scale_point_size_continuous}: Equivalent to \code{\link{scale_size_continuous}}.
 
 \code{scale_point_color_hue}: Equivalent to \code{\link{scale_colour_hue}}.
 
