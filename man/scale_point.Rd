@@ -8,23 +8,14 @@
 \alias{scale_point_color_discrete}
 \alias{scale_point_fill_discrete}
 \title{Scales for point aesthetics}
-\usage{
-scale_point_shape(..., solid = TRUE)
-
-scale_point_color_hue(..., h = c(0, 360) + 15, c = 100, l = 65,
-  h.start = 0, direction = 1, na.value = "grey50",
-  aesthetic = "point_color")
-
-scale_point_fill_hue(...)
-
-scale_point_shape_discrete(..., solid = TRUE)
-
-scale_point_color_discrete(..., h = c(0, 360) + 15, c = 100, l = 65,
-  h.start = 0, direction = 1, na.value = "grey50",
-  aesthetic = "point_color")
-
-scale_point_fill_discrete(...)
-}
 \description{
-Scales for point aesthetics
+These are various scales that can be applied to point aesthetics, such as
+\code{point_color}, \code{point_fill}, \code{point_size}. The individual scales are all equivalent
+to existing standard ggplot2 scales.
+
+\code{scale_point_shape}: Equivalent to \code{\link{scale_shape}}.
+
+\code{scale_point_color_hue}: Equivalent to \code{\link{scale_colour_hue}}.
+
+\code{scale_point_fill_hue}: Equivalent to \code{\link{scale_fill_hue}}.
 }

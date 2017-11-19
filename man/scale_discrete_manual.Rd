@@ -4,10 +4,10 @@
 \alias{scale_discrete_manual}
 \title{Generic discrete manual scale}
 \usage{
-scale_discrete_manual(aesthetic, values, ...)
+scale_discrete_manual(aesthetics, values, ...)
 }
 \arguments{
-\item{aesthetic}{The aesthetic for which this scale should be used}
+\item{aesthetics}{The aesthetics for which this scale should be used}
 
 \item{values}{List of values to be used as palette}
 

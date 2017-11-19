@@ -21,7 +21,7 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
                       alpha = .2, jittered_points = TRUE) +
   scale_y_discrete(expand = c(0.01, 0)) +
   scale_point_color_hue(l=40) +
-  scale_discrete_manual(aesthetic = "point_shape", values = c(21, 22, 23)) +
+  scale_discrete_manual(aesthetics = "point_shape", values = c(21, 22, 23)) +
   theme_ridges(grid = FALSE, center = TRUE)
 
 
