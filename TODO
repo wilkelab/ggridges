@@ -3,8 +3,7 @@ Things to do before next release
 - Properly document the new options `jittered_points` and `quantile_lines`.
 - Add regression tests for new version of `stat_density_ridges`.
 - Document gradient geoms in the vignette.
-- Add default scales for all the new aesthetics. Done already for `point_shape`.
-- In legend drawing code, detect presence of jittered points from the input data, not from the parameter setting.
+- In legend drawing code, detect presence of jittered points from the input data, not from the parameter setting? Is this possible?
 
 
 Some code to integrate into extended documentation:
@@ -28,4 +27,26 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
 ggplot(iris, aes(x=Sepal.Length, y=Species)) +
   geom_density_ridges(quantile_lines = TRUE, quantiles = c(0.25, 0.5, 0.75)) +
   scale_y_discrete(expand = c(0.01, 0)) +
+  theme_ridges(grid = FALSE, center = TRUE)
+
+
+# for the gallery?
+set.seed(423)
+n1 <- 200
+n2 <- 25
+n3 <- 50
+cols <- c('#F2DB2F', '#F7F19E', '#FBF186')
+cols_dark <- c("#D7C32F", "#DBD68C", "#DFD672")
+cheese <- data.frame(cheese = c(rep("buttercheese", n1), rep("Leerdammer", n2), rep("Swiss", n3)),
+                     x = c(runif(n1), runif(n2), runif(n3)),
+                     size = c(rnorm(n1, mean = .1, sd = .01), rnorm(n2, mean = 9, sd = 3),
+                              rnorm(n3, mean = 3, sd = 1)))
+ggplot(cheese, aes(x = x, point_size = size, y = cheese, fill = cheese, color = cheese)) +
+  geom_density_ridges(jittered_points = TRUE, point_color="white", scale = .8, rel_min_height = .2,
+                      size = 1.5) +
+  scale_y_discrete(expand = c(.01, 0)) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0), name = "", breaks = NULL) +
+  scale_point_size_continuous(range = c(0.01, 10), guide = "none") +
+  scale_fill_manual(values = cols, guide = "none") +
+  scale_color_manual(values = cols_dark, guide = "none") +
   theme_ridges(grid = FALSE, center = TRUE)
