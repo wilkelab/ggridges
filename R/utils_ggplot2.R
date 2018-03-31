@@ -21,6 +21,17 @@ snake_class <- function(x) {
   snakeize(class(x)[1])
 }
 
+with_seed_null <- function(seed, code) {
+  if (is.null(seed)) {
+    code
+  } else {
+    withr::with_seed(seed, code)
+  }
+}
+
+"%||%" <- function(a, b) {
+  if (!is.null(a)) a else b
+}
 
 # ggplot2 range code, from ggplot2/R/range.r
 
@@ -60,5 +71,4 @@ aes_to_scale <- function(var) {
 is_position_aes <- function(vars) {
   aes_to_scale(vars) %in% c("x", "y")
 }
-
 

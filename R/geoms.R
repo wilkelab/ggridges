@@ -360,14 +360,14 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'   scale_fill_brewer(palette = 4) +
 #'   theme_ridges() + theme(legend.position = "none")
 geom_density_ridges <- function(mapping = NULL, data = NULL, stat = "density_ridges",
-                     panel_scaling = TRUE,
-                     na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
+                                position = "identity", panel_scaling = TRUE,
+                                na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
     geom = GeomDensityRidges,
-    position = "identity",
+    position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(

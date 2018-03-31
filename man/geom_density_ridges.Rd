@@ -9,8 +9,8 @@
 \title{Create ridgeline plot}
 \usage{
 geom_density_ridges(mapping = NULL, data = NULL, stat = "density_ridges",
-  panel_scaling = TRUE, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  position = "identity", panel_scaling = TRUE, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, ...)
 
 geom_density_ridges2(mapping = NULL, data = NULL, stat = "density_ridges",
   panel_scaling = TRUE, na.rm = FALSE, show.legend = NA,
@@ -37,6 +37,9 @@ will be used as the layer data.}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
+
+\item{position}{Position adjustment, either as a string, or the result of
+a call to a position adjustment function.}
 
 \item{panel_scaling}{If \code{TRUE}, the default, relative scaling is calculated separately
 for each panel. If \code{FALSE}, relative scaling is calculated globally.}

@@ -270,7 +270,9 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     # calculate jittered original points if requested
     if (jittered_points) {
       df_jittered <- data.frame(x = data$x,
-        density = (points_scaling_range[1]+diff(points_scaling_range)*runif(length(data$x)))*densf(data$x),
+        ## jittering is now handled in position argument
+        #density = (points_scaling_range[1]+diff(points_scaling_range)*runif(length(data$x)))*densf(data$x),
+        density = densf(data$x),
         datatype = "point", stringsAsFactors = FALSE)
 
       # see if we need to carry over other point data
