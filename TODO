@@ -5,6 +5,7 @@ Things to do before next release
 - Add separate styling options for vertical lines.
 - Document gradient geoms in the vignette.
 - In legend drawing code, detect presence of jittered points from the input data, not from the parameter setting? Is this possible?
+- The options jittered_points and quantile_lines in stat_density_ridges need to be documented in the .Rd file of that stat.
 
 
 Some code to integrate into extended documentation:
@@ -30,43 +31,3 @@ ggplot(iris, aes(x=Sepal.Length, y=Species)) +
   scale_y_discrete(expand = c(0.01, 0)) +
   theme_ridges(grid = FALSE, center = TRUE)
 
-
-# for the gallery?
-set.seed(423)
-n1 <- 200
-n2 <- 25
-n3 <- 50
-cols <- c('#F2DB2F', '#F7F19E', '#FBF186')
-cols_dark <- c("#D7C32F", "#DBD68C", "#DFD672")
-cheese <- data.frame(cheese = c(rep("buttercheese", n1), rep("Leerdammer", n2), rep("Swiss", n3)),
-                     x = c(runif(n1), runif(n2), runif(n3)),
-                     size = c(rnorm(n1, mean = .1, sd = .01), rnorm(n2, mean = 9, sd = 3),
-                              rnorm(n3, mean = 3, sd = 1)))
-ggplot(cheese, aes(x = x, point_size = size, y = cheese, fill = cheese, color = cheese)) +
-  geom_density_ridges(jittered_points = TRUE, point_color="white", scale = .8, rel_min_height = .2,
-                      size = 1.5) +
-  scale_y_discrete(expand = c(.01, 0)) +
-  scale_x_continuous(limits = c(0, 1), expand = c(0, 0), name = "", breaks = NULL) +
-  scale_point_size_continuous(range = c(0.01, 10), guide = "none") +
-  scale_fill_manual(values = cols, guide = "none") +
-  scale_color_manual(values = cols_dark, guide = "none") +
-  theme_ridges(grid = FALSE, center = TRUE)
-
-
-library(DAAG)
-library(ggridges)
-ais$sport <- factor(ais$sport,
-                    levels = c("B_Ball", "Field", "Gym", "Netball", "Row", "Swim", "T_400m", "T_Sprnt", "Tennis", "W_Polo"),
-                    labels = c("Basketball", "Field", "Gym", "Netball", "Row", "Swim", "Track 400m", "Track Sprint", "Tennis", "Water Polo"))
-ggplot(ais, aes(x=ht, y=sport, point_size=pcBfat, point_color=sex, fill=sex)) +
-  geom_density_ridges(jittered_points=TRUE, scale = .8, rel_min_height = .01,
-                      points_scaling_range = c(.1, .8)) +
-  scale_y_discrete(expand = c(.01, 0)) +
-  scale_x_continuous(expand = c(0, 0), name = "height [cm]") +
-  scale_point_size_continuous(range = c(0.1, 5), name = "% bodyfat") +
-  scale_fill_manual(values = c("#D55E0020", "#0072B220"), guide = "none") +
-  scale_discrete_manual("point_color", values = c("#D55E00", "#0072B2"), labels = c("female", "male")) +
-  guides(point_size = guide_legend(override.aes = list(fill = NA, color = NA)),
-         point_color = guide_legend(override.aes = list(fill = c("#D55E0020", "#0072B220"), color = NA, point_size = 4))) +
-  ggtitle("Height and % bodyfat in Australian athletes") +
-  theme_ridges(center = TRUE)

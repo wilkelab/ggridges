@@ -18,11 +18,12 @@ License: GPL-2 | file LICENSE
 LazyData: true
 Suggests:
     covr,
+    dplyr,
     gridExtra,
     ggplot2movies,
+    DAAG,
     forcats,
     knitr,
-    tidyverse,
     testthat,
     vdiffr,
     viridis

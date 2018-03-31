@@ -8,8 +8,14 @@
 #'   number is used as seed for jittering only.
 #' @seealso [`position_points_sina`], [`position_raincloud`]
 #' @examples
+#' # default jittered points
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_density_ridges(jittered_points = TRUE, position = "points_jitter", alpha = 0.7)
+#'
+#' # simulating a rug
+#' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
+#'   geom_density_ridges(jittered_points = TRUE, point_shape = '|', alpha = 0.7, point_size = 2,
+#'                       position = position_points_jitter(width = 0.02, height = 0))
 #' @export
 position_points_jitter <- function(width = 0, height = 0.2, yoffset = 0, seed = NULL) {
   if (!is.null(seed) && is.na(seed)) {
