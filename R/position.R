@@ -1,17 +1,17 @@
 #' Randomly jitter the points in a ridgeline plot
 #'
 #' @param width Width for horizonal jittering. By default set to 0.
-#' @param height Height for vertical jittering, applied in both directions. By default 0.4.
+#' @param height Height for vertical jittering, applied in both directions. By default 0.2.
 #' @param yoffset Vertical offset applied in addition to jittering.
 #' @param seed Random seed. If set to NULL, the current random number generator is used.
 #'   If set to NA, a new random random seed is generated. If set to a number, this
 #'   number is used as seed for jittering only.
-#' @seealso position_points_sina
+#' @seealso [`position_points_sina`], [`position_raincloud`]
 #' @examples
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_density_ridges(jittered_points = TRUE, position = "points_jitter", alpha = 0.7)
 #' @export
-position_points_jitter <- function(width = 0, height = 0.4, yoffset = 0, seed = NULL) {
+position_points_jitter <- function(width = 0, height = 0.2, yoffset = 0, seed = NULL) {
   if (!is.null(seed) && is.na(seed)) {
     seed <- sample.int(.Machine$integer.max, 1L)
   }
@@ -34,7 +34,7 @@ PositionPointsJitter <- ggproto("PositionPointsJitter", Position,
   setup_params = function(self, data) {
     list(
       width = self$width %||% 0,
-      height = self$height %||% 0.4,
+      height = self$height %||% 0.2,
       yoffset = self$yoffset %||% 0,
       seed = self$seed
     )
@@ -52,7 +52,7 @@ PositionPointsJitter <- ggproto("PositionPointsJitter", Position,
         data$x[points] <- data$x[points] - params$width +
           2 * params$width * runif(sum(points))
       };
-      data$ymax[points] <- data$ymin[points] + params$yoffset - params$height +
+      data$ymin[points] <- data$ymin[points] + params$yoffset - params$height +
         2 * params$height * runif(sum(points))
     })
     data
@@ -66,8 +66,7 @@ PositionPointsJitter <- ggproto("PositionPointsJitter", Position,
 #' @param height Total height of point cloud. By default 0.4.
 #' @param ygap Vertical gap between ridgeline baseline and point cloud.
 #' @param seed Random seed. See [`position_points_jitter`].
-#' @seealso position_points_jitter
-#' @seealso position_points_sina
+#' @seealso [`position_points_jitter`], [`position_points_sina`]
 #' @examples
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_density_ridges(jittered_points = TRUE, position = "raincloud", alpha = 0.7)
@@ -109,7 +108,7 @@ PositionRaincloud <- ggproto("PositionRaincloud", PositionPointsJitter,
 #' @param rel_min The relative minimum value at which a point can be placed.
 #' @param rel_max The relative maximum value at which a point can be placed.
 #' @param seed See [`position_points_jitter`].
-#' @seealso position_points_jitter
+#' @seealso [`position_points_jitter`], [`position_raincloud`]
 #' @examples
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_density_ridges(jittered_points = TRUE, position = "points_sina", alpha = 0.7)
@@ -150,7 +149,7 @@ PositionPointsSina <- ggproto("PositionPointsSina", Position,
     points <- data$datatype == "point"
 
     with_seed_null(params$seed,
-      data$ymax[points] <- data$ymin[points] +
+      data$ymin[points] <- data$ymin[points] +
         (params$rel_min + (params$rel_max - params$rel_min) * runif(sum(points))) *
           (data$ymax[points] - data$ymin[points])
     )

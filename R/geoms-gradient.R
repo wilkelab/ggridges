@@ -251,7 +251,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     if (is.null(data)) {
       return(grid::nullGrob())
     }
-    data$y <- data$ymax
+    data$y <- data$ymin
     coords <- coord$transform(data, panel_params)
     ggname("geom_ridgeline_gradient",
            grid::pointsGrob(
@@ -341,14 +341,15 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
 #' @importFrom ggplot2 layer
 #' @export
 geom_density_ridges_gradient <- function(mapping = NULL, data = NULL, stat = "density_ridges",
-                     panel_scaling = TRUE,
-                     na.rm = TRUE, gradient_lwd = 0.5, show.legend = NA, inherit.aes = TRUE, ...) {
+                                         position = "points_sina", panel_scaling = TRUE,
+                                         na.rm = TRUE, gradient_lwd = 0.5, show.legend = NA,
+                                         inherit.aes = TRUE, ...) {
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
     geom = GeomDensityRidgesGradient,
-    position = "identity",
+    position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(

@@ -60,116 +60,6 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
   )
 }
 
-
-#' @rdname stat_density_ridges
-#' @format NULL
-#' @usage NULL
-#' @importFrom ggplot2 ggproto Stat
-#' @export
-StatDensityRidgesOld <- ggproto("StatDensityRidgesOld", Stat,
-  required_aes = "x",
-  default_aes = aes(height = ..density..),
-
-  calc_panel_params = function(data, params) {
-    if (is.null(params$bandwidth)) {
-      xdata <- na.omit(data.frame(x=data$x, group=data$group))
-      xs <- split(xdata$x, xdata$group)
-      xs_mask <- vapply(xs, length, numeric(1)) > 1
-      bws <- vapply(xs[xs_mask], bw.nrd0, numeric(1))
-      bw <- mean(bws, na.rm = TRUE)
-      message("Picking joint bandwidth of ", signif(bw, 3))
-
-      params$bandwidth <- bw
-    }
-
-    if (is.null(params$from)) {
-      params$from <- min(data$x, na.rm=TRUE) - 3 * params$bandwidth
-    }
-
-    if (is.null(params$to)) {
-      params$to <- max(data$x, na.rm=TRUE) + 3 * params$bandwidth
-    }
-
-    data.frame(
-      bandwidth = params$bandwidth,
-      from = params$from,
-      to = params$to
-    )
-  },
-
-  setup_params = function(self, data, params) {
-    # calculate bandwidth, min, and max for each panel separately
-    panels <- split(data, data$PANEL)
-    pardata <- lapply(panels, self$calc_panel_params, params)
-    pardata <- reduce(pardata, rbind)
-
-    if (is.null(params$calc_ecdf)) {
-      params$calc_ecdf <- FALSE
-    }
-
-    if (is.null(params$quantiles)) {
-      params$quantiles <- 5
-    }
-
-    if (length(params$quantiles) > 1 &&
-       (max(params$quantiles, na.rm = TRUE) > 1 || min(params$quantiles, na.rm = TRUE) < 0)) {
-         stop('invalid quantiles used: c(', paste0(params$quantiles, collapse = ','), ') must be within [0, 1] range')
-    }
-
-    list(
-      bandwidth = pardata$bandwidth,
-      from = pardata$from,
-      to = pardata$to,
-      calc_ecdf = params$calc_ecdf,
-      quantiles = params$quantiles,
-      na.rm = params$na.rm
-    )
-  },
-
-  compute_group = function(data, scales, from, to, bandwidth = 1,
-                           calc_ecdf = FALSE, quantiles = 5) {
-    # ignore too small groups
-    if(nrow(data) < 3) return(data.frame())
-
-    panel <- unique(data$PANEL)
-    if (length(panel) > 1) {
-      stop("Error: more than one panel in compute group; something's wrong.")
-    }
-    panel_id <- as.numeric(panel)
-
-    d <- density(data$x, bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE)
-
-    if(is.null(calc_ecdf)) calc_ecdf <- FALSE
-
-    if (calc_ecdf) {
-      n <- length(d$x)
-      ecdf <- c(0, cumsum(d$y[1:(n-1)]*(d$x[2:n]-d$x[1:(n-1)])))
-
-      if (length(quantiles)==1 && quantiles >= 1) {
-        ntile <- 1 + floor(quantiles * ecdf)
-        ntile[ntile>quantiles] <- quantiles
-      }
-      else {
-        ntile <- cut(ecdf,
-                     unique(c(min(ecdf, na.rm = TRUE), quantiles, max(ecdf, na.rm = TRUE))),
-                     include.lowest = TRUE, right = TRUE)
-      }
-
-      data.frame(
-        x = d$x,
-        density = d$y,
-        ecdf = ecdf,
-        quantile = ntile
-      )
-    }
-    else {
-      data.frame(x = d$x, density = d$y)
-    }
-  }
-)
-
-
-# experimental version that calculates additional items
 #' @rdname stat_density_ridges
 #' @format NULL
 #' @usage NULL
@@ -248,7 +138,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 
   compute_group = function(data, scales, from, to, bandwidth = 1,
                            calc_ecdf = FALSE, jittered_points = FALSE, quantile_lines = FALSE,
-                           quantiles = 4, points_scaling_range = c(0.02, 0.98)) {
+                           quantiles = 4) {
     # ignore too small groups
     if(nrow(data) < 3) return(data.frame())
 
@@ -269,9 +159,9 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 
     # calculate jittered original points if requested
     if (jittered_points) {
-      df_jittered <- data.frame(x = data$x,
-        ## jittering is now handled in position argument
-        #density = (points_scaling_range[1]+diff(points_scaling_range)*runif(length(data$x)))*densf(data$x),
+      df_jittered <- data.frame(
+        x = data$x,
+        # actual jittering is handled in the position argument
         density = densf(data$x),
         datatype = "point", stringsAsFactors = FALSE)
 

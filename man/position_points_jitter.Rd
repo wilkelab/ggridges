@@ -6,13 +6,13 @@
 \alias{PositionPointsJitter}
 \title{Randomly jitter the points in a ridgeline plot}
 \usage{
-position_points_jitter(width = 0, height = 0.4, yoffset = 0,
+position_points_jitter(width = 0, height = 0.2, yoffset = 0,
   seed = NULL)
 }
 \arguments{
 \item{width}{Width for horizonal jittering. By default set to 0.}
 
-\item{height}{Height for vertical jittering, applied in both directions. By default 0.4.}
+\item{height}{Height for vertical jittering, applied in both directions. By default 0.2.}
 
 \item{yoffset}{Vertical offset applied in addition to jittering.}
 
@@ -28,6 +28,6 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(jittered_points = TRUE, position = "points_jitter", alpha = 0.7)
 }
 \seealso{
-position_points_sina
+\code{\link{position_points_sina}}, \code{\link{position_raincloud}}
 }
 \keyword{datasets}

@@ -13,8 +13,9 @@ geom_ridgeline_gradient(mapping = NULL, data = NULL, stat = "identity",
   show.legend = NA, inherit.aes = TRUE, ...)
 
 geom_density_ridges_gradient(mapping = NULL, data = NULL,
-  stat = "density_ridges", panel_scaling = TRUE, na.rm = TRUE,
-  gradient_lwd = 0.5, show.legend = NA, inherit.aes = TRUE, ...)
+  stat = "density_ridges", position = "points_sina", panel_scaling = TRUE,
+  na.rm = TRUE, gradient_lwd = 0.5, show.legend = NA,
+  inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or

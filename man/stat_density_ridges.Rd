@@ -3,7 +3,6 @@
 \docType{data}
 \name{stat_density_ridges}
 \alias{stat_density_ridges}
-\alias{StatDensityRidgesOld}
 \alias{StatDensityRidges}
 \title{Stat for density ridgeline plots}
 \usage{

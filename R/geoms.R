@@ -240,7 +240,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     if (is.null(data)) {
       return(grid::nullGrob())
     }
-    data$y <- data$ymax
+    data$y <- data$ymin
     coords <- coord$transform(data, panel_params)
     ggname("geom_ridgeline",
            grid::pointsGrob(
@@ -360,7 +360,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'   scale_fill_brewer(palette = 4) +
 #'   theme_ridges() + theme(legend.position = "none")
 geom_density_ridges <- function(mapping = NULL, data = NULL, stat = "density_ridges",
-                                position = "identity", panel_scaling = TRUE,
+                                position = "points_sina", panel_scaling = TRUE,
                                 na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,
@@ -467,7 +467,7 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
 #'   scale_x_continuous(expand = c(0.01, 0)) +
 #'   theme_ridges()
 geom_density_ridges2 <- function(mapping = NULL, data = NULL, stat = "density_ridges",
-                      panel_scaling = TRUE,
+                      position = "points_sina", panel_scaling = TRUE,
                       na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
     data = data,

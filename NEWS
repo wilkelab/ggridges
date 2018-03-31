@@ -5,6 +5,8 @@ ggridges 0.4.1.9990
 - Reworked stat_density_ridges, geom_ridgeline, geom_density_ridges,
   etc. so that jittered points and quantile lines can be drawn
   on top of the distributions.
+- Added position options to control how the jittered points are drawn.
+  Default is uniformly spaced within the density area.
 - Added `geom_density_line()` which is a drop-in replacement for
   `geom_density()` but draws a ridgeline rather than a closed
   polygon.

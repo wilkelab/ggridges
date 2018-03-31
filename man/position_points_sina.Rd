@@ -23,6 +23,6 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(jittered_points = TRUE, position = "points_sina", alpha = 0.7)
 }
 \seealso{
-position_points_jitter
+\code{\link{position_points_jitter}}, \code{\link{position_raincloud}}
 }
 \keyword{datasets}
