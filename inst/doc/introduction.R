@@ -132,6 +132,12 @@ ggplot(iris, aes(x = Sepal.Length, y = Species, fill = Species)) +
   scale_point_color_hue(l = 40) + scale_point_size_continuous(range = c(0.5, 4)) +
   scale_discrete_manual(aesthetics = "point_shape", values = c(21, 22, 23))
 
+## ----message = FALSE-----------------------------------------------------
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
+  geom_density_ridges(jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
+                      vline_size = 1, vline_color = "red", point_size = 0.4,
+                      position = position_raincloud(adjust_vlines = TRUE))
+
 ## ----message=FALSE-------------------------------------------------------
 ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
   geom_density_ridges(stat = "density")

@@ -83,7 +83,10 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
 
     # point aesthetics
     point_shape = 19, point_color = "black", point_size = 1.5, point_fill = NA,
-    point_alpha = NA, point_stroke = 0.5
+    point_alpha = NA, point_stroke = 0.5,
+
+    # vline aesthetics
+    vline_color = "black", vline_size = 0.5, vline_linetype = 1
   ),
 
   required_aes = c("x", "y", "height"),
@@ -167,17 +170,17 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
   draw_group = function(self, data, panel_params, coord, na.rm = FALSE, gradient_lwd = 0.5) {
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
 
-    # split data into data types (ridgeline, stud, point)
+    # split data into data types (ridgeline, vline, point)
     data_list <- split(data, factor(data$datatype))
 
     point_grob <- self$make_point_grob(data_list[["point"]], panel_params, coord)
-    stud_grob <- self$make_stud_grob(data_list[["stud"]], panel_params, coord)
+    vline_grob <- self$make_vline_grob(data_list[["vline"]], panel_params, coord)
 
     data <- data_list[["ridgeline"]]
 
     # if the final data set is empty then we're done here
     if (is.null(data)) {
-      return(grid::grobTree(stud_grob, point_grob))
+      return(grid::grobTree(vline_grob, point_grob))
     }
 
     # otherwise, continue. First we order the data, in preparation for polygon drawing
@@ -244,7 +247,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     area_grob <- self$make_area_grob(munched_poly, aes, gradient_lwd)
 
     # combine everything and return
-    grid::grobTree(area_grob, stud_grob, point_grob, line_grob)
+    grid::grobTree(area_grob, vline_grob, point_grob, line_grob)
   },
 
   make_point_grob = function(data, panel_params, coord) {
@@ -268,7 +271,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     )
   },
 
-  make_stud_grob = function(data, panel_params, coord) {
+  make_vline_grob = function(data, panel_params, coord) {
     if (is.null(data)) {
       return(grid::nullGrob())
     }
@@ -276,6 +279,11 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     data$y <- data$ymin
     data$yend <- data$ymax
     data$alpha <- NA
+
+    # copy vline aesthetics over
+    data$colour <- data$vline_color
+    data$linetype <- data$vline_linetype
+    data$size <- data$vline_size
     ggplot2::GeomSegment$draw_panel(data, panel_params, coord)
   },
 
@@ -384,7 +392,10 @@ GeomDensityRidgesGradient <- ggproto("GeomDensityRidgesGradient", GeomRidgelineG
 
     # point aesthetics
     point_shape = 19, point_color = "black", point_size = 1.5, point_fill = NA,
-    point_alpha = NA, point_stroke = 0.5
+    point_alpha = NA, point_stroke = 0.5,
+
+    # vline aesthetics
+    vline_color = "black", vline_size = 0.5, vline_linetype = 1
   ),
 
   required_aes = c("x", "y", "height"),

@@ -8,6 +8,8 @@
 #' @param width Width for horizonal jittering. By default set to 0.
 #' @param height Height for vertical jittering, applied in both directions (up and down). By default 0.2.
 #' @param yoffset Vertical offset applied in addition to jittering.
+#' @param adjust_vlines If `TRUE`, adjusts vertical lines (as are drawn for
+#'   quantile lines, for example) to align with the point cloud.
 #' @param seed Random seed. If set to NULL, the current random number generator is used.
 #'   If set to NA, a new random random seed is generated. If set to a number, this
 #'   number is used as seed for jittering only.
@@ -22,7 +24,7 @@
 #'   geom_density_ridges(jittered_points = TRUE, point_shape = '|', alpha = 0.7, point_size = 2,
 #'                       position = position_points_jitter(width = 0.02, height = 0))
 #' @export
-position_points_jitter <- function(width = 0, height = 0.2, yoffset = 0, seed = NULL) {
+position_points_jitter <- function(width = 0, height = 0.2, yoffset = 0, adjust_vlines = FALSE, seed = NULL) {
   if (!is.null(seed) && is.na(seed)) {
     seed <- sample.int(.Machine$integer.max, 1L)
   }
@@ -31,6 +33,7 @@ position_points_jitter <- function(width = 0, height = 0.2, yoffset = 0, seed = 
     width = width,
     height = height,
     yoffset = yoffset,
+    adjust_vlines = adjust_vlines,
     seed = seed
   )
 }
@@ -47,6 +50,7 @@ PositionPointsJitter <- ggproto("PositionPointsJitter", Position,
       width = self$width %||% 0,
       height = self$height %||% 0.2,
       yoffset = self$yoffset %||% 0,
+      adjust_vlines = self$adjust_vlines %||% FALSE,
       seed = self$seed
     )
   },
@@ -66,6 +70,16 @@ PositionPointsJitter <- ggproto("PositionPointsJitter", Position,
       data$ymin[points] <- data$ymin[points] + params$yoffset - params$height +
         2 * params$height * runif(sum(points))
     })
+
+    # do we need to adjust vertical lines as well?
+    if (!params$adjust_vlines) {
+      return(data) # no, we're done
+    }
+
+    vlines <- data$datatype == "vline"
+    data$ymin[vlines] <- data$ymin[vlines] + params$yoffset - params$height
+    data$ymax[vlines] <- data$ymin[vlines] + 2 * params$height
+
     data
   }
 )
@@ -81,13 +95,15 @@ PositionPointsJitter <- ggproto("PositionPointsJitter", Position,
 #' @param width Width for horizonal jittering. By default set to 0.
 #' @param height Total height of point cloud. By default 0.4.
 #' @param ygap Vertical gap between ridgeline baseline and point cloud.
+#' @param adjust_vlines If `TRUE`, adjusts vertical lines (as are drawn for
+#'   quantile lines, for example) to align with the point cloud.
 #' @param seed Random seed. See [`position_points_jitter`].
 #' @seealso Other position adjustments for ridgeline plots: [`position_points_jitter`], [`position_points_sina`]
 #' @examples
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_density_ridges(jittered_points = TRUE, position = "raincloud", alpha = 0.7)
 #' @export
-position_raincloud <- function(width = 0, height = 0.4, ygap = 0.05, seed = NULL) {
+position_raincloud <- function(width = 0, height = 0.4, ygap = 0.05, adjust_vlines = FALSE, seed = NULL) {
   if (!is.null(seed) && is.na(seed)) {
     seed <- sample.int(.Machine$integer.max, 1L)
   }
@@ -96,6 +112,7 @@ position_raincloud <- function(width = 0, height = 0.4, ygap = 0.05, seed = NULL
           width = width,
           height = height,
           ygap = ygap,
+          adjust_vlines = adjust_vlines,
           seed = seed
   )
 }
@@ -114,6 +131,7 @@ PositionRaincloud <- ggproto("PositionRaincloud", PositionPointsJitter,
       width = self$width %||% 0,
       height = height,
       yoffset = yoffset,
+      adjust_vlines = self$adjust_vlines %||% FALSE,
       seed = self$seed
     )
   }

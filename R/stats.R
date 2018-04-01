@@ -215,7 +215,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 
     if (quantile_lines && length(qx) > 0) {
       qy <- densf(qx)
-      df_quantiles <- data.frame(x = qx, density = qy, datatype = "stud",
+      df_quantiles <- data.frame(x = qx, density = qy, datatype = "vline",
                                  stringsAsFactors = FALSE)
       if (!is.null(df_points_dummy)){
         # add in dummy points data if necessary

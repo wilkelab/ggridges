@@ -229,6 +229,16 @@ ggplot(iris, aes(x = Sepal.Length, y = Species, fill = Species)) +
   scale_discrete_manual(aesthetics = "point_shape", values = c(21, 22, 23))
 ```
 
+Similarly, we have aesthetics for the vertical lines, named `vline_`. And the vertical lines can also be
+shifted so they are aligned with the jittered points. This allows us to generate figures such as the following:
+
+```{r message = FALSE}
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
+  geom_density_ridges(jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
+                      vline_size = 1, vline_color = "red", point_size = 0.4,
+                      position = position_raincloud(adjust_vlines = TRUE))
+```
+
 ### Using alternative stats
 
 The stat `stat_density_ridges` may not always do exactly what you want it to do. If this is the case, you can use other stats that may be better for your respective application. First, `stat_density_ridges` estimates the data range and bandwidth for the density estimation from the entire data at once, rather than from each individual group of data. This choice makes ridgeline plots look more uniform, but the density estimates can in some cases look quite different from what you would get from `geom_density` or `stat_density`. This problem can be remidied by using `stat_density` with `geom_density_ridges`. This works just fine, we just need to make sure that we map the calculated density onto the `height` aesthetic.
