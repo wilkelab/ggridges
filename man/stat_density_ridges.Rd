@@ -79,7 +79,8 @@ the entire dataset.
 # Examples of coloring by ecdf or quantiles
 library(viridis)
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE, quantiles = 5) +
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE,
+                      quantiles = 5) +
   scale_fill_viridis(discrete = TRUE, name = "Quintiles") + theme_ridges() +
   scale_y_discrete(expand = c(0.01, 0))
 
@@ -89,7 +90,8 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
   scale_y_discrete(expand = c(0.01, 0))
 
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE, quantiles = c(0.05, 0.95)) +
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE,
+                      quantiles = c(0.05, 0.95)) +
   scale_fill_manual(name = "Probability\\nranges",
                     values = c("red", "grey80", "blue")) +
   theme_ridges() + scale_y_discrete(expand = c(0.01, 0))
