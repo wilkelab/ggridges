@@ -32,3 +32,6 @@ draw a legend, however, because of limitations in \code{\link{guide_colorbar}}.
 \code{scale_point_fill_gradient}: Equivalent to \code{\link{scale_fill_gradient}}. Note that this scale cannot
 draw a legend, however, because of limitations in \code{\link{guide_colorbar}}.
 }
+\seealso{
+See \code{\link[=scale_discrete_manual]{scale_discrete_manual()}} for a general discrete scale.
+}

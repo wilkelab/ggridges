@@ -5,6 +5,7 @@
 #' same usage as existing standard ggplot2 scales, only the name differs.
 #'
 #' @name scale_point
+#' @seealso See [`scale_discrete_manual()`] for a general discrete scale.
 #' @aliases NULL
 NULL
 
