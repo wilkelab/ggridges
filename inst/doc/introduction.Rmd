@@ -4,16 +4,15 @@ author: "Claus O. Wilke"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
-    fig_width: 4.5
-    fig_height: 3
+    fig_width: 6
+    fig_height: 4
 vignette: >
   %\VignetteIndexEntry{Introduction to ggridges}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
 
-ridgeline plots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. The name "ridgeline plot" was [proposed](
-https://twitter.com/JennyBryan/status/856674638981550080) by Jenny Bryan on Twitter on April 24, 2017, in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album _Unknown Pleasures_.
+Ridgeline plots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space.
 
 ## Geoms
 
@@ -32,7 +31,7 @@ ggplot(data, aes(x, y, height = height)) + geom_ridgeline()
 ```
 
 Negative heights are allowed, but are cut off unless the `min_height` parameter is set negative as well.
-```{r message=FALSE, fig.width=9, fig.height=3}
+```{r message = FALSE, fig.width=9, fig.height=3}
 # for side-by-side plotting
 library(gridExtra)
 
@@ -44,14 +43,15 @@ grid.arrange(plot_base + geom_ridgeline(),
 
 
 Multiple ridgelines can be drawn at the same time. They will be ordered such that the ones drawn higher up are in the background. When drawing multiple ridgelines at once, the `group` aesthetic must be specified so that the geom knows which parts of the data belong to which ridgeline.
-```{r}
+```{r message = FALSE}
 d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(2, 5)),
                 height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
-ggplot(d, aes(x, y, height = height, group = y)) + geom_ridgeline(fill = "lightblue")
+ggplot(d, aes(x, y, height = height, group = y)) + 
+  geom_ridgeline(fill = "lightblue")
 ```
 
 It is also possible to draw ridgelines with `geom_density_ridges` if we set `stat="identity"`. In this case, the heights are automatically scaled such that the highest ridgeline just touches the one above at `scale=1`.
-```{r}
+```{r message = FALSE}
 ggplot(d, aes(x, y, height = height, group = y)) + 
   geom_density_ridges(stat = "identity", scale = 1)
 ```
@@ -77,12 +77,14 @@ iris_num <- transform(iris, Species_num = as.numeric(Species))
 # ggplot(iris_num, aes(x = Sepal.Length, y = Species)) + geom_density_ridges()
 
 # works 
-ggplot(iris_num, aes(x = Sepal.Length, y = Species_num, group = Species_num)) + geom_density_ridges()
+ggplot(iris_num, aes(x = Sepal.Length, y = Species_num, group = Species_num)) + 
+  geom_density_ridges()
 ```
 
 Trailing tails can be cut off using the `rel_min_height` aesthetic. This aesthetic sets a percent cutoff relative to the highest point of any of the density curves. A value of 0.01 usually works well, but you may have to modify this parameter for different datasets.
 ```{r message=FALSE}
-ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges(rel_min_height = 0.01)
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
+  geom_density_ridges(rel_min_height = 0.01)
 ```
 
 The extent to which the different densities overlap can be controlled with the `scale` parameter. A setting of `scale=1` means the tallest density curve just touches the baseline of the next higher one. Smaller values create a separation between the curves, and larger values create more overlap.
@@ -102,6 +104,165 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(scale = 1) + facet_wrap(~Species)
 ```
 
+### Varying fill colors along the x axis
+
+Sometimes we would like to have the area under a ridgeline not filled with a single solid color but rather with colors that vary in some form along the x axis. This effect can be achieved with the geoms `geom_ridgeline_gradient` and `geom_density_ridges_gradient`. Both geoms work just like `geom_ridgeline` and `geom_density_ridges`, except that they allow for varying fill colors. **However,** they do not allow for alpha transparency in the fill. For technical reasons, we can have changing fill colors or transparency but not both.
+
+Here is a simple example of changing fill colors with `geom_ridgeline_gradient`:
+```{r message = FALSE}
+library(viridis)
+d <- data.frame(x = rep(1:5, 3) + c(rep(0, 5), rep(0.3, 5), rep(0.6, 5)),
+                y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
+                height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
+ggplot(d, aes(x, y, height = height, group = y, fill = factor(x+y))) +
+  geom_ridgeline_gradient() +
+  scale_fill_viridis(discrete = TRUE, direction = -1, guide = "none")
+```
+
+And here is an example using `geom_density_ridges_gradient`. Note that we need to map the calculated x value (`..x..`) onto the fill aesthetic, not the original temperature variable. This is the case because `geom_density_ridges_gradient` calls `stat_density_ridges` (described in the next section) which calculates new x values as part of its density calculation.
+```{r message = FALSE}
+ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`, fill = ..x..)) +
+  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
+  scale_fill_viridis(name = "Temp. [F]", option = "C") +
+  labs(title = 'Temperatures in Lincoln NE in 2016')
+```
+
+## Stats
+
+The ggridges package provides a stat `stat_density_ridges` that replaces `stat_density` in the context of ridgeline plots. In addition to setting up the proper `height` for `geom_density_ridges`, this stat has a number of additional features that may be useful.
+
+### Quantile lines and coloring by quantiles or probabilities
+
+By setting the option `quantile_lines = TRUE`, we can make `stat_density_ridges` calculate the position of lines indicating quantiles. By default, three lines are drawn, corresponding to the first, second, and third quartile:
+
+```{r message = FALSE}
+ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+  stat_density_ridges(quantile_lines = TRUE)
+```
+
+We can change the number of quantiles by specifying it via the `quantiles` option. Note that `quantiles = 2` implies one line (the median) at the boundary between the two quantiles.
+
+```{r message = FALSE}
+ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+  stat_density_ridges(quantile_lines = TRUE, quantiles = 2)
+```
+
+We can also specify quantiles by cut points rather than number. E.g., we can indicate the 2.5% and 97.5% tails.
+
+```{r message = FALSE}
+ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+  stat_density_ridges(quantile_lines = TRUE, quantiles = c(0.025, 0.975), alpha = 0.7)
+```
+
+Using the geom `geom_density_ridges_gradient` we can also color by quantile, via the calculated `..quantile..` aesthetic. Note that this aesthetic is only calculated if `calc_ecdf = TRUE`.
+
+```{r message = FALSE}
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE, quantiles = 4, quantile_lines = TRUE) +
+  scale_fill_viridis(discrete = TRUE, name = "Quartiles")
+```
+
+We can use the same approach to highlight the tails of the distributions.
+
+```{r message = FALSE}
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE, quantiles = c(0.025, 0.975)) +
+  scale_fill_manual(name = "Probability", values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
+                    labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]"))
+```
+
+Finally, when `calc_ecdf = TRUE`, we also have access to a calculated aesthetic `..ecdf..`, which represents the empirical cumulative density function for the distribution. This allows us to map the probabilities directly onto color.
+
+```{r message = FALSE}
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
+  scale_fill_viridis(name = "Tail probability", direction = -1)
+```
+
+### Jittering points
+
+The stat `stat_density_ridges` also provides the option to visualize the original data points from which the distributions are generated. This can be done by setting `jittered_points = TRUE`, either in `stat_density_ridges` or in `geom_density_ridges`:
+
+```{r message = FALSE}
+ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+  geom_density_ridges(jittered_points = TRUE)
+```
+
+Where the points are shown can be controlled with position options, e.g. "raincloud" for the raincloud effect:
+
+```{r message = FALSE}
+ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+  geom_density_ridges(jittered_points = TRUE, position = "raincloud",
+                      alpha = 0.7, scale = 0.9)
+```
+
+We can also simulate a rug:
+
+```{r message = FALSE}
+ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+  geom_density_ridges(jittered_points = TRUE,
+                      position = position_points_jitter(width = 0.05, height = 0),
+                      point_shape = '|', point_size = 3, alpha = 0.7)
+```
+
+Note that we are using `position_points_jitter()` here, not `position_jitter()`. We do this because `position_points_jitter()` knows to jitter only the points in a ridgeline plot, without touching the density lines.
+
+Styling the jittered points is a bit tricky but is possible with special scales provided by ggridges. First, there is `scale_discrete_manual()` which can be used to make arbitrary discrete scales for arbitrary aesthetics. We use it in the next example to style the point shapes. Second, there are various point aesthetic scales, such as `scale_point_color_hue()`. See the reference documentation for that scale for more details. 
+
+```{r message = FALSE}
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
+  geom_density_ridges(aes(point_color = Species, point_fill = Species,
+                          point_shape = Species),
+                      alpha = .2, jittered_points = TRUE) +
+  scale_point_color_hue(l = 40) +
+  scale_discrete_manual(aesthetics = "point_shape", values = c(21, 22, 23))
+```
+
+All common aesthetics for points can be applied to the jittered points. However, the aesthetic names start with `point_`. In the next example, we have mapped an additional variable onto the size of the points.
+
+```{r message = FALSE, fig.width = 6, fig.height = 6}
+ggplot(iris, aes(x = Sepal.Length, y = Species, fill = Species)) +
+  geom_density_ridges(aes(point_shape = Species, point_fill = Species,
+                          point_size = Petal.Length), 
+                      alpha = .2, jittered_points = TRUE) +
+  scale_point_color_hue(l = 40) + scale_point_size_continuous(range = c(0.5, 4)) +
+  scale_discrete_manual(aesthetics = "point_shape", values = c(21, 22, 23))
+```
+
+### Using alternative stats
+
+The stat `stat_density_ridges` may not always do exactly what you want it to do. If this is the case, you can use other stats that may be better for your respective application. First, `stat_density_ridges` estimates the data range and bandwidth for the density estimation from the entire data at once, rather than from each individual group of data. This choice makes ridgeline plots look more uniform, but the density estimates can in some cases look quite different from what you would get from `geom_density` or `stat_density`. This problem can be remidied by using `stat_density` with `geom_density_ridges`. This works just fine, we just need to make sure that we map the calculated density onto the `height` aesthetic.
+```{r message=FALSE}
+ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
+  geom_density_ridges(stat = "density")
+```
+
+Second, there may be scenarios in which you don't want `geom_density_ridges` to do any density estimation, for example because you have done so already yourself. In this case, you can use `stat_identity`. The benefit of using `geom_density_ridges` with `stat_identiy` over using `geom_ridgeline` directly is that `geom_density_ridges` provides automatic scaling.
+
+As an example, assume we have calculated density curves for the `Sepal.Length` column in the `iris` dataset:
+```{r message=FALSE}
+library(dplyr)
+iris %>% group_by(Species) %>%
+  do(ggplot2:::compute_density(.$Sepal.Length, NULL)) %>%
+  rename(Sepal.Length = x) -> iris_densities
+head(iris_densities)
+```
+
+We can plot these as follows:
+```{r message=FALSE}
+ggplot(iris_densities, aes(x = Sepal.Length, y = Species, height = density)) + 
+  geom_density_ridges(stat = "identity")
+```
+
+Notice how this plot looks different from the one generated using `stat = "density"`, even though the density computation was exactly the same: (i) The density curves extend all the way to zero. (ii) There is no horizontal line extending all the way to the limits of the x axis. 
+
+Finally, if you prefer histograms to density plots, you can also use `stat_binline`. Note that overlapping histograms can look strange, so this option is probably best used with a `scale` parameter < 1. The option `draw_baseline = FALSE` removes trailing lines to either side of the histogram. (For histograms, the `rel_min_height` parameter doesn't work very well.)
+```{r message=FALSE}
+ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
+  geom_density_ridges(stat = "binline", bins = 20, scale = 0.95, draw_baseline = FALSE)
+```
+
+
 
 ## Themes
 
@@ -120,10 +281,10 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   scale_y_discrete(expand = c(0.01, 0))
 ```
 
-By default, `theme_ridges` adds a grid, but the grid can be switched off when not needed.
+By default, `theme_ridges` adds a grid, but the grid can be switched off when not needed. Also, axis titles can be centered.
 ```{r message=FALSE}
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
-  geom_density_ridges() + theme_ridges(grid = FALSE) +
+  geom_density_ridges() + theme_ridges(grid = FALSE, center_axis_labels = TRUE) +
   scale_x_continuous(expand = c(0.01, 0)) +
   scale_y_discrete(expand = c(0.01, 0))
 ```
@@ -194,7 +355,6 @@ ggplot(mpg, aes(x = class, fill = class, color = class)) +
 
 While the previous example won't win any design awards, more subtle effects can be helpful.
 ```{r message=FALSE, fig.width=5.5}
-library(tidyverse)
 mpg %>% group_by(class) %>% tally() %>% arrange(desc(n)) %>%
   mutate(class = factor(class, levels=class)) %>%
   ggplot(aes(x = class, y = n, fill = class)) + 
@@ -202,39 +362,3 @@ mpg %>% group_by(class) %>% tally() %>% arrange(desc(n)) %>%
     scale_fill_cyclical(values = c("#4040B0", "#9090F0")) +
     scale_y_continuous(expand = c(0, 0))
 ```
-
-## Stats
-
-The default stat used with `geom_density_ridges` is `stat_density_ridges`. However, it may not do exactly what you want it to do, and there are other stats that can be used that may be better for your respective application.
-
-First, `stat_density_ridges` estimates the data range and bandwidth for the density estimation from the entire data at once, rather than from each individual group of data. This choice makes ridgeline plots look more uniform, but the density estimates can in some cases look quite different from what you would get from `geom_density` or `stat_density`. This problem can be remidied by using `stat_density` with `geom_density_ridges`. This works just fine, we just need to make sure that we map the calculated density onto the `height` aesthetic.
-```{r message=FALSE}
-ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
-  geom_density_ridges(stat = "density")
-```
-
-Second, there may be scenarios in which you don't want `geom_density_ridges` to do any density estimation, for example because you have done so already yourself. In this case, you can use `stat_identity`. The benefit of using `geom_density_ridges` with `stat_identiy` over using `geom_ridgeline` directly is that `geom_density_ridges` provides automatic scaling.
-
-As an example, assume we have calculated density curves for the `Sepal.Length` column in the `iris` dataset:
-```{r message=FALSE}
-library(tidyverse)
-iris %>% group_by(Species) %>%
-  do(ggplot2:::compute_density(.$Sepal.Length, NULL)) %>%
-  rename(Sepal.Length = x) -> iris_densities
-head(iris_densities)
-```
-
-We can plot these as follows:
-```{r message=FALSE}
-ggplot(iris_densities, aes(x = Sepal.Length, y = Species, height = density)) + 
-  geom_density_ridges(stat = "identity")
-```
-
-Notice how this plot looks different from the one generated using `stat = "density"`, even though the density computation was exactly the same: (i) The density curves extend all the way to zero. (ii) There is no horizontal line extending all the way to the limits of the x axis. 
-
-Finally, if you prefer histograms to density plots, you can also use `stat_binline`. Note that overlapping histograms can look strange, so this option is probably best used with a `scale` parameter < 1. The option `draw_baseline = FALSE` removes trailing lines to either side of the histogram. (For histograms, the `rel_min_height` parameter doesn't work very well.)
-```{r message=FALSE}
-ggplot(iris, aes(x = Sepal.Length, y = Species, height = ..density..)) + 
-  geom_density_ridges(stat = "binline", bins = 20, scale = 0.95, draw_baseline = FALSE)
-```
-

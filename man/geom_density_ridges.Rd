@@ -9,12 +9,12 @@
 \title{Create ridgeline plot}
 \usage{
 geom_density_ridges(mapping = NULL, data = NULL, stat = "density_ridges",
-  panel_scaling = TRUE, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  position = "points_sina", panel_scaling = TRUE, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, ...)
 
 geom_density_ridges2(mapping = NULL, data = NULL, stat = "density_ridges",
-  panel_scaling = TRUE, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  position = "points_sina", panel_scaling = TRUE, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -37,6 +37,9 @@ will be used as the layer data.}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
+
+\item{position}{Position adjustment, either as a string, or the result of
+a call to a position adjustment function.}
 
 \item{panel_scaling}{If \code{TRUE}, the default, relative scaling is calculated separately
 for each panel. If \code{FALSE}, relative scaling is calculated globally.}
@@ -91,6 +94,7 @@ overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1
 ridgelines. Default is 0, so nothing is removed.
 alpha
 \item \code{color}, \code{fill}, \code{group}, \code{alpha}, \code{linetype}, \code{size}, as in \code{\link{geom_ridgeline}}.
+\item \code{point_shape}, \code{point_color}, \code{point_size}, \code{point_fill}, \code{point_alpha}, \code{point_stroke}, as in \code{\link{geom_ridgeline}}.
 }
 }
 

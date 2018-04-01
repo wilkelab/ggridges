@@ -3,14 +3,14 @@
 \docType{data}
 \name{stat_density_ridges}
 \alias{stat_density_ridges}
-\alias{StatDensityRidgesOld}
 \alias{StatDensityRidges}
 \title{Stat for density ridgeline plots}
 \usage{
 stat_density_ridges(mapping = NULL, data = NULL, geom = "density_ridges",
   position = "identity", na.rm = FALSE, show.legend = NA,
   inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
-  calc_ecdf = FALSE, quantiles = 4, ...)
+  jittered_points = FALSE, quantile_lines = FALSE, calc_ecdf = FALSE,
+  quantiles = 4, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -51,13 +51,19 @@ rather than combining with them.}
 \item{from, to}{The left and right-most points of the grid at which the density is to be estimated,
 as in \code{\link[=density]{density()}}. If not provided, there are estimated from the data range and the bandwidth.}
 
+\item{jittered_points}{If \code{TRUE}, carries the original point data over to the processed data frame,
+so that individual points can be drawn by the various ridgeline geoms. The specific position of these
+points is controlled by various position objects, e.g. \code{\link[=position_points_sina]{position_points_sina()}} or \code{\link[=position_raincloud]{position_raincloud()}}.}
+
+\item{quantile_lines}{If \code{TRUE}, enables the drawing of quantile lines.}
+
 \item{calc_ecdf}{If \code{TRUE}, \code{stat_density_ridges} calculates an empirical cumulative distribution function (ecdf)
 and returns a variable \code{ecdf} and a variable \code{quantile}. Both can be mapped onto aesthetics via
 \code{..ecdf..} and \code{..quantile..}, respectively.}
 
-\item{quantiles}{Sets the number of quantiles the data should be broken into if \code{calc_ecdf = TRUE}.
-If it is an integer then the data will be cut into that many equal quantiles.
-If it is a vector of probabilities then the ecdf will cut by them.}
+\item{quantiles}{Sets the number of quantiles the data should be broken into. Used if either \code{calc_ecdf = TRUE}
+or \code{quantile_lines = TRUE}. If \code{quantiles} is an integer then the data will be cut into that many equal quantiles.
+If it is a vector of probabilities then the data will cut by them.}
 
 \item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
@@ -73,17 +79,19 @@ the entire dataset.
 # Examples of coloring by ecdf or quantiles
 library(viridis)
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-  geom_density_ridges_gradient(calc_ecdf = TRUE, quantiles = 5) +
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE,
+                      quantiles = 5) +
   scale_fill_viridis(discrete = TRUE, name = "Quintiles") + theme_ridges() +
   scale_y_discrete(expand = c(0.01, 0))
 
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
-  geom_density_ridges_gradient(calc_ecdf = TRUE) +
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
   scale_fill_viridis(name = "Tail probability", direction = -1) + theme_ridges() +
   scale_y_discrete(expand = c(0.01, 0))
 
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-  geom_density_ridges_gradient(calc_ecdf = TRUE, quantiles = c(0.05, 0.95)) +
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE,
+                      quantiles = c(0.05, 0.95)) +
   scale_fill_manual(name = "Probability\\nranges",
                     values = c("red", "grey80", "blue")) +
   theme_ridges() + scale_y_discrete(expand = c(0.01, 0))
