@@ -392,6 +392,12 @@ GeomDensityRidgesGradient <- ggproto("GeomDensityRidgesGradient", GeomRidgelineG
   extra_params = c("na.rm", "panel_scaling", "jittered_points"),
 
   setup_data = function(self, data, params) {
+    # provide default for panel scaling parameter if it doesn't exist,
+    # happens if the geom is called from a stat
+    if (is.null(params$panel_scaling)) {
+      params$panel_scaling <- TRUE
+    }
+
     # calculate internal scale
     yrange = max(data$y) - min(data$y)
     n = length(unique(data$y))

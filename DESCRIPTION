@@ -24,6 +24,7 @@ Suggests:
     DAAG,
     forcats,
     knitr,
+    rmarkdown,
     testthat,
     vdiffr,
     viridis

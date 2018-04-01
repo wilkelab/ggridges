@@ -1,33 +1,6 @@
-Things to do before next release
+Things to do
 ================================
-- Properly document the new options `jittered_points` and `quantile_lines`.
-- Add regression tests for new version of `stat_density_ridges`.
+- Add regression tests for new version of `stat_density_ridges` etc.
 - Add separate styling options for vertical lines.
-- Document gradient geoms in the vignette.
-- In legend drawing code, detect presence of jittered points from the input data, not from the parameter setting? Is this possible?
-- The options jittered_points and quantile_lines in stat_density_ridges need to be documented in the .Rd file of that stat.
-
-
-Some code to integrate into extended documentation:
-library(viridis)
-ggplot(iris, aes(x=Sepal.Length, y=Species, fill=..x..)) +
-  geom_density_ridges_gradient(jittered_points = TRUE, quantile_lines = TRUE, quantiles = 2) +
-  scale_fill_viridis(begin = 0.2, name = "Length") +
-  scale_y_discrete(expand = c(0.01, 0)) +
-  theme_ridges(grid = FALSE, center = TRUE)
-
-
-ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
-  geom_density_ridges(aes(point_color = Species, point_fill = Species, point_shape = Species),
-                      alpha = .2, jittered_points = TRUE) +
-  scale_y_discrete(expand = c(0.01, 0)) +
-  scale_point_color_hue(l=40) +
-  scale_discrete_manual(aesthetics = "point_shape", values = c(21, 22, 23)) +
-  theme_ridges(grid = FALSE, center = TRUE)
-
-
-ggplot(iris, aes(x=Sepal.Length, y=Species)) +
-  geom_density_ridges(quantile_lines = TRUE, quantiles = c(0.25, 0.5, 0.75)) +
-  scale_y_discrete(expand = c(0.01, 0)) +
-  theme_ridges(grid = FALSE, center = TRUE)
+- In legend drawing code, can we detect the presence of jittered points from the input data, not from the parameter setting?
 

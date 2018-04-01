@@ -10,29 +10,33 @@
 #' @param bandwidth Bandwidth used for density calculation. If not provided, is estimated from the data.
 #' @param from,to The left and right-most points of the grid at which the density is to be estimated,
 #'   as in [`density()`]. If not provided, there are estimated from the data range and the bandwidth.
+#' @param jittered_points If `TRUE`, carries the original point data over to the processed data frame,
+#'   so that individual points can be drawn by the various ridgeline geoms. The specific position of these
+#'   points is controlled by various position objects, e.g. [`position_points_sina()`] or [`position_raincloud()`].
+#' @param quantile_lines If `TRUE`, enables the drawing of quantile lines.
 #' @param calc_ecdf If `TRUE`, `stat_density_ridges` calculates an empirical cumulative distribution function (ecdf)
 #'   and returns a variable `ecdf` and a variable `quantile`. Both can be mapped onto aesthetics via
 #'   `..ecdf..` and `..quantile..`, respectively.
-#' @param quantiles Sets the number of quantiles the data should be broken into if `calc_ecdf = TRUE`.
-#' If it is an integer then the data will be cut into that many equal quantiles.
-#' If it is a vector of probabilities then the ecdf will cut by them.
+#' @param quantiles Sets the number of quantiles the data should be broken into. Used if either `calc_ecdf = TRUE`
+#'   or `quantile_lines = TRUE`. If `quantiles` is an integer then the data will be cut into that many equal quantiles.
+#'   If it is a vector of probabilities then the data will cut by them.
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @examples
 #' # Examples of coloring by ecdf or quantiles
 #' library(viridis)
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-#'   geom_density_ridges_gradient(calc_ecdf = TRUE, quantiles = 5) +
+#'   stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE, quantiles = 5) +
 #'   scale_fill_viridis(discrete = TRUE, name = "Quintiles") + theme_ridges() +
 #'   scale_y_discrete(expand = c(0.01, 0))
 #'
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
-#'   geom_density_ridges_gradient(calc_ecdf = TRUE) +
+#'   stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
 #'   scale_fill_viridis(name = "Tail probability", direction = -1) + theme_ridges() +
 #'   scale_y_discrete(expand = c(0.01, 0))
 #'
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-#'   geom_density_ridges_gradient(calc_ecdf = TRUE, quantiles = c(0.05, 0.95)) +
+#'   stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE, quantiles = c(0.05, 0.95)) +
 #'   scale_fill_manual(name = "Probability\nranges",
 #'                     values = c("red", "grey80", "blue")) +
 #'   theme_ridges() + scale_y_discrete(expand = c(0.01, 0))
@@ -41,7 +45,8 @@
 stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_ridges",
                      position = "identity", na.rm = FALSE, show.legend = NA,
                      inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
-                     calc_ecdf = FALSE, quantiles = 4,...)
+                     jittered_points = FALSE, quantile_lines = FALSE, calc_ecdf = FALSE, quantiles = 4,
+                     ...)
 {
   layer(
     stat = StatDensityRidges,
@@ -187,30 +192,29 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       df_points_dummy <- NULL
     }
 
-    # calculate quantiles for quantile lines if requested
-    df_quantiles <- NULL
-    if (quantile_lines) {
-      if (length(quantiles)==1) {
-        if (quantiles > 1) {
-          probs <- seq(0, 1, length.out = quantiles + 1)[2:quantiles]
-        }
-        else {
-          probs <- NA
-        }
-      } else {
-        probs <- quantiles
-        probs[probs < 0 | probs > 1] <- NA
+    # calculate quantiles, needed for both quantile lines and ecdf
+    if (length(quantiles)==1) {
+      if (quantiles > 1) {
+        probs <- seq(0, 1, length.out = quantiles + 1)[2:quantiles]
       }
+      else {
+        probs <- NA
+      }
+    } else {
+      probs <- quantiles
+      probs[probs < 0 | probs > 1] <- NA
+    }
+    qx <- na.omit(quantile(data$x, probs))
 
-      qx <- na.omit(quantile(data$x, probs))
-      if (length(qx) > 0) {
-        qy <- densf(qx)
-        df_quantiles <- data.frame(x = qx, density = qy, datatype = "stud",
-                                   stringsAsFactors = FALSE)
-        if (!is.null(df_points_dummy)){
-          # add in dummy points data if necessary
-          df_quantiles <- data.frame(df_quantiles, as.list(df_points_dummy))
-        }
+    # if requested, add data frame for quantile lines
+    df_quantiles <- NULL
+    if (quantile_lines && length(qx) > 0) {
+      qy <- densf(qx)
+      df_quantiles <- data.frame(x = qx, density = qy, datatype = "stud",
+                                 stringsAsFactors = FALSE)
+      if (!is.null(df_points_dummy)){
+        # add in dummy points data if necessary
+        df_quantiles <- data.frame(df_quantiles, as.list(df_points_dummy))
       }
     }
 
@@ -220,16 +224,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     if (calc_ecdf) {
       n <- length(d$x)
       ecdf <- c(0, cumsum(d$y[1:(n-1)]*(d$x[2:n]-d$x[1:(n-1)])))
-
-      if (length(quantiles)==1 && quantiles >= 1) {
-        ntile <- 1 + floor(quantiles * ecdf)
-        ntile[ntile>quantiles] <- quantiles
-      }
-      else {
-        ntile <- cut(ecdf,
-                     unique(c(min(ecdf, na.rm = TRUE), quantiles, max(ecdf, na.rm = TRUE))),
-                     include.lowest = TRUE, right = TRUE)
-      }
+      ntile <- findInterval(d$x, qx, left.open = TRUE) + 1
 
       if (!is.null(df_nondens)) {
         # we add dummy data for ecdf and quantile
