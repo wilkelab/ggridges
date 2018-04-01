@@ -11,7 +11,7 @@ ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
   scale_y_reverse(breaks=c(2000, 1980, 1960, 1940, 1920, 1900), expand = c(0.01, 0))
 
 ## ----message=FALSE, warning=FALSE, fig.width = 6, fig.height = 8---------
-library(tidyverse)
+library(dplyr)
 library(forcats)
 Catalan_elections %>%
   mutate(YearFct = fct_rev(as.factor(Year))) %>%
@@ -67,4 +67,46 @@ ggplot(pois_data, aes(x = value, y = group, group = group)) +
   theme_ridges(grid = FALSE) +
   theme(axis.title.x = element_text(hjust = 0.5),
         axis.title.y = element_text(hjust = 0.5))
+
+## ----message=FALSE, fig.width = 7, fig.height = 5.5----------------------
+library(DAAG) # for ais dataset
+ais$sport <- factor(ais$sport,
+                    levels = c("B_Ball", "Field", "Gym", "Netball", "Row", "Swim", "T_400m", "T_Sprnt", "Tennis", "W_Polo"),
+                    labels = c("Basketball", "Field", "Gym", "Netball", "Row", "Swim", "Track 400m", "Track Sprint", "Tennis", "Water Polo"))
+
+ggplot(ais, aes(x=ht, y=sport, color=sex, point_color=sex, fill=sex)) +
+  geom_density_ridges(jittered_points=TRUE, scale = .95, rel_min_height = .01,
+                      point_shape = "|", point_size = 3, size = 0.25,
+                      position = position_points_jitter(height = 0)) +
+  scale_y_discrete(expand = c(.01, 0)) +
+  scale_x_continuous(expand = c(0, 0), name = "height [cm]") +
+  scale_fill_manual(values = c("#D55E0050", "#0072B250"), labels = c("female", "male")) +
+  scale_color_manual(values = c("#D55E00", "#0072B2"), guide = "none") +
+  scale_discrete_manual("point_color", values = c("#D55E00", "#0072B2"), guide = "none") +
+  guides(fill = guide_legend(override.aes = list(
+                               fill = c("#D55E00A0", "#0072B2A0"),
+                               color = NA, point_color = NA))) +
+  ggtitle("Height in Australian athletes") +
+  theme_ridges(center = TRUE)
+
+## ----message=FALSE, fig.width = 6, fig.height = 5------------------------
+set.seed(423)
+n1 <- 200
+n2 <- 25
+n3 <- 50
+cols <- c('#F2DB2F', '#F7F19E', '#FBF186')
+cols_dark <- c("#D7C32F", "#DBD68C", "#DFD672")
+cheese <- data.frame(cheese = c(rep("buttercheese", n1), rep("Leerdammer", n2), rep("Swiss", n3)),
+                     x = c(runif(n1), runif(n2), runif(n3)),
+                     size = c(rnorm(n1, mean = .1, sd = .01), rnorm(n2, mean = 9, sd = 3),
+                              rnorm(n3, mean = 3, sd = 1)))
+ggplot(cheese, aes(x = x, point_size = size, y = cheese, fill = cheese, color = cheese)) +
+  geom_density_ridges(jittered_points = TRUE, point_color="white", scale = .8, rel_min_height = .2,
+                      size = 1.5) +
+  scale_y_discrete(expand = c(.01, 0)) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0), name = "", breaks = NULL) +
+  scale_point_size_continuous(range = c(0.01, 10), guide = "none") +
+  scale_fill_manual(values = cols, guide = "none") +
+  scale_color_manual(values = cols_dark, guide = "none") +
+  theme_ridges(grid = FALSE, center = TRUE)
 

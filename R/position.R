@@ -1,12 +1,17 @@
 #' Randomly jitter the points in a ridgeline plot
 #'
+#' This is a position adjustment specifically for [`geom_density_ridges()`] and related geoms. It
+#' only jitters the points drawn by these geoms, if any. If no points are present, the plot
+#' remains unchanged. The effect is similar to [`position_jitter()`]: points are randomly shifted up and down
+#' and/or left and right.
+#'
 #' @param width Width for horizonal jittering. By default set to 0.
-#' @param height Height for vertical jittering, applied in both directions. By default 0.2.
+#' @param height Height for vertical jittering, applied in both directions (up and down). By default 0.2.
 #' @param yoffset Vertical offset applied in addition to jittering.
 #' @param seed Random seed. If set to NULL, the current random number generator is used.
 #'   If set to NA, a new random random seed is generated. If set to a number, this
 #'   number is used as seed for jittering only.
-#' @seealso [`position_points_sina`], [`position_raincloud`]
+#' @seealso Other position adjustments for ridgeline plots: [`position_points_sina`], [`position_raincloud`]
 #' @examples
 #' # default jittered points
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
@@ -66,13 +71,18 @@ PositionPointsJitter <- ggproto("PositionPointsJitter", Position,
 )
 
 
-#' Randomly jitter the points below a ridgeline plot
+#' Create a cloud of randomly jittered points below a ridgeline plot
+#'
+#' This is a position adjustment specifically for [`geom_density_ridges()`] and related geoms. It
+#' only jitters the points drawn by these geoms, if any. If no points are present, the plot
+#' remains unchanged. The effect is similar to [`position_points_jitter()`], only that by default the
+#' points lie all underneath the baseline of each individual ridgeline.
 #'
 #' @param width Width for horizonal jittering. By default set to 0.
 #' @param height Total height of point cloud. By default 0.4.
 #' @param ygap Vertical gap between ridgeline baseline and point cloud.
 #' @param seed Random seed. See [`position_points_jitter`].
-#' @seealso [`position_points_jitter`], [`position_points_sina`]
+#' @seealso Other position adjustments for ridgeline plots: [`position_points_jitter`], [`position_points_sina`]
 #' @examples
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_density_ridges(jittered_points = TRUE, position = "raincloud", alpha = 0.7)
@@ -111,10 +121,15 @@ PositionRaincloud <- ggproto("PositionRaincloud", PositionPointsJitter,
 
 #' Randomly distribute points in a ridgeline plot between baseline and ridgeline
 #'
+#' This is a position adjustment specifically for [`geom_density_ridges()`] and related geoms. It
+#' only jitters the points drawn by these geoms, if any. If no points are present, the plot
+#' remains unchanged. The effect is similar to a sina plot: Points are randomly distributed to fill
+#' the entire shaded area representing the data density.
+#'
 #' @param rel_min The relative minimum value at which a point can be placed.
 #' @param rel_max The relative maximum value at which a point can be placed.
 #' @param seed See [`position_points_jitter`].
-#' @seealso [`position_points_jitter`], [`position_raincloud`]
+#' @seealso Other position adjustments for ridgeline plots: [`position_points_jitter`], [`position_raincloud`]
 #' @examples
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_density_ridges(jittered_points = TRUE, position = "points_sina", alpha = 0.7)

@@ -4,6 +4,10 @@
 #' Thus, the data mapped onto y and onto height must be in the same units.
 #' If you want relative scaling of the heights, you can use [`geom_density_ridges`] with `stat = "identity"`.
 #'
+#' In addition to drawing ridgelines, this geom can also draw points if they are provided as part of the dataset.
+#' The stat [`stat_density_ridges()`] takes advantage of this option to generate ridgeline plots with overlaid
+#' jittered points.
+#'
 #' @param mapping Set of aesthetic mappings created by [`aes()`] or
 #'   [`aes_()`]. If specified and `inherit.aes = TRUE` (the
 #'   default), it is combined with the default mapping at the top level of the
@@ -58,6 +62,8 @@
 #' * `group` Grouping, to draw multiple ridgelines from one dataset
 #' * `linetype` Linetype of the ridgeline
 #' * `size` Line thickness
+#' * `point_shape`, `point_color`, `point_size`, `point_fill`, `point_alpha`, `point_stroke` Aesthetics applied
+#' to points drawn in addition to ridgelines.
 #'
 #' @examples
 #' d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
@@ -334,6 +340,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' ridgelines. Default is 0, so nothing is removed.
 #' alpha
 #' * `color`, `fill`, `group`, `alpha`, `linetype`, `size`, as in [`geom_ridgeline`].
+#' * `point_shape`, `point_color`, `point_size`, `point_fill`, `point_alpha`, `point_stroke`, as in [`geom_ridgeline`].
 #'
 #' @importFrom ggplot2 layer
 #' @export
@@ -396,7 +403,7 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
 
   required_aes = c("x", "y", "height"),
 
-  extra_params = c("na.rm", "panel_scaling", "jittered_points"),
+  extra_params = c("na.rm", "panel_scaling"),
 
   setup_data = function(self, data, params) {
     # provide default for panel scaling parameter if it doesn't exist,

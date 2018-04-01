@@ -12,7 +12,7 @@ position_points_jitter(width = 0, height = 0.2, yoffset = 0,
 \arguments{
 \item{width}{Width for horizonal jittering. By default set to 0.}
 
-\item{height}{Height for vertical jittering, applied in both directions. By default 0.2.}
+\item{height}{Height for vertical jittering, applied in both directions (up and down). By default 0.2.}
 
 \item{yoffset}{Vertical offset applied in addition to jittering.}
 
@@ -21,7 +21,10 @@ If set to NA, a new random random seed is generated. If set to a number, this
 number is used as seed for jittering only.}
 }
 \description{
-Randomly jitter the points in a ridgeline plot
+This is a position adjustment specifically for \code{\link[=geom_density_ridges]{geom_density_ridges()}} and related geoms. It
+only jitters the points drawn by these geoms, if any. If no points are present, the plot
+remains unchanged. The effect is similar to \code{\link[=position_jitter]{position_jitter()}}: points are randomly shifted up and down
+and/or left and right.
 }
 \examples{
 # default jittered points
@@ -34,6 +37,6 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
                       position = position_points_jitter(width = 0.02, height = 0))
 }
 \seealso{
-\code{\link{position_points_sina}}, \code{\link{position_raincloud}}
+Other position adjustments for ridgeline plots: \code{\link{position_points_sina}}, \code{\link{position_raincloud}}
 }
 \keyword{datasets}

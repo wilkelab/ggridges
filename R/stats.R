@@ -63,6 +63,8 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
                   to = to,
                   calc_ecdf = calc_ecdf,
                   quantiles = quantiles,
+                  jittered_points = jittered_points,
+                  quantile_lines = quantile_lines,
                   na.rm = na.rm, ...)
   )
 }
@@ -210,6 +212,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 
     # if requested, add data frame for quantile lines
     df_quantiles <- NULL
+
     if (quantile_lines && length(qx) > 0) {
       qy <- densf(qx)
       df_quantiles <- data.frame(x = qx, density = qy, datatype = "stud",

@@ -94,6 +94,7 @@ overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1
 ridgelines. Default is 0, so nothing is removed.
 alpha
 \item \code{color}, \code{fill}, \code{group}, \code{alpha}, \code{linetype}, \code{size}, as in \code{\link{geom_ridgeline}}.
+\item \code{point_shape}, \code{point_color}, \code{point_size}, \code{point_fill}, \code{point_alpha}, \code{point_stroke}, as in \code{\link{geom_ridgeline}}.
 }
 }
 

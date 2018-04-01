@@ -16,13 +16,16 @@ position_points_sina(rel_min = 0.02, rel_max = 0.98, seed = NULL)
 \item{seed}{See \code{\link{position_points_jitter}}.}
 }
 \description{
-Randomly distribute points in a ridgeline plot between baseline and ridgeline
+This is a position adjustment specifically for \code{\link[=geom_density_ridges]{geom_density_ridges()}} and related geoms. It
+only jitters the points drawn by these geoms, if any. If no points are present, the plot
+remains unchanged. The effect is similar to a sina plot: Points are randomly distributed to fill
+the entire shaded area representing the data density.
 }
 \examples{
 ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(jittered_points = TRUE, position = "points_sina", alpha = 0.7)
 }
 \seealso{
-\code{\link{position_points_jitter}}, \code{\link{position_raincloud}}
+Other position adjustments for ridgeline plots: \code{\link{position_points_jitter}}, \code{\link{position_raincloud}}
 }
 \keyword{datasets}

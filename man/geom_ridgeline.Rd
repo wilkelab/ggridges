@@ -55,6 +55,11 @@ Plots the sum of the \code{y} and \code{height} aesthetics versus \code{x}, fill
 Thus, the data mapped onto y and onto height must be in the same units.
 If you want relative scaling of the heights, you can use \code{\link{geom_density_ridges}} with \code{stat = "identity"}.
 }
+\details{
+In addition to drawing ridgelines, this geom can also draw points if they are provided as part of the dataset.
+The stat \code{\link[=stat_density_ridges]{stat_density_ridges()}} takes advantage of this option to generate ridgeline plots with overlaid
+jittered points.
+}
 \section{Aesthetics}{
 
 
@@ -78,6 +83,8 @@ scaling is applied via the \code{scale} aesthetic. Default is 0, so negative val
 \item \code{group} Grouping, to draw multiple ridgelines from one dataset
 \item \code{linetype} Linetype of the ridgeline
 \item \code{size} Line thickness
+\item \code{point_shape}, \code{point_color}, \code{point_size}, \code{point_fill}, \code{point_alpha}, \code{point_stroke} Aesthetics applied
+to points drawn in addition to ridgelines.
 }
 }
 

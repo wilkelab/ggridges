@@ -4,7 +4,7 @@
 \name{position_raincloud}
 \alias{position_raincloud}
 \alias{PositionRaincloud}
-\title{Randomly jitter the points below a ridgeline plot}
+\title{Create a cloud of randomly jittered points below a ridgeline plot}
 \usage{
 position_raincloud(width = 0, height = 0.4, ygap = 0.05, seed = NULL)
 }
@@ -18,13 +18,16 @@ position_raincloud(width = 0, height = 0.4, ygap = 0.05, seed = NULL)
 \item{seed}{Random seed. See \code{\link{position_points_jitter}}.}
 }
 \description{
-Randomly jitter the points below a ridgeline plot
+This is a position adjustment specifically for \code{\link[=geom_density_ridges]{geom_density_ridges()}} and related geoms. It
+only jitters the points drawn by these geoms, if any. If no points are present, the plot
+remains unchanged. The effect is similar to \code{\link[=position_points_jitter]{position_points_jitter()}}, only that by default the
+points lie all underneath the baseline of each individual ridgeline.
 }
 \examples{
 ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(jittered_points = TRUE, position = "raincloud", alpha = 0.7)
 }
 \seealso{
-\code{\link{position_points_jitter}}, \code{\link{position_points_sina}}
+Other position adjustments for ridgeline plots: \code{\link{position_points_jitter}}, \code{\link{position_points_sina}}
 }
 \keyword{datasets}
