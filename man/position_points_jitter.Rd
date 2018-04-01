@@ -7,7 +7,7 @@
 \title{Randomly jitter the points in a ridgeline plot}
 \usage{
 position_points_jitter(width = 0, height = 0.2, yoffset = 0,
-  seed = NULL)
+  adjust_vlines = FALSE, seed = NULL)
 }
 \arguments{
 \item{width}{Width for horizonal jittering. By default set to 0.}
@@ -15,6 +15,9 @@ position_points_jitter(width = 0, height = 0.2, yoffset = 0,
 \item{height}{Height for vertical jittering, applied in both directions (up and down). By default 0.2.}
 
 \item{yoffset}{Vertical offset applied in addition to jittering.}
+
+\item{adjust_vlines}{If \code{TRUE}, adjusts vertical lines (as are drawn for
+quantile lines, for example) to align with the point cloud.}
 
 \item{seed}{Random seed. If set to NULL, the current random number generator is used.
 If set to NA, a new random random seed is generated. If set to a number, this

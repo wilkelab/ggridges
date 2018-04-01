@@ -6,7 +6,8 @@
 \alias{PositionRaincloud}
 \title{Create a cloud of randomly jittered points below a ridgeline plot}
 \usage{
-position_raincloud(width = 0, height = 0.4, ygap = 0.05, seed = NULL)
+position_raincloud(width = 0, height = 0.4, ygap = 0.05,
+  adjust_vlines = FALSE, seed = NULL)
 }
 \arguments{
 \item{width}{Width for horizonal jittering. By default set to 0.}
@@ -14,6 +15,9 @@ position_raincloud(width = 0, height = 0.4, ygap = 0.05, seed = NULL)
 \item{height}{Total height of point cloud. By default 0.4.}
 
 \item{ygap}{Vertical gap between ridgeline baseline and point cloud.}
+
+\item{adjust_vlines}{If \code{TRUE}, adjusts vertical lines (as are drawn for
+quantile lines, for example) to align with the point cloud.}
 
 \item{seed}{Random seed. See \code{\link{position_points_jitter}}.}
 }
