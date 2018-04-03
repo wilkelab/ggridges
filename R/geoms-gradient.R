@@ -247,7 +247,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     area_grob <- self$make_area_grob(munched_poly, aes, gradient_lwd)
 
     # combine everything and return
-    grid::grobTree(area_grob, vline_grob, point_grob, line_grob)
+    grid::grobTree(area_grob, vline_grob, line_grob, point_grob)
   },
 
   make_point_grob = function(data, panel_params, coord) {
