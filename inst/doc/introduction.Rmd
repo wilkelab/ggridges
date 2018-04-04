@@ -207,7 +207,7 @@ ggplot(iris, aes(x=Sepal.Length, y=Species)) +
 
 Note that we are using `position_points_jitter()` here, not `position_jitter()`. We do this because `position_points_jitter()` knows to jitter only the points in a ridgeline plot, without touching the density lines.
 
-Styling the jittered points is a bit tricky but is possible with special scales provided by ggridges. First, there is `scale_discrete_manual()` which can be used to make arbitrary discrete scales for arbitrary aesthetics. We use it in the next example to style the point shapes. Second, there are various point aesthetic scales, such as `scale_point_color_hue()`. See the reference documentation for that scale for more details. 
+Styling the jittered points is a bit tricky but is possible with special scales provided by ggridges. First, there is `scale_discrete_manual()` which can be used to make arbitrary discrete scales for arbitrary aesthetics. We use it in the next example to style the point shapes. Second, there are various point aesthetic scales, such as `scale_point_color_hue()`. See the reference documentation for these scales for more details. 
 
 ```{r message = FALSE}
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +

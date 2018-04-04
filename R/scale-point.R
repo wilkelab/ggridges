@@ -5,20 +5,39 @@
 #' same usage as existing standard ggplot2 scales, only the name differs.
 #'
 #' @name scale_point
-#' @seealso See [`scale_discrete_manual()`] for a general discrete scale.
+#' @seealso See [`scale_vline_color_hue()`] for specific scales for vline aesthetics
+#' and [`scale_discrete_manual()`] for a general discrete scale.
+#' @examples
+#' # default scales
+#' ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
+#'   geom_density_ridges(aes(point_color = Species, point_fill = Species,
+#'                           point_shape = Species),
+#'                       alpha = .4, jittered_points = TRUE) +
+#'   theme_ridges()
+#'
+#' # modified scales
+#' ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
+#'   geom_density_ridges(aes(point_color = Species, point_fill = Species,
+#'                           point_shape = Species),
+#'                       alpha = .4, jittered_points = TRUE) +
+#'   scale_fill_hue(l = 50) +
+#'   scale_point_color_hue(l = 20) +
+#'   scale_point_fill_hue(l = 70) +
+#'   scale_discrete_manual("point_shape", values = c(21, 22, 23)) +
+#'   theme_ridges()
 #' @aliases NULL
 NULL
 
-#' `scale_point_shape`: Equivalent to [`scale_shape`].
+#' `scale_point_shape()`: Equivalent to [`scale_shape()`].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
-scale_point_shape <- function(..., solid = TRUE)
+scale_point_shape <- function(..., solid = TRUE, aesthetics = "point_shape")
 {
-  discrete_scale("point_shape", "shape_d", scales::shape_pal(solid), ...)
+  discrete_scale(aesthetics, "shape_d", scales::shape_pal(solid), ...)
 }
 
-#' `scale_point_size_continuous`: Equivalent to [`scale_size_continuous`].
+#' `scale_point_size_continuous()`: Equivalent to [`scale_size_continuous()`].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
@@ -30,7 +49,7 @@ scale_point_size_continuous <- function(name = ggplot2::waiver(), breaks = ggplo
                    guide = guide)
 }
 
-#' `scale_point_color_hue`: Equivalent to [`scale_colour_hue`].
+#' `scale_point_color_hue()`: Equivalent to [`scale_colour_hue()`].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
@@ -41,14 +60,14 @@ scale_point_color_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.st
                           scales::hue_pal(h, c, l, h.start, direction), na.value = na.value, ...)
 }
 
-#' `scale_point_fill_hue`: Equivalent to [`scale_fill_hue`].
+#' `scale_point_fill_hue()`: Equivalent to [`scale_fill_hue()`].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
 scale_point_fill_hue <- function(...) scale_point_color_hue(..., aesthetics = "point_fill")
 
-#' `scale_point_color_gradient`: Equivalent to [`scale_colour_gradient`]. Note that this scale cannot
-#'   draw a legend, however, because of limitations in [`guide_colorbar`].
+#' `scale_point_color_gradient()`: Equivalent to [`scale_colour_gradient()`]. Note that this scale cannot
+#'   draw a legend, however, because of limitations in [`guide_colorbar()`].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
@@ -59,33 +78,12 @@ scale_point_color_gradient <- function(..., low = "#132B43", high = "#56B1F7", s
                             na.value = na.value, guide = guide, ...)
 }
 
-#' `scale_point_fill_gradient`: Equivalent to [`scale_fill_gradient`]. Note that this scale cannot
-#'   draw a legend, however, because of limitations in [`guide_colorbar`].
+#' `scale_point_fill_gradient()`: Equivalent to [`scale_fill_gradient()`]. Note that this scale cannot
+#'   draw a legend, however, because of limitations in [`guide_colorbar()`].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
 scale_point_fill_gradient <- function(...) scale_point_color_gradient(..., aesthetics = "point_fill")
-
-#' Generic discrete manual scale
-#'
-#' Generic discrete manual scale.
-#'
-#' @param aesthetics The aesthetics for which this scale should be used
-#' @param values List of values to be used as palette
-#' @param ... Other parameters handed off to [discrete_scale]
-#' @export
-scale_discrete_manual <- function(aesthetics, values, ...)
-{
-  pal <- function(n) {
-    if (n > length(values)) {
-      stop("Insufficient values in manual scale. ", n,
-           " needed but only ", length(values), " provided.",
-           call. = FALSE)
-    }
-    values
-  }
-  discrete_scale(aesthetics, "manual", pal, ...)
-}
 
 
 # default scales
