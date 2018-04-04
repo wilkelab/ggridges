@@ -7,3 +7,4 @@ visual_test
 ^README\.Rmd$
 ^cran-comments.md$
 ^TODO\.Rmd$
+^revdep$
