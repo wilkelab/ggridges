@@ -9,5 +9,21 @@ One data file contains UTF-8 marked strings. The file contains election results 
 There were no ERRORs, WARNINGs, or NOTEs.
 
 ## Downstream dependencies
-None at this time.
+Seem fine, according to devtools::revdep_check().
+The packages with errors failed at the installation stage,
+not because of ggridges.
 
+Full results available at https://github.com/clauswilke/ggridges/blob/master/revdep/README.md
+
+|package             |version | errors| warnings| notes|
+|:-------------------|:-------|------:|--------:|-----:|
+|bayesplot           |1.5.0   |      0|        0|     1|
+|CAISEr              |0.2.1   |      0|        0|     0|
+|cRegulome           |0.1.1   |      1|        0|     0|
+|ggjoy               |0.4.0   |      0|        0|     0|
+|HistDAWass          |1.0.1   |      1|        0|     0|
+|jmv                 |0.8.6   |      0|        0|     0|
+|scatr               |1.0.1   |      0|        0|     0|
+|Seurat              |2.3.0   |      1|        0|     1|
+|sjPlot              |2.4.1   |      0|        0|     1|
+|userfriendlyscience |0.7.0   |      0|        0|     0|
