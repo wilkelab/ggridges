@@ -4,7 +4,8 @@
 \name{ggridges}
 \alias{ggridges}
 \alias{ggridges-package}
-\title{ggridges.}
+\title{Ridgeline plots with ggplot2}
 \description{
-ggridges.
+Please see the package vignettes for usage instructions. For a quick start,
+check out the examples for \code{\link[=geom_density_ridges]{geom_density_ridges()}}.
 }

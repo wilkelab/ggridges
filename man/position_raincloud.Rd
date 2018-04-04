@@ -28,6 +28,8 @@ remains unchanged. The effect is similar to \code{\link[=position_points_jitter]
 points lie all underneath the baseline of each individual ridgeline.
 }
 \examples{
+library(ggplot2)
+
 ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(jittered_points = TRUE, position = "raincloud", alpha = 0.7)
 }

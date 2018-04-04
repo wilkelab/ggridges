@@ -15,6 +15,8 @@
 #'   number is used as seed for jittering only.
 #' @seealso Other position adjustments for ridgeline plots: [`position_points_sina`], [`position_raincloud`]
 #' @examples
+#' library(ggplot2)
+#'
 #' # default jittered points
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_density_ridges(jittered_points = TRUE, position = "points_jitter", alpha = 0.7)
@@ -100,6 +102,8 @@ PositionPointsJitter <- ggproto("PositionPointsJitter", Position,
 #' @param seed Random seed. See [`position_points_jitter`].
 #' @seealso Other position adjustments for ridgeline plots: [`position_points_jitter`], [`position_points_sina`]
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_density_ridges(jittered_points = TRUE, position = "raincloud", alpha = 0.7)
 #' @export
@@ -149,6 +153,8 @@ PositionRaincloud <- ggproto("PositionRaincloud", PositionPointsJitter,
 #' @param seed See [`position_points_jitter`].
 #' @seealso Other position adjustments for ridgeline plots: [`position_points_jitter`], [`position_raincloud`]
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 #'   geom_density_ridges(jittered_points = TRUE, position = "points_sina", alpha = 0.7)
 #' @export

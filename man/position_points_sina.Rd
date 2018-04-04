@@ -22,6 +22,8 @@ remains unchanged. The effect is similar to a sina plot: Points are randomly dis
 the entire shaded area representing the data density.
 }
 \examples{
+library(ggplot2)
+
 ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(jittered_points = TRUE, position = "points_sina", alpha = 0.7)
 }

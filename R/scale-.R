@@ -9,6 +9,8 @@
 #' @param values List of values to be used as palette
 #' @param ... Other parameters handed off to [discrete_scale]
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
 #'   geom_density_ridges(aes(point_color = Species, point_fill = Species,
 #'                           point_shape = Species),

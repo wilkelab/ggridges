@@ -70,6 +70,8 @@ these geoms should be considered experimental. Don't use them unless you really 
 in R's graphics system, transparency (\code{alpha}) has to be disabled for gradient fills.
 }
 \examples{
+library(ggplot2)
+
 # Example for `geom_ridgeline_gradient()`
 library(viridis)
 d <- data.frame(x = rep(1:5, 3) + c(rep(0, 5), rep(0.3, 5), rep(0.6, 5)),

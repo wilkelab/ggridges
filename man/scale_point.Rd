@@ -33,6 +33,8 @@ draw a legend, however, because of limitations in \code{\link[=guide_colorbar]{g
 draw a legend, however, because of limitations in \code{\link[=guide_colorbar]{guide_colorbar()}}.
 }
 \examples{
+library(ggplot2)
+
 # default scales
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
   geom_density_ridges(aes(point_color = Species, point_fill = Species,

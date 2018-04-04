@@ -20,6 +20,8 @@ etc. For example, instead of writing \code{scale_colour_manual(values = c(...))}
 write \code{scale_discrete_manual("colour", values = c(...))}.
 }
 \examples{
+library(ggplot2)
+
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
   geom_density_ridges(aes(point_color = Species, point_fill = Species,
                           point_shape = Species),

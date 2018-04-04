@@ -27,6 +27,8 @@ This theme has some special modifications that make ridgeline plots look better,
 It can draw plots with and without background grids (see examples).
 }
 \examples{
+library(ggplot2)
+
 # Example with background grid
 ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species)) +
   geom_density_ridges(rel_min_height = 0.005) +

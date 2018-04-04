@@ -8,6 +8,8 @@
 #' @seealso See [`scale_vline_color_hue()`] for specific scales for vline aesthetics
 #' and [`scale_discrete_manual()`] for a general discrete scale.
 #' @examples
+#' library(ggplot2)
+#'
 #' # default scales
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
 #'   geom_density_ridges(aes(point_color = Species, point_fill = Species,

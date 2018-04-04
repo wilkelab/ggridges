@@ -1,4 +1,4 @@
-ggridges 0.4.1.9990
+ggridges 0.5.0
 ----------------------------------------------------------------
 - Expanded documentation and gallery of example plots.
 - Reworked stat_density_ridges, geom_ridgeline, geom_density_ridges,

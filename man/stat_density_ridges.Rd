@@ -76,6 +76,8 @@ however there are a few differences. Most importantly, the density bandwidth is 
 the entire dataset.
 }
 \examples{
+library(ggplot2)
+
 # Examples of coloring by ecdf or quantiles
 library(viridis)
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +

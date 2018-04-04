@@ -12,6 +12,8 @@
 #'   drawn right/top-aligned.
 #' @return The theme.
 #' @examples
+#' library(ggplot2)
+#'
 #' # Example with background grid
 #' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species)) +
 #'   geom_density_ridges(rel_min_height = 0.005) +

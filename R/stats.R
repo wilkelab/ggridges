@@ -23,6 +23,8 @@
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @examples
+#' library(ggplot2)
+#'
 #' # Examples of coloring by ecdf or quantiles
 #' library(viridis)
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
@@ -271,6 +273,8 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 #' @inheritParams ggplot2::stat_bin
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
 #'   geom_density_ridges(stat = "binline", bins = 20, scale = 2.2) +
 #'   scale_y_discrete(expand = c(0.01, 0)) +

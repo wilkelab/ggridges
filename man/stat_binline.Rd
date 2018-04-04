@@ -99,6 +99,8 @@ Works like \code{stat_bin} except that the output is a ridgeline describing the 
 a set of counts.
 }
 \examples{
+library(ggplot2)
+
 ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
   geom_density_ridges(stat = "binline", bins = 20, scale = 2.2) +
   scale_y_discrete(expand = c(0.01, 0)) +

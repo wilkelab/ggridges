@@ -60,6 +60,7 @@ This function is a drop-in replacement for ggplot2's \code{\link[=geom_density]{
 the geom draws a ridgeline (line with filled area underneath) rather than a polygon.
 }
 \examples{
+library(ggplot2)
 ggplot(diamonds, aes(carat)) +
   geom_density_line()
 

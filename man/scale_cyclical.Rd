@@ -39,6 +39,8 @@ unless the labels are properly adjusted. To draw legends, set the \code{guide} a
 as shown in the examples.
 }
 \examples{
+library(ggplot2)
+
 # By default, scale_cyclical sets `guide = "none"`, i.e., no legend
 # is drawn
 ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +

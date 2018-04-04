@@ -14,6 +14,8 @@
 #'   See [`discrete_scale`] for more details.
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' # By default, scale_cyclical sets `guide = "none"`, i.e., no legend
 #' # is drawn
 #' ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +

@@ -40,6 +40,8 @@
 #'   to the paired geom/stat.
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' # Example for `geom_ridgeline_gradient()`
 #' library(viridis)
 #' d <- data.frame(x = rep(1:5, 3) + c(rep(0, 5), rep(0.3, 5), rep(0.6, 5)),

@@ -24,6 +24,8 @@ same usage as existing standard ggplot2 scales, only the name differs.
 draw a legend, however, because of limitations in \code{\link[=guide_colorbar]{guide_colorbar()}}.
 }
 \examples{
+library(ggplot2)
+
 # default scales
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species, color = Species)) +
   geom_density_ridges(aes(vline_color = Species, vline_linetype = Species),

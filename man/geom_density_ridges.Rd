@@ -99,6 +99,8 @@ alpha
 }
 
 \examples{
+library(ggplot2)
+
 # set the `rel_min_height` argument to remove tails
 ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(rel_min_height = 0.005) +

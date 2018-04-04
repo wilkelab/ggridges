@@ -30,6 +30,8 @@ remains unchanged. The effect is similar to \code{\link[=position_jitter]{positi
 and/or left and right.
 }
 \examples{
+library(ggplot2)
+
 # default jittered points
 ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(jittered_points = TRUE, position = "points_jitter", alpha = 0.7)

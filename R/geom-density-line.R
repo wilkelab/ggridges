@@ -10,6 +10,7 @@
 #' @inheritParams ggplot2::geom_density
 #' @export
 #' @examples
+#' library(ggplot2)
 #' ggplot(diamonds, aes(carat)) +
 #'   geom_density_line()
 #'
