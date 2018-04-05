@@ -1,3 +1,7 @@
+ggridges 0.5.0.9000
+----------------------------------------------------------------
+- Allow coloring of quantile lines and jittered points by quantile.
+
 ggridges 0.5.0
 ----------------------------------------------------------------
 - Expanded documentation and gallery of example plots.

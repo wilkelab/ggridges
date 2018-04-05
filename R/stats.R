@@ -13,7 +13,8 @@
 #' @param jittered_points If `TRUE`, carries the original point data over to the processed data frame,
 #'   so that individual points can be drawn by the various ridgeline geoms. The specific position of these
 #'   points is controlled by various position objects, e.g. [`position_points_sina()`] or [`position_raincloud()`].
-#' @param quantile_lines If `TRUE`, enables the drawing of quantile lines.
+#' @param quantile_lines If `TRUE`, enables the drawing of quantile lines. Overrides the `calc_ecdf` setting
+#'   and sets it to `TRUE`.
 #' @param calc_ecdf If `TRUE`, `stat_density_ridges` calculates an empirical cumulative distribution function (ecdf)
 #'   and returns a variable `ecdf` and a variable `quantile`. Both can be mapped onto aesthetics via
 #'   `..ecdf..` and `..quantile..`, respectively.
@@ -39,12 +40,12 @@
 #'   scale_y_discrete(expand = c(0.01, 0))
 #'
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-#'   stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE,
-#'                       quantiles = c(0.05, 0.95)) +
-#'   scale_fill_manual(name = "Probability\nranges",
-#'                     values = c("red", "grey80", "blue")) +
+#'   stat_density_ridges(geom = "density_ridges_gradient",
+#'                       calc_ecdf = TRUE, quantiles = c(0.025, 0.975)) +
+#'   scale_fill_manual(name = "Probability",
+#'                     values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
+#'                     labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")) +
 #'   theme_ridges() + scale_y_discrete(expand = c(0.01, 0))
-#'
 #' @export
 stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_ridges",
                      position = "identity", na.rm = FALSE, show.legend = NA,
@@ -156,6 +157,11 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     if (is.null(calc_ecdf)) calc_ecdf <- FALSE
     if (is.null(jittered_points)) jittered_points <- FALSE
     if (is.null(quantile_lines)) quantile_lines <- FALSE
+
+    # when quantile lines are requested, we also calculate ecdf
+    # this simplifies things for now; in principle, could disentangle
+    # the two
+    if (quantile_lines) calc_ecdf <- TRUE
 
     panel <- unique(data$PANEL)
     if (length(panel) > 1) {

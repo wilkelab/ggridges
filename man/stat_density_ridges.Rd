@@ -55,7 +55,8 @@ as in \code{\link[=density]{density()}}. If not provided, there are estimated fr
 so that individual points can be drawn by the various ridgeline geoms. The specific position of these
 points is controlled by various position objects, e.g. \code{\link[=position_points_sina]{position_points_sina()}} or \code{\link[=position_raincloud]{position_raincloud()}}.}
 
-\item{quantile_lines}{If \code{TRUE}, enables the drawing of quantile lines.}
+\item{quantile_lines}{If \code{TRUE}, enables the drawing of quantile lines. Overrides the \code{calc_ecdf} setting
+and sets it to \code{TRUE}.}
 
 \item{calc_ecdf}{If \code{TRUE}, \code{stat_density_ridges} calculates an empirical cumulative distribution function (ecdf)
 and returns a variable \code{ecdf} and a variable \code{quantile}. Both can be mapped onto aesthetics via
@@ -92,11 +93,11 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
   scale_y_discrete(expand = c(0.01, 0))
 
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE,
-                      quantiles = c(0.05, 0.95)) +
-  scale_fill_manual(name = "Probability\\nranges",
-                    values = c("red", "grey80", "blue")) +
+  stat_density_ridges(geom = "density_ridges_gradient",
+                      calc_ecdf = TRUE, quantiles = c(0.025, 0.975)) +
+  scale_fill_manual(name = "Probability",
+                    values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
+                    labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")) +
   theme_ridges() + scale_y_discrete(expand = c(0.01, 0))
-
 }
 \keyword{datasets}
