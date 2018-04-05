@@ -23,6 +23,13 @@ test_that("calculation of ecdf and quantiles can be turned on", {
   expect_true("ecdf" %in% names(out))
   expect_true("quantile" %in% names(out))
   expect_length(unique(out$quantile), 5)
+
+  # either calc_ecdf = TRUE or quantile_lines = TRUE switches on quantile lines
+  out <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_density_ridges(quantile_lines = TRUE, quantiles = 5))
+
+  expect_true("ecdf" %in% names(out))
+  expect_true("quantile" %in% names(out))
+  expect_length(unique(out$quantile), 5)
 })
 
 
