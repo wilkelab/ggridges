@@ -147,13 +147,29 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
         lty = data$linetype,
         lwd = lwd * .pt,
         linejoin = "mitre"
-      ))
+      )
+    )
 
-    if (is.null(params$jittered_points) || !params$jittered_points) {
-      rect_grob
+    # if vertical lines were drawn then we need to add them to the legend also
+    if (is.null(params$quantile_lines) || !params$quantile_lines) {
+      vlines_grob <- grid::nullGrob()
     }
     else {
-      # if jittered points were drawn then we need to add them to the legend also
+      vlines_grob <- grid::segmentsGrob(0.5, 0.1, 0.5, 0.9,
+        gp = grid::gpar(
+          col = data$vline_color,
+          lwd = data$vline_size * .pt,
+          lty = data$vline_linetype,
+          lineend = "butt"
+        )
+      )
+    }
+
+    # if jittered points were drawn then we need to add them to the legend also
+    if (is.null(params$jittered_points) || !params$jittered_points) {
+      point_grob <- grid::nullGrob()
+    }
+    else {
       point_grob <- grid::pointsGrob(0.5, 0.5,
         pch = data$point_shape,
         gp = grid::gpar(
@@ -163,9 +179,8 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
           lwd = data$point_stroke * .stroke / 2
         )
       )
-
-      grid::grobTree(rect_grob, point_grob)
     }
+    grid::grobTree(rect_grob, vlines_grob, point_grob)
   },
 
   handle_na = function(data, params) {
