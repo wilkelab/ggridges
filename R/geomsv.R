@@ -53,7 +53,8 @@
 #' scaling is applied via the `scale` aesthetic. Default is 0, so negative values are removed.
 #' * `color` Color of the ridgeline
 #' * `fill` Fill color of the area under the ridgeline
-#' * `alpha` Transparency level of `color` and `fill`
+#' * `alpha` Transparency level of `fill`. Not applied to `color`. If you want transparent lines, you can set their
+#'   color as RGBA value, e.g. #FF0000A0 for partially transparent red.
 #' * `group` Grouping, to draw multiple ridgelines from one dataset
 #' * `linetype` Linetype of the ridgeline
 #' * `size` Line thickness

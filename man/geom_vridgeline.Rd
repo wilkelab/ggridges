@@ -73,7 +73,8 @@ The cutoff is applied before any width
 scaling is applied via the \code{scale} aesthetic. Default is 0, so negative values are removed.
 \item \code{color} Color of the ridgeline
 \item \code{fill} Fill color of the area under the ridgeline
-\item \code{alpha} Transparency level of \code{color} and \code{fill}
+\item \code{alpha} Transparency level of \code{fill}. Not applied to \code{color}. If you want transparent lines, you can set their
+color as RGBA value, e.g. #FF0000A0 for partially transparent red.
 \item \code{group} Grouping, to draw multiple ridgelines from one dataset
 \item \code{linetype} Linetype of the ridgeline
 \item \code{size} Line thickness
