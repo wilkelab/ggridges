@@ -21,6 +21,9 @@
 #' @param quantiles Sets the number of quantiles the data should be broken into. Used if either `calc_ecdf = TRUE`
 #'   or `quantile_lines = TRUE`. If `quantiles` is an integer then the data will be cut into that many equal quantiles.
 #'   If it is a vector of probabilities then the data will cut by them.
+#' @param quantile_fun Function that calculates quantiles. The function needs to accept two parameters,
+#'   a vector `x` holding the raw data values and a vector `probs` providing the probabilities that
+#'   define the quantiles. Default is `quantile`.
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @examples
@@ -51,7 +54,7 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
                      position = "identity", na.rm = FALSE, show.legend = NA,
                      inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
                      jittered_points = FALSE, quantile_lines = FALSE, calc_ecdf = FALSE, quantiles = 4,
-                     ...)
+                     quantile_fun = quantile, ...)
 {
   layer(
     stat = StatDensityRidges,
@@ -68,6 +71,7 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
                   quantiles = quantiles,
                   jittered_points = jittered_points,
                   quantile_lines = quantile_lines,
+                  quantile_fun = quantile_fun,
                   na.rm = na.rm, ...)
   )
 }
@@ -131,6 +135,10 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       params$quantiles <- 4
     }
 
+    if (is.null(params$quantile_fun)) {
+      params$quantile_fun <- quantile
+    }
+
     if (length(params$quantiles) > 1 &&
         (max(params$quantiles, na.rm = TRUE) > 1 || min(params$quantiles, na.rm = TRUE) < 0)) {
       stop('invalid quantiles used: c(', paste0(params$quantiles, collapse = ','), ') must be within [0, 1] range')
@@ -144,13 +152,14 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       jittered_points = params$jittered_points,
       quantile_lines = params$quantile_lines,
       quantiles = params$quantiles,
+      quantile_fun = params$quantile_fun,
       na.rm = params$na.rm
     )
   },
 
   compute_group = function(data, scales, from, to, bandwidth = 1,
                            calc_ecdf = FALSE, jittered_points = FALSE, quantile_lines = FALSE,
-                           quantiles = 4) {
+                           quantiles = 4, quantile_fun = quantile) {
     # ignore too small groups
     if(nrow(data) < 3) return(data.frame())
 
@@ -216,7 +225,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       probs <- quantiles
       probs[probs < 0 | probs > 1] <- NA
     }
-    qx <- na.omit(quantile(data$x, probs))
+    qx <- na.omit(quantile_fun(data$x, probs = probs))
 
     # if requested, add data frame for quantile lines
     df_quantiles <- NULL
@@ -326,6 +335,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_fill_cyclical(values = c("#0000B0", "#7070D0")) +
 #'   guides(y = "none")
+#' @importFrom stats quantile
 #' @export
 stat_binline <- function(mapping = NULL, data = NULL,
                      geom = "density_ridges", position = "identity",

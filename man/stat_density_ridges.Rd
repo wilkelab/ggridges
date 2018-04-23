@@ -10,7 +10,7 @@ stat_density_ridges(mapping = NULL, data = NULL, geom = "density_ridges",
   position = "identity", na.rm = FALSE, show.legend = NA,
   inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
   jittered_points = FALSE, quantile_lines = FALSE, calc_ecdf = FALSE,
-  quantiles = 4, ...)
+  quantiles = 4, quantile_fun = quantile, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -65,6 +65,10 @@ and returns a variable \code{ecdf} and a variable \code{quantile}. Both can be m
 \item{quantiles}{Sets the number of quantiles the data should be broken into. Used if either \code{calc_ecdf = TRUE}
 or \code{quantile_lines = TRUE}. If \code{quantiles} is an integer then the data will be cut into that many equal quantiles.
 If it is a vector of probabilities then the data will cut by them.}
+
+\item{quantile_fun}{Function that calculates quantiles. The function needs to accept two parameters,
+a vector \code{x} holding the raw data values and a vector \code{probs} providing the probabilities that
+define the quantiles. Default is \code{quantile}.}
 
 \item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like

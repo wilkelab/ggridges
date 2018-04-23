@@ -99,3 +99,14 @@ test_that("jittered points and quantile lines can be turned on and off", {
   expect_equal(out$x[out$datatype=="vline"], unname(quantile(df$x)[2:4]))
 
 })
+
+
+test_that("alternative quantile function can be provided", {
+  df <- data.frame(x = rnorm(20))
+
+  # quantile lines can be turned on
+  out <- layer_data(ggplot(df, aes(x = x, y = 0)) +
+                      geom_density_ridges(quantile_lines = TRUE, quantile_fun = mean))
+  expect_setequal(out$datatype, c("ridgeline", "vline"))
+  expect_equal(out$x[out$datatype=="vline"], mean(df$x))
+})
