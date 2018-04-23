@@ -1,5 +1,7 @@
 ggridges 0.5.0.9000
 ----------------------------------------------------------------
+- Allow custom function to calculate the position of quantile lines. This makes
+  it possible, for example, to place a line at the mean, via `quantile_fun = mean`.
 - Allow coloring of quantile lines and jittered points by quantile.
 
 ggridges 0.5.0
