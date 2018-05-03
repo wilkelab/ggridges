@@ -89,6 +89,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
   calc_panel_params = function(data, params) {
     if (is.null(params$bandwidth)) {
       xdata <- na.omit(data.frame(x=data$x, group=data$group))
+      xdata <- xdata[is.finite(xdata$x), ]
       xs <- split(xdata$x, xdata$group)
       xs_mask <- vapply(xs, length, numeric(1)) > 1
       bws <- vapply(xs[xs_mask], bw.nrd0, numeric(1))
@@ -99,11 +100,11 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     }
 
     if (is.null(params$from)) {
-      params$from <- min(data$x, na.rm=TRUE) - 3 * params$bandwidth
+      params$from <- min(data$x[is.finite(data$x)], na.rm=TRUE) - 3 * params$bandwidth
     }
 
     if (is.null(params$to)) {
-      params$to <- max(data$x, na.rm=TRUE) + 3 * params$bandwidth
+      params$to <- max(data$x[is.finite(data$x)], na.rm=TRUE) + 3 * params$bandwidth
     }
 
     data.frame(
