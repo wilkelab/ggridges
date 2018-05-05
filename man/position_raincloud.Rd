@@ -27,6 +27,10 @@ only jitters the points drawn by these geoms, if any. If no points are present, 
 remains unchanged. The effect is similar to \code{\link[=position_points_jitter]{position_points_jitter()}}, only that by default the
 points lie all underneath the baseline of each individual ridgeline.
 }
+\details{
+The idea for this position adjustment comes from Micah Allen, who proposed this type of plot in
+a \href{https://micahallen.org/2018/03/15/introducing-raincloud-plots/}{blog post} on March 15, 2018.
+}
 \examples{
 library(ggplot2)
 

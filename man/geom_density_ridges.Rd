@@ -61,8 +61,6 @@ to the paired geom/stat.}
 }
 \description{
 \code{geom_density_ridges} arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
-
-\code{geom_density_ridges2} is identical to \code{geom_density_ridges} except it draws closed polygons rather than ridgelines.
 }
 \details{
 By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is

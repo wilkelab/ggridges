@@ -29,6 +29,8 @@ Suggests:
     testthat,
     vdiffr,
     viridis
+Remotes:
+    lionel-/vdiffr
 VignetteBuilder: knitr
 Collate:
     'data.R'
@@ -46,5 +48,5 @@ Collate:
     'theme.R'
     'utils_ggplot2.R'
     'utils.R'
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)

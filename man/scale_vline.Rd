@@ -13,15 +13,6 @@
 These are various scales that can be applied to vline aesthetics, such as
 \code{vline_color}, \code{vline_size}, \code{vline_linetype}. The individual scales all have the
 same usage as existing standard ggplot2 scales, only the name differs.
-
-\code{scale_vline_linetype()}: Equivalent to \code{\link[=scale_linetype]{scale_linetype()}}.
-
-\code{scale_vline_size_continuous()}: Equivalent to \code{\link[=scale_size_continuous]{scale_size_continuous()}}.
-
-\code{scale_vline_color_hue()}: Equivalent to \code{\link[=scale_colour_hue]{scale_colour_hue()}}.
-
-\code{scale_vline_color_gradient()}: Equivalent to \code{\link[=scale_colour_gradient]{scale_colour_gradient()}}. Note that this scale cannot
-draw a legend, however, because of limitations in \code{\link[=guide_colorbar]{guide_colorbar()}}.
 }
 \examples{
 library(ggplot2)

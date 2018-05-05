@@ -94,6 +94,9 @@ PositionPointsJitter <- ggproto("PositionPointsJitter", Position,
 #' remains unchanged. The effect is similar to [`position_points_jitter()`], only that by default the
 #' points lie all underneath the baseline of each individual ridgeline.
 #'
+#' The idea for this position adjustment comes from Micah Allen, who proposed this type of plot in
+#' a [blog post](https://micahallen.org/2018/03/15/introducing-raincloud-plots/) on March 15, 2018.
+#'
 #' @param width Width for horizonal jittering. By default set to 0.
 #' @param height Total height of point cloud. By default 0.4.
 #' @param ygap Vertical gap between ridgeline baseline and point cloud.

@@ -17,20 +17,6 @@
 These are various scales that can be applied to point aesthetics, such as
 \code{point_color}, \code{point_fill}, \code{point_size}. The individual scales all have the
 same usage as existing standard ggplot2 scales, only the name differs.
-
-\code{scale_point_shape()}: Equivalent to \code{\link[=scale_shape]{scale_shape()}}.
-
-\code{scale_point_size_continuous()}: Equivalent to \code{\link[=scale_size_continuous]{scale_size_continuous()}}.
-
-\code{scale_point_color_hue()}: Equivalent to \code{\link[=scale_colour_hue]{scale_colour_hue()}}.
-
-\code{scale_point_fill_hue()}: Equivalent to \code{\link[=scale_fill_hue]{scale_fill_hue()}}.
-
-\code{scale_point_color_gradient()}: Equivalent to \code{\link[=scale_colour_gradient]{scale_colour_gradient()}}. Note that this scale cannot
-draw a legend, however, because of limitations in \code{\link[=guide_colorbar]{guide_colorbar()}}.
-
-\code{scale_point_fill_gradient()}: Equivalent to \code{\link[=scale_fill_gradient]{scale_fill_gradient()}}. Note that this scale cannot
-draw a legend, however, because of limitations in \code{\link[=guide_colorbar]{guide_colorbar()}}.
 }
 \examples{
 library(ggplot2)
