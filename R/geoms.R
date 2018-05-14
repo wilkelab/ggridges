@@ -110,7 +110,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     point_alpha = NA, point_stroke = 0.5,
 
     # vline aesthetics
-    vline_color = "black", vline_size = 0.5, vline_linetype = 1
+    vline_colour = NULL, vline_color = NULL, vline_size = NULL, vline_linetype = NULL
     ),
 
   required_aes = c("x", "y", "height"),
@@ -158,9 +158,9 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     else {
       vlines_grob <- grid::segmentsGrob(0.5, 0.1, 0.5, 0.9,
         gp = grid::gpar(
-          col = data$vline_color,
-          lwd = data$vline_size * .pt,
-          lty = data$vline_linetype,
+          col = data$vline_colour %||% data$vline_color %||% data$colour,
+          lwd = (data$vline_size %||% data$size) * .pt,
+          lty = data$vline_linetype %||% data$linetype,
           lineend = "butt"
         )
       )
@@ -293,10 +293,10 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     data$yend <- data$ymax
     data$alpha <- NA
 
-    # copy vline aesthetics over
-    data$colour <- data$vline_color
-    data$linetype <- data$vline_linetype
-    data$size <- data$vline_size
+    # copy vline aesthetics over if set
+    data$colour <- data$vline_colour %||% data$vline_color %||% data$colour
+    data$linetype <- data$vline_linetype %||% data$linetype
+    data$size <- data$vline_size %||% data$size
     ggplot2::GeomSegment$draw_panel(data, panel_params, coord)
   },
 
@@ -429,7 +429,8 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
     point_alpha = NA, point_stroke = 0.5,
 
     # vline aesthetics
-    vline_color = "black", vline_size = 0.5, vline_linetype = 1
+    # aesthetics set to NULL are inherited unless explicitly set
+    vline_colour = NULL, vline_color = NULL, vline_size = NULL, vline_linetype = NULL
   ),
 
   required_aes = c("x", "y", "height"),
