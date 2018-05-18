@@ -77,14 +77,14 @@ A value of 1 indicates that the heights are taken as is. This aesthetic can be u
 The main purpose of this cutoff is to remove long tails right at the baseline level, but other uses are possible.
 The cutoff is applied before any height
 scaling is applied via the \code{scale} aesthetic. Default is 0, so negative values are removed.
-\item \code{color} Color of the ridgeline
+\item \code{colour} Color of the ridgeline
 \item \code{fill} Fill color of the area under the ridgeline
 \item \code{alpha} Transparency level of \code{fill}. Not applied to \code{color}. If you want transparent lines, you can set their
 color as RGBA value, e.g. #FF0000A0 for partially transparent red.
 \item \code{group} Grouping, to draw multiple ridgelines from one dataset
 \item \code{linetype} Linetype of the ridgeline
 \item \code{size} Line thickness
-\item \code{point_shape}, \code{point_color}, \code{point_size}, \code{point_fill}, \code{point_alpha}, \code{point_stroke} Aesthetics applied
+\item \code{point_shape}, \code{point_colour}, \code{point_size}, \code{point_fill}, \code{point_alpha}, \code{point_stroke} Aesthetics applied
 to points drawn in addition to ridgelines.
 }
 }
