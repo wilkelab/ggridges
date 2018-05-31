@@ -180,6 +180,9 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 
     d <- density(data$x, bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE)
 
+    # calculate maximum density for scaling
+    maxdens <- max(d$y, na.rm = TRUE)
+
     # make interpolating function for density line
     densf <- approxfun(d$x, d$y, rule = 2)
 
@@ -189,6 +192,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
         x = data$x,
         # actual jittering is handled in the position argument
         density = densf(data$x),
+        scaled = densf(data$x) / maxdens,
         datatype = "point", stringsAsFactors = FALSE)
 
       # see if we need to carry over other point data
@@ -232,8 +236,13 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 
     if (quantile_lines && length(qx) > 0) {
       qy <- densf(qx)
-      df_quantiles <- data.frame(x = qx, density = qy, datatype = "vline",
-                                 stringsAsFactors = FALSE)
+      df_quantiles <- data.frame(
+        x = qx,
+        density = qy,
+        scaled = qy / maxdens,
+        datatype = "vline",
+        stringsAsFactors = FALSE
+      )
       if (!is.null(df_points_dummy)){
         # add in dummy points data if necessary
         df_quantiles <- data.frame(df_quantiles, as.list(df_points_dummy))
@@ -251,14 +260,17 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 
       if (!is.null(df_nondens)) {
         # we add data for ecdf and quantiles back to all other data points
-        df_nondens <- data.frame(df_nondens,
-                                 ecdf = ecdf_fun(df_nondens$x),
-                                 quantile = findInterval(df_nondens$x, qx, left.open = TRUE) + 1)
+        df_nondens <- data.frame(
+          df_nondens,
+          ecdf = ecdf_fun(df_nondens$x),
+          quantile = findInterval(df_nondens$x, qx, left.open = TRUE) + 1
+        )
       }
 
       df_density <- data.frame(
         x = d$x,
         density = d$y,
+        scaled = d$y / maxdens,
         ecdf = ecdf,
         quantile = ntile,
         datatype = "ridgeline",
@@ -266,7 +278,13 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       )
     }
     else {
-      df_density <- data.frame(x = d$x, density = d$y, datatype = "ridgeline", stringsAsFactors = FALSE)
+      df_density <- data.frame(
+        x = d$x,
+        density = d$y,
+        scaled = d$y / maxdens,
+        datatype = "ridgeline",
+        stringsAsFactors = FALSE
+      )
     }
 
     if (!is.null(df_points_dummy)){

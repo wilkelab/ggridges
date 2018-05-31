@@ -58,18 +58,18 @@ theme_ridges <- function(font_size = 14, font_family = "", line_size = .5, grid 
       rect              = element_rect(fill = "transparent", colour = NA, color = NA, size = 0, linetype = 0),
       text              = element_text(family = font_family, face = "plain", colour = "black",
                                        size = font_size, hjust = 0.5, vjust = 0.5, angle = 0, lineheight = .9,
-                                       margin = ggplot2::margin(), debug = FALSE),
+                                       margin = margin(), debug = FALSE),
       axis.text         = element_text(colour = "black", size = small_size),
       #axis.title        = element_text(face = "bold"),
-      axis.text.x       = element_text(margin = ggplot2::margin(t = small_size / 4), vjust = 1),
-      axis.text.y       = element_text(margin = ggplot2::margin(r = small_size / 4), hjust = 1, vjust = 0),
+      axis.text.x       = element_text(margin = margin(t = small_size / 4), vjust = 1),
+      axis.text.y       = element_text(margin = margin(r = small_size / 4), hjust = 1, vjust = 0),
       axis.title.x      = element_text(
-        margin = ggplot2::margin(t = small_size / 2, b = small_size / 4),
+        margin = margin(t = small_size / 2, b = small_size / 4),
         hjust = axis_just
       ),
       axis.title.y      = element_text(
         angle = 90,
-        margin = ggplot2::margin(r = small_size / 2, l = small_size / 4),
+        margin = margin(r = small_size / 2, l = small_size / 4),
         hjust = axis_just
       ),
       axis.ticks        = axis.ticks,
@@ -89,14 +89,14 @@ theme_ridges <- function(font_size = 14, font_family = "", line_size = .5, grid 
       plot.background   = element_blank(),
       plot.title        = element_text(face = "bold",
                                        size = font_size,
-                                       margin = ggplot2::margin(b = half_line), hjust = 0),
+                                       margin = margin(b = half_line), hjust = 0),
       plot.subtitle     = element_text(size = rel(small_rel),
                                        hjust = 0, vjust = 1,
                                        margin = margin(b = half_line * small_rel)),
       plot.caption      = element_text(size = rel(small_rel),
                                        hjust = 1, vjust = 1,
                                        margin = margin(t = half_line * small_rel)),
-      plot.margin       = ggplot2::margin(half_line, font_size, half_line, half_line),
+      plot.margin       = margin(half_line, font_size, half_line, half_line),
 
       complete = TRUE
     )

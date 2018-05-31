@@ -4,6 +4,7 @@ visual_test
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^\.codecov\.yml$
+^ISSUE_TEMPLATE\.md$
 ^README\.Rmd$
 ^cran-comments.md$
 ^TODO\.Rmd$
