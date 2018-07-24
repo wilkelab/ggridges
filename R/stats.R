@@ -192,7 +192,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
         x = data$x,
         # actual jittering is handled in the position argument
         density = densf(data$x),
-        scaled = densf(data$x) / maxdens,
+        ndensity = densf(data$x) / maxdens,
         datatype = "point", stringsAsFactors = FALSE)
 
       # see if we need to carry over other point data
@@ -239,7 +239,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       df_quantiles <- data.frame(
         x = qx,
         density = qy,
-        scaled = qy / maxdens,
+        ndensity = qy / maxdens,
         datatype = "vline",
         stringsAsFactors = FALSE
       )
@@ -270,7 +270,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       df_density <- data.frame(
         x = d$x,
         density = d$y,
-        scaled = d$y / maxdens,
+        ndensity = d$y / maxdens,
         ecdf = ecdf,
         quantile = ntile,
         datatype = "ridgeline",
@@ -281,7 +281,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       df_density <- data.frame(
         x = d$x,
         density = d$y,
-        scaled = d$y / maxdens,
+        ndensity = d$y / maxdens,
         datatype = "ridgeline",
         stringsAsFactors = FALSE
       )
