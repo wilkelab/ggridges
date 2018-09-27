@@ -3,11 +3,15 @@
 \name{scale_vline}
 \alias{scale_vline_linetype}
 \alias{scale_vline_size_continuous}
+\alias{scale_vline_colour_hue}
 \alias{scale_vline_color_hue}
+\alias{scale_vline_colour_gradient}
 \alias{scale_vline_color_gradient}
 \alias{scale_vline_linetype_discrete}
 \alias{scale_vline_color_discrete}
+\alias{scale_vline_colour_discrete}
 \alias{scale_vline_color_continuous}
+\alias{scale_vline_colour_continuous}
 \title{Scales for vline aesthetics}
 \description{
 These are various scales that can be applied to vline aesthetics, such as
@@ -19,14 +23,18 @@ library(ggplot2)
 
 # default scales
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species, color = Species)) +
-  geom_density_ridges(aes(vline_color = Species, vline_linetype = Species),
-                      alpha = .4, quantile_lines = TRUE) +
+  geom_density_ridges(
+    aes(vline_color = Species, vline_linetype = Species),
+    alpha = .4, quantile_lines = TRUE
+  ) +
   theme_ridges()
 
 # modified scales
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species, color = Species)) +
-  geom_density_ridges(aes(vline_color = Species),
-                      alpha = .4, quantile_lines = TRUE) +
+  geom_density_ridges(
+    aes(vline_color = Species),
+    alpha = .4, quantile_lines = TRUE
+  ) +
   scale_fill_hue(l = 50) +
   scale_vline_color_hue(l = 30) +
   theme_ridges()

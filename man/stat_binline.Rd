@@ -8,9 +8,9 @@
 \usage{
 stat_binline(mapping = NULL, data = NULL, geom = "density_ridges",
   position = "identity", ..., binwidth = NULL, bins = NULL,
-  center = NULL, boundary = NULL, breaks = NULL, closed = c("right",
-  "left"), pad = TRUE, draw_baseline = TRUE, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  center = NULL, boundary = NULL, breaks = NULL,
+  closed = c("right", "left"), pad = TRUE, draw_baseline = TRUE,
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -29,18 +29,18 @@ data. All objects will be fortified to produce a data frame. See
 \code{\link[=fortify]{fortify()}} for which variables will be created.
 
 A \code{function} will be called with a single argument,
-the plot data. The return value must be a \code{data.frame.}, and
+the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data.}
 
 \item{geom}{Use to override the default connection between
-\code{geom_histogram}/\code{geom_freqpoly} and \code{stat_bin}.}
+\code{geom_histogram()}/\code{geom_freqpoly()} and \code{stat_bin()}.}
 
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
 
 \item{...}{Other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
-\code{color = "red"} or \code{size = 3}. They may also be parameters
+\code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
 \item{binwidth}{The width of the bins. Can be specified as a numeric value,
@@ -55,18 +55,25 @@ bin width of a time variable is the number of seconds.}
 
 \item{bins}{Number of bins. Overridden by \code{binwidth}. Defaults to 30.}
 
-\item{center}{The center of one of the bins.  Note that if center is above or
-below the range of the data, things will be shifted by an appropriate
-number of \code{width}s. To center on integers, for example, use
-\code{width = 1} and \code{center = 0}, even if \code{0} is outside the range
-of the data.  At most one of \code{center} and \code{boundary} may be
-specified.}
+\item{center}{bin position specifiers. Only one, \code{center} or
+\code{boundary}, may be specified for a single plot. \code{center} specifies the
+center of one of the bins. \code{boundary} specifies the boundary between two
+bins. Note that if either is above or below the range of the data, things
+will be shifted by the appropriate integer multiple of \code{width}.
+For example, to center on integers use \code{width = 1} and \code{center = 0}, even
+if \code{0} is outside the range of the data. Alternatively, this same alignment
+can be specified with \code{width = 1} and \code{boundary = 0.5}, even if \code{0.5} is
+outside the range of the data.}
 
-\item{boundary}{A boundary between two bins. As with \code{center}, things
-are shifted when \code{boundary} is outside the range of the data. For
-example, to center on integers, use \code{width = 1} and \code{boundary =
-  0.5}, even if \code{0.5} is outside the range of the data.  At most one of
-\code{center} and \code{boundary} may be specified.}
+\item{boundary}{bin position specifiers. Only one, \code{center} or
+\code{boundary}, may be specified for a single plot. \code{center} specifies the
+center of one of the bins. \code{boundary} specifies the boundary between two
+bins. Note that if either is above or below the range of the data, things
+will be shifted by the appropriate integer multiple of \code{width}.
+For example, to center on integers use \code{width = 1} and \code{center = 0}, even
+if \code{0} is outside the range of the data. Alternatively, this same alignment
+can be specified with \code{width = 1} and \code{boundary = 0.5}, even if \code{0.5} is
+outside the range of the data.}
 
 \item{breaks}{Alternatively, you can supply a numeric vector giving
 the bin boundaries. Overrides \code{binwidth}, \code{bins}, \code{center},

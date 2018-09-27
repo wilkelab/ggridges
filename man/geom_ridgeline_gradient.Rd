@@ -8,14 +8,14 @@
 \alias{GeomDensityRidgesGradient}
 \title{Plot ridgelines and ridgeline plots with fill gradients along the x axis}
 \usage{
-geom_ridgeline_gradient(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", na.rm = FALSE, gradient_lwd = 0.5,
-  show.legend = NA, inherit.aes = TRUE, ...)
+geom_ridgeline_gradient(mapping = NULL, data = NULL,
+  stat = "identity", position = "identity", na.rm = FALSE,
+  gradient_lwd = 0.5, show.legend = NA, inherit.aes = TRUE, ...)
 
 geom_density_ridges_gradient(mapping = NULL, data = NULL,
-  stat = "density_ridges", position = "points_sina", panel_scaling = TRUE,
-  na.rm = TRUE, gradient_lwd = 0.5, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  stat = "density_ridges", position = "points_sina",
+  panel_scaling = TRUE, na.rm = TRUE, gradient_lwd = 0.5,
+  show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or

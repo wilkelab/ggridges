@@ -109,13 +109,17 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     point_shape = 19, point_size = 1.5, point_stroke = 0.5,
 
     # point aesthetics, inherited
-    point_colour = NULL, point_color = NULL, point_fill = NULL, point_alpha = NULL,
+    point_colour = NULL,# point_color = NULL,
+    point_fill = NULL, point_alpha = NULL,
 
     # vline aesthetics, all inherited
-    vline_colour = NULL, vline_color = NULL, vline_size = NULL, vline_linetype = NULL
+    vline_colour = NULL, #vline_color = NULL,
+    vline_size = NULL, vline_linetype = NULL
   ),
 
   required_aes = c("x", "y", "height"),
+
+  optional_aes = c("point_color", "vline_color"),
 
   extra_params = c("na.rm", "jittered_points"),
 
@@ -442,13 +446,17 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
     point_shape = 19, point_size = 1.5, point_stroke = 0.5,
 
     # point aesthetics, inherited
-    point_colour = NULL, point_color = NULL, point_fill = NULL, point_alpha = NULL,
+    point_colour = NULL, #point_color = NULL,
+    point_fill = NULL, point_alpha = NULL,
 
     # vline aesthetics, all inherited
-    vline_colour = NULL, vline_color = NULL, vline_size = NULL, vline_linetype = NULL
+    vline_colour = NULL, #vline_color = NULL,
+    vline_size = NULL, vline_linetype = NULL
   ),
 
   required_aes = c("x", "y", "height"),
+
+  optional_aes = c("point_color", "vline_color"),
 
   extra_params = c("na.rm", "panel_scaling"),
 

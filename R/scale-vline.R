@@ -12,14 +12,18 @@
 #'
 #' # default scales
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species, color = Species)) +
-#'   geom_density_ridges(aes(vline_color = Species, vline_linetype = Species),
-#'                       alpha = .4, quantile_lines = TRUE) +
+#'   geom_density_ridges(
+#'     aes(vline_color = Species, vline_linetype = Species),
+#'     alpha = .4, quantile_lines = TRUE
+#'   ) +
 #'   theme_ridges()
 #'
 #' # modified scales
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species, color = Species)) +
-#'   geom_density_ridges(aes(vline_color = Species),
-#'                       alpha = .4, quantile_lines = TRUE) +
+#'   geom_density_ridges(
+#'     aes(vline_color = Species),
+#'     alpha = .4, quantile_lines = TRUE
+#'   ) +
 #'   scale_fill_hue(l = 50) +
 #'   scale_vline_color_hue(l = 30) +
 #'   theme_ridges()
@@ -48,7 +52,17 @@ scale_vline_size_continuous <- function(name = ggplot2::waiver(), breaks = ggplo
                    guide = guide)
 }
 
-#' `scale_vline_color_hue()`: Equivalent to [`scale_colour_hue()`].
+#' `scale_vline_colour_hue()`: Equivalent to [`scale_colour_hue()`].
+#' @rdname scale_vline
+#' @usage NULL
+#' @export
+scale_vline_colour_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.start = 0,
+                                  direction = 1, na.value = "grey50", aesthetics = "vline_colour")
+{
+  ggplot2::discrete_scale(aesthetics, "hue",
+                          scales::hue_pal(h, c, l, h.start, direction), na.value = na.value, ...)
+}
+
 #' @rdname scale_vline
 #' @usage NULL
 #' @export
@@ -59,18 +73,27 @@ scale_vline_color_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.st
                           scales::hue_pal(h, c, l, h.start, direction), na.value = na.value, ...)
 }
 
-#' `scale_vline_color_gradient()`: Equivalent to [`scale_colour_gradient()`]. Note that this scale cannot
-#'   draw a legend, however, because of limitations in [`guide_colorbar()`].
+
+#' `scale_vline_colour_gradient()`: Equivalent to [`scale_colour_gradient()`].
 #' @rdname scale_vline
 #' @usage NULL
 #' @export
-scale_vline_color_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
-                                        na.value = "grey50", guide = "none", aesthetics = "vline_color")
+scale_vline_colour_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
+                                        na.value = "grey50", guide = "none", aesthetics = "vline_colour")
 {
   ggplot2::continuous_scale(aesthetics, "gradient", scales::seq_gradient_pal(low, high, space),
                             na.value = na.value, guide = guide, ...)
 }
 
+#' @rdname scale_vline
+#' @usage NULL
+#' @export
+scale_vline_color_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
+                                       na.value = "grey50", guide = "none", aesthetics = "vline_color")
+{
+  ggplot2::continuous_scale(aesthetics, "gradient", scales::seq_gradient_pal(low, high, space),
+                            na.value = na.value, guide = guide, ...)
+}
 
 # default scales
 #' @rdname scale_vline
@@ -86,4 +109,14 @@ scale_vline_color_discrete <- scale_vline_color_hue
 #' @rdname scale_vline
 #' @usage NULL
 #' @export
+scale_vline_colour_discrete <- scale_vline_colour_hue
+
+#' @rdname scale_vline
+#' @usage NULL
+#' @export
 scale_vline_color_continuous <- scale_vline_color_gradient
+
+#' @rdname scale_vline
+#' @usage NULL
+#' @export
+scale_vline_colour_continuous <- scale_vline_colour_gradient

@@ -15,7 +15,7 @@
 #'   geom_density_ridges(aes(point_color = Species, point_fill = Species,
 #'                           point_shape = Species),
 #'                       alpha = .2, jittered_points = TRUE) +
-#'   scale_fill_manual( values = c("#0072b2", "#D55E00", "#009e73")) +
+#'   scale_fill_manual(values = c("#0072b2", "#D55E00", "#009e73")) +
 #'   scale_discrete_manual("point_color", values = c("#0072b2", "#D55E00", "#009e73")) +
 #'   scale_discrete_manual("point_fill", values = c("#0072b280", "#D55E0080", "#009e7380")) +
 #'   scale_discrete_manual("point_shape", values = c(21, 22, 23)) +
@@ -23,7 +23,7 @@
 #' @seealso See [scale_point_color_hue()] for specific scales for point aesthetics and
 #'   [scale_vline_color_hue()] for specific scales for vline aesthetics.
 #' @export
-scale_discrete_manual <- function(aesthetics, values, ...)
+scale_discrete_manual <- function(aesthetics, ..., values)
 {
   pal <- function(n) {
     if (n > length(values)) {

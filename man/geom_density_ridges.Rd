@@ -8,13 +8,15 @@
 \alias{GeomDensityRidges2}
 \title{Create ridgeline plot}
 \usage{
-geom_density_ridges(mapping = NULL, data = NULL, stat = "density_ridges",
-  position = "points_sina", panel_scaling = TRUE, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+geom_density_ridges(mapping = NULL, data = NULL,
+  stat = "density_ridges", position = "points_sina",
+  panel_scaling = TRUE, na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE, ...)
 
-geom_density_ridges2(mapping = NULL, data = NULL, stat = "density_ridges",
-  position = "points_sina", panel_scaling = TRUE, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+geom_density_ridges2(mapping = NULL, data = NULL,
+  stat = "density_ridges", position = "points_sina",
+  panel_scaling = TRUE, na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or

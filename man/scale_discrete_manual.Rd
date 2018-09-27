@@ -4,14 +4,14 @@
 \alias{scale_discrete_manual}
 \title{Generic discrete manual scale}
 \usage{
-scale_discrete_manual(aesthetics, values, ...)
+scale_discrete_manual(aesthetics, ..., values)
 }
 \arguments{
 \item{aesthetics}{The aesthetics for which this scale should be used}
 
-\item{values}{List of values to be used as palette}
-
 \item{...}{Other parameters handed off to \link{discrete_scale}}
+
+\item{values}{List of values to be used as palette}
 }
 \description{
 Generic discrete manual scale. This scale can be used to manually set the values
@@ -26,7 +26,7 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
   geom_density_ridges(aes(point_color = Species, point_fill = Species,
                           point_shape = Species),
                       alpha = .2, jittered_points = TRUE) +
-  scale_fill_manual( values = c("#0072b2", "#D55E00", "#009e73")) +
+  scale_fill_manual(values = c("#0072b2", "#D55E00", "#009e73")) +
   scale_discrete_manual("point_color", values = c("#0072b2", "#D55E00", "#009e73")) +
   scale_discrete_manual("point_fill", values = c("#0072b280", "#D55E0080", "#009e7380")) +
   scale_discrete_manual("point_shape", values = c(21, 22, 23)) +

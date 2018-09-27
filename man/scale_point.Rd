@@ -3,14 +3,18 @@
 \name{scale_point}
 \alias{scale_point_shape}
 \alias{scale_point_size_continuous}
+\alias{scale_point_colour_hue}
 \alias{scale_point_color_hue}
 \alias{scale_point_fill_hue}
+\alias{scale_point_colour_gradient}
 \alias{scale_point_color_gradient}
 \alias{scale_point_fill_gradient}
 \alias{scale_point_shape_discrete}
 \alias{scale_point_color_discrete}
+\alias{scale_point_colour_discrete}
 \alias{scale_point_fill_discrete}
 \alias{scale_point_color_continuous}
+\alias{scale_point_colour_continuous}
 \alias{scale_point_fill_continuous}
 \title{Scales for point aesthetics}
 \description{
@@ -23,16 +27,25 @@ library(ggplot2)
 
 # default scales
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
-  geom_density_ridges(aes(point_color = Species, point_fill = Species,
-                          point_shape = Species),
-                      alpha = .4, jittered_points = TRUE) +
+  geom_density_ridges(
+    aes(
+      point_color = Species, point_fill = Species,
+      point_shape = Species
+    ),
+    alpha = .4, jittered_points = TRUE
+  ) +
   theme_ridges()
 
 # modified scales
 ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
-  geom_density_ridges(aes(point_color = Species, point_fill = Species,
-                          point_shape = Species),
-                      alpha = .4, jittered_points = TRUE) +
+  geom_density_ridges(
+    aes(
+      point_color = Species, point_fill = Species,
+      point_shape = Species
+    ),
+    alpha = .4, point_alpha = 1,
+    jittered_points = TRUE
+  ) +
   scale_fill_hue(l = 50) +
   scale_point_color_hue(l = 20) +
   scale_point_fill_hue(l = 70) +

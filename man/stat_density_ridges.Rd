@@ -6,11 +6,12 @@
 \alias{StatDensityRidges}
 \title{Stat for density ridgeline plots}
 \usage{
-stat_density_ridges(mapping = NULL, data = NULL, geom = "density_ridges",
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
-  jittered_points = FALSE, quantile_lines = FALSE, calc_ecdf = FALSE,
-  quantiles = 4, quantile_fun = quantile, ...)
+stat_density_ridges(mapping = NULL, data = NULL,
+  geom = "density_ridges", position = "identity", na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, bandwidth = NULL,
+  from = NULL, to = NULL, jittered_points = FALSE,
+  quantile_lines = FALSE, calc_ecdf = FALSE, quantiles = 4,
+  quantile_fun = quantile, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or

@@ -12,16 +12,25 @@
 #'
 #' # default scales
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
-#'   geom_density_ridges(aes(point_color = Species, point_fill = Species,
-#'                           point_shape = Species),
-#'                       alpha = .4, jittered_points = TRUE) +
+#'   geom_density_ridges(
+#'     aes(
+#'       point_color = Species, point_fill = Species,
+#'       point_shape = Species
+#'     ),
+#'     alpha = .4, jittered_points = TRUE
+#'   ) +
 #'   theme_ridges()
 #'
 #' # modified scales
 #' ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
-#'   geom_density_ridges(aes(point_color = Species, point_fill = Species,
-#'                           point_shape = Species),
-#'                       alpha = .4, jittered_points = TRUE) +
+#'   geom_density_ridges(
+#'     aes(
+#'       point_color = Species, point_fill = Species,
+#'       point_shape = Species
+#'     ),
+#'     alpha = .4, point_alpha = 1,
+#'     jittered_points = TRUE
+#'   ) +
 #'   scale_fill_hue(l = 50) +
 #'   scale_point_color_hue(l = 20) +
 #'   scale_point_fill_hue(l = 70) +
@@ -51,7 +60,17 @@ scale_point_size_continuous <- function(name = ggplot2::waiver(), breaks = ggplo
                    guide = guide)
 }
 
-#' `scale_point_color_hue()`: Equivalent to [`scale_colour_hue()`].
+#' `scale_point_colour_hue()`: Equivalent to [`scale_colour_hue()`].
+#' @rdname scale_point
+#' @usage NULL
+#' @export
+scale_point_colour_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.start = 0,
+                                  direction = 1, na.value = "grey50", aesthetics = "point_colour")
+{
+  ggplot2::discrete_scale(aesthetics, "hue",
+                          scales::hue_pal(h, c, l, h.start, direction), na.value = na.value, ...)
+}
+
 #' @rdname scale_point
 #' @usage NULL
 #' @export
@@ -68,17 +87,27 @@ scale_point_color_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.st
 #' @export
 scale_point_fill_hue <- function(...) scale_point_color_hue(..., aesthetics = "point_fill")
 
-#' `scale_point_color_gradient()`: Equivalent to [`scale_colour_gradient()`]. Note that this scale cannot
-#'   draw a legend, however, because of limitations in [`guide_colorbar()`].
+#' `scale_point_colour_gradient()`: Equivalent to [`scale_colour_gradient()`].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
-scale_point_color_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
-                                        na.value = "grey50", guide = "none", aesthetics = "point_color")
+scale_point_colour_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
+                                        na.value = "grey50", guide = "none", aesthetics = "point_colour")
 {
   ggplot2::continuous_scale(aesthetics, "gradient", scales::seq_gradient_pal(low, high, space),
                             na.value = na.value, guide = guide, ...)
 }
+
+#' @rdname scale_point
+#' @usage NULL
+#' @export
+scale_point_color_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
+                                       na.value = "grey50", guide = "none", aesthetics = "point_color")
+{
+  ggplot2::continuous_scale(aesthetics, "gradient", scales::seq_gradient_pal(low, high, space),
+                            na.value = na.value, guide = guide, ...)
+}
+
 
 #' `scale_point_fill_gradient()`: Equivalent to [`scale_fill_gradient()`]. Note that this scale cannot
 #'   draw a legend, however, because of limitations in [`guide_colorbar()`].
@@ -102,12 +131,22 @@ scale_point_color_discrete <- scale_point_color_hue
 #' @rdname scale_point
 #' @usage NULL
 #' @export
+scale_point_colour_discrete <- scale_point_colour_hue
+
+#' @rdname scale_point
+#' @usage NULL
+#' @export
 scale_point_fill_discrete <- scale_point_fill_hue
 
 #' @rdname scale_point
 #' @usage NULL
 #' @export
 scale_point_color_continuous <- scale_point_color_gradient
+
+#' @rdname scale_point
+#' @usage NULL
+#' @export
+scale_point_colour_continuous <- scale_point_colour_gradient
 
 #' @rdname scale_point
 #' @usage NULL
