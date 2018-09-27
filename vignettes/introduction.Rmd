@@ -21,7 +21,7 @@ The **ggridges** package provides two main geoms, `geom_ridgeline` and `geom_den
 ### Ridgelines
 
 The geom `geom_ridgeline` can be used to draw lines with a filled area underneath.
-```{r}
+```{r warning = FALSE, message = FALSE}
 library(ggplot2)
 library(ggridges)
 
