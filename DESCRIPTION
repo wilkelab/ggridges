@@ -29,8 +29,6 @@ Suggests:
     testthat,
     vdiffr,
     viridis
-Remotes:
-    lionel-/vdiffr
 VignetteBuilder: knitr
 Collate:
     'data.R'
