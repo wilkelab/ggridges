@@ -1,7 +1,7 @@
 Package: ggridges
 Type: Package
 Title: Ridgeline Plots in 'ggplot2'
-Version: 0.5.1
+Version: 0.5.1.9000
 Authors@R: c( 
     person("Claus O.", "Wilke", , "wilke@austin.utexas.edu", c("cre", "aut")),
     person("RStudio", role = c("cph"), comment = "Copyright for ggplot2 code copied to ggridges"))
