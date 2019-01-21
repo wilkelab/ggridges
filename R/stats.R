@@ -24,6 +24,8 @@
 #' @param quantile_fun Function that calculates quantiles. The function needs to accept two parameters,
 #'   a vector `x` holding the raw data values and a vector `probs` providing the probabilities that
 #'   define the quantiles. Default is `quantile`.
+#' @param n The number of equally spaced points at which the density is to be estimated. Should be a power of 2. Default
+#'   is 512.
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @examples
@@ -54,7 +56,7 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
                      position = "identity", na.rm = FALSE, show.legend = NA,
                      inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
                      jittered_points = FALSE, quantile_lines = FALSE, calc_ecdf = FALSE, quantiles = 4,
-                     quantile_fun = quantile, ...)
+                     quantile_fun = quantile, n = 512, ...)
 {
   layer(
     stat = StatDensityRidges,
@@ -72,6 +74,7 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
                   jittered_points = jittered_points,
                   quantile_lines = quantile_lines,
                   quantile_fun = quantile_fun,
+                  n = n,
                   na.rm = na.rm, ...)
   )
 }
@@ -119,47 +122,20 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     pardata <- lapply(panels, self$calc_panel_params, params)
     pardata <- reduce(pardata, rbind)
 
-    if (is.null(params$calc_ecdf)) {
-      params$calc_ecdf <- FALSE
-    }
-
-    if (is.null(params$jittered_points)) {
-      params$jittered_points <- FALSE
-    }
-
-    if (is.null(params$quantile_lines)) {
-      params$quantile_lines <- FALSE
-    }
-
-    if (is.null(params$quantiles)) {
-      params$quantiles <- 4
-    }
-
-    if (is.null(params$quantile_fun)) {
-      params$quantile_fun <- quantile
-    }
-
     if (length(params$quantiles) > 1 &&
         (max(params$quantiles, na.rm = TRUE) > 1 || min(params$quantiles, na.rm = TRUE) < 0)) {
       stop('invalid quantiles used: c(', paste0(params$quantiles, collapse = ','), ') must be within [0, 1] range')
     }
 
-    list(
-      bandwidth = pardata$bandwidth,
-      from = pardata$from,
-      to = pardata$to,
-      calc_ecdf = params$calc_ecdf,
-      jittered_points = params$jittered_points,
-      quantile_lines = params$quantile_lines,
-      quantiles = params$quantiles,
-      quantile_fun = params$quantile_fun,
-      na.rm = params$na.rm
-    )
+    params$bandwidth <- pardata$bandwidth
+    params$from <- pardata$from
+    params$to <- pardata$to
+    params
   },
 
   compute_group = function(data, scales, from, to, bandwidth = 1,
                            calc_ecdf = FALSE, jittered_points = FALSE, quantile_lines = FALSE,
-                           quantiles = 4, quantile_fun = quantile) {
+                           quantiles = 4, quantile_fun = quantile, n = 512) {
     # ignore too small groups
     if(nrow(data) < 3) return(data.frame())
 
@@ -178,7 +154,11 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     }
     panel_id <- as.numeric(panel)
 
-    d <- density(data$x, bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE)
+    d <- stats::density(
+      data$x,
+      bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE,
+      n = n
+    )
 
     # calculate maximum density for scaling
     maxdens <- max(d$y, na.rm = TRUE)
