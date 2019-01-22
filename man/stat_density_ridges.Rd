@@ -50,7 +50,7 @@ rather than combining with them.}
 \item{bandwidth}{Bandwidth used for density calculation. If not provided, is estimated from the data.}
 
 \item{from, to}{The left and right-most points of the grid at which the density is to be estimated,
-as in \code{\link[=density]{density()}}. If not provided, there are estimated from the data range and the bandwidth.}
+as in \code{\link[=density]{density()}}. If not provided, these are estimated from the data range and the bandwidth.}
 
 \item{jittered_points}{If \code{TRUE}, carries the original point data over to the processed data frame,
 so that individual points can be drawn by the various ridgeline geoms. The specific position of these

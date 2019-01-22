@@ -1,3 +1,8 @@
+ggridges 0.5.1.9000
+----------------------------------------------------------------
+- `stat_density_ridges()` now has a parameter `n` that determines at how many
+  points along the x axis the density is estimated.
+
 ggridges 0.5.1
 ----------------------------------------------------------------
 - The `alpha` aesthetic is now by default applied to jittered points. If you don't

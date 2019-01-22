@@ -9,7 +9,7 @@
 #' @param geom The geometric object to use to display the data.
 #' @param bandwidth Bandwidth used for density calculation. If not provided, is estimated from the data.
 #' @param from,to The left and right-most points of the grid at which the density is to be estimated,
-#'   as in [`density()`]. If not provided, there are estimated from the data range and the bandwidth.
+#'   as in [`density()`]. If not provided, these are estimated from the data range and the bandwidth.
 #' @param jittered_points If `TRUE`, carries the original point data over to the processed data frame,
 #'   so that individual points can be drawn by the various ridgeline geoms. The specific position of these
 #'   points is controlled by various position objects, e.g. [`position_points_sina()`] or [`position_raincloud()`].
