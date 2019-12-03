@@ -198,7 +198,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     }
 
     # calculate quantiles, needed for both quantile lines and ecdf
-    if (length(quantiles)==1) {
+    if ((length(quantiles)==1) && (all(quantiles >= 1))) {
       if (quantiles > 1) {
         probs <- seq(0, 1, length.out = quantiles + 1)[2:quantiles]
       }
