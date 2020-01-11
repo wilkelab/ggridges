@@ -15,7 +15,7 @@ position_points_jitter(
 )
 }
 \arguments{
-\item{width}{Width for horizonal jittering. By default set to 0.}
+\item{width}{Width for horizontal jittering. By default set to 0.}
 
 \item{height}{Height for vertical jittering, applied in both directions (up and down). By default 0.2.}
 

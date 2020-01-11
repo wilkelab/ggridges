@@ -263,7 +263,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 
 ### Using alternative stats
 
-The stat `stat_density_ridges` may not always do exactly what you want it to do. If this is the case, you can use other stats that may be better for your respective application. First, `stat_density_ridges` estimates the data range and bandwidth for the density estimation from the entire data at once, rather than from each individual group of data. This choice makes ridgeline plots look more uniform, but the density estimates can in some cases look quite different from what you would get from `geom_density` or `stat_density`. This problem can be remidied by using `stat_density` with `geom_density_ridges`. This works just fine, we just need to make sure that we map the calculated density onto the `height` aesthetic.
+The stat `stat_density_ridges` may not always do exactly what you want it to do. If this is the case, you can use other stats that may be better for your respective application. First, `stat_density_ridges` estimates the data range and bandwidth for the density estimation from the entire data at once, rather than from each individual group of data. This choice makes ridgeline plots look more uniform, but the density estimates can in some cases look quite different from what you would get from `geom_density` or `stat_density`. This problem can be remedied by using `stat_density` with `geom_density_ridges`. This works just fine, we just need to make sure that we map the calculated density onto the `height` aesthetic.
 ```{r message=FALSE}
 ggplot(iris, aes(x = Sepal.Length, y = Species, height = stat(density))) + 
   geom_density_ridges(stat = "density")

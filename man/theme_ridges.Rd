@@ -21,7 +21,7 @@ theme_ridges(
 
 \item{grid}{If \code{TRUE} (default), a background grid is drawn. If \code{FALSE}, background is left empty.}
 
-\item{center_axis_labels}{If \code{TRUE}, axis lables are drawn centered. If \code{FALSE} (default), axis lables are
+\item{center_axis_labels}{If \code{TRUE}, axis labels are drawn centered. If \code{FALSE} (default), axis lables are
 drawn right/top-aligned.}
 }
 \value{

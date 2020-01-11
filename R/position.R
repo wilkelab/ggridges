@@ -5,7 +5,7 @@
 #' remains unchanged. The effect is similar to [`position_jitter()`]: points are randomly shifted up and down
 #' and/or left and right.
 #'
-#' @param width Width for horizonal jittering. By default set to 0.
+#' @param width Width for horizontal jittering. By default set to 0.
 #' @param height Height for vertical jittering, applied in both directions (up and down). By default 0.2.
 #' @param yoffset Vertical offset applied in addition to jittering.
 #' @param adjust_vlines If `TRUE`, adjusts vertical lines (as are drawn for
@@ -97,7 +97,7 @@ PositionPointsJitter <- ggproto("PositionPointsJitter", Position,
 #' The idea for this position adjustment comes from Micah Allen, who proposed this type of plot in
 #' a [blog post](https://micahallen.org/2018/03/15/introducing-raincloud-plots/) on March 15, 2018.
 #'
-#' @param width Width for horizonal jittering. By default set to 0.
+#' @param width Width for horizontal jittering. By default set to 0.
 #' @param height Total height of point cloud. By default 0.4.
 #' @param ygap Vertical gap between ridgeline baseline and point cloud.
 #' @param adjust_vlines If `TRUE`, adjusts vertical lines (as are drawn for

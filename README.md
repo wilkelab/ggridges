@@ -10,7 +10,7 @@ Status](https://travis-ci.org/wilkelab/ggridges.svg?branch=master)](https://trav
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/wilkelab/ggridges?branch=master&svg=true)](https://ci.appveyor.com/project/clauswilke/ggridges)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/clauswilke/ggridges/master.svg)](https://codecov.io/github/clauswilke/ggridges?branch=master)
+Status](https://img.shields.io/codecov/c/github/wilkelab/ggridges/master.svg)](https://codecov.io/github/wilkelab/ggridges?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges)
 [![CRAN\_Downloads\_Badge](http://cranlogs.r-pkg.org/badges/ggridges)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
 <!-- badges: end -->

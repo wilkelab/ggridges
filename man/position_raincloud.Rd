@@ -15,7 +15,7 @@ position_raincloud(
 )
 }
 \arguments{
-\item{width}{Width for horizonal jittering. By default set to 0.}
+\item{width}{Width for horizontal jittering. By default set to 0.}
 
 \item{height}{Total height of point cloud. By default 0.4.}
 

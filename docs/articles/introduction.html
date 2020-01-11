@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggridges</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
       </span>
     </div>
 
@@ -286,7 +286,7 @@
 <div id="using-alternative-stats" class="section level3">
 <h3 class="hasAnchor">
 <a href="#using-alternative-stats" class="anchor"></a>Using alternative stats</h3>
-<p>The stat <code>stat_density_ridges</code> may not always do exactly what you want it to do. If this is the case, you can use other stats that may be better for your respective application. First, <code>stat_density_ridges</code> estimates the data range and bandwidth for the density estimation from the entire data at once, rather than from each individual group of data. This choice makes ridgeline plots look more uniform, but the density estimates can in some cases look quite different from what you would get from <code>geom_density</code> or <code>stat_density</code>. This problem can be remidied by using <code>stat_density</code> with <code>geom_density_ridges</code>. This works just fine, we just need to make sure that we map the calculated density onto the <code>height</code> aesthetic.</p>
+<p>The stat <code>stat_density_ridges</code> may not always do exactly what you want it to do. If this is the case, you can use other stats that may be better for your respective application. First, <code>stat_density_ridges</code> estimates the data range and bandwidth for the density estimation from the entire data at once, rather than from each individual group of data. This choice makes ridgeline plots look more uniform, but the density estimates can in some cases look quite different from what you would get from <code>geom_density</code> or <code>stat_density</code>. This problem can be remedied by using <code>stat_density</code> with <code>geom_density_ridges</code>. This works just fine, we just need to make sure that we map the calculated density onto the <code>height</code> aesthetic.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(iris, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> Sepal.Length, <span class="dt">y =</span> Species, <span class="dt">height =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/stat.html">stat</a></span>(density))) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb27-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span>(<span class="dt">stat =</span> <span class="st">"density"</span>)</a></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>

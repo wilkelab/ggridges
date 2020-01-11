@@ -8,7 +8,7 @@
 #' @param font_family Default font family.
 #' @param line_size Default line size.
 #' @param grid If `TRUE` (default), a background grid is drawn. If `FALSE`, background is left empty.
-#' @param center_axis_labels If `TRUE`, axis lables are drawn centered. If `FALSE` (default), axis lables are
+#' @param center_axis_labels If `TRUE`, axis labels are drawn centered. If `FALSE` (default), axis lables are
 #'   drawn right/top-aligned.
 #' @return The theme.
 #' @examples
