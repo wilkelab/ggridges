@@ -1,22 +1,26 @@
 destination: docs
 
 reference:
-- title: Geoms
-  desc: Various geoms that can draw ridgeline plots
+- title: Geoms, stats, and positions
+  desc: Various geoms, stats, and positions that help with drawing customizable ridgeline plots
   contents:
   - starts_with("geom_")
-
-- title: Stats
-  desc: Stats that are useful for ridgeline geoms
-  contents:
   - starts_with("stat_")
-
-- title: Positions
-  desc: Positions adjustments that are useful for ridgeline geoms
-  contents:
   - starts_with("position_")
 
 - title: Scales
-  desc: Various new scales
+  desc: Scales that complement the ggridges geoms
   contents:
   - starts_with("scale_")
+
+- title: Themes
+  desc: Theme settings suitable for ridgeline plots
+  contents:
+  - starts_with("theme_")
+
+- title: Datasets
+  desc: Datasets used in the package documentation
+  contents:
+  - Aus_athletes
+  - Catalan_elections
+  - lincoln_weather

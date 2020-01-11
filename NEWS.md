@@ -1,8 +1,8 @@
 ggridges 0.5.1.9000
 ----------------------------------------------------------------
-- There is now a project website at https://wilkelab.org/ggridges
-- `scale_discrete_manual()` has been removed, as it has been available in
-  ggplot2 since version 3.0.0.
+- There is now a project website at https://wilkelab.org/ggridges.
+- `scale_discrete_manual()` has been removed from the ggridges package,
+  as it has been available in ggplot2 since version 3.0.0.
 - `stat_density_ridges()` now has a parameter `n` that determines at how many
   points along the x axis the density is estimated.
 

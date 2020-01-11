@@ -67,7 +67,7 @@ a set of counts." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggridges</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1.9000</span>
       </span>
     </div>
 
@@ -192,8 +192,8 @@ or as a function that calculates width from unscaled x. Here, "unscaled x"
 refers to the original x values in the data, before application of any
 scale transformation. When specifying a function along with a grouping
 structure, the function will be called once per group.
-The default is to use the number of bins in <code>bins</code>,
-covering the range of the data. You should always override
+The default is to use <code>bins</code>
+bins that cover the range of the data. You should always override
 this value, exploring multiple widths to find the best to illustrate the
 stories in your data.</p>
 <p>The bin width of a date variable is the number of days in each time; the
@@ -295,7 +295,7 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_d</a></span>(<span class='kw'>begin</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>option</span> <span class='kw'>=</span> <span class='st'>"B"</span>) +
    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_cartesian.html'>coord_cartesian</a></span>(<span class='kw'>clip</span> <span class='kw'>=</span> <span class='st'>"off"</span>) +
    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(<span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Movie lengths 1990 - 2005"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 118 rows containing non-finite values (stat_binline).</span></div><div class='img'><img src='stat_binline-3.png' alt='' width='700' height='433' /></div><div class='input'>   <span class='fu'><a href='theme_ridges.html'>theme_ridges</a></span>() +
-   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(<span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>"none"</span>)</div><div class='output co'>#&gt; List of 93
+   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(<span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>"none"</span>)</div><div class='output co'>#&gt; List of 67
 #&gt;  $ line                      :List of 6
 #&gt;   ..$ colour       : chr "black"
 #&gt;   ..$ size         : num 0.636
@@ -326,9 +326,6 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;   ..$ debug        : logi FALSE
 #&gt;   ..$ inherit.blank: logi TRUE
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-#&gt;  $ title                     : NULL
-#&gt;  $ aspect.ratio              : NULL
-#&gt;  $ axis.title                : NULL
 #&gt;  $ axis.title.x              :List of 11
 #&gt;   ..$ family       : NULL
 #&gt;   ..$ face         : NULL
@@ -359,7 +356,6 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;   ..$ debug        : NULL
 #&gt;   ..$ inherit.blank: logi TRUE
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-#&gt;  $ axis.title.x.bottom       : NULL
 #&gt;  $ axis.title.y              :List of 11
 #&gt;   ..$ family       : NULL
 #&gt;   ..$ face         : NULL
@@ -375,7 +371,6 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;   ..$ debug        : NULL
 #&gt;   ..$ inherit.blank: logi TRUE
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-#&gt;  $ axis.title.y.left         : NULL
 #&gt;  $ axis.title.y.right        :List of 11
 #&gt;   ..$ family       : NULL
 #&gt;   ..$ face         : NULL
@@ -434,7 +429,6 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;   ..$ debug        : NULL
 #&gt;   ..$ inherit.blank: logi TRUE
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-#&gt;  $ axis.text.x.bottom        : NULL
 #&gt;  $ axis.text.y               :List of 11
 #&gt;   ..$ family       : NULL
 #&gt;   ..$ face         : NULL
@@ -450,7 +444,6 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;   ..$ debug        : NULL
 #&gt;   ..$ inherit.blank: logi TRUE
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-#&gt;  $ axis.text.y.left          : NULL
 #&gt;  $ axis.text.y.right         :List of 11
 #&gt;   ..$ family       : NULL
 #&gt;   ..$ face         : NULL
@@ -474,19 +467,6 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;   ..$ arrow        : logi FALSE
 #&gt;   ..$ inherit.blank: logi TRUE
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-#&gt;  $ axis.ticks.x              : NULL
-#&gt;  $ axis.ticks.x.top          : NULL
-#&gt;  $ axis.ticks.x.bottom       : NULL
-#&gt;  $ axis.ticks.y              :List of 6
-#&gt;   ..$ colour       : chr "grey90"
-#&gt;   ..$ size         : num 0.5
-#&gt;   ..$ linetype     : NULL
-#&gt;   ..$ lineend      : NULL
-#&gt;   ..$ arrow        : logi FALSE
-#&gt;   ..$ inherit.blank: logi TRUE
-#&gt;   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-#&gt;  $ axis.ticks.y.left         : NULL
-#&gt;  $ axis.ticks.y.right        : NULL
 #&gt;  $ axis.ticks.length         : 'unit' num 3.5pt
 #&gt;   ..- attr(*, "valid.unit")= int 8
 #&gt;   ..- attr(*, "unit")= chr "pt"
@@ -499,11 +479,7 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;  $ axis.line                 : list()
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_blank" "element"
 #&gt;  $ axis.line.x               : NULL
-#&gt;  $ axis.line.x.top           : NULL
-#&gt;  $ axis.line.x.bottom        : NULL
 #&gt;  $ axis.line.y               : NULL
-#&gt;  $ axis.line.y.left          : NULL
-#&gt;  $ axis.line.y.right         : NULL
 #&gt;  $ legend.background         :List of 5
 #&gt;   ..$ fill         : NULL
 #&gt;   ..$ colour       : logi NA
@@ -558,7 +534,6 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;  $ legend.direction          : NULL
 #&gt;  $ legend.justification      : chr [1:2] "left" "center"
 #&gt;  $ legend.box                : NULL
-#&gt;  $ legend.box.just           : NULL
 #&gt;  $ legend.box.margin         : 'margin' num [1:4] 0cm 0cm 0cm 0cm
 #&gt;   ..- attr(*, "valid.unit")= int 1
 #&gt;   ..- attr(*, "unit")= chr "cm"
@@ -584,20 +559,8 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;   ..$ arrow        : logi FALSE
 #&gt;   ..$ inherit.blank: logi TRUE
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_line" "element"
-#&gt;  $ panel.grid.major          :List of 6
-#&gt;   ..$ colour       : chr "grey90"
-#&gt;   ..$ size         : num 0.5
-#&gt;   ..$ linetype     : NULL
-#&gt;   ..$ lineend      : NULL
-#&gt;   ..$ arrow        : logi FALSE
-#&gt;   ..$ inherit.blank: logi TRUE
-#&gt;   ..- attr(*, "class")= chr [1:2] "element_line" "element"
 #&gt;  $ panel.grid.minor          : list()
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_blank" "element"
-#&gt;  $ panel.grid.major.x        : NULL
-#&gt;  $ panel.grid.major.y        : NULL
-#&gt;  $ panel.grid.minor.x        : NULL
-#&gt;  $ panel.grid.minor.y        : NULL
 #&gt;  $ panel.ontop               : logi FALSE
 #&gt;  $ plot.background           : list()
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_blank" "element"
@@ -616,7 +579,6 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;   ..$ debug        : NULL
 #&gt;   ..$ inherit.blank: logi TRUE
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-#&gt;  $ plot.title.position       : chr "panel"
 #&gt;  $ plot.subtitle             :List of 11
 #&gt;   ..$ family       : NULL
 #&gt;   ..$ face         : NULL
@@ -647,7 +609,6 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;   ..$ debug        : NULL
 #&gt;   ..$ inherit.blank: logi TRUE
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_text" "element"
-#&gt;  $ plot.caption.position     : chr "panel"
 #&gt;  $ plot.tag                  :List of 11
 #&gt;   ..$ family       : NULL
 #&gt;   ..$ face         : NULL
@@ -672,8 +633,6 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;   ..$ linetype     : NULL
 #&gt;   ..$ inherit.blank: logi TRUE
 #&gt;   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-#&gt;  $ strip.background.x        : NULL
-#&gt;  $ strip.background.y        : NULL
 #&gt;  $ strip.placement           : chr "inside"
 #&gt;  $ strip.text                :List of 11
 #&gt;   ..$ family       : NULL
@@ -708,19 +667,22 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
 #&gt;  $ strip.switch.pad.wrap     : 'unit' num 3.5pt
 #&gt;   ..- attr(*, "valid.unit")= int 8
 #&gt;   ..- attr(*, "unit")= chr "pt"
-#&gt;  $ strip.text.y.left         :List of 11
-#&gt;   ..$ family       : NULL
-#&gt;   ..$ face         : NULL
-#&gt;   ..$ colour       : NULL
-#&gt;   ..$ size         : NULL
-#&gt;   ..$ hjust        : NULL
-#&gt;   ..$ vjust        : NULL
-#&gt;   ..$ angle        : num 90
-#&gt;   ..$ lineheight   : NULL
-#&gt;   ..$ margin       : NULL
-#&gt;   ..$ debug        : NULL
+#&gt;  $ axis.ticks.y              :List of 6
+#&gt;   ..$ colour       : chr "grey90"
+#&gt;   ..$ size         : num 0.5
+#&gt;   ..$ linetype     : NULL
+#&gt;   ..$ lineend      : NULL
+#&gt;   ..$ arrow        : logi FALSE
 #&gt;   ..$ inherit.blank: logi TRUE
-#&gt;   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+#&gt;   ..- attr(*, "class")= chr [1:2] "element_line" "element"
+#&gt;  $ panel.grid.major          :List of 6
+#&gt;   ..$ colour       : chr "grey90"
+#&gt;   ..$ size         : num 0.5
+#&gt;   ..$ linetype     : NULL
+#&gt;   ..$ lineend      : NULL
+#&gt;   ..$ arrow        : logi FALSE
+#&gt;   ..$ inherit.blank: logi TRUE
+#&gt;   ..- attr(*, "class")= chr [1:2] "element_line" "element"
 #&gt;  - attr(*, "class")= chr [1:2] "theme" "gg"
 #&gt;  - attr(*, "complete")= logi TRUE
 #&gt;  - attr(*, "validate")= logi TRUE</div><div class='input'>
@@ -740,8 +702,8 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
   ) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_text</a></span>(
     <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"bin"</span>,
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>group</span> + <span class='fl'>0.9</span>*<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes_eval.html'>stat</a></span>(<span class='no'>count</span>/<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='no'>count</span>)),
-    <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ifelse'>ifelse</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes_eval.html'>stat</a></span>(<span class='no'>count</span>) <span class='kw'>&gt;</span> <span class='fl'>0</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes_eval.html'>stat</a></span>(<span class='no'>count</span>), <span class='st'>""</span>)),
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>group</span> + <span class='fl'>0.9</span>*<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>count</span>/<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='no'>count</span>)),
+    <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ifelse'>ifelse</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>count</span>) <span class='kw'>&gt;</span> <span class='fl'>0</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>count</span>), <span class='st'>""</span>)),
     <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1.2</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>
   ) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_x_continuous</a></span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>:<span class='fl'>12</span>), <span class='kw'>limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>.5</span>, <span class='fl'>13</span>), <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>)) +

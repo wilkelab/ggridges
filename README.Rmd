@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ggridges
+# ggridges: Ridgeline plots in ggplot2
 
 <!-- badges: start -->
 [![Build Status](https://travis-ci.org/wilkelab/ggridges.svg?branch=master)](https://travis-ci.org/wilkelab/ggridges)
@@ -21,8 +21,6 @@ knitr::opts_chunk$set(
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges)
 [![CRAN_Downloads_Badge](http://cranlogs.r-pkg.org/badges/ggridges)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
 <!-- badges: end -->
-
-Draw ridgeline plots using ggplot2.
 
 Ridgeline plots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. These types of plots have also been called ["joyplots"](
 https://twitter.com/JennyBryan/status/856674638981550080), in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album _Unknown Pleasures_. However, given the [unfortunate origin](https://en.wikipedia.org/wiki/House_of_Dolls) of the name Joy Division, the term "joyplot" is now discouraged.
@@ -57,4 +55,4 @@ ggplot(diamonds, aes(x = price, y = cut)) +
 
 ## Documentation and Examples
 
-First read the [package vignette.](https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html) Then read the [reference manual.](https://cran.r-project.org/web/packages/ggridges/ggridges.pdf)
+First read the [package vignette.](https://wilkelab.org/ggridges/articles/introduction.html) Then read the [reference manual.](https://wilkelab.org/ggridges/reference/index.html)

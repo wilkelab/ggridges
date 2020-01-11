@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggridges
+# ggridges: Ridgeline plots in ggplot2
 
 <!-- badges: start -->
 
@@ -14,8 +14,6 @@ Status](https://img.shields.io/codecov/c/github/clauswilke/ggridges/master.svg)]
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges)
 [![CRAN\_Downloads\_Badge](http://cranlogs.r-pkg.org/badges/ggridges)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
 <!-- badges: end -->
-
-Draw ridgeline plots using ggplot2.
 
 Ridgeline plots are partially overlapping line plots that create the
 impression of a mountain range. They can be quite useful for visualizing
@@ -63,6 +61,6 @@ ggplot(diamonds, aes(x = price, y = cut)) +
 ## Documentation and Examples
 
 First read the [package
-vignette.](https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html)
+vignette.](https://wilkelab.org/ggridges/articles/introduction.html)
 Then read the [reference
-manual.](https://cran.r-project.org/web/packages/ggridges/ggridges.pdf)
+manual.](https://wilkelab.org/ggridges/reference/index.html)
