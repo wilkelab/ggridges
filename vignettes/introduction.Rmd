@@ -311,11 +311,11 @@ ggplot(iris, aes(x = Sepal.Length, y = Species)) +
 
 However, without any further modifications, there are still a few issues with this plot. First, the ridgeline for the virginica species is slightly cut off at the very top point. Second, the space between the x and y axis labels and the ridgelines is too large. We can fix both issues using the `expand` option for the axis scales.
 
-```{r message=FALSE}
+```{r message=FALSE, warning=FALSE}
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
   geom_density_ridges() + 
   scale_x_continuous(expand = c(0, 0)) +
-  scale_y_discrete(expand = expansion(mult = c(0.01, .7))) +
+  scale_y_discrete(expand = expand_scale(mult = c(0.01, .7))) +
   theme_ridges()
 ```
 

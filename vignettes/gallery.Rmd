@@ -72,7 +72,7 @@ Catalan_elections %>%
 ## Temperatures in Lincoln, Nebraska
 
 Modified from a [blog post](http://austinwehrwein.com/data-visualization/it-brings-me-ggjoy/) by Austin Wehrwein.
-```{r message=FALSE, fig.width = 7.5, fig.height = 5}
+```{r message=FALSE, warning=FALSE, fig.width = 7.5, fig.height = 5}
 ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = Month, fill = stat(x))) +
   geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01, gradient_lwd = 1.) +
   scale_x_continuous(expand = c(0, 0)) +
@@ -89,7 +89,7 @@ ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = Month, fill = stat(x
 ## Visualization of Poisson random samples with different means
 
 Inspired by a [ggridges example](https://twitter.com/noamross/status/888405434381545472) by Noam Ross.
-```{r message=FALSE, fig.width = 6, fig.height = 7}
+```{r message=FALSE, warning=FALSE, fig.width = 6, fig.height = 7}
 # generate data
 set.seed(1234)
 pois_data <- data.frame(mean = rep(1:5, each = 10))
