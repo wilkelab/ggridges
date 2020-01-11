@@ -37,7 +37,7 @@ ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
 
 ## Results from Catalan regional elections, 1980-2015
 
-Modified after [a figure](https://twitter.com/marcbeldata/status/888697140268204032) originally created by Marc Belzunces. 
+Modified after a figure originally created by [Marc Belzunces.](https://twitter.com/marcbeldata/) 
 
 ```{r message=FALSE, warning=FALSE, fig.width = 6, fig.height = 8}
 library(dplyr)
