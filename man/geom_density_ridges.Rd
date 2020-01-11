@@ -8,15 +8,29 @@
 \alias{GeomDensityRidges2}
 \title{Create ridgeline plot}
 \usage{
-geom_density_ridges(mapping = NULL, data = NULL,
-  stat = "density_ridges", position = "points_sina",
-  panel_scaling = TRUE, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+geom_density_ridges(
+  mapping = NULL,
+  data = NULL,
+  stat = "density_ridges",
+  position = "points_sina",
+  panel_scaling = TRUE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 
-geom_density_ridges2(mapping = NULL, data = NULL,
-  stat = "density_ridges", position = "points_sina",
-  panel_scaling = TRUE, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+geom_density_ridges2(
+  mapping = NULL,
+  data = NULL,
+  stat = "density_ridges",
+  position = "points_sina",
+  panel_scaling = TRUE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -90,7 +104,7 @@ provided by \code{\link{stat_density_ridges}} if the default stat is not changed
 A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
 even spacing between baselines.
 \item \code{rel_min_height} Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
-overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1\% or less than the highest point among all
+overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1\\% or less than the highest point among all
 ridgelines. Default is 0, so nothing is removed.
 alpha
 \item \code{colour}, \code{fill}, \code{group}, \code{alpha}, \code{linetype}, \code{size}, as in \code{\link{geom_ridgeline}}.

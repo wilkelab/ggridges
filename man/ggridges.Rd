@@ -3,7 +3,6 @@
 \docType{package}
 \name{ggridges}
 \alias{ggridges}
-\alias{ggridges-package}
 \title{Ridgeline plots with ggplot2}
 \description{
 Please see the package vignettes for usage instructions. For a quick start,

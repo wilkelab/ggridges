@@ -32,28 +32,28 @@ ggplot(data, aes(x, y, height = height)) + geom_ridgeline()
 
 Negative heights are allowed, but are cut off unless the `min_height` parameter is set negative as well.
 ```{r message = FALSE, fig.width=9, fig.height=3}
-# for side-by-side plotting
-library(gridExtra)
+library(patchwork) # for side-by-side plotting
 
 data <- data.frame(x = 1:5, y = rep(1, 5), height = c(0, 1, -1, 3, 2))
 plot_base <- ggplot(data, aes(x, y, height = height))
-grid.arrange(
-  plot_base + geom_ridgeline(),
-  plot_base + geom_ridgeline(min_height = -2),
-  ncol = 2
-)
+
+plot_base + geom_ridgeline() | plot_base + geom_ridgeline(min_height = -2)
 ```
 
 
 Multiple ridgelines can be drawn at the same time. They will be ordered such that the ones drawn higher up are in the background. When drawing multiple ridgelines at once, the `group` aesthetic must be specified so that the geom knows which parts of the data belong to which ridgeline.
 ```{r message = FALSE}
-d <- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(2, 5)),
-                height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
+d <- data.frame(
+  x = rep(1:5, 3),
+  y = c(rep(0, 5), rep(1, 5), rep(2, 5)),
+  height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1)
+)
+
 ggplot(d, aes(x, y, height = height, group = y)) + 
   geom_ridgeline(fill = "lightblue")
 ```
 
-It is also possible to draw ridgelines with `geom_density_ridges` if we set `stat="identity"`. In this case, the heights are automatically scaled such that the highest ridgeline just touches the one above at `scale=1`.
+It is also possible to draw ridgelines with `geom_density_ridges` if we set `stat = "identity"`. In this case, the heights are automatically scaled such that the highest ridgeline just touches the one above at `scale = 1`.
 ```{r message = FALSE}
 ggplot(d, aes(x, y, height = height, group = y)) + 
   geom_density_ridges(stat = "identity", scale = 1)
@@ -113,17 +113,19 @@ Sometimes we would like to have the area under a ridgeline not filled with a sin
 
 Here is a simple example of changing fill colors with `geom_ridgeline_gradient`:
 ```{r message = FALSE}
-d <- data.frame(x = rep(1:5, 3) + c(rep(0, 5), rep(0.3, 5), rep(0.6, 5)),
-                y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
-                height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
+d <- data.frame(
+  x = rep(1:5, 3) + c(rep(0, 5), rep(0.3, 5), rep(0.6, 5)),
+  y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
+  height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
+
 ggplot(d, aes(x, y, height = height, group = y, fill = factor(x+y))) +
   geom_ridgeline_gradient() +
   scale_fill_viridis_d(direction = -1, guide = "none")
 ```
 
-And here is an example using `geom_density_ridges_gradient`. Note that we need to map the calculated x value (`..x..`) onto the fill aesthetic, not the original temperature variable. This is the case because `geom_density_ridges_gradient` calls `stat_density_ridges` (described in the next section) which calculates new x values as part of its density calculation.
+And here is an example using `geom_density_ridges_gradient`. Note that we need to map the calculated x value (`stat(x)`) onto the fill aesthetic, not the original temperature variable. This is the case because `geom_density_ridges_gradient` calls `stat_density_ridges` (described in the next section) which calculates new x values as part of its density calculation.
 ```{r message = FALSE}
-ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = `Month`, fill = ..x..)) +
+ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = Month, fill = stat(x))) +
   geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
   scale_fill_viridis_c(name = "Temp. [F]", option = "C") +
   labs(title = 'Temperatures in Lincoln NE in 2016')
@@ -138,28 +140,28 @@ The ggridges package provides a stat `stat_density_ridges` that replaces `stat_d
 By setting the option `quantile_lines = TRUE`, we can make `stat_density_ridges` calculate the position of lines indicating quantiles. By default, three lines are drawn, corresponding to the first, second, and third quartile:
 
 ```{r message = FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   stat_density_ridges(quantile_lines = TRUE)
 ```
 
 We can change the number of quantiles by specifying it via the `quantiles` option. Note that `quantiles = 2` implies one line (the median) at the boundary between the two quantiles.
 
 ```{r message = FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   stat_density_ridges(quantile_lines = TRUE, quantiles = 2)
 ```
 
 We can also specify quantiles by cut points rather than number. E.g., we can indicate the 2.5% and 97.5% tails.
 
 ```{r message = FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   stat_density_ridges(quantile_lines = TRUE, quantiles = c(0.025, 0.975), alpha = 0.7)
 ```
 
-Using the geom `geom_density_ridges_gradient` we can also color by quantile, via the calculated `..quantile..` aesthetic. Note that this aesthetic is only calculated if `calc_ecdf = TRUE`.
+Using the geom `geom_density_ridges_gradient` we can also color by quantile, via the calculated `stat(quantile)` aesthetic. Note that this aesthetic is only calculated if `calc_ecdf = TRUE`.
 
 ```{r message = FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill = factor(stat(quantile)))) +
   stat_density_ridges(
     geom = "density_ridges_gradient", calc_ecdf = TRUE,
     quantiles = 4, quantile_lines = TRUE
@@ -170,18 +172,22 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
 We can use the same approach to highlight the tails of the distributions.
 
 ```{r message = FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE, quantiles = c(0.025, 0.975)) +
+ggplot(iris, aes(x = Sepal.Length, y = Species, fill = factor(stat(quantile)))) +
+  stat_density_ridges(
+    geom = "density_ridges_gradient",
+    calc_ecdf = TRUE,
+    quantiles = c(0.025, 0.975)
+  ) +
   scale_fill_manual(
     name = "Probability", values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
     labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
   )
 ```
 
-Finally, when `calc_ecdf = TRUE`, we also have access to a calculated aesthetic `..ecdf..`, which represents the empirical cumulative density function for the distribution. This allows us to map the probabilities directly onto color.
+Finally, when `calc_ecdf = TRUE`, we also have access to a calculated aesthetic `stat(ecdf)`, which represents the empirical cumulative density function for the distribution. This allows us to map the probabilities directly onto color.
 
 ```{r message = FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
+ggplot(iris, aes(x = Sepal.Length, y = Species, fill = 0.5 - abs(0.5 - stat(ecdf)))) +
   stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
   scale_fill_viridis_c(name = "Tail probability", direction = -1)
 ```
@@ -191,14 +197,14 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
 The stat `stat_density_ridges` also provides the option to visualize the original data points from which the distributions are generated. This can be done by setting `jittered_points = TRUE`, either in `stat_density_ridges` or in `geom_density_ridges`:
 
 ```{r message = FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(jittered_points = TRUE)
 ```
 
 Where the points are shown can be controlled with position options, e.g. "raincloud" for the raincloud effect:
 
 ```{r message = FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(
     jittered_points = TRUE, position = "raincloud",
     alpha = 0.7, scale = 0.9
@@ -208,7 +214,7 @@ ggplot(iris, aes(x=Sepal.Length, y=Species)) +
 We can also simulate a rug:
 
 ```{r message = FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species)) +
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(
     jittered_points = TRUE,
     position = position_points_jitter(width = 0.05, height = 0),
@@ -221,7 +227,7 @@ Note that we are using `position_points_jitter()` here, not `position_jitter()`.
 Styling the jittered points is a bit tricky but is possible with special scales provided by ggridges. First, there is `scale_discrete_manual()` which can be used to make arbitrary discrete scales for arbitrary aesthetics. We use it in the next example to style the point shapes. Second, there are various point aesthetic scales, such as `scale_point_color_hue()`. See the reference documentation for these scales for more details. 
 
 ```{r message = FALSE}
-ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
+ggplot(iris, aes(x = Sepal.Length, y = Species, fill = Species)) +
   geom_density_ridges(
     aes(point_color = Species, point_fill = Species, point_shape = Species),
     alpha = .2, point_alpha = 1, jittered_points = TRUE
@@ -268,10 +274,13 @@ Second, there may be scenarios in which you don't want `geom_density_ridges` to 
 As an example, assume we have calculated density curves for the `Sepal.Length` column in the `iris` dataset:
 ```{r message=FALSE}
 library(dplyr)
-iris %>% group_by(Species) %>%
-  do(ggplot2:::compute_density(.$Sepal.Length, NULL)) %>%
-  rename(Sepal.Length = x) -> iris_densities
-head(iris_densities)
+
+iris_densities <- iris %>%
+  group_by(Species) %>%
+  group_modify(~ ggplot2:::compute_density(.x$Sepal.Length, NULL)) %>%
+  rename(Sepal.Length = x)
+
+iris_densities
 ```
 
 We can plot these as follows:
@@ -295,46 +304,52 @@ ggplot(iris, aes(x = Sepal.Length, y = Species, height = stat(density))) +
 ridgeline plots tend to require some theme modifications to look good. Most importantly, the y-axis tick labels should be vertically aligned so that they are flush with the axis ticks rather than vertically centered. The ggridges package provides a theme `theme_ridges` that does this and a few other theme modifications.
 
 ```{r message=FALSE}
-ggplot(iris, aes(x = Sepal.Length, y = Species)) + geom_density_ridges() + theme_ridges()
+ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
+  geom_density_ridges() + 
+  theme_ridges()
 ```
 
 However, without any further modifications, there are still a few issues with this plot. First, the ridgeline for the virginica species is slightly cut off at the very top point. Second, the space between the x and y axis labels and the ridgelines is too large. We can fix both issues using the `expand` option for the axis scales.
 
 ```{r message=FALSE}
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
-  geom_density_ridges() + theme_ridges() +
+  geom_density_ridges() + 
   scale_x_continuous(expand = c(0, 0)) +
-  scale_y_discrete(expand = expand_scale(mult = c(0.01, .7)))
+  scale_y_discrete(expand = expansion(mult = c(0.01, .7))) +
+  theme_ridges()
 ```
 
 Instead of expanding the axis, you can also turn off clipping for the plot panel.
 
 ```{r message=FALSE}
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
-  geom_density_ridges() + theme_ridges() +
+  geom_density_ridges() +
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_discrete(expand = c(0, 0)) +
-  coord_cartesian(clip = "off")
+  coord_cartesian(clip = "off") +
+  theme_ridges()
 ```
 
 
 By default, `theme_ridges` adds a grid, but the grid can be switched off when not needed. Also, axis titles can be centered.
 ```{r message=FALSE}
 ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
-  geom_density_ridges() + theme_ridges(grid = FALSE, center_axis_labels = TRUE) +
+  geom_density_ridges() +
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_discrete(expand = c(0, 0)) +
-  coord_cartesian(clip = "off")
+  coord_cartesian(clip = "off") + 
+  theme_ridges(grid = FALSE, center_axis_labels = TRUE)
 ```
 
 If you prefer to use a different theme than `theme_ridges`, for example `theme_minimal`, it is still advisable to adjust the alignment of the axis tick labels and the axis scales.
 ```{r message=FALSE}
  ggplot(iris, aes(x = Sepal.Length, y = Species)) + 
    geom_density_ridges() + 
-   theme_minimal(base_size = 14) + theme(axis.text.y = element_text(vjust = 0)) +
    scale_x_continuous(expand = c(0, 0)) +
    scale_y_discrete(expand = c(0, 0)) +
-   coord_cartesian(clip = "off")
+   coord_cartesian(clip = "off") +
+   theme_minimal(base_size = 14) + 
+   theme(axis.text.y = element_text(vjust = 0))
 ```
 
 
@@ -361,9 +376,10 @@ Legends can be modified as usual.
  ggplot(diamonds, aes(x = price, y = cut, fill = cut)) + 
    geom_density_ridges(scale = 4) + 
    scale_fill_cyclical(
-     values = c("blue", "green"), guide = "legend",
+     name = "Fill colors",
+     values = c("blue", "green"),
      labels = c("Fair" = "blue", "Good" = "green"),
-     name = "Fill colors"
+     guide = "legend"
    )
 ```
 
@@ -372,14 +388,14 @@ Cyclical scales are defined for all the common aesthetics one might want to chan
  ggplot(diamonds, aes(x = price, y = cut, fill = cut, color = cut)) + 
    geom_density_ridges(scale = 4, size = 1) + 
    scale_fill_cyclical(
+     name = "Color scheme",
      values = c("blue", "green"), guide = "legend",
-     labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline"),
-     name = "Color scheme"
+     labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline")
     ) +
    scale_color_cyclical(
+     name = "Color scheme",
      values = c("black", "yellow"), guide = "legend",
-     labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline"),
-     name = "Color scheme"
+     labels = c("Fair" = "blue w/ black outline", "Good" = "green w/ yellow outline")
    )
 ```
 
@@ -389,23 +405,26 @@ Because these cyclical scales are generic **ggplot2** scales, they work with any
 ggplot(mpg, aes(x = class, fill = class, color = class)) + 
   geom_bar(size = 1.5) +
   scale_fill_cyclical(
+    name = "Color scheme",
     values = c("blue", "green"), guide = "legend",
-    labels = c("blue w/ black outline", "green w/ yellow outline"),
-    name = "Color scheme"
+    labels = c("blue w/ black outline", "green w/ yellow outline")
   ) +
   scale_color_cyclical(
+    name = "Color scheme",
     values = c("black", "yellow"), guide = "legend",
-    labels = c("blue w/ black outline", "green w/ yellow outline"),
-    name = "Color scheme"
+    labels = c("blue w/ black outline", "green w/ yellow outline")
   )
 ```
 
 While the previous example won't win any design awards, more subtle effects can be helpful.
 ```{r message=FALSE, fig.width=5.5}
-mpg %>% group_by(class) %>% tally() %>% arrange(desc(n)) %>%
-  mutate(class = factor(class, levels=class)) %>%
+mpg %>% group_by(class) %>% 
+  tally() %>% 
+  arrange(desc(n)) %>%
+  mutate(class = factor(class, levels = class)) %>%
   ggplot(aes(x = class, y = n, fill = class)) + 
-    geom_col() + theme_minimal() +
-    scale_fill_cyclical(values = c("#4040B0", "#9090F0")) +
-    scale_y_continuous(expand = c(0, 0))
+  geom_col() +
+  scale_fill_cyclical(values = c("#4040B0", "#9090F0")) +
+  scale_y_continuous(expand = c(0, 0)) + 
+  theme_minimal()
 ```

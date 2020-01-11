@@ -43,9 +43,6 @@ test_that("basic tests", {
 
 # Visual tests ------------------------------------------------------------
 test_that("visual appearance of scale_*_cyclical", {
-  testthat::skip_on_cran()
-  testthat::skip("skip for now, something's broken")
-
   df <- data.frame(x=1:30, y=1:30)
   p <- ggplot(df, aes(x, y, fill = factor(x))) + geom_point(shape = 21, size = 3) +
     scale_fill_cyclical(values = c("#F00000", "#00F000", "#0000F0"))

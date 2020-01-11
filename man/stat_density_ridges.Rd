@@ -6,12 +6,25 @@
 \alias{StatDensityRidges}
 \title{Stat for density ridgeline plots}
 \usage{
-stat_density_ridges(mapping = NULL, data = NULL,
-  geom = "density_ridges", position = "identity", na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, bandwidth = NULL,
-  from = NULL, to = NULL, jittered_points = FALSE,
-  quantile_lines = FALSE, calc_ecdf = FALSE, quantiles = 4,
-  quantile_fun = quantile, n = 512, ...)
+stat_density_ridges(
+  mapping = NULL,
+  data = NULL,
+  geom = "density_ridges",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  bandwidth = NULL,
+  from = NULL,
+  to = NULL,
+  jittered_points = FALSE,
+  quantile_lines = FALSE,
+  calc_ecdf = FALSE,
+  quantiles = 4,
+  quantile_fun = quantile,
+  n = 512,
+  ...
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -61,7 +74,7 @@ and sets it to \code{TRUE}.}
 
 \item{calc_ecdf}{If \code{TRUE}, \code{stat_density_ridges} calculates an empirical cumulative distribution function (ecdf)
 and returns a variable \code{ecdf} and a variable \code{quantile}. Both can be mapped onto aesthetics via
-\code{..ecdf..} and \code{..quantile..}, respectively.}
+\code{stat(ecdf)} and \code{stat(quantile)}, respectively.}
 
 \item{quantiles}{Sets the number of quantiles the data should be broken into. Used if either \code{calc_ecdf = TRUE}
 or \code{quantile_lines = TRUE}. If \code{quantiles} is an integer then the data will be cut into that many equal quantiles.
@@ -88,24 +101,36 @@ the entire dataset.
 library(ggplot2)
 
 # Examples of coloring by ecdf or quantiles
-library(viridis)
-ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE,
-                      quantiles = 5) +
-  scale_fill_viridis(discrete = TRUE, name = "Quintiles") + theme_ridges() +
-  scale_y_discrete(expand = c(0.01, 0))
+ggplot(iris, aes(x = Sepal.Length, y = Species, fill = factor(stat(quantile)))) +
+  stat_density_ridges(
+    geom = "density_ridges_gradient",
+    calc_ecdf = TRUE,
+    quantiles = 5
+  ) +
+  scale_fill_viridis_d(name = "Quintiles") +
+  theme_ridges()
 
-ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
+ggplot(iris,
+  aes(
+    x = Sepal.Length, y = Species, fill = 0.5 - abs(0.5-stat(ecdf))
+  )) +
   stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
-  scale_fill_viridis(name = "Tail probability", direction = -1) + theme_ridges() +
-  scale_y_discrete(expand = c(0.01, 0))
+  scale_fill_viridis_c(name = "Tail probability", direction = -1) +
+  theme_ridges()
 
-ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-  stat_density_ridges(geom = "density_ridges_gradient",
-                      calc_ecdf = TRUE, quantiles = c(0.025, 0.975)) +
-  scale_fill_manual(name = "Probability",
-                    values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
-                    labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")) +
-  theme_ridges() + scale_y_discrete(expand = c(0.01, 0))
+ggplot(iris,
+  aes(
+    x = Sepal.Length, y = Species, fill = factor(stat(quantile))
+  )) +
+  stat_density_ridges(
+    geom = "density_ridges_gradient",
+    calc_ecdf = TRUE, quantiles = c(0.025, 0.975)
+  ) +
+  scale_fill_manual(
+    name = "Probability",
+    values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
+    labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
+  ) +
+  theme_ridges()
 }
 \keyword{datasets}

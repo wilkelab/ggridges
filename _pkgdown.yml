@@ -1,0 +1,22 @@
+destination: docs
+
+reference:
+- title: Geoms
+  desc: Various geoms that can draw ridgeline plots
+  contents:
+  - starts_with("geom_")
+
+- title: Stats
+  desc: Stats that are useful for ridgeline geoms
+  contents:
+  - starts_with("stat_")
+
+- title: Positions
+  desc: Positions adjustments that are useful for ridgeline geoms
+  contents:
+  - starts_with("position_")
+
+- title: Scales
+  desc: Various new scales
+  contents:
+  - starts_with("scale_")

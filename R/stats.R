@@ -17,7 +17,7 @@
 #'   and sets it to `TRUE`.
 #' @param calc_ecdf If `TRUE`, `stat_density_ridges` calculates an empirical cumulative distribution function (ecdf)
 #'   and returns a variable `ecdf` and a variable `quantile`. Both can be mapped onto aesthetics via
-#'   `..ecdf..` and `..quantile..`, respectively.
+#'   `stat(ecdf)` and `stat(quantile)`, respectively.
 #' @param quantiles Sets the number of quantiles the data should be broken into. Used if either `calc_ecdf = TRUE`
 #'   or `quantile_lines = TRUE`. If `quantiles` is an integer then the data will be cut into that many equal quantiles.
 #'   If it is a vector of probabilities then the data will cut by them.
@@ -32,25 +32,37 @@
 #' library(ggplot2)
 #'
 #' # Examples of coloring by ecdf or quantiles
-#' library(viridis)
-#' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-#'   stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE,
-#'                       quantiles = 5) +
-#'   scale_fill_viridis(discrete = TRUE, name = "Quintiles") + theme_ridges() +
-#'   scale_y_discrete(expand = c(0.01, 0))
+#' ggplot(iris, aes(x = Sepal.Length, y = Species, fill = factor(stat(quantile)))) +
+#'   stat_density_ridges(
+#'     geom = "density_ridges_gradient",
+#'     calc_ecdf = TRUE,
+#'     quantiles = 5
+#'   ) +
+#'   scale_fill_viridis_d(name = "Quintiles") +
+#'   theme_ridges()
 #'
-#' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=0.5 - abs(0.5-..ecdf..))) +
+#' ggplot(iris,
+#'   aes(
+#'     x = Sepal.Length, y = Species, fill = 0.5 - abs(0.5-stat(ecdf))
+#'   )) +
 #'   stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
-#'   scale_fill_viridis(name = "Tail probability", direction = -1) + theme_ridges() +
-#'   scale_y_discrete(expand = c(0.01, 0))
+#'   scale_fill_viridis_c(name = "Tail probability", direction = -1) +
+#'   theme_ridges()
 #'
-#' ggplot(iris, aes(x=Sepal.Length, y=Species, fill=factor(..quantile..))) +
-#'   stat_density_ridges(geom = "density_ridges_gradient",
-#'                       calc_ecdf = TRUE, quantiles = c(0.025, 0.975)) +
-#'   scale_fill_manual(name = "Probability",
-#'                     values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
-#'                     labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")) +
-#'   theme_ridges() + scale_y_discrete(expand = c(0.01, 0))
+#' ggplot(iris,
+#'   aes(
+#'     x = Sepal.Length, y = Species, fill = factor(stat(quantile))
+#'   )) +
+#'   stat_density_ridges(
+#'     geom = "density_ridges_gradient",
+#'     calc_ecdf = TRUE, quantiles = c(0.025, 0.975)
+#'   ) +
+#'   scale_fill_manual(
+#'     name = "Probability",
+#'     values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
+#'     labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
+#'   ) +
+#'   theme_ridges()
 #' @export
 stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_ridges",
                      position = "identity", na.rm = FALSE, show.legend = NA,
@@ -297,42 +309,57 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 #'
 #' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
 #'   geom_density_ridges(stat = "binline", bins = 20, scale = 2.2) +
-#'   scale_y_discrete(expand = c(0.01, 0)) +
-#'   scale_x_continuous(expand = c(0.01, 0)) +
+#'   scale_y_discrete(expand = c(0, 0)) +
+#'   scale_x_continuous(expand = c(0, 0)) +
+#'   coord_cartesian(clip = "off") +
 #'   theme_ridges()
 #'
 #' ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
 #'   stat_binline(bins = 20, scale = 2.2, draw_baseline = FALSE) +
-#'   scale_y_discrete(expand = c(0.01, 0)) +
-#'   scale_x_continuous(expand = c(0.01, 0)) +
+#'   scale_y_discrete(expand = c(0, 0)) +
+#'   scale_x_continuous(expand = c(0, 0)) +
 #'   scale_fill_grey() +
-#'   theme_ridges() + theme(legend.position = 'none')
+#'   coord_cartesian(clip = "off") +
+#'   theme_ridges() +
+#'   theme(legend.position = 'none')
 #'
-#' require(ggplot2movies)
-#' require(viridis)
+#' library(ggplot2movies)
 #' ggplot(movies[movies$year>1989,], aes(x = length, y = year, fill = factor(year))) +
 #'    stat_binline(scale = 1.9, bins = 40) +
-#'    theme_ridges() + theme(legend.position = "none") +
-#'    scale_x_continuous(limits = c(1, 180), expand = c(0.01, 0)) +
-#'    scale_y_reverse(expand = c(0.01, 0)) +
-#'    scale_fill_viridis(begin = 0.3, discrete = TRUE, option = "B") +
+#'    scale_x_continuous(limits = c(1, 180), expand = c(0, 0)) +
+#'    scale_y_reverse(expand = c(0, 0)) +
+#'    scale_fill_viridis_d(begin = 0.3, option = "B") +
+#'    coord_cartesian(clip = "off") +
 #'    labs(title = "Movie lengths 1990 - 2005")
+#'    theme_ridges() +
+#'    theme(legend.position = "none")
 #'
-#' count_data <- data.frame(group = rep(letters[1:5], each = 10),
-#'                          mean = rep(1:5, each = 10))
+#' count_data <- data.frame(
+#'   group = rep(letters[1:5], each = 10),
+#'   mean = rep(1:5, each = 10)
+#' )
 #' count_data$group <- factor(count_data$group, levels = letters[5:1])
 #' count_data$count <- rpois(nrow(count_data), count_data$mean)
+#'
 #' ggplot(count_data, aes(x = count, y = group, group = group)) +
-#'   geom_density_ridges2(stat = "binline", aes(fill = group), binwidth = 1, scale = 0.95) +
-#'   geom_text(stat = "bin",
-#'           aes(y = group+0.9*..count../max(..count..),
-#'           label = ifelse(..count..>0, ..count.., "")),
-#'           vjust = 1.2, size = 3, color = "white", binwidth = 1) +
-#'   theme_ridges(grid = FALSE) +
+#'   geom_density_ridges2(
+#'     stat = "binline",
+#'     aes(fill = group),
+#'     binwidth = 1,
+#'     scale = 0.95
+#'   ) +
+#'   geom_text(
+#'     stat = "bin",
+#'     aes(y = group + 0.9*stat(count/max(count)),
+#'     label = ifelse(stat(count) > 0, stat(count), "")),
+#'     vjust = 1.2, size = 3, color = "white", binwidth = 1
+#'   ) +
 #'   scale_x_continuous(breaks = c(0:12), limits = c(-.5, 13), expand = c(0, 0)) +
-#'   scale_y_discrete(expand = c(0.01, 0)) +
+#'   scale_y_discrete(expand = c(0, 0)) +
 #'   scale_fill_cyclical(values = c("#0000B0", "#7070D0")) +
-#'   guides(y = "none")
+#'   guides(y = "none") +
+#'   coord_cartesian(clip = "off") +
+#'   theme_ridges(grid = FALSE)
 #' @importFrom stats quantile
 #' @export
 stat_binline <- function(mapping = NULL, data = NULL,

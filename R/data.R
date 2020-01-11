@@ -46,3 +46,15 @@
 #'     \item{`Percent`}{The percentage of the voters choosing the given option}
 #' }
 "Catalan_elections"
+
+#' Australian athletes
+#'
+#' This dataset is equivalent to `ais` from the `DAAG` package.
+#'
+#' @references
+#' Telford, R.D. and Cunningham, R.B. 1991. Sex, sport and body-size dependency of hematology in
+#' highly trained athletes. Medicine and Science in Sports and Exercise 23: 788-794.
+#'
+#' @examples
+#' # none yet
+"Aus_athletes"

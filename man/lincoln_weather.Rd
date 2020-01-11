@@ -7,24 +7,24 @@
 \format{A tibble with 366 rows and 24 variables:
 \describe{
 \item{\code{CST}}{Day of the measurement}
-\item{\code{Max Temperature [F]}}{}
-\item{\code{Mean Temperature [F]}}{}
-\item{\code{Min Temperature [F]}}{}
-\item{\code{Max Dew Point [F]}}{}
-\item{\code{Mean Dew Point [F]}}{}
-\item{\code{Min Dewpoint [F]}}{}
-\item{\code{Max Humidity}}{}
-\item{\code{Mean Humidity}}{}
-\item{\code{Min Humidity}}{}
-\item{\code{Max Sea Level Pressure [In]}}{}
-\item{\code{Mean Sea Level Pressure [In]}}{}
-\item{\code{Min Sea Level Pressure [In]}}{}
-\item{\code{Max Visibility [Miles]}}{}
-\item{\code{Mean Visibility [Miles]}}{}
-\item{\code{Min Visibility [Miles]}}{}
-\item{\code{Max Wind Speed [MPH]}}{}
-\item{\code{Mean Wind Speed[MPH]}}{}
-\item{\code{Max Gust Speed [MPH]}}{}
+\item{\verb{Max Temperature [F]}}{}
+\item{\verb{Mean Temperature [F]}}{}
+\item{\verb{Min Temperature [F]}}{}
+\item{\verb{Max Dew Point [F]}}{}
+\item{\verb{Mean Dew Point [F]}}{}
+\item{\verb{Min Dewpoint [F]}}{}
+\item{\verb{Max Humidity}}{}
+\item{\verb{Mean Humidity}}{}
+\item{\verb{Min Humidity}}{}
+\item{\verb{Max Sea Level Pressure [In]}}{}
+\item{\verb{Mean Sea Level Pressure [In]}}{}
+\item{\verb{Min Sea Level Pressure [In]}}{}
+\item{\verb{Max Visibility [Miles]}}{}
+\item{\verb{Mean Visibility [Miles]}}{}
+\item{\verb{Min Visibility [Miles]}}{}
+\item{\verb{Max Wind Speed [MPH]}}{}
+\item{\verb{Mean Wind Speed[MPH]}}{}
+\item{\verb{Max Gust Speed [MPH]}}{}
 \item{\code{Precipitation [In]}}{}
 \item{\code{CloudCover}}{}
 \item{\code{Events}}{Specific weather events, such as rain, snow, or fog}

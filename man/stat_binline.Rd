@@ -6,15 +6,28 @@
 \alias{StatBinline}
 \title{Stat for histogram ridgeline plots}
 \usage{
-stat_binline(mapping = NULL, data = NULL, geom = "density_ridges",
-  position = "identity", ..., binwidth = NULL, bins = NULL,
-  center = NULL, boundary = NULL, breaks = NULL,
-  closed = c("right", "left"), pad = TRUE, draw_baseline = TRUE,
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+stat_binline(
+  mapping = NULL,
+  data = NULL,
+  geom = "density_ridges",
+  position = "identity",
+  ...,
+  binwidth = NULL,
+  bins = NULL,
+  center = NULL,
+  boundary = NULL,
+  breaks = NULL,
+  closed = c("right", "left"),
+  pad = TRUE,
+  draw_baseline = TRUE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
-\code{\link[=aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}} or
+\code{\link[ggplot2:aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -22,15 +35,16 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 options:
 
 If \code{NULL}, the default, the data is inherited from the plot
-data as specified in the call to \code{\link[=ggplot]{ggplot()}}.
+data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot()}}.
 
 A \code{data.frame}, or other object, will override the plot
 data. All objects will be fortified to produce a data frame. See
-\code{\link[=fortify]{fortify()}} for which variables will be created.
+\code{\link[ggplot2:fortify]{fortify()}} for which variables will be created.
 
 A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
-will be used as the layer data.}
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{geom}{Use to override the default connection between
 \code{geom_histogram()}/\code{geom_freqpoly()} and \code{stat_bin()}.}
@@ -38,15 +52,18 @@ will be used as the layer data.}
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
 
-\item{...}{Other arguments passed on to \code{\link[=layer]{layer()}}. These are
+\item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
-\item{binwidth}{The width of the bins. Can be specified as a numeric value,
-or a function that calculates width from x.
-The default is to use \code{bins}
-bins that cover the range of the data. You should always override
+\item{binwidth}{The width of the bins. Can be specified as a numeric value
+or as a function that calculates width from unscaled x. Here, "unscaled x"
+refers to the original x values in the data, before application of any
+scale transformation. When specifying a function along with a grouping
+structure, the function will be called once per group.
+The default is to use the number of bins in \code{bins},
+covering the range of the data. You should always override
 this value, exploring multiple widths to find the best to illustrate the
 stories in your data.
 
@@ -99,7 +116,7 @@ display.}
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
+the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 }
 \description{
 Works like \code{stat_bin} except that the output is a ridgeline describing the histogram rather than
@@ -110,41 +127,56 @@ library(ggplot2)
 
 ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
   geom_density_ridges(stat = "binline", bins = 20, scale = 2.2) +
-  scale_y_discrete(expand = c(0.01, 0)) +
-  scale_x_continuous(expand = c(0.01, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  scale_x_continuous(expand = c(0, 0)) +
+  coord_cartesian(clip = "off") +
   theme_ridges()
 
 ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
   stat_binline(bins = 20, scale = 2.2, draw_baseline = FALSE) +
-  scale_y_discrete(expand = c(0.01, 0)) +
-  scale_x_continuous(expand = c(0.01, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  scale_x_continuous(expand = c(0, 0)) +
   scale_fill_grey() +
-  theme_ridges() + theme(legend.position = 'none')
+  coord_cartesian(clip = "off") +
+  theme_ridges() +
+  theme(legend.position = 'none')
 
-require(ggplot2movies)
-require(viridis)
+library(ggplot2movies)
 ggplot(movies[movies$year>1989,], aes(x = length, y = year, fill = factor(year))) +
    stat_binline(scale = 1.9, bins = 40) +
-   theme_ridges() + theme(legend.position = "none") +
-   scale_x_continuous(limits = c(1, 180), expand = c(0.01, 0)) +
-   scale_y_reverse(expand = c(0.01, 0)) +
-   scale_fill_viridis(begin = 0.3, discrete = TRUE, option = "B") +
+   scale_x_continuous(limits = c(1, 180), expand = c(0, 0)) +
+   scale_y_reverse(expand = c(0, 0)) +
+   scale_fill_viridis_d(begin = 0.3, option = "B") +
+   coord_cartesian(clip = "off") +
    labs(title = "Movie lengths 1990 - 2005")
+   theme_ridges() +
+   theme(legend.position = "none")
 
-count_data <- data.frame(group = rep(letters[1:5], each = 10),
-                         mean = rep(1:5, each = 10))
+count_data <- data.frame(
+  group = rep(letters[1:5], each = 10),
+  mean = rep(1:5, each = 10)
+)
 count_data$group <- factor(count_data$group, levels = letters[5:1])
 count_data$count <- rpois(nrow(count_data), count_data$mean)
+
 ggplot(count_data, aes(x = count, y = group, group = group)) +
-  geom_density_ridges2(stat = "binline", aes(fill = group), binwidth = 1, scale = 0.95) +
-  geom_text(stat = "bin",
-          aes(y = group+0.9*..count../max(..count..),
-          label = ifelse(..count..>0, ..count.., "")),
-          vjust = 1.2, size = 3, color = "white", binwidth = 1) +
-  theme_ridges(grid = FALSE) +
+  geom_density_ridges2(
+    stat = "binline",
+    aes(fill = group),
+    binwidth = 1,
+    scale = 0.95
+  ) +
+  geom_text(
+    stat = "bin",
+    aes(y = group + 0.9*stat(count/max(count)),
+    label = ifelse(stat(count) > 0, stat(count), "")),
+    vjust = 1.2, size = 3, color = "white", binwidth = 1
+  ) +
   scale_x_continuous(breaks = c(0:12), limits = c(-.5, 13), expand = c(0, 0)) +
-  scale_y_discrete(expand = c(0.01, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
   scale_fill_cyclical(values = c("#0000B0", "#7070D0")) +
-  guides(y = "none")
+  guides(y = "none") +
+  coord_cartesian(clip = "off") +
+  theme_ridges(grid = FALSE)
 }
 \keyword{datasets}

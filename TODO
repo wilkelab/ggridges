@@ -2,6 +2,5 @@ Things to do
 ================================
 - Add position_points_beeswarm() and position_points_quasirandom()
 - Add stat for categorical data, as described here: https://stackoverflow.com/a/47614529/4975218
-- Add more visual tests, and figure out why vdiffr has stopped working.
 - In legend drawing code, can we detect the presence of jittered points from the input data, not from the parameter setting?
 
