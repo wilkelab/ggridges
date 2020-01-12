@@ -68,7 +68,7 @@ the entire dataset." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggridges</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.9000</span>
       </span>
     </div>
 
@@ -251,7 +251,7 @@ to the paired geom/stat.</p></td>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
 
 <span class='co'># Examples of coloring by ecdf or quantiles</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>iris</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Sepal.Length</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>Species</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>quantile</span>)))) +
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>iris</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Sepal.Length</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>Species</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes_eval.html'>stat</a></span>(<span class='no'>quantile</span>)))) +
   <span class='fu'>stat_density_ridges</span>(
     <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"density_ridges_gradient"</span>,
     <span class='kw'>calc_ecdf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -261,14 +261,14 @@ to the paired geom/stat.</p></td>
   <span class='fu'><a href='theme_ridges.html'>theme_ridges</a></span>()</div><div class='output co'>#&gt; <span class='message'>Picking joint bandwidth of 0.181</span></div><div class='img'><img src='stat_density_ridges-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>iris</span>,
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(
-    <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Sepal.Length</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>Species</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>0.5</span> - <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>abs</a></span>(<span class='fl'>0.5</span>-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>ecdf</span>))
+    <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Sepal.Length</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>Species</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>0.5</span> - <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>abs</a></span>(<span class='fl'>0.5</span>-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes_eval.html'>stat</a></span>(<span class='no'>ecdf</span>))
   )) +
   <span class='fu'>stat_density_ridges</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"density_ridges_gradient"</span>, <span class='kw'>calc_ecdf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_c</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Tail probability"</span>, <span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>) +
   <span class='fu'><a href='theme_ridges.html'>theme_ridges</a></span>()</div><div class='output co'>#&gt; <span class='message'>Picking joint bandwidth of 0.181</span></div><div class='img'><img src='stat_density_ridges-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>iris</span>,
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(
-    <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Sepal.Length</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>Species</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>quantile</span>))
+    <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Sepal.Length</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>Species</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes_eval.html'>stat</a></span>(<span class='no'>quantile</span>))
   )) +
   <span class='fu'>stat_density_ridges</span>(
     <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"density_ridges_gradient"</span>,

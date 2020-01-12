@@ -12,3 +12,4 @@ visual_test
 ^docs$
 ^revdep$
 ^appveyor\.yml$
+^CRAN-RELEASE$

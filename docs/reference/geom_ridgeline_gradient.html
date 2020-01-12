@@ -69,7 +69,7 @@ in R's graphics system, transparency (alpha) has to be disabled for gradient fil
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggridges</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.9000</span>
       </span>
     </div>
 
@@ -236,7 +236,7 @@ for each panel. If <code>FALSE</code>, relative scaling is calculated globally.<
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_d</a></span>(<span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(<span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>'none'</span>)</div><div class='img'><img src='geom_ridgeline_gradient-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Example for `geom_density_ridges_gradient()`</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>lincoln_weather</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>`Mean Temperature [F]`</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>`Month`</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat.html'>stat</a></span>(<span class='no'>x</span>))) +
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>lincoln_weather</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>`Mean Temperature [F]`</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>`Month`</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes_eval.html'>stat</a></span>(<span class='no'>x</span>))) +
   <span class='fu'>geom_density_ridges_gradient</span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>rel_min_height</span> <span class='kw'>=</span> <span class='fl'>0.01</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_x_continuous</a></span>(<span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_y_discrete</a></span>(<span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>)) +

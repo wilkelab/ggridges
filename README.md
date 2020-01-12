@@ -13,6 +13,8 @@ status](https://ci.appveyor.com/api/projects/status/github/wilkelab/ggridges?bra
 Status](https://img.shields.io/codecov/c/github/wilkelab/ggridges/master.svg)](https://codecov.io/github/wilkelab/ggridges?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges)
 [![CRAN\_Downloads\_Badge](http://cranlogs.r-pkg.org/badges/ggridges)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
+[![Lifecycle:
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
 Ridgeline plots are partially overlapping line plots that create the
