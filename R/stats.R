@@ -99,14 +99,19 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
 StatDensityRidges <- ggproto("StatDensityRidges", Stat,
   required_aes = "x",
 
-  default_aes = aes(height = ..density..),
+  default_aes = aes(height = ..density.., weight = NULL),
 
   calc_panel_params = function(data, params) {
     if (is.null(params$bandwidth)) {
       xdata <- na.omit(data.frame(x=data$x, group=data$group))
-      xs <- split(xdata$x, xdata$group)
-      xs_mask <- vapply(xs, length, numeric(1)) > 1
-      bws <- vapply(xs[xs_mask], bw.nrd0, numeric(1))
+			if ("weight" %in% names(data)) {
+				xdata["weight"] <- data$weight
+			} else {
+				xdata["weight"] <- 1
+			}
+			xs <- split(xdata[c("x", "weight")], xdata$group)
+      xs_mask <- vapply(xs, function(d) nrow(d), numeric(1)) > 1
+      bws <- vapply(xs[xs_mask], function(d, ...) stats::density(d$x, weights = d$weight / sum(d$weight), ...)$bw, numeric(1))
       bw <- mean(bws, na.rm = TRUE)
       message("Picking joint bandwidth of ", signif(bw, 3))
 
@@ -114,11 +119,11 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     }
 
     if (is.null(params$from)) {
-      params$from <- min(data$x, na.rm=TRUE) - 3 * params$bandwidth
+			params$from <- min(data$x[is.finite(data$x)], na.rm = TRUE) - 3 * params$bandwidth
     }
 
     if (is.null(params$to)) {
-      params$to <- max(data$x, na.rm=TRUE) + 3 * params$bandwidth
+			params$to <- max(data$x[is.finite(data$x)], na.rm = TRUE) + 3 * params$bandwidth
     }
 
     data.frame(
@@ -150,7 +155,9 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
                            quantiles = 4, quantile_fun = quantile, n = 512) {
     # ignore too small groups
     if(nrow(data) < 3) return(data.frame())
-
+		if (!("weight" %in% names(data))) {
+			data["weight"] <- 1
+		}
     if (is.null(calc_ecdf)) calc_ecdf <- FALSE
     if (is.null(jittered_points)) jittered_points <- FALSE
     if (is.null(quantile_lines)) quantile_lines <- FALSE
@@ -167,7 +174,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     panel_id <- as.numeric(panel)
 
     d <- stats::density(
-      data$x,
+      data$x, weights = data$weight / sum(data$weight),
       bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE,
       n = n
     )
