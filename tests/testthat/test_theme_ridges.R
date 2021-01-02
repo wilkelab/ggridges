@@ -22,15 +22,15 @@ test_that("theme_ridges draws correctly", {
   p <- ggplot(d, aes(x, y, height = height, group = y)) + geom_ridgeline(fill="lightblue")
 
 
-  vdiffr::expect_doppelganger("theme_ridges default",
+  expect_doppelganger("theme_ridges default",
     p + theme_ridges()
   )
 
-  vdiffr::expect_doppelganger("theme_ridges without grid",
+  expect_doppelganger("theme_ridges without grid",
     p + theme_ridges(grid = FALSE)
   )
 
-  vdiffr::expect_doppelganger("theme_ridges centered axis labels",
+  expect_doppelganger("theme_ridges centered axis labels",
     p + theme_ridges(center_axis_labels = TRUE)
   )
 })

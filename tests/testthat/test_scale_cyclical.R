@@ -46,10 +46,10 @@ test_that("visual appearance of scale_*_cyclical", {
   df <- data.frame(x=1:30, y=1:30)
   p <- ggplot(df, aes(x, y, fill = factor(x))) + geom_point(shape = 21, size = 3) +
     scale_fill_cyclical(values = c("#F00000", "#00F000", "#0000F0"))
-  vdiffr::expect_doppelganger("scale_fill_cyclical red-green-blue dots, no legend", p)
+  expect_doppelganger("scale_fill_cyclical red-green-blue dots, no legend", p)
 
   p <- ggplot(df, aes(x, y, color = factor(x))) + geom_point(size = 3) +
     scale_color_cyclical(values = c("#F00000", "#00F000", "#0000F0"), guide = "legend")
-  vdiffr::expect_doppelganger("scale_fill_cyclical red-green-blue dots, with legend", p)
+  expect_doppelganger("scale_fill_cyclical red-green-blue dots, with legend", p)
 
 })

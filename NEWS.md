@@ -1,5 +1,6 @@
-ggridges development
+ggridges 0.5.3
 ----------------------------------------------------------------
+- Make sure tests don't fail if vdiffr is missing.
 
 
 ggridges 0.5.2

@@ -1,7 +1,7 @@
 Package: ggridges
 Type: Package
 Title: Ridgeline Plots in 'ggplot2'
-Version: 0.5.2.9000
+Version: 0.5.3
 Authors@R: 
     person(
       given = "Claus O.",
