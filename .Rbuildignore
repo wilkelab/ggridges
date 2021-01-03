@@ -2,8 +2,8 @@ visual_test
 ^data-raw$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis\.yml$
-^\.codecov\.yml$
+^\.github$
+^\.codecov.yml$
 ^_pkgdown\.yml$
 ^ISSUE_TEMPLATE\.md$
 ^README\.Rmd$
@@ -11,5 +11,4 @@ visual_test
 ^TODO\.Rmd$
 ^docs$
 ^revdep$
-^appveyor\.yml$
 ^CRAN-RELEASE$

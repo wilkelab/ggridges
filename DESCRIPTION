@@ -49,5 +49,5 @@ Collate:
     'theme.R'
     'utils_ggplot2.R'
     'utils.R'
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)

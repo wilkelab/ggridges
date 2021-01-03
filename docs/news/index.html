@@ -10,21 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -48,9 +54,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -64,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggridges</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3</span>
       </span>
     </div>
 
@@ -72,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,7 +106,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/wilkelab/ggridges/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -107,112 +119,110 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/wilkelab/ggridges/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="ggridges-0-5-2" class="section level2">
+    <div id="ggridges-053" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ggridges-0-5-2" class="anchor"></a>ggridges 0.5.2</h2>
+<a href="#ggridges-053" class="anchor"></a>ggridges 0.5.3</h2>
+<ul>
+<li>Make sure tests don’t fail if vdiffr is missing.</li>
+</ul>
+</div>
+    <div id="ggridges-052" class="section level2">
+<h2 class="hasAnchor">
+<a href="#ggridges-052" class="anchor"></a>ggridges 0.5.2</h2>
 <ul>
 <li>There is now a project website at <a href="https://wilkelab.org/ggridges" class="uri">https://wilkelab.org/ggridges</a>.</li>
 <li>A new example dataset has been added, <code>Aus_athletes</code>.</li>
 <li>
-<code>scale_discrete_manual()</code> has been removed from the ggridges package, as it has been available in ggplot2 since version 3.0.0.</li>
+<code><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_discrete_manual()</a></code> has been removed from the ggridges package, as it has been available in ggplot2 since version 3.0.0.</li>
 <li>
 <code><a href="../reference/stat_density_ridges.html">stat_density_ridges()</a></code> now has a parameter <code>n</code> that determines at how many points along the x axis the density is estimated.</li>
 </ul>
 </div>
-    <div id="ggridges-0-5-1" class="section level2">
+    <div id="ggridges-051" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ggridges-0-5-1" class="anchor"></a>ggridges 0.5.1</h2>
+<a href="#ggridges-051" class="anchor"></a>ggridges 0.5.1</h2>
 <ul>
 <li>The <code>alpha</code> aesthetic is now by default applied to jittered points. If you don’t want this to happen, set <code>point_alpha = 1</code>.</li>
 <li>Allow custom function to calculate the position of quantile lines. This makes it possible, for example, to place a line at the mean, via <code>quantile_fun = mean</code>.</li>
 <li>Allow coloring of quantile lines and jittered points by quantile.</li>
 </ul>
 </div>
-    <div id="ggridges-0-5-0" class="section level2">
+    <div id="ggridges-050" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ggridges-0-5-0" class="anchor"></a>ggridges 0.5.0</h2>
+<a href="#ggridges-050" class="anchor"></a>ggridges 0.5.0</h2>
 <ul>
 <li>Expanded documentation and gallery of example plots.</li>
 <li>Reworked stat_density_ridges, geom_ridgeline, geom_density_ridges, etc. so that jittered points and quantile lines can be drawn on top of the distributions. Points and quantile lines can be styled separately from the rest of the ridgeline plot, via special aesthetics.</li>
 <li>Added position options to control how the jittered points are drawn. Default is uniformly spaced within the density area.</li>
-<li>Added <code><a href="../reference/geom_density_line.html">geom_density_line()</a></code> which is a drop-in replacement for <code>geom_density()</code> but draws a ridgeline rather than a closed polygon.</li>
+<li>Added <code><a href="../reference/geom_density_line.html">geom_density_line()</a></code> which is a drop-in replacement for <code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density()</a></code> but draws a ridgeline rather than a closed polygon.</li>
 <li>
 <code><a href="../reference/theme_ridges.html">theme_ridges()</a></code> has been modified so that font sizes match the cowplot themes. In particular, this means smaller axis tick labels.</li>
 </ul>
 </div>
-    <div id="ggridges-0-4-1" class="section level2">
+    <div id="ggridges-041" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ggridges-0-4-1" class="anchor"></a>ggridges 0.4.1</h2>
+<a href="#ggridges-041" class="anchor"></a>ggridges 0.4.1</h2>
 <ul>
 <li>Skip vdiffr visual tests when compiling on CRAN</li>
 </ul>
 </div>
-    <div id="ggridges-0-4-0" class="section level2">
+    <div id="ggridges-040" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ggridges-0-4-0" class="anchor"></a>ggridges 0.4.0</h2>
+<a href="#ggridges-040" class="anchor"></a>ggridges 0.4.0</h2>
 <ul>
 <li>Initial import of code base from ggjoy, and renaming: geom_joy -&gt; geom_density_ridges stat_joy -&gt; stat_density_ridges theme_joy -&gt; theme_ridges</li>
 </ul>
 </div>
-    <div id="ggjoy-0-3-1" class="section level2">
+    <div id="ggjoy-031" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ggjoy-0-3-1" class="anchor"></a>ggjoy 0.3.1</h2>
+<a href="#ggjoy-031" class="anchor"></a>ggjoy 0.3.1</h2>
 <ul>
 <li>Added an option to center axis labels to <code>theme_joy()</code>.</li>
 </ul>
 </div>
-    <div id="ggjoy-0-3-0" class="section level2">
+    <div id="ggjoy-030" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ggjoy-0-3-0" class="anchor"></a>ggjoy 0.3.0</h2>
+<a href="#ggjoy-030" class="anchor"></a>ggjoy 0.3.0</h2>
 <ul>
 <li>Added cyclical scales that make it easy to alternate between fill colors and other aesthetics.</li>
 </ul>
 </div>
-    <div id="ggjoy-0-2-0" class="section level2">
+    <div id="ggjoy-020" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ggjoy-0-2-0" class="anchor"></a>ggjoy 0.2.0</h2>
+<a href="#ggjoy-020" class="anchor"></a>ggjoy 0.2.0</h2>
 <p>Numerous improvements:</p>
 <ul>
 <li>New stat <code>binline</code> that can be used to draw histogram joyplots.</li>
-<li>Various improvements in <code>stat_joy</code>. In particular, it now works properly with multiple panels. It also now has parameters <code>from</code> and <code>to</code> to limit the range of density estimation, just like <code><a href="https://www.rdocumentation.org/packages/stats/topics/density">density()</a></code>.</li>
+<li>Various improvements in <code>stat_joy</code>. In particular, it now works properly with multiple panels. It also now has parameters <code>from</code> and <code>to</code> to limit the range of density estimation, just like <code><a href="https://rdrr.io/r/stats/density.html">density()</a></code>.</li>
 <li>Improvements in the vignettes</li>
 <li>New geoms <code>geom_ridgeline_gradient</code> and <code>geom_joy_gradient</code> that can handle gradient fills.</li>
 </ul>
 </div>
-    <div id="ggjoy-0-1-0" class="section level2">
+    <div id="ggjoy-010" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ggjoy-0-1-0" class="anchor"></a>ggjoy 0.1.0</h2>
+<a href="#ggjoy-010" class="anchor"></a>ggjoy 0.1.0</h2>
 <p>First complete implementation ready for initial release</p>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ggridges-0-5-2">0.5.2</a></li>
-        <li><a href="#ggridges-0-5-1">0.5.1</a></li>
-        <li><a href="#ggridges-0-5-0">0.5.0</a></li>
-        <li><a href="#ggridges-0-4-1">0.4.1</a></li>
-        <li><a href="#ggridges-0-4-0">0.4.0</a></li>
-        <li><a href="#ggjoy-0-3-1">0.3.1</a></li>
-        <li><a href="#ggjoy-0-3-0">0.3.0</a></li>
-        <li><a href="#ggjoy-0-2-0">0.2.0</a></li>
-        <li><a href="#ggjoy-0-1-0">0.1.0</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -220,13 +230,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

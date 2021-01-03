@@ -4,13 +4,15 @@
 \name{Catalan_elections}
 \alias{Catalan_elections}
 \title{Results from Catalan regional elections (1980-2015)}
-\format{A tibble with 20764 rows and 4 variables:
+\format{
+A tibble with 20764 rows and 4 variables:
 \describe{
 \item{\code{Municipality}}{}
 \item{\code{Year}}{}
 \item{\code{Option}}{The voter option; either "Indy" or "Unionist"}
 \item{\code{Percent}}{The percentage of the voters choosing the given option}
-}}
+}
+}
 \usage{
 Catalan_elections
 }

@@ -4,7 +4,8 @@
 \name{lincoln_weather}
 \alias{lincoln_weather}
 \title{Weather in Lincoln, Nebraska in 2016.}
-\format{A tibble with 366 rows and 24 variables:
+\format{
+A tibble with 366 rows and 24 variables:
 \describe{
 \item{\code{CST}}{Day of the measurement}
 \item{\verb{Max Temperature [F]}}{}
@@ -30,7 +31,8 @@
 \item{\code{Events}}{Specific weather events, such as rain, snow, or fog}
 \item{\code{WindDir [Degrees]}}{}
 \item{\code{Month}}{The month in which the measurement was taken}
-}}
+}
+}
 \usage{
 lincoln_weather
 }

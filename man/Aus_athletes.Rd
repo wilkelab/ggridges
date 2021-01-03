@@ -4,7 +4,9 @@
 \name{Aus_athletes}
 \alias{Aus_athletes}
 \title{Australian athletes}
-\format{An object of class \code{data.frame} with 202 rows and 13 columns.}
+\format{
+An object of class \code{data.frame} with 202 rows and 13 columns.
+}
 \usage{
 Aus_athletes
 }
