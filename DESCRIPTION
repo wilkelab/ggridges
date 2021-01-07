@@ -11,7 +11,7 @@ Authors@R:
       comment = c(ORCID = "0000-0002-7470-9261")
     )
 Description: Ridgeline plots provide a convenient way of visualizing changes in distributions over time or space. This package enables the creation of such plots in 'ggplot2'.
-URL: https://wilkelab.org/ggridges
+URL: https://wilkelab.org/ggridges/
 BugReports: https://github.com/wilkelab/ggridges/issues
 Depends:
     R (>= 3.2)

@@ -17,13 +17,12 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R build status](https://github.com/wilkelab/ggridges/workflows/R-CMD-check/badge.svg)](https://github.com/wilkelab/ggridges/actions)
 [![Coverage Status](https://img.shields.io/codecov/c/github/wilkelab/ggridges/master.svg)](https://codecov.io/github/wilkelab/ggridges?branch=master)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges)
-[![CRAN_Downloads_Badge](http://cranlogs.r-pkg.org/badges/ggridges)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges)
+[![CRAN_Downloads_Badge](https://cranlogs.r-pkg.org/badges/ggridges)](https://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
-Ridgeline plots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space. These types of plots have also been called ["joyplots"](
-https://twitter.com/JennyBryan/status/856674638981550080), in reference to the [iconic cover art](https://blogs.scientificamerican.com/sa-visual/pop-culture-pulsar-origin-story-of-joy-division-s-unknown-pleasures-album-cover-video/) for Joy Division's album _Unknown Pleasures_. However, given the [unfortunate origin](https://en.wikipedia.org/wiki/House_of_Dolls) of the name Joy Division, the term "joyplot" is now discouraged.
+Ridgeline plots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space.
 
 ## Installation
 

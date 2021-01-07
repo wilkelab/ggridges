@@ -37,7 +37,7 @@ ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
 
 ## Results from Catalan regional elections, 1980-2015
 
-Modified after a figure originally created by [Marc Belzunces.](https://twitter.com/marcbeldata/) 
+Modified after a figure originally created by Marc Belzunces (@marcbeldata on Twitter). 
 
 ```{r message=FALSE, warning=FALSE, fig.width = 6, fig.height = 8}
 library(dplyr)
@@ -71,7 +71,7 @@ Catalan_elections %>%
 
 ## Temperatures in Lincoln, Nebraska
 
-Modified from a [blog post](http://austinwehrwein.com/data-visualization/it-brings-me-ggjoy/) by Austin Wehrwein.
+Modified from a [blog post](https://austinwehrwein.com/data-visualization/it-brings-me-ggjoy/) by Austin Wehrwein.
 ```{r message=FALSE, warning=FALSE, fig.width = 7.5, fig.height = 5}
 ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = Month, fill = stat(x))) +
   geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01, gradient_lwd = 1.) +
@@ -88,7 +88,7 @@ ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = Month, fill = stat(x
 
 ## Visualization of Poisson random samples with different means
 
-Inspired by a [ggridges example](https://twitter.com/noamross/status/888405434381545472) by Noam Ross.
+Inspired by a ggridges example by Noam Ross (twitter.com/noamross/status/888405434381545472).
 ```{r message=FALSE, warning=FALSE, fig.width = 6, fig.height = 7}
 # generate data
 set.seed(1234)
@@ -157,7 +157,7 @@ ggplot(pois_data, aes(x = value, y = group, group = group)) +
 
 ## A cheese plot
 
-Inspired by [this tweet](https://twitter.com/lenkiefer/status/932237461337575429) by Leonard Kiefer.
+Inspired by a tweet by Leonard Kiefer (twitter.com/lenkiefer/status/932237461337575429).
 
 ```{r message=FALSE, fig.width = 6, fig.height = 5}
 set.seed(423)
