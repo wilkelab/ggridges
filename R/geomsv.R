@@ -93,7 +93,6 @@ geom_vridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @format NULL
 #' @usage NULL
 #' @importFrom ggplot2 ggproto Geom draw_key_polygon
-#' @importFrom plyr summarise
 #' @export
 GeomVRidgeline <- ggproto("GeomVRidgeline", Geom,
   default_aes = aes(color = "black", fill = "grey80", x = 0, size = 0.5, linetype = 1,
@@ -173,12 +172,19 @@ GeomVRidgeline <- ggproto("GeomVRidgeline", Geom,
     ids[missing_pos] <- NA
 
     # munching for polygon
-    positions <- plyr::summarise(data,
-                                 y = c(y, rev(y)), x = c(xmax, rev(xmin)), id = c(ids, rev(ids)))
+    positions <- with(data, data.frame(
+      y = c(y, rev(y)),
+      x = c(xmax, rev(xmin)),
+      id = c(ids, rev(ids))
+    ))
     munched_poly <- ggplot2::coord_munch(coord, positions, panel_params)
 
     # munching for line
-    positions <- plyr::summarise(data, y = y, x = xmax, id = ids)
+    positions <- with(data, data.frame(
+      y = y,
+      x = xmax,
+      id = ids
+    ))
     munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
 
     # placing the actual grob generation into a separate function allows us to override for geom_density_ridges2

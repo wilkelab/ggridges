@@ -239,7 +239,11 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     data <- data[!missing_pos,]
 
     # munching for line
-    positions <- plyr::summarise(data, x = x, y = ymax, id = ids)
+    positions <- with(data, data.frame(
+      x = x,
+      y = ymax,
+      id = ids
+    ))
     munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
 
     # We now break down the polygons further by fill color, since
@@ -267,8 +271,11 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     }
 
     # munching for polygon
-    positions <- plyr::summarise(data,
-                                 x = c(x, rev(x)), y = c(ymax, rev(ymin)), id = c(ids, rev(ids)))
+    positions <- with(data, data.frame(
+      x = c(x, rev(x)),
+      y = c(ymax, rev(ymin)),
+      id = c(ids, rev(ids))
+    ))
     munched_poly <- ggplot2::coord_munch(coord, positions, panel_params)
 
     # calculate line and area grobs

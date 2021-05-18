@@ -97,7 +97,6 @@ geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @format NULL
 #' @usage NULL
 #' @importFrom ggplot2 ggproto Geom
-#' @importFrom plyr summarise
 #' @export
 GeomRidgeline <- ggproto("GeomRidgeline", Geom,
   default_aes = aes(
@@ -258,12 +257,19 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     ids[missing_pos] <- NA
 
     # munching for polygon
-    positions <- plyr::summarise(data,
-                                 x = c(x, rev(x)), y = c(ymax, rev(ymin)), id = c(ids, rev(ids)))
+    positions <- with(data, data.frame(
+      x = c(x, rev(x)),
+      y = c(ymax, rev(ymin)),
+      id = c(ids, rev(ids))
+    ))
     munched_poly <- ggplot2::coord_munch(coord, positions, panel_params)
 
     # munching for line
-    positions <- plyr::summarise(data, x = x, y = ymax, id = ids)
+    positions <- with(data, data.frame(
+      x = x,
+      y = ymax,
+      id = ids
+    ))
     munched_line <- ggplot2::coord_munch(coord, positions, panel_params)
 
     # calculate line and area grobs
