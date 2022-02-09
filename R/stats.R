@@ -330,7 +330,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 #'    scale_y_reverse(expand = c(0, 0)) +
 #'    scale_fill_viridis_d(begin = 0.3, option = "B") +
 #'    coord_cartesian(clip = "off") +
-#'    labs(title = "Movie lengths 1990 - 2005")
+#'    labs(title = "Movie lengths 1990 - 2005") +
 #'    theme_ridges() +
 #'    theme(legend.position = "none")
 #'
