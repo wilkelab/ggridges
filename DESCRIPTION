@@ -1,7 +1,7 @@
 Package: ggridges
 Type: Package
 Title: Ridgeline Plots in 'ggplot2'
-Version: 0.5.3
+Version: 0.5.4
 Authors@R: 
     person(
       given = "Claus O.",
@@ -48,5 +48,6 @@ Collate:
     'theme.R'
     'utils_ggplot2.R'
     'utils.R'
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
+Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

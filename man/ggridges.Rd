@@ -8,3 +8,4 @@
 Please see the package vignettes for usage instructions. For a quick start,
 check out the examples for \code{\link[=geom_density_ridges]{geom_density_ridges()}}.
 }
+\keyword{internal}

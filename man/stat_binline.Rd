@@ -46,9 +46,6 @@ the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
-\item{geom}{Use to override the default connection between
-\code{geom_histogram()}/\code{geom_freqpoly()} and \code{stat_bin()}.}
-
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
 
@@ -72,17 +69,7 @@ bin width of a time variable is the number of seconds.}
 
 \item{bins}{Number of bins. Overridden by \code{binwidth}. Defaults to 30.}
 
-\item{center}{bin position specifiers. Only one, \code{center} or
-\code{boundary}, may be specified for a single plot. \code{center} specifies the
-center of one of the bins. \code{boundary} specifies the boundary between two
-bins. Note that if either is above or below the range of the data, things
-will be shifted by the appropriate integer multiple of \code{binwidth}.
-For example, to center on integers use \code{binwidth = 1} and \code{center = 0}, even
-if \code{0} is outside the range of the data. Alternatively, this same alignment
-can be specified with \code{binwidth = 1} and \code{boundary = 0.5}, even if \code{0.5} is
-outside the range of the data.}
-
-\item{boundary}{bin position specifiers. Only one, \code{center} or
+\item{center, boundary}{bin position specifiers. Only one, \code{center} or
 \code{boundary}, may be specified for a single plot. \code{center} specifies the
 center of one of the bins. \code{boundary} specifies the boundary between two
 bins. Note that if either is above or below the range of the data, things
@@ -148,7 +135,7 @@ ggplot(movies[movies$year>1989,], aes(x = length, y = year, fill = factor(year))
    scale_y_reverse(expand = c(0, 0)) +
    scale_fill_viridis_d(begin = 0.3, option = "B") +
    coord_cartesian(clip = "off") +
-   labs(title = "Movie lengths 1990 - 2005")
+   labs(title = "Movie lengths 1990 - 2005") +
    theme_ridges() +
    theme(legend.position = "none")
 

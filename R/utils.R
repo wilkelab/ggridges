@@ -14,6 +14,7 @@
 #'   is empty. If missing, and `x` is empty, will throw an error.
 #'
 #' @author Jonathon Love <jon@thon.cc>
+#' @keywords internal
 #'
 reduce <- function(.x, .f, ..., .init) {
 

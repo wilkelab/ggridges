@@ -33,14 +33,20 @@ remains unchanged. The effect is similar to \code{\link[=position_points_jitter]
 points lie all underneath the baseline of each individual ridgeline.
 }
 \details{
-The idea for this position adjustment comes from Micah Allen, who proposed this type of plot in
-a \href{https://micahallen.org/2018/03/15/introducing-raincloud-plots/}{blog post} on March 15, 2018.
+The idea for this position adjustment comes from Micah Allen's work
+on raincloud plots (Allen et al. 2021).
 }
 \examples{
 library(ggplot2)
 
 ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(jittered_points = TRUE, position = "raincloud", alpha = 0.7)
+}
+\references{
+Allen, M., Poggiali, D., Whitaker, K., Marshall, T. R.,
+van Langen, J., Kievit, R. A. (2021) Raincloud plots:
+a multi-platform tool for robust data visualization
+[version 2; peer review: 2 approved]. Wellcome Open Res 4:63.
 }
 \seealso{
 Other position adjustments for ridgeline plots: \code{\link{position_points_jitter}}, \code{\link{position_points_sina}}

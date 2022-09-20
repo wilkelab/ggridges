@@ -26,3 +26,4 @@ Inspired by \code{reduce()} from the \code{purrr} package
 \author{
 Jonathon Love \href{mailto:jon@thon.cc}{jon@thon.cc}
 }
+\keyword{internal}
