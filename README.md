@@ -9,10 +9,10 @@
 status](https://github.com/wilkelab/ggridges/workflows/R-CMD-check/badge.svg)](https://github.com/wilkelab/ggridges/actions)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/wilkelab/ggridges/master.svg)](https://codecov.io/github/wilkelab/ggridges?branch=master)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges)
-[![CRAN\_Downloads\_Badge](https://cranlogs.r-pkg.org/badges/ggridges)](https://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges)
+[![CRAN_Downloads_Badge](https://cranlogs.r-pkg.org/badges/ggridges)](https://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#maturing)
 <!-- badges: end -->
 
 Ridgeline plots are partially overlapping line plots that create the
@@ -23,25 +23,31 @@ changes in distributions over time or space.
 
 Please install the stable release from CRAN:
 
-    install.packages("ggridges")
+``` r
+install.packages("ggridges")
+```
 
 Alternatively, you can install the latest development version from
 github:
 
-    remotes::install_github("wilkelab/ggridges")
+``` r
+remotes::install_github("wilkelab/ggridges")
+```
 
 ## Usage
 
-    library(ggplot2)
-    library(ggridges)
-        
-    ggplot(diamonds, aes(x = price, y = cut)) +
-      geom_density_ridges(scale = 4) + 
-      scale_y_discrete(expand = c(0, 0)) +     # will generally have to set the `expand` option
-      scale_x_continuous(expand = c(0, 0)) +   # for both axes to remove unneeded padding
-      coord_cartesian(clip = "off") + # to avoid clipping of the very top of the top ridgeline
-      theme_ridges()
-    #> Picking joint bandwidth of 458
+``` r
+library(ggplot2)
+library(ggridges)
+    
+ggplot(diamonds, aes(x = price, y = cut)) +
+  geom_density_ridges(scale = 4) + 
+  scale_y_discrete(expand = c(0, 0)) +     # will generally have to set the `expand` option
+  scale_x_continuous(expand = c(0, 0)) +   # for both axes to remove unneeded padding
+  coord_cartesian(clip = "off") + # to avoid clipping of the very top of the top ridgeline
+  theme_ridges()
+#> Picking joint bandwidth of 458
+```
 
 ![](man/figures/README-diamonds-1.png)<!-- -->
 

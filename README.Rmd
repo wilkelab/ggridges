@@ -40,7 +40,7 @@ remotes::install_github("wilkelab/ggridges")
 
 ## Usage
 
-```{r diamonds}
+```{r diamonds, warning = FALSE}
 library(ggplot2)
 library(ggridges)
     
