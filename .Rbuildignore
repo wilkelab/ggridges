@@ -12,3 +12,4 @@ visual_test
 ^docs$
 ^revdep$
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
