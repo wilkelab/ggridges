@@ -8,7 +8,7 @@ test_that("visual appearance of geom_vridgeline", {
   p <- ggplot(d, aes(x, y, width = width, group = x)) + geom_vridgeline(fill="lightblue")
   expect_doppelganger("geom_vridgeline basic use", p)
 
-  p <- ggplot(iris, aes(x=Species, y=Sepal.Width, width = ..density.., fill=Species)) +
+  p <- ggplot(iris, aes(x=Species, y=Sepal.Width, width = after_stat(density), fill=Species)) +
     geom_vridgeline(stat="ydensity", trim=FALSE, alpha = 0.85, scale = 2)
   expect_doppelganger("geom_vridgeline using stat ydensity", p)
 })
