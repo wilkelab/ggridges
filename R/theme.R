@@ -36,13 +36,13 @@ theme_ridges <- function(font_size = 14, font_family = "", line_size = .5, grid 
   color <- "grey90"
 
   if (grid) {
-    panel.grid.major <- element_line(colour = color, size = line_size)
-    axis.ticks       <- element_line(colour = color, size = line_size)
+    panel.grid.major <- element_line(colour = color, linewidth = line_size)
+    axis.ticks       <- element_line(colour = color, linewidth = line_size)
     axis.ticks.y     <- axis.ticks
   }
   else {
     panel.grid.major <- element_blank()
-    axis.ticks       <- element_line(colour = "black", size = line_size)
+    axis.ticks       <- element_line(colour = "black", linewidth = line_size)
     axis.ticks.y     <- element_blank()
   }
 
@@ -55,7 +55,7 @@ theme_ridges <- function(font_size = 14, font_family = "", line_size = .5, grid 
 
   theme_grey(base_size = font_size, base_family = font_family) %+replace%
     theme(
-      rect              = element_rect(fill = "transparent", colour = NA, color = NA, size = 0, linetype = 0),
+      rect              = element_rect(fill = "transparent", colour = NA, color = NA, linewidth = 0, linetype = 0),
       text              = element_text(family = font_family, face = "plain", colour = "black",
                                        size = font_size, hjust = 0.5, vjust = 0.5, angle = 0, lineheight = .9,
                                        margin = margin(), debug = FALSE),
@@ -85,7 +85,7 @@ theme_ridges <- function(font_size = 14, font_family = "", line_size = .5, grid 
       panel.grid.major  = panel.grid.major,
       panel.grid.minor  = element_blank(),
       strip.text        = element_text(size = rel(small_rel)),
-      strip.background  = element_rect(fill = "grey80", colour = "grey50", size = 0),
+      strip.background  = element_rect(fill = "grey80", colour = "grey50", linewidth = 0),
       plot.background   = element_blank(),
       plot.title        = element_text(face = "bold",
                                        size = font_size,

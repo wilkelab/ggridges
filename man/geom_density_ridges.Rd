@@ -72,7 +72,7 @@ rather than combining with them.}
 
 \item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
-\code{color = "red"} or \code{size = 3}. They may also be parameters
+\code{color = "red"} or \code{linewidth = 3}. They may also be parameters
 to the paired geom/stat.}
 }
 \description{
@@ -87,7 +87,7 @@ be provided.
 
 Note that the default \code{\link{stat_density_ridges}} makes joint density estimation across all datasets. This may not generate
 the desired result when using faceted plots. As an alternative, you can set \code{stat = "density"} to use \code{\link{stat_density}}.
-In this case, it is required to add the aesthetic mapping \code{height = ..density..} (see examples).
+In this case, it is required to add the aesthetic mapping \code{height = after_stat(density)} (see examples).
 }
 \section{Aesthetics}{
 
@@ -107,7 +107,7 @@ even spacing between baselines.
 overall maximum, so \code{rel_min_height=0.01} would remove everything that is 1\\% or less than the highest point among all
 ridgelines. Default is 0, so nothing is removed.
 alpha
-\item \code{colour}, \code{fill}, \code{group}, \code{alpha}, \code{linetype}, \code{size}, as in \code{\link{geom_ridgeline}}.
+\item \code{colour}, \code{fill}, \code{group}, \code{alpha}, \code{linetype}, \code{linewidth}, as in \code{\link{geom_ridgeline}}.
 \item \code{point_shape}, \code{point_colour}, \code{point_size}, \code{point_fill}, \code{point_alpha}, \code{point_stroke}, as in \code{\link{geom_ridgeline}}.
 }
 }
@@ -130,7 +130,7 @@ ggplot(diamonds, aes(x = price, y = cut)) +
   theme_ridges()
 
 # the same figure with colors, and using the ggplot2 density stat
-ggplot(diamonds, aes(x = price, y = cut, fill = cut, height = ..density..)) +
+ggplot(diamonds, aes(x = price, y = cut, fill = cut, height = after_stat(density))) +
   geom_density_ridges(scale = 4, stat = "density") +
   scale_y_discrete(expand = c(0.01, 0)) +
   scale_x_continuous(expand = c(0.01, 0)) +

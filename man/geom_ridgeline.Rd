@@ -54,7 +54,7 @@ rather than combining with them.}
 
 \item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
-\code{color = "red"} or \code{size = 3}. They may also be parameters
+\code{color = "red"} or \code{linewidth = 3}. They may also be parameters
 to the paired geom/stat.}
 }
 \description{
@@ -90,7 +90,7 @@ scaling is applied via the \code{scale} aesthetic. Default is 0, so negative val
 color as RGBA value, e.g. #FF0000A0 for partially transparent red.
 \item \code{group} Grouping, to draw multiple ridgelines from one dataset
 \item \code{linetype} Linetype of the ridgeline
-\item \code{size} Line thickness
+\item \code{linewidth} Line thickness
 \item \code{point_shape}, \code{point_colour}, \code{point_size}, \code{point_fill}, \code{point_alpha}, \code{point_stroke} Aesthetics applied
 to points drawn in addition to ridgelines.
 }

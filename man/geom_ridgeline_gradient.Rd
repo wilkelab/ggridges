@@ -73,7 +73,7 @@ rather than combining with them.}
 
 \item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
-\code{color = "red"} or \code{size = 3}. They may also be parameters
+\code{color = "red"} or \code{linewidth = 3}. They may also be parameters
 to the paired geom/stat.}
 
 \item{panel_scaling}{Argument only to \code{geom_density_ridges_gradient}. If \code{TRUE}, the default, relative scaling is calculated separately
