@@ -1,3 +1,8 @@
+ggridges 0.5.5
+----------------------------------------------------------------
+- Replace `ggplot2::expand_scale()` with `ggplot2::expansion()` in vignettes to avoid deprecation warnings in [ggplot2 0.3.3](https://ggplot2.tidyverse.org/news/index.html#minor-improvements-and-bug-fixes-3-3-0)
+- Replace `size` argument in line functions (geomsv.R) with `linewidth` to avoid deprecation warnings in [ggplot2 0.3.4](https://ggplot2.tidyverse.org/news/index.html#breaking-changes-3-4-0)
+
 ggridges 0.5.4
 ----------------------------------------------------------------
 - Remove broken link in docs.
