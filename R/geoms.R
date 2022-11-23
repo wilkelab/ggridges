@@ -113,12 +113,13 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
     # vline aesthetics, all inherited
     vline_colour = NULL, #vline_color = NULL,
-    vline_size = NULL, vline_linetype = NULL
+    vline_width = NULL, vline_linetype = NULL,
+    vline_size = NULL #<- line size deprecated in ggplot2 3.4.0
   ),
 
   required_aes = c("x", "y", "height"),
 
-  optional_aes = c("point_color", "vline_color"),
+  optional_aes = c("point_color", "vline_color", "vline_size", "vline_width"),
 
   extra_params = c("na.rm", "jittered_points"),
 
@@ -141,8 +142,11 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     transform(data, ymin = y, ymax = y + scale*height)
   },
 
-  draw_key = function(data, params, size) {
-    lwd <- min(data$size, min(size) / 4)
+  draw_key = function(data, params, linewidth) {
+
+    data <- check_vline_size(data)
+
+    lwd <- min(data$linewidth, min(linewidth) / 4)
 
     rect_grob <- grid::rectGrob(
       width = grid::unit(1, "npc") - grid::unit(lwd, "mm"),
@@ -164,7 +168,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
       vlines_grob <- grid::segmentsGrob(0.5, 0.1, 0.5, 0.9,
         gp = grid::gpar(
           col = data$vline_colour %||% data$vline_color %||% data$colour,
-          lwd = (data$vline_size %||% data$linewidth) * .pt,
+          lwd = (data$vline_width %||% data$linewidth) * .pt,
           lty = data$vline_linetype %||% data$linetype,
           lineend = "butt"
         )
@@ -312,6 +316,9 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     if (is.null(data)) {
       return(grid::nullGrob())
     }
+
+    data <- check_vline_size(data)
+
     data$xend <- data$x
     data$y <- data$ymin
     data$yend <- data$ymax
@@ -320,7 +327,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     # copy vline aesthetics over if set
     data$colour <- data$vline_colour %||% data$vline_color %||% data$colour
     data$linetype <- data$vline_linetype %||% data$linetype
-    data$linewidth <- data$vline_size %||% data$linewidth
+    data$linewidth <- data$vline_width %||% data$linewidth
     ggplot2::GeomSegment$draw_panel(data, panel_params, coord)
   },
 
@@ -457,12 +464,13 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
 
     # vline aesthetics, all inherited
     vline_colour = NULL, #vline_color = NULL,
-    vline_size = NULL, vline_linetype = NULL
+    vline_width = NULL, vline_linetype = NULL,
+    vline_size = NULL #<- line size deprecated in ggplot2 3.4.0
   ),
 
   required_aes = c("x", "y", "height"),
 
-  optional_aes = c("point_color", "vline_color"),
+  optional_aes = c("point_color", "vline_color", "vline_size", "vline_width"),
 
   extra_params = c("na.rm", "panel_scaling"),
 
@@ -512,6 +520,9 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
       else
         data <- cbind(data, rel_min_height = params$rel_min_height)
     }
+
+    # warn for vline_size arg
+    data <- check_vline_size(data)
 
     transform(data,
               ymin = y,

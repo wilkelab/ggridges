@@ -36,3 +36,12 @@ reduce <- function(.x, .f, ..., .init) {
 
   v
 }
+
+check_vline_size <- function(data) {
+  if (is.null(data$linewidth) && !is.null(data$vline_size)) {
+    warning("  Use of the `vline_size` or `size` aesthetics are deprecated, please use `linewidth` instead of `size` and `vline_width` instead of `vline_size`.", call. = FALSE)
+    data$linewidth <- data$vline_size
+  }
+  data
+}
+

@@ -93,12 +93,13 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
 
     # vline aesthetics, all inherited
     vline_colour = NULL, #vline_color = NULL,
-    vline_size = NULL, vline_linetype = NULL
+    vline_width = NULL, vline_linetype = NULL,
+    vline_size = NULL #<- line size deprecated in ggplot2 3.4.0
   ),
 
   required_aes = c("x", "y", "height"),
 
-  optional_aes = c("point_color", "vline_color"),
+  optional_aes = c("point_color", "vline_color", "vline_size", "vline_width"),
 
   extra_params = c("na.rm", "jittered_points"),
 
@@ -122,6 +123,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
   },
 
   draw_key = function(data, params, linewidth) {
+
     lwd <- min(data$linewidth, min(linewidth) / 4)
 
     rect_grob <- grid::rectGrob(
@@ -143,7 +145,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
       vlines_grob <- grid::segmentsGrob(0.5, 0.1, 0.5, 0.9,
         gp = grid::gpar(
           col = data$vline_colour %||% data$vline_color %||% data$colour,
-          lwd = (data$vline_size %||% data$linewidth) * .pt,
+          lwd = (data$vline_width %||% data$linewidth) * .pt,
           lty = data$vline_linetype %||% data$linetype,
           lineend = "butt"
         )
@@ -317,6 +319,9 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     if (is.null(data)) {
       return(grid::nullGrob())
     }
+
+    data <- check_vline_size(data)
+
     data$xend <- data$x
     data$y <- data$ymin
     data$yend <- data$ymax
@@ -325,7 +330,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     # copy vline aesthetics over if set
     data$colour <- data$vline_colour %||% data$vline_color %||% data$colour
     data$linetype <- data$vline_linetype %||% data$linetype
-    data$linewidth <- data$vline_size %||% data$linewidth
+    data$linewidth <- data$vline_width %||% data$linewidth
     ggplot2::GeomSegment$draw_panel(data, panel_params, coord)
   },
 
@@ -443,12 +448,13 @@ GeomDensityRidgesGradient <- ggproto("GeomDensityRidgesGradient", GeomRidgelineG
 
     # vline aesthetics, all inherited
     vline_colour = NULL,# vline_color = NULL,
-    vline_size = NULL, vline_linetype = NULL
+    vline_width = NULL, vline_linetype = NULL,
+    vline_size = NULL #<- line size deprecated in ggplot2 3.4.0
   ),
 
   required_aes = c("x", "y", "height"),
 
-  optional_aes = c("point_color", "vline_color"),
+  optional_aes = c("point_color", "vline_color", "vline_size", "vline_width"),
 
   extra_params = c("na.rm", "panel_scaling", "jittered_points"),
 
