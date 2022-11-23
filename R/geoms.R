@@ -119,11 +119,13 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
   required_aes = c("x", "y", "height"),
 
-  optional_aes = c("point_color", "vline_color", "vline_size", "vline_width"),
+  optional_aes = c("point_color", "vline_color", "vline_width", "vline_size"),
 
   extra_params = c("na.rm", "jittered_points"),
 
   setup_data = function(self, data, params) {
+
+    params <- check_vline_size_param(params)
 
     if (!"scale" %in% names(data)) {
       if (!"scale" %in% names(params))
@@ -475,6 +477,10 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
   extra_params = c("na.rm", "panel_scaling"),
 
   setup_data = function(self, data, params) {
+
+    # check for size deprecation
+    params <- check_vline_size_param(params)
+
     # provide default for panel scaling parameter if it doesn't exist,
     # happens if the geom is called from a stat
     if (is.null(params$panel_scaling)) {

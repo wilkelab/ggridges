@@ -459,6 +459,9 @@ GeomDensityRidgesGradient <- ggproto("GeomDensityRidgesGradient", GeomRidgelineG
   extra_params = c("na.rm", "panel_scaling", "jittered_points"),
 
   setup_data = function(self, data, params) {
+
+    params <- check_vline_size_param(params)
+
     # provide default for panel scaling parameter if it doesn't exist,
     # happens if the geom is called from a stat
     if (is.null(params$panel_scaling)) {
