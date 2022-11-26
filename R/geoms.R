@@ -126,6 +126,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
   setup_data = function(self, data, params) {
 
     params <- check_vline_size_param(params)
+    params <- check_size_param(params)
 
     if (!"scale" %in% names(data)) {
       if (!"scale" %in% names(params))
@@ -147,6 +148,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
   draw_key = function(data, params, linewidth) {
 
     data <- check_vline_size(data)
+    data <- check_size(data)
 
     lwd <- min(data$linewidth, min(linewidth) / 4)
 
@@ -320,6 +322,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     }
 
     data <- check_vline_size(data)
+    data <- check_size(data)
 
     data$xend <- data$x
     data$y <- data$ymin
@@ -480,6 +483,7 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
 
     # check for size deprecation
     params <- check_vline_size_param(params)
+    params <- check_size(params)
 
     # provide default for panel scaling parameter if it doesn't exist,
     # happens if the geom is called from a stat
@@ -527,8 +531,9 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
         data <- cbind(data, rel_min_height = params$rel_min_height)
     }
 
-    # warn for vline_size arg
+    # warn for vline_size or size arg
     data <- check_vline_size(data)
+    data <- check_size(data)
 
     transform(data,
               ymin = y,

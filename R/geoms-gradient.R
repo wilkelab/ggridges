@@ -321,6 +321,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
     }
 
     data <- check_vline_size(data)
+    data <- check_size(data)
 
     data$xend <- data$x
     data$y <- data$ymin
@@ -461,6 +462,7 @@ GeomDensityRidgesGradient <- ggproto("GeomDensityRidgesGradient", GeomRidgelineG
   setup_data = function(self, data, params) {
 
     params <- check_vline_size_param(params)
+    params <- check_size_param(params)
 
     # provide default for panel scaling parameter if it doesn't exist,
     # happens if the geom is called from a stat
