@@ -32,7 +32,7 @@
 #'   a warning. If `TRUE`, missing values are silently removed.
 #' @param ... other arguments passed on to [`layer()`]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
-#'   `color = "red"` or `size = 3`. They may also be parameters
+#'   `color = "red"` or `linewidth = 3`. They may also be parameters
 #'   to the paired geom/stat.
 #'
 #' @section Aesthetics:
@@ -57,7 +57,7 @@
 #'   color as RGBA value, e.g. #FF0000A0 for partially transparent red.
 #' * `group` Grouping, to draw multiple ridgelines from one dataset
 #' * `linetype` Linetype of the ridgeline
-#' * `size` Line thickness
+#' * `linewidth` Line thickness
 #'
 #' @examples
 #' library(ggplot2)
@@ -66,7 +66,7 @@
 #'                 width = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
 #' ggplot(d, aes(x, y, width = width, group = x)) + geom_vridgeline(fill="lightblue")
 #'
-#' ggplot(iris, aes(x=Species, y=Sepal.Width, width = ..density.., fill=Species)) +
+#' ggplot(iris, aes(x=Species, y=Sepal.Width, width = after_stat(density), fill=Species)) +
 #'   geom_vridgeline(stat="ydensity", trim=FALSE, alpha = 0.85, scale = 2)
 #'
 #' @importFrom ggplot2 layer
@@ -95,7 +95,7 @@ geom_vridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @importFrom ggplot2 ggproto Geom draw_key_polygon
 #' @export
 GeomVRidgeline <- ggproto("GeomVRidgeline", Geom,
-  default_aes = aes(color = "black", fill = "grey80", x = 0, size = 0.5, linetype = 1,
+  default_aes = aes(color = "black", fill = "grey80", x = 0, linewidth = 0.5, linetype = 1,
         min_width = 0, scale = 1, alpha = NA),
 
   required_aes = c("x", "y", "width"),
@@ -154,7 +154,7 @@ GeomVRidgeline <- ggproto("GeomVRidgeline", Geom,
     data$xmax[data$width < data$min_width] <- NA
 
     # Check that aesthetics are constant
-    aes <- unique(data[c("colour", "fill", "size", "linetype", "alpha")])
+    aes <- unique(data[c("colour", "fill", "linewidth", "linetype", "alpha")])
     if (nrow(aes) > 1) {
       stop("Aesthetics can not vary along a ridgeline")
     }
@@ -198,7 +198,7 @@ GeomVRidgeline <- ggproto("GeomVRidgeline", Geom,
                  default.units = "native",
                  gp = grid::gpar(
                    col = aes$colour,
-                   lwd = aes$size * .pt,
+                   lwd = aes$linewidth * .pt,
                    lty = aes$linetype)
                ))
 

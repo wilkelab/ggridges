@@ -2,7 +2,7 @@
 % Please edit documentation in R/scale-vline.R
 \name{scale_vline}
 \alias{scale_vline_linetype}
-\alias{scale_vline_size_continuous}
+\alias{scale_vline_width_continuous}
 \alias{scale_vline_colour_hue}
 \alias{scale_vline_color_hue}
 \alias{scale_vline_colour_gradient}
@@ -15,7 +15,7 @@
 \title{Scales for vline aesthetics}
 \description{
 These are various scales that can be applied to vline aesthetics, such as
-\code{vline_color}, \code{vline_size}, \code{vline_linetype}. The individual scales all have the
+\code{vline_color}, \code{vline_width}, \code{vline_linetype}. The individual scales all have the
 same usage as existing standard ggplot2 scales, only the name differs.
 }
 \examples{

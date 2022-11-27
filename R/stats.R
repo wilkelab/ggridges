@@ -99,7 +99,7 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
 StatDensityRidges <- ggproto("StatDensityRidges", Stat,
   required_aes = "x",
 
-  default_aes = aes(height = ..density..),
+  default_aes = aes(height = after_stat(density)),
 
   calc_panel_params = function(data, params) {
     if (is.null(params$bandwidth)) {
@@ -410,7 +410,7 @@ stat_binline <- function(mapping = NULL, data = NULL,
 StatBinline <- ggproto("StatBinline", StatBin,
   required_aes = "x",
 
-  default_aes = aes(height = ..density..),
+  default_aes = aes(height = after_stat(density)),
 
   setup_params = function(data, params) {
     # provide default value if not given, happens when stat is called from a geom

@@ -76,7 +76,7 @@ Modified from a [blog post](https://austinwehrwein.com/data-visualization/it-bri
 ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = Month, fill = stat(x))) +
   geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01, gradient_lwd = 1.) +
   scale_x_continuous(expand = c(0, 0)) +
-  scale_y_discrete(expand = expand_scale(mult = c(0.01, 0.25))) +
+  scale_y_discrete(expand = expansion(mult = c(0.01, 0.25))) +
   scale_fill_viridis_c(name = "Temp. [F]", option = "C") +
   labs(
     title = 'Temperatures in Lincoln NE',
@@ -112,7 +112,7 @@ ggplot(pois_data, aes(x = value, y = group, group = group)) +
     expand = c(0, 0), name = "random value"
   ) +
   scale_y_discrete(
-    expand = expand_scale(add = c(0, 1.)), name = "Poisson mean",
+    expand = expansion(add = c(0, 1.)), name = "Poisson mean",
     labels = c("5.0", "4.0", "3.0", "2.0", "1.0")
   ) +
   scale_fill_cyclical(values = c("#0000B0", "#7070D0")) +

@@ -37,7 +37,7 @@
 #'   a warning. If `TRUE`, missing values are silently removed.
 #' @param ... other arguments passed on to [`layer()`]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
-#'   `color = "red"` or `size = 3`. They may also be parameters
+#'   `color = "red"` or `linewidth = 3`. They may also be parameters
 #'   to the paired geom/stat.
 #'
 #' @section Aesthetics:
@@ -62,7 +62,7 @@
 #'   color as RGBA value, e.g. #FF0000A0 for partially transparent red.
 #' * `group` Grouping, to draw multiple ridgelines from one dataset
 #' * `linetype` Linetype of the ridgeline
-#' * `size` Line thickness
+#' * `linewidth` Line thickness
 #' * `point_shape`, `point_colour`, `point_size`, `point_fill`, `point_alpha`, `point_stroke` Aesthetics applied
 #' to points drawn in addition to ridgelines.
 #'
@@ -101,7 +101,7 @@ geom_ridgeline <- function(mapping = NULL, data = NULL, stat = "identity",
 GeomRidgeline <- ggproto("GeomRidgeline", Geom,
   default_aes = aes(
     # ridgeline aesthetics
-    color = "black", fill = "grey70", y = 0, size = 0.5, linetype = 1,
+    color = "black", fill = "grey70", y = 0, linewidth = 0.5, linetype = 1,
     min_height = 0, scale = 1, alpha = NA, datatype = "ridgeline",
 
     # point aesthetics with default
@@ -113,16 +113,20 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 
     # vline aesthetics, all inherited
     vline_colour = NULL, #vline_color = NULL,
-    vline_size = NULL, vline_linetype = NULL
+    vline_width = NULL, vline_linetype = NULL,
+    vline_size = NULL #<- line size deprecated in ggplot2 3.4.0
   ),
 
   required_aes = c("x", "y", "height"),
 
-  optional_aes = c("point_color", "vline_color"),
+  optional_aes = c("point_color", "vline_color", "vline_width", "vline_size"),
 
   extra_params = c("na.rm", "jittered_points"),
 
   setup_data = function(self, data, params) {
+
+    params <- check_vline_size_param(params)
+    params <- check_size_param(params)
 
     if (!"scale" %in% names(data)) {
       if (!"scale" %in% names(params))
@@ -141,8 +145,12 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     transform(data, ymin = y, ymax = y + scale*height)
   },
 
-  draw_key = function(data, params, size) {
-    lwd <- min(data$size, min(size) / 4)
+  draw_key = function(data, params, linewidth) {
+
+    data <- check_vline_size(data)
+    data <- check_size(data)
+
+    lwd <- min(data$linewidth, min(linewidth) / 4)
 
     rect_grob <- grid::rectGrob(
       width = grid::unit(1, "npc") - grid::unit(lwd, "mm"),
@@ -164,7 +172,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
       vlines_grob <- grid::segmentsGrob(0.5, 0.1, 0.5, 0.9,
         gp = grid::gpar(
           col = data$vline_colour %||% data$vline_color %||% data$colour,
-          lwd = (data$vline_size %||% data$size) * .pt,
+          lwd = (data$vline_width %||% data$linewidth) * .pt,
           lty = data$vline_linetype %||% data$linetype,
           lineend = "butt"
         )
@@ -239,7 +247,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     data$ymax[data$height < data$min_height] <- NA
 
     # Check that aesthetics are constant
-    aes <- unique(data[c("colour", "fill", "size", "linetype", "alpha")])
+    aes <- unique(data[c("colour", "fill", "linewidth", "linetype", "alpha")])
     if (nrow(aes) > 1) {
       stop("Aesthetics can not vary along a ridgeline")
     }
@@ -312,6 +320,10 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     if (is.null(data)) {
       return(grid::nullGrob())
     }
+
+    data <- check_vline_size(data)
+    data <- check_size(data)
+
     data$xend <- data$x
     data$y <- data$ymin
     data$yend <- data$ymax
@@ -320,7 +332,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     # copy vline aesthetics over if set
     data$colour <- data$vline_colour %||% data$vline_color %||% data$colour
     data$linetype <- data$vline_linetype %||% data$linetype
-    data$size <- data$vline_size %||% data$size
+    data$linewidth <- data$vline_width %||% data$linewidth
     ggplot2::GeomSegment$draw_panel(data, panel_params, coord)
   },
 
@@ -331,7 +343,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
              default.units = "native",
              gp = grid::gpar(
                col = aes$colour,
-               lwd = aes$size * .pt,
+               lwd = aes$linewidth * .pt,
                lty = aes$linetype)
              )
            )
@@ -366,7 +378,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'
 #' Note that the default [`stat_density_ridges`] makes joint density estimation across all datasets. This may not generate
 #' the desired result when using faceted plots. As an alternative, you can set `stat = "density"` to use [`stat_density`].
-#' In this case, it is required to add the aesthetic mapping `height = ..density..` (see examples).
+#' In this case, it is required to add the aesthetic mapping `height = after_stat(density)` (see examples).
 #'
 #' @param panel_scaling If `TRUE`, the default, relative scaling is calculated separately
 #' for each panel. If `FALSE`, relative scaling is calculated globally.
@@ -389,7 +401,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' overall maximum, so `rel_min_height=0.01` would remove everything that is 1\% or less than the highest point among all
 #' ridgelines. Default is 0, so nothing is removed.
 #' alpha
-#' * `colour`, `fill`, `group`, `alpha`, `linetype`, `size`, as in [`geom_ridgeline`].
+#' * `colour`, `fill`, `group`, `alpha`, `linetype`, `linewidth`, as in [`geom_ridgeline`].
 #' * `point_shape`, `point_colour`, `point_size`, `point_fill`, `point_alpha`, `point_stroke`, as in [`geom_ridgeline`].
 #'
 #' @importFrom ggplot2 layer
@@ -412,7 +424,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'   theme_ridges()
 #'
 #' # the same figure with colors, and using the ggplot2 density stat
-#' ggplot(diamonds, aes(x = price, y = cut, fill = cut, height = ..density..)) +
+#' ggplot(diamonds, aes(x = price, y = cut, fill = cut, height = after_stat(density))) +
 #'   geom_density_ridges(scale = 4, stat = "density") +
 #'   scale_y_discrete(expand = c(0.01, 0)) +
 #'   scale_x_continuous(expand = c(0.01, 0)) +
@@ -445,7 +457,7 @@ geom_density_ridges <- function(mapping = NULL, data = NULL, stat = "density_rid
 GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
   default_aes = aes(
     # ridgeline aesthetics
-    color = "black", fill = "grey70", size = 0.5, linetype = 1,
+    color = "black", fill = "grey70", linewidth = 0.5, linetype = 1,
     rel_min_height = 0, scale = 1.8, alpha = NA, datatype = "ridgeline",
 
     # point aesthetics with default
@@ -457,16 +469,22 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
 
     # vline aesthetics, all inherited
     vline_colour = NULL, #vline_color = NULL,
-    vline_size = NULL, vline_linetype = NULL
+    vline_width = NULL, vline_linetype = NULL,
+    vline_size = NULL #<- line size deprecated in ggplot2 3.4.0
   ),
 
   required_aes = c("x", "y", "height"),
 
-  optional_aes = c("point_color", "vline_color"),
+  optional_aes = c("point_color", "vline_color", "vline_size", "vline_width"),
 
   extra_params = c("na.rm", "panel_scaling"),
 
   setup_data = function(self, data, params) {
+
+    # check for size deprecation
+    params <- check_vline_size_param(params)
+    params <- check_size(params)
+
     # provide default for panel scaling parameter if it doesn't exist,
     # happens if the geom is called from a stat
     if (is.null(params$panel_scaling)) {
@@ -512,6 +530,10 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
       else
         data <- cbind(data, rel_min_height = params$rel_min_height)
     }
+
+    # warn for vline_size or size arg
+    data <- check_vline_size(data)
+    data <- check_size(data)
 
     transform(data,
               ymin = y,
@@ -570,7 +592,7 @@ GeomDensityRidges2 <- ggproto("GeomDensityRidges2", GeomDensityRidges,
              gp = grid::gpar(
              fill = ggplot2::alpha(aes$fill, aes$alpha),
              col = aes$colour,
-             lwd = aes$size * .pt,
+             lwd = aes$linewidth * .pt,
              lty = aes$linetype)
            ))
   }

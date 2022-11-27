@@ -89,7 +89,7 @@ is 512.}
 
 \item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
-\code{color = "red"} or \code{size = 3}. They may also be parameters
+\code{color = "red"} or \code{linewidth = 3}. They may also be parameters
 to the paired geom/stat.}
 }
 \description{

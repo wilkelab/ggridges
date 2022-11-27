@@ -1,7 +1,7 @@
 #' Scales for vline aesthetics
 #'
 #' These are various scales that can be applied to vline aesthetics, such as
-#' `vline_color`, `vline_size`, `vline_linetype`. The individual scales all have the
+#' `vline_color`, `vline_width`, `vline_linetype`. The individual scales all have the
 #' same usage as existing standard ggplot2 scales, only the name differs.
 #'
 #' @name scale_vline
@@ -40,13 +40,13 @@ scale_vline_linetype <- function(..., na.value = "blank", aesthetics = "vline_li
                  na.value = na.value, ...)
 }
 
-#' `scale_vline_size_continuous()`: Equivalent to [`scale_size_continuous()`].
+#' `scale_vline_width_continuous()`: Equivalent to [`scale_linewidth_continuous()`].
 #' @rdname scale_vline
 #' @usage NULL
 #' @export
-scale_vline_size_continuous <- function(name = ggplot2::waiver(), breaks = ggplot2::waiver(), labels = ggplot2::waiver(),
+scale_vline_width_continuous <- function(name = ggplot2::waiver(), breaks = ggplot2::waiver(), labels = ggplot2::waiver(),
                                   limits = NULL, range = c(1, 6),
-                                  trans = "identity", guide = "legend", aesthetics = "vline_size") {
+                                  trans = "identity", guide = "legend", aesthetics = "vline_width") {
   ggplot2::continuous_scale(aesthetics, "area", scales::area_pal(range), name = name,
                    breaks = breaks, labels = labels, limits = limits, trans = trans,
                    guide = guide)
