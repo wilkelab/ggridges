@@ -8,7 +8,7 @@
 [![R build
 status](https://github.com/wilkelab/ggridges/workflows/R-CMD-check/badge.svg)](https://github.com/wilkelab/ggridges/actions)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/wilkelab/ggridges/master.svg)](https://codecov.io/github/wilkelab/ggridges?branch=master)
+Status](https://img.shields.io/codecov/c/github/wilkelab/ggridges/master.svg)](https://app.codecov.io/github/wilkelab/ggridges?branch=master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ggridges)](https://CRAN.R-project.org/package=ggridges)
 [![CRAN_Downloads_Badge](https://cranlogs.r-pkg.org/badges/ggridges)](https://cranlogs.r-pkg.org/downloads/total/last-month/ggridges)
 [![Lifecycle:
