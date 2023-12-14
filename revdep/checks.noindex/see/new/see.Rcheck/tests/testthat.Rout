@@ -1,0 +1,42 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # graphics engine changed in these versions, and so snapshots generated on
+> # previous R version won't work
+> if (require("testthat") && require("vdiffr") && getRversion() > "4.1.0" && getRversion() < "4.4.0") {
++   library(testthat)
++   library(see)
++ 
++   test_check("see")
++ }
+Loading required package: testthat
+Loading required package: vdiffr
+Variable `Component` is not in your data frame :/
+[ FAIL 0 | WARN 0 | SKIP 9 | PASS 35 ]
+
+══ Skipped tests (9) ═══════════════════════════════════════════════════════════
+• On CRAN (9): 'test-check_model.R:2:3', 'test-plot.check_normality.R:18:3',
+  'test-plot.n_factors.R:7:3', 'test-plot.performance_pp_check.R:6:3',
+  'test-scale_color_colorhex_c.R:3:3', 'test-vdiffr_bayestestr_plots.R:11:3',
+  'test-vdiffr_geoms_coords.R:13:3', 'test-vdiffr_scale_color.R:2:3',
+  'test-vdiffr_themes.R:11:3'
+
+[ FAIL 0 | WARN 0 | SKIP 9 | PASS 35 ]
+> 
+> proc.time()
+   user  system elapsed 
+ 12.145   0.255  12.471 

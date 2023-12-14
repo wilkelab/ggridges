@@ -1,0 +1,630 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "gravitas"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('gravitas')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("create_gran")
+> ### * create_gran
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: create_gran
+> ### Title: Build dynamic temporal granularities
+> ### Aliases: create_gran
+> 
+> ### ** Examples
+> 
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(ggplot2)
+> library(lvplot)
+> # Search for granularities
+> smart_meter10 %>%
++   search_gran(highest_unit = "week")
+[1] "hhour_hour" "hhour_day"  "hhour_week" "hour_day"   "hour_week" 
+[6] "day_week"  
+> 
+> # Screen harmonies from the search list
+> ## Not run: 
+> ##D smart_meter10 %>%
+> ##D   harmony(
+> ##D     ugran = "day",
+> ##D     filter_in = "wknd_wday"
+> ##D   )
+> ## End(Not run)
+> # visualize probability distribution of
+> # the harmony pair (wknd_wday, hour_day)
+> smart_meter10 %>%
++ dplyr::filter(customer_id == "10017936") %>%
++   prob_plot(
++     gran1 = "wknd_wday",
++     gran2 = "hour_day",
++     response = "general_supply_kwh",
++     plot_type = "quantile",
++     quantile_prob = c(0.1, 0.25, 0.5, 0.75, 0.9)
++   ) +
++   scale_y_sqrt()
+Joining with `by = join_by(wknd_wday, hour_day)`
+Joining with `by = join_by(wknd_wday, hour_day)`
+> 
+> #' # Compute granularities for non-temporal data
+> 
+> library(tsibble)
+
+Attaching package: ‘tsibble’
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, union
+
+> cricket_tsibble <- cricket %>%
++ mutate(data_index = row_number()) %>%
++ as_tsibble(index = data_index)
+> 
+> hierarchy_model <- tibble::tibble(
++   units = c("index", "over", "inning", "match"),
++   convert_fct = c(1, 20, 2, 1)
++ )
+> cricket_tsibble %>%
++   create_gran(
++     "over_inning",
++     hierarchy_model
++   )
+# A tsibble: 8,560 x 12 [1]
+   season match_id batting_team       bowling_team inning  over wicket dot_balls
+    <dbl>    <dbl> <chr>              <chr>         <dbl> <dbl>  <dbl>     <dbl>
+ 1   2008        2 Chennai Super Kin… Kings XI Pu…      1     1      0         4
+ 2   2008        2 Chennai Super Kin… Kings XI Pu…      1     2      0         2
+ 3   2008        2 Chennai Super Kin… Kings XI Pu…      1     3      1         4
+ 4   2008        2 Chennai Super Kin… Kings XI Pu…      1     4      0         3
+ 5   2008        2 Chennai Super Kin… Kings XI Pu…      1     5      0         3
+ 6   2008        2 Chennai Super Kin… Kings XI Pu…      1     6      0         3
+ 7   2008        2 Chennai Super Kin… Kings XI Pu…      1     7      1         1
+ 8   2008        2 Chennai Super Kin… Kings XI Pu…      1     8      1         3
+ 9   2008        2 Chennai Super Kin… Kings XI Pu…      1     9      0         1
+10   2008        2 Chennai Super Kin… Kings XI Pu…      1    10      0         2
+# ℹ 8,550 more rows
+# ℹ 4 more variables: runs_per_over <dbl>, run_rate <dbl>, data_index <int>,
+#   over_inning <fct>
+> 
+>   cricket_tsibble %>%
++   filter(batting_team %in% c("Mumbai Indians",
++                              "Chennai Super Kings"))%>%
++   prob_plot("inning", "over",
++   hierarchy_model,
++   response = "runs_per_over",
++   plot_type = "lv")
+Joining with `by = join_by(inning, over)`
+Joining with `by = join_by(inning, over)`
+Warning: The dot-dot notation (`..LV..`) was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(LV)` instead.
+ℹ The deprecated feature was likely used in the gravitas package.
+  Please report the issue at <https://github.com/Sayani07/gravitas/issues>.
+> 
+> # Validate if given column in the data set
+> # equals computed granularity
+> validate_gran(cricket_tsibble,
++   gran = "over_inning",
++   hierarchy_tbl = hierarchy_model,
++   validate_col = "over"
++ )
+[1] TRUE
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:tsibble’, ‘package:lvplot’, ‘package:ggplot2’,
+  ‘package:dplyr’
+
+> nameEx("cricket")
+> ### * cricket
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cricket
+> ### Title: Cricket data set for different seasons of Indian Premier League
+> ### Aliases: cricket
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data(cricket)
+> 
+> library(tsibble)
+
+Attaching package: ‘tsibble’
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, union
+
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(ggplot2)
+> 
+> # convert data set to a tsibble ----
+> cricket_tsibble <- cricket %>%
++   mutate(data_index = row_number()) %>%
++   as_tsibble(index = data_index)
+> # set the hierarchy of the units in a table ----
+> hierarchy_model <- tibble::tibble(
++   units = c("index", "over", "inning", "match"),
++   convert_fct = c(1, 20, 2, 1)
++ )
+> # Compute granularities ----
+> cricket_tsibble %>%
++   create_gran("over_inning",
++                hierarchy_model)
+# A tsibble: 8,560 x 12 [1]
+   season match_id batting_team       bowling_team inning  over wicket dot_balls
+    <dbl>    <dbl> <chr>              <chr>         <dbl> <dbl>  <dbl>     <dbl>
+ 1   2008        2 Chennai Super Kin… Kings XI Pu…      1     1      0         4
+ 2   2008        2 Chennai Super Kin… Kings XI Pu…      1     2      0         2
+ 3   2008        2 Chennai Super Kin… Kings XI Pu…      1     3      1         4
+ 4   2008        2 Chennai Super Kin… Kings XI Pu…      1     4      0         3
+ 5   2008        2 Chennai Super Kin… Kings XI Pu…      1     5      0         3
+ 6   2008        2 Chennai Super Kin… Kings XI Pu…      1     6      0         3
+ 7   2008        2 Chennai Super Kin… Kings XI Pu…      1     7      1         1
+ 8   2008        2 Chennai Super Kin… Kings XI Pu…      1     8      1         3
+ 9   2008        2 Chennai Super Kin… Kings XI Pu…      1     9      0         1
+10   2008        2 Chennai Super Kin… Kings XI Pu…      1    10      0         2
+# ℹ 8,550 more rows
+# ℹ 4 more variables: runs_per_over <dbl>, run_rate <dbl>, data_index <int>,
+#   over_inning <fct>
+> # Visualise distribution of runs across granularities ----
+> cricket_tsibble %>%
++   filter(batting_team %in% c("Mumbai Indians",
++                              "Chennai Super Kings"))%>%
++   prob_plot("inning", "over",
++   hierarchy_model,
++   response = "runs_per_over",
++   plot_type = "lv")
+Joining with `by = join_by(inning, over)`
+Joining with `by = join_by(inning, over)`
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’, ‘package:dplyr’, ‘package:tsibble’
+
+> nameEx("gran_advice")
+> ### * gran_advice
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gran_advice
+> ### Title: Advice summaries for granularities
+> ### Aliases: gran_advice
+> 
+> ### ** Examples
+> 
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(ggplot2)
+> 
+> smart_meter10 %>%
++ filter(customer_id == "10017936") %>%
++   gran_advice(gran1 = "wknd_wday",
++             gran2 = "hour_day")
+The chosen granularities are harmonies 
+ 
+Recommended plots are: violin lv quantile boxplot 
+ 
+Number of observations are homogenous across facets 
+ 
+Number of observations are homogenous within facets 
+ 
+Cross tabulation of granularities : 
+ 
+# A tibble: 24 × 3
+   hour_day Weekday Weekend
+   <fct>      <int>   <int>
+ 1 0            910     366
+ 2 1            908     366
+ 3 2            909     366
+ 4 3            910     366
+ 5 4            910     366
+ 6 5            910     366
+ 7 6            909     366
+ 8 7            908     366
+ 9 8            908     366
+10 9            908     366
+# ℹ 14 more rows
+> 
+> # choosing quantile plots from plot choices
+> smart_meter10 %>%
++ filter(customer_id == "10017936") %>%
++   prob_plot(
++     gran1 = "wknd_wday",
++     gran2 = "hour_day",
++     response = "general_supply_kwh",
++     plot_type = "quantile",
++     quantile_prob = c(0.1, 0.25, 0.5, 0.75, 0.9)
++   ) +
++   scale_y_sqrt()
+Joining with `by = join_by(wknd_wday, hour_day)`
+Joining with `by = join_by(wknd_wday, hour_day)`
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’, ‘package:dplyr’
+
+> nameEx("gran_obs")
+> ### * gran_obs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gran_obs
+> ### Title: Cross tabulation of granularities useful for validating if
+> ###   number of observations are sufficient to compute probability
+> ###   distributions
+> ### Aliases: gran_obs
+> 
+> ### ** Examples
+> 
+> library(tsibbledata)
+> vic_elec %>% gran_obs("hour_day", "day_week")
+# A tibble: 7 × 25
+  day_week   `0`   `1`   `2`   `3`   `4`   `5`   `6`   `7`   `8`   `9`  `10`
+  <ord>    <int> <int> <int> <int> <int> <int> <int> <int> <int> <int> <int>
+1 Mon        314   314   314   314   314   314   314   314   314   314   314
+2 Tue        314   314   314   314   314   314   314   314   314   314   314
+3 Wed        314   314   314   314   314   314   314   314   314   314   314
+4 Thu        312   312   312   312   312   312   312   312   312   312   312
+5 Fri        312   312   312   312   312   312   312   312   312   312   312
+6 Sat        312   312   312   312   312   312   312   312   312   312   312
+7 Sun        314   314   314   314   314   314   314   314   314   314   314
+# ℹ 13 more variables: `11` <int>, `12` <int>, `13` <int>, `14` <int>,
+#   `15` <int>, `16` <int>, `17` <int>, `18` <int>, `19` <int>, `20` <int>,
+#   `21` <int>, `22` <int>, `23` <int>
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:tsibbledata’
+
+> nameEx("harmony")
+> ### * harmony
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: harmony
+> ### Title: Get possible set of harmonies for a given tsibble
+> ### Aliases: harmony
+> 
+> ### ** Examples
+> 
+> library(tsibbledata)
+> vic_elec %>% harmony(lgran = "hour", ugran = "week")
+# A tibble: 2 × 4
+  facet_variable x_variable facet_levels x_levels
+  <chr>          <chr>             <int>    <int>
+1 day_week       hour_day              7       24
+2 hour_day       day_week             24        7
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:tsibbledata’
+
+> nameEx("is_harmony")
+> ### * is_harmony
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: is_harmony
+> ### Title: Check if two temporal granularities are harmonies
+> ### Aliases: is_harmony
+> 
+> ### ** Examples
+> 
+> library(tsibbledata)
+> vic_elec %>% is_harmony("hour_day", "day_week")
+[1] "TRUE"
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:tsibbledata’
+
+> nameEx("print.gran_advice")
+> ### * print.gran_advice
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: print.gran_advice
+> ### Title: Advice summaries for granularities
+> ### Aliases: print.gran_advice
+> 
+> ### ** Examples
+> 
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(ggplot2)
+> 
+> smart_meter10 %>%
++ filter(customer_id == "10017936") %>%
++   gran_advice(gran1 = "wknd_wday",
++             gran2 = "hour_day")
+The chosen granularities are harmonies 
+ 
+Recommended plots are: violin lv quantile boxplot 
+ 
+Number of observations are homogenous across facets 
+ 
+Number of observations are homogenous within facets 
+ 
+Cross tabulation of granularities : 
+ 
+# A tibble: 24 × 3
+   hour_day Weekday Weekend
+   <fct>      <int>   <int>
+ 1 0            910     366
+ 2 1            908     366
+ 3 2            909     366
+ 4 3            910     366
+ 5 4            910     366
+ 6 5            910     366
+ 7 6            909     366
+ 8 7            908     366
+ 9 8            908     366
+10 9            908     366
+# ℹ 14 more rows
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’, ‘package:dplyr’
+
+> nameEx("prob_plot")
+> ### * prob_plot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: prob_plot
+> ### Title: Plotting probability distributions across granularities
+> ### Aliases: prob_plot
+> 
+> ### ** Examples
+> 
+> library(tsibbledata)
+> library(ggplot2)
+> library(tsibble)
+
+Attaching package: ‘tsibble’
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, union
+
+> library(lvplot)
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> 
+> smart_meter10 %>%
++ filter(customer_id %in% c("10017936")) %>%
++ prob_plot(
++   gran1 = "day_week", gran2 = "hour_day",
++   response = "general_supply_kwh", plot_type = "quantile",
++   quantile_prob = c(0.1, 0.25, 0.5, 0.75, 0.9),
++   symmetric = TRUE,
++    outlier.colour = "red",
++   outlier.shape = 2, palette = "Dark2"
++ )
+Joining with `by = join_by(day_week, hour_day)`
+Joining with `by = join_by(day_week, hour_day)`
+> 
+> cricket_tsibble <- cricket %>%
++   mutate(data_index = row_number()) %>%
++   as_tsibble(index = data_index)
+> 
+> hierarchy_model <- tibble::tibble(
++   units = c("index", "over", "inning", "match"),
++   convert_fct = c(1, 20, 2, 1)
++ )
+> 
+> cricket_tsibble %>%
++   prob_plot("inning", "over",
++     hierarchy_tbl = hierarchy_model,
++     response = "runs_per_over",
++     plot_type = "lv"
++   )
+Joining with `by = join_by(inning, over)`
+Joining with `by = join_by(inning, over)`
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’, ‘package:lvplot’, ‘package:tsibble’,
+  ‘package:ggplot2’, ‘package:tsibbledata’
+
+> nameEx("run_app")
+> ### * run_app
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: run_app
+> ### Title: Runs a shiny app demonstrating functionalities of gravitas
+> ### Aliases: run_app
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D run_app()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("search_gran")
+> ### * search_gran
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: search_gran
+> ### Title: Search for granularities
+> ### Aliases: search_gran
+> 
+> ### ** Examples
+> 
+> library(tsibbledata)
+> vic_elec %>% search_gran(lowest_unit = "hour", highest_unit = "month")
+ [1] "hour_day"        "hour_week"       "hour_fortnight"  "hour_month"     
+ [5] "day_week"        "day_fortnight"   "day_month"       "week_fortnight" 
+ [9] "week_month"      "fortnight_month"
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:tsibbledata’
+
+> nameEx("validate_gran")
+> ### * validate_gran
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: validate_gran
+> ### Title: Validate created granularities with existing columns
+> ### Aliases: validate_gran
+> 
+> ### ** Examples
+> 
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(tsibble)
+
+Attaching package: ‘tsibble’
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, union
+
+> cricket_tsibble <- cricket %>%
++   mutate(data_index = row_number()) %>%
++   as_tsibble(index = data_index)
+> 
+> hierarchy_model <- tibble::tibble(
++   units = c("index", "ball", "over", "inning", "match"),
++   convert_fct = c(1, 6, 20, 2, 1)
++ )
+> cricket_tsibble %>% validate_gran(
++   gran = "over_inning",
++   hierarchy_tbl = hierarchy_model,
++   validate_col = "over"
++ )
+[1] FALSE
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+
+detaching ‘package:tsibble’, ‘package:dplyr’
+
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  6.113 0.161 6.628 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

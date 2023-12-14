@@ -1,0 +1,187 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(dispositionEffect)
+--------------------------------------------
+The dispositionEffect is the first R package to perform behavioural analysis on financial data.
+Use citation('dispositionEffect') to cite the package.
+Learn more at: https://marcozanotti.github.io/dispositionEffect/index.html
+--------------------------------------------
+> 
+> test_check("dispositionEffect")
+[ FAIL 36 | WARN 0 | SKIP 0 | PASS 331 ]
+
+══ Failed tests ════════════════════════════════════════════════════════════════
+── Failure ('test-paper_compute.R:46:2'): paper_compute works (method = duration) ──
+paper_compute(...) not equal to res[, c(1, 14:17)].
+Component "PG_duration": Mean relative difference: 0.2222222
+Component "PL_duration": Mean relative difference: 0.2222222
+── Failure ('test-paper_compute.R:52:2'): paper_compute works (method = all) ───
+paper_compute(...) not equal to `res`.
+Component "PG_duration": Mean relative difference: 0.2222222
+Component "PL_duration": Mean relative difference: 0.2222222
+── Failure ('test-portfolio_compute.R:10:2'): portfolio_compute works (arg method) ──
+portfolio_compute(investor, marketprices, method = "duration") not equal to portfolio_results[, c(1:5, 18:21)].
+Component "RL_duration": Mean relative difference: 0.006418614
+Component "PG_duration": Mean relative difference: 0.02091048
+── Failure ('test-portfolio_compute.R:11:2'): portfolio_compute works (arg method) ──
+portfolio_compute(investor, marketprices, method = "all") not equal to `portfolio_results`.
+Component "RL_duration": Mean relative difference: 0.006418614
+Component "PG_duration": Mean relative difference: 0.02091048
+── Failure ('test-realized_compute.R:73:2'): realized_compute works (method = duration) ──
+dplyr::bind_rows(...) not equal to res[, c(1, 14:17)].
+Component "RG_duration": Mean relative difference: 0.125
+Component "RL_duration": Mean relative difference: 0.125
+Component "PG_duration": Mean relative difference: 0.2222222
+Component "PL_duration": Mean relative difference: 0.2222222
+── Failure ('test-realized_compute.R:85:2'): realized_compute works (method = all) ──
+dplyr::bind_rows(...) not equal to `res`.
+Component "RG_duration": Mean relative difference: 0.125
+Component "RL_duration": Mean relative difference: 0.125
+Component "PG_duration": Mean relative difference: 0.2222222
+Component "PL_duration": Mean relative difference: 0.2222222
+── Failure ('test-realized_duration.R:22:2'): realized_duration works (long) ───
+realized_duration(2, 15, 1, 10, "B", pt_dtt, p_dtt, t_dtt, allow_short = TRUE) not equal to c(RG_duration = 0, RL_duration = 0, PG_duration = 0, PL_duration = dtt_diff).
+1/4 mismatches
+[4] 18 - 14 == 4
+── Failure ('test-realized_duration.R:25:2'): realized_duration works (long) ───
+realized_duration(2, 10, 1, 15, "B", pt_dtt, p_dtt, t_dtt, allow_short = TRUE) not equal to c(RG_duration = 0, RL_duration = 0, PG_duration = dtt_diff, PL_duration = 0).
+1/4 mismatches
+[3] 18 - 14 == 4
+── Failure ('test-realized_duration.R:28:2'): realized_duration works (long) ───
+realized_duration(2, 15, -1, 10, "S", pt_dtt, p_dtt, t_dtt, allow_short = TRUE) not equal to c(...).
+2/4 mismatches (average diff: 4)
+[2] 32 - 28 == 4
+[4] 18 - 14 == 4
+── Failure ('test-realized_duration.R:31:2'): realized_duration works (long) ───
+realized_duration(2, 10, -1, 15, "S", pt_dtt, p_dtt, t_dtt, allow_short = TRUE) not equal to c(...).
+2/4 mismatches (average diff: 4)
+[1] 32 - 28 == 4
+[3] 18 - 14 == 4
+── Failure ('test-realized_duration.R:34:2'): realized_duration works (long) ───
+realized_duration(2, 15, -2, 10, "S", pt_dtt, p_dtt, t_dtt, allow_short = TRUE) not equal to c(...).
+1/4 mismatches
+[2] 32 - 28 == 4
+── Failure ('test-realized_duration.R:37:2'): realized_duration works (long) ───
+realized_duration(2, 10, -2, 15, "S", pt_dtt, p_dtt, t_dtt, allow_short = TRUE) not equal to c(...).
+1/4 mismatches
+[1] 32 - 28 == 4
+── Failure ('test-realized_duration.R:43:2'): realized_duration works (short) ──
+realized_duration(...) not equal to c(RG_duration = 0, RL_duration = 0, PG_duration = dtt_diff, PL_duration = 0).
+1/4 mismatches
+[3] 18 - 14 == 4
+── Failure ('test-realized_duration.R:46:2'): realized_duration works (short) ──
+realized_duration(...) not equal to c(RG_duration = 0, RL_duration = 0, PG_duration = 0, PL_duration = dtt_diff).
+1/4 mismatches
+[4] 18 - 14 == 4
+── Failure ('test-realized_duration.R:49:2'): realized_duration works (short) ──
+realized_duration(-2, 15, 1, 10, "B", pt_dtt, p_dtt, t_dtt, allow_short = TRUE) not equal to c(...).
+2/4 mismatches (average diff: 4)
+[1] 32 - 28 == 4
+[3] 18 - 14 == 4
+── Failure ('test-realized_duration.R:52:2'): realized_duration works (short) ──
+realized_duration(-2, 10, 1, 15, "B", pt_dtt, p_dtt, t_dtt, allow_short = TRUE) not equal to c(...).
+2/4 mismatches (average diff: 4)
+[2] 32 - 28 == 4
+[4] 18 - 14 == 4
+── Failure ('test-realized_duration.R:55:2'): realized_duration works (short) ──
+realized_duration(-2, 15, 2, 10, "B", pt_dtt, p_dtt, t_dtt, allow_short = TRUE) not equal to c(...).
+1/4 mismatches
+[1] 32 - 28 == 4
+── Failure ('test-realized_duration.R:58:2'): realized_duration works (short) ──
+realized_duration(-2, 10, 2, 15, "B", pt_dtt, p_dtt, t_dtt, allow_short = TRUE) not equal to c(...).
+1/4 mismatches
+[2] 32 - 28 == 4
+── Failure ('test-realized_duration.R:65:2'): realized_duration works (allow_short = FALSE) ──
+realized_duration(2, 15, 1, 10, "B", pt_dtt, p_dtt, t_dtt, allow_short = FALSE) not equal to c(RG_duration = 0, RL_duration = 0, PG_duration = 0, PL_duration = dtt_diff).
+1/4 mismatches
+[4] 18 - 14 == 4
+── Failure ('test-realized_duration.R:68:2'): realized_duration works (allow_short = FALSE) ──
+realized_duration(2, 10, 1, 15, "B", pt_dtt, p_dtt, t_dtt, allow_short = FALSE) not equal to c(RG_duration = 0, RL_duration = 0, PG_duration = dtt_diff, PL_duration = 0).
+1/4 mismatches
+[3] 18 - 14 == 4
+── Failure ('test-realized_duration.R:71:2'): realized_duration works (allow_short = FALSE) ──
+realized_duration(2, 15, -1, 10, "S", pt_dtt, p_dtt, t_dtt, allow_short = FALSE) not equal to c(...).
+2/4 mismatches (average diff: 4)
+[2] 32 - 28 == 4
+[4] 18 - 14 == 4
+── Failure ('test-realized_duration.R:74:2'): realized_duration works (allow_short = FALSE) ──
+realized_duration(2, 10, -1, 15, "S", pt_dtt, p_dtt, t_dtt, allow_short = FALSE) not equal to c(...).
+2/4 mismatches (average diff: 4)
+[1] 32 - 28 == 4
+[3] 18 - 14 == 4
+── Failure ('test-realized_duration.R:77:2'): realized_duration works (allow_short = FALSE) ──
+realized_duration(2, 15, -2, 10, "S", pt_dtt, p_dtt, t_dtt, allow_short = FALSE) not equal to c(...).
+1/4 mismatches
+[2] 32 - 28 == 4
+── Failure ('test-realized_duration.R:80:2'): realized_duration works (allow_short = FALSE) ──
+realized_duration(2, 10, -2, 15, "S", pt_dtt, p_dtt, t_dtt, allow_short = FALSE) not equal to c(...).
+1/4 mismatches
+[1] 32 - 28 == 4
+── Failure ('test-realized_duration.R:113:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[2] 32 - 28 == 4
+── Failure ('test-realized_duration.R:116:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[1] 32 - 28 == 4
+── Failure ('test-realized_duration.R:119:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[2] 32 - 28 == 4
+── Failure ('test-realized_duration.R:122:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[1] 32 - 28 == 4
+── Failure ('test-realized_duration.R:132:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[1] 32 - 28 == 4
+── Failure ('test-realized_duration.R:135:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[2] 32 - 28 == 4
+── Failure ('test-realized_duration.R:138:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[1] 32 - 28 == 4
+── Failure ('test-realized_duration.R:141:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[2] 32 - 28 == 4
+── Failure ('test-realized_duration.R:152:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[2] 32 - 28 == 4
+── Failure ('test-realized_duration.R:155:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[1] 32 - 28 == 4
+── Failure ('test-realized_duration.R:158:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[2] 32 - 28 == 4
+── Failure ('test-realized_duration.R:161:2'): realized_duration works (realized_only = TRUE) ──
+realized_duration(...) not equal to c(...).
+1/4 mismatches
+[1] 32 - 28 == 4
+
+[ FAIL 36 | WARN 0 | SKIP 0 | PASS 331 ]
+Error: Test failures
+Execution halted

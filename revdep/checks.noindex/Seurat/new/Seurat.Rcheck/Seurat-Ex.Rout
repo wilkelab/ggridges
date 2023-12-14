@@ -1,0 +1,2609 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "Seurat"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('Seurat')
+Loading required package: SeuratObject
+Loading required package: sp
+‘SeuratObject’ was built with package ‘Matrix’ 1.6.3 but the current
+version is 1.6.4; it is recomended that you reinstall ‘SeuratObject’ as
+the ABI for ‘Matrix’ may have changed
+
+Attaching package: ‘SeuratObject’
+
+The following object is masked from ‘package:base’:
+
+    intersect
+
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("AddAzimuthResults")
+> ### * AddAzimuthResults
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: AddAzimuthResults
+> ### Title: Add Azimuth Results
+> ### Aliases: AddAzimuthResults
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D object <- AddAzimuthResults(object, filename = "azimuth_results.Rds")
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("AddAzimuthScores")
+> ### * AddAzimuthScores
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: AddAzimuthScores
+> ### Title: Add Azimuth Scores
+> ### Aliases: AddAzimuthScores
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D object <- AddAzimuthScores(object, filename = "azimuth_pred.tsv")
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("AddModuleScore")
+> ### * AddModuleScore
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: AddModuleScore
+> ### Title: Calculate module scores for feature expression programs in
+> ###   single cells
+> ### Aliases: AddModuleScore
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D cd_features <- list(c(
+> ##D   'CD79B',
+> ##D   'CD79A',
+> ##D   'CD19',
+> ##D   'CD180',
+> ##D   'CD200',
+> ##D   'CD3D',
+> ##D   'CD2',
+> ##D   'CD3E',
+> ##D   'CD7',
+> ##D   'CD8A',
+> ##D   'CD14',
+> ##D   'CD1C',
+> ##D   'CD68',
+> ##D   'CD9',
+> ##D   'CD247'
+> ##D ))
+> ##D pbmc_small <- AddModuleScore(
+> ##D   object = pbmc_small,
+> ##D   features = cd_features,
+> ##D   ctrl = 5,
+> ##D   name = 'CD_Features'
+> ##D )
+> ##D head(x = pbmc_small[])
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("AggregateExpression")
+> ### * AggregateExpression
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: AggregateExpression
+> ### Title: Aggregated feature expression by identity class
+> ### Aliases: AggregateExpression
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D head(AggregateExpression(object = pbmc_small)$RNA)
+> ##D head(AggregateExpression(object = pbmc_small, group.by = c('ident', 'groups'))$RNA)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("AugmentPlot")
+> ### * AugmentPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: AugmentPlot
+> ### Title: Augments ggplot2-based plot with a PNG image.
+> ### Aliases: AugmentPlot
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D plot <- DimPlot(object = pbmc_small)
+> ##D AugmentPlot(plot = plot)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("AutoPointSize")
+> ### * AutoPointSize
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: AutoPointSize
+> ### Title: Automagically calculate a point size for ggplot2-based scatter
+> ###   plots
+> ### Aliases: AutoPointSize
+> 
+> ### ** Examples
+> 
+> df <- data.frame(x = rnorm(n = 10000), y = runif(n = 10000))
+> AutoPointSize(data = df)
+[1] 0.1583
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("AverageExpression")
+> ### * AverageExpression
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: AverageExpression
+> ### Title: Averaged feature expression by identity class
+> ### Aliases: AverageExpression
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> head(AverageExpression(object = pbmc_small)$RNA)
+As of Seurat v5, we recommend using AggregateExpression to perform pseudo-bulk analysis.
+This message is displayed once per session.
+First group.by variable `ident` starts with a number, appending `g` to ensure valid variable names
+This message is displayed once every 8 hours.
+6 x 3 sparse Matrix of class "dgCMatrix"
+                g0         g1        g2
+MS4A1     .          2.083443  171.6152
+CD79B    10.814657  17.548842  152.1344
+CD79A     .         11.618333  215.0869
+HLA-DRA  37.105857 405.850522 1158.0852
+TCL1A     .          3.463203  142.0748
+HLA-DQB1  3.968254  45.353183  169.2762
+> head(AverageExpression(object = pbmc_small, group.by = c('ident', 'groups'))$RNA)
+6 x 6 sparse Matrix of class "dgCMatrix"
+            g0_g1     g0_g2      g1_g1      g1_g2      g2_g1     g2_g2
+MS4A1     .        .          3.720434   .          83.27443  269.7716
+CD79B    12.32353  8.928571  16.783660  18.522712   80.07761  232.1975
+CD79A     .        .         14.204794   8.326474  174.12523  260.5998
+HLA-DRA  44.81837 27.465213 473.313733 319.988254 1217.90859 1091.6148
+TCL1A     .        .          6.184292   .          60.19691  233.0502
+HLA-DQB1  .        8.928571  51.863218  37.067684  170.88236  167.4915
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BGTextColor")
+> ### * BGTextColor
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BGTextColor
+> ### Title: Determine text color based on background color
+> ### Aliases: BGTextColor
+> 
+> ### ** Examples
+> 
+> BGTextColor(background = c('black', 'white', '#E76BF3'))
+  black   white #E76BF3 
+"white" "black" "white" 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BarcodeInflectionsPlot")
+> ### * BarcodeInflectionsPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BarcodeInflectionsPlot
+> ### Title: Plot the Barcode Distribution and Calculated Inflection Points
+> ### Aliases: BarcodeInflectionsPlot
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> pbmc_small <- CalculateBarcodeInflections(pbmc_small, group.column = 'groups')
+> BarcodeInflectionsPlot(pbmc_small)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BuildClusterTree")
+> ### * BuildClusterTree
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BuildClusterTree
+> ### Title: Phylogenetic Analysis of Identity Classes
+> ### Aliases: BuildClusterTree
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D if (requireNamespace("ape", quietly = TRUE)) {
+> ##D   data("pbmc_small")
+> ##D   pbmc_small
+> ##D   pbmc_small <- BuildClusterTree(object = pbmc_small)
+> ##D   Tool(object = pbmc_small, slot = 'BuildClusterTree')
+> ##D }
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CCAIntegration")
+> ### * CCAIntegration
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CCAIntegration
+> ### Title: Seurat-CCA Integration
+> ### Aliases: CCAIntegration
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Preprocessing
+> ##D obj <- SeuratData::LoadData("pbmcsca")
+> ##D obj[["RNA"]] <- split(obj[["RNA"]], f = obj$Method)
+> ##D obj <- NormalizeData(obj)
+> ##D obj <- FindVariableFeatures(obj)
+> ##D obj <- ScaleData(obj)
+> ##D obj <- RunPCA(obj)
+> ##D 
+> ##D # After preprocessing, we integrate layers.
+> ##D obj <- IntegrateLayers(object = obj, method = CCAIntegration,
+> ##D   orig.reduction = "pca", new.reduction = "integrated.cca",
+> ##D   verbose = FALSE)
+> ##D 
+> ##D # Modifying parameters
+> ##D # We can also specify parameters such as `k.anchor` to increase the strength of integration
+> ##D obj <- IntegrateLayers(object = obj, method = CCAIntegration,
+> ##D   orig.reduction = "pca", new.reduction = "integrated.cca",
+> ##D   k.anchor = 20, verbose = FALSE)
+> ##D 
+> ##D # Integrating SCTransformed data
+> ##D obj <- SCTransform(object = obj)
+> ##D obj <- IntegrateLayers(object = obj, method = CCAIntegration,
+> ##D   orig.reduction = "pca", new.reduction = "integrated.cca",
+> ##D   assay = "SCT", verbose = FALSE)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CalculateBarcodeInflections")
+> ### * CalculateBarcodeInflections
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CalculateBarcodeInflections
+> ### Title: Calculate the Barcode Distribution Inflection
+> ### Aliases: CalculateBarcodeInflections
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> CalculateBarcodeInflections(pbmc_small, group.column = 'groups')
+An object of class Seurat 
+230 features across 80 samples within 1 assay 
+Active assay: RNA (230 features, 20 variable features)
+ 3 layers present: counts, data, scale.data
+ 2 dimensional reductions calculated: pca, tsne
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CaseMatch")
+> ### * CaseMatch
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CaseMatch
+> ### Title: Match the case of character vectors
+> ### Aliases: CaseMatch
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> cd_genes <- c('Cd79b', 'Cd19', 'Cd200')
+> CaseMatch(search = cd_genes, match = rownames(x = pbmc_small))
+  Cd79b    Cd19   Cd200 
+"CD79B"  "CD19" "CD200" 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CellCycleScoring")
+> ### * CellCycleScoring
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CellCycleScoring
+> ### Title: Score cell cycle phases
+> ### Aliases: CellCycleScoring
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D # pbmc_small doesn't have any cell-cycle genes
+> ##D # To run CellCycleScoring, please use a dataset with cell-cycle genes
+> ##D # An example is available at http://satijalab.org/seurat/cell_cycle_vignette.html
+> ##D pbmc_small <- CellCycleScoring(
+> ##D   object = pbmc_small,
+> ##D   g2m.features = cc.genes$g2m.genes,
+> ##D   s.features = cc.genes$s.genes
+> ##D )
+> ##D head(x = pbmc_small@meta.data)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CellScatter")
+> ### * CellScatter
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CellScatter
+> ### Title: Cell-cell scatter plot
+> ### Aliases: CellScatter CellPlot
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> CellScatter(object = pbmc_small, cell1 = 'ATAGGAGAAACAGA', cell2 = 'CATCAGGATGCACA')
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CellSelector")
+> ### * CellSelector
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CellSelector
+> ### Title: Cell Selector
+> ### Aliases: CellSelector FeatureLocator
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D plot <- DimPlot(object = pbmc_small)
+> ##D # Follow instructions in the terminal to select points
+> ##D cells.located <- CellSelector(plot = plot)
+> ##D cells.located
+> ##D # Automatically set the identity class of selected cells and return a new Seurat object
+> ##D pbmc_small <- CellSelector(plot = plot, object = pbmc_small, ident = 'SelectedCells')
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CellsByImage")
+> ### * CellsByImage
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CellsByImage
+> ### Title: Get a vector of cell names associated with an image (or set of
+> ###   images)
+> ### Aliases: CellsByImage
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D CellsByImage(object = object, images = "slice1")
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CollapseEmbeddingOutliers")
+> ### * CollapseEmbeddingOutliers
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CollapseEmbeddingOutliers
+> ### Title: Move outliers towards center on dimension reduction plot
+> ### Aliases: CollapseEmbeddingOutliers
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D pbmc_small <- FindClusters(pbmc_small, resolution = 1.1)
+> ##D pbmc_small <- RunUMAP(pbmc_small, dims = 1:5)
+> ##D DimPlot(pbmc_small, reduction = "umap")
+> ##D pbmc_small[["umap_new"]] <- CollapseEmbeddingOutliers(pbmc_small,
+> ##D     reduction = "umap", reduction.key = 'umap_', outlier.sd = 0.5)
+> ##D DimPlot(pbmc_small, reduction = "umap_new")
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CollapseSpeciesExpressionMatrix")
+> ### * CollapseSpeciesExpressionMatrix
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CollapseSpeciesExpressionMatrix
+> ### Title: Slim down a multi-species expression matrix, when only one
+> ###   species is primarily of interenst.
+> ### Aliases: CollapseSpeciesExpressionMatrix
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D cbmc.rna.collapsed <- CollapseSpeciesExpressionMatrix(cbmc.rna)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ColorDimSplit")
+> ### * ColorDimSplit
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ColorDimSplit
+> ### Title: Color dimensional reduction plot by tree split
+> ### Aliases: ColorDimSplit
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D if (requireNamespace("ape", quietly = TRUE)) {
+> ##D   data("pbmc_small")
+> ##D   pbmc_small <- BuildClusterTree(object = pbmc_small, verbose = FALSE)
+> ##D   PlotClusterTree(pbmc_small)
+> ##D   ColorDimSplit(pbmc_small, node = 5)
+> ##D }
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CombinePlots")
+> ### * CombinePlots
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CombinePlots
+> ### Title: Combine ggplot2-based plots into a single plot
+> ### Aliases: CombinePlots
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> pbmc_small[['group']] <- sample(
++   x = c('g1', 'g2'),
++   size = ncol(x = pbmc_small),
++   replace = TRUE
++ )
+> plot1 <- FeaturePlot(
++   object = pbmc_small,
++   features = 'MS4A1',
++   split.by = 'group'
++ )
+> plot2 <- FeaturePlot(
++   object = pbmc_small,
++   features = 'FCN1',
++   split.by = 'group'
++ )
+> CombinePlots(
++   plots = list(plot1, plot2),
++   legend = 'none',
++   nrow = length(x = unique(x = pbmc_small[['group', drop = TRUE]]))
++ )
+Warning: CombinePlots is being deprecated. Plots should now be combined using the patchwork system.
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CustomDistance")
+> ### * CustomDistance
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CustomDistance
+> ### Title: Run a custom distance function on an input data matrix
+> ### Aliases: CustomDistance
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> # Define custom distance matrix
+> manhattan.distance <- function(x, y) return(sum(abs(x-y)))
+> 
+> input.data <- GetAssayData(pbmc_small, assay.type = "RNA", slot = "scale.data")
+Warning: The following arguments are not used: assay.type
+Warning: The `slot` argument of `GetAssayData()` is deprecated as of SeuratObject 5.0.0.
+ℹ Please use the `layer` argument instead.
+> cell.manhattan.dist <- CustomDistance(input.data, manhattan.distance)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CustomPalette")
+> ### * CustomPalette
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BlackAndWhite
+> ### Title: Create a custom color palette
+> ### Aliases: BlackAndWhite BlueAndRed CustomPalette PurpleAndYellow
+> 
+> ### ** Examples
+> 
+> df <- data.frame(x = rnorm(n = 100, mean = 20, sd = 2), y = rbinom(n = 100, size = 100, prob = 0.2))
+> plot(df, col = BlackAndWhite())
+> 
+> df <- data.frame(x = rnorm(n = 100, mean = 20, sd = 2), y = rbinom(n = 100, size = 100, prob = 0.2))
+> plot(df, col = BlueAndRed())
+> 
+> myPalette <- CustomPalette()
+> myPalette
+ [1] "#FFFFFF" "#FFFAFA" "#FFF5F5" "#FFEFEF" "#FFEAEA" "#FFE5E5" "#FFE0E0"
+ [8] "#FFDBDB" "#FFD5D5" "#FFD0D0" "#FFCBCB" "#FFC6C6" "#FFC1C1" "#FFBBBB"
+[15] "#FFB6B6" "#FFB1B1" "#FFACAC" "#FFA7A7" "#FFA1A1" "#FF9C9C" "#FF9797"
+[22] "#FF9292" "#FF8D8D" "#FF8787" "#FF8282" "#FF7D7D" "#FF7878" "#FF7272"
+[29] "#FF6D6D" "#FF6868" "#FF6363" "#FF5E5E" "#FF5858" "#FF5353" "#FF4E4E"
+[36] "#FF4949" "#FF4444" "#FF3E3E" "#FF3939" "#FF3434" "#FF2F2F" "#FF2A2A"
+[43] "#FF2424" "#FF1F1F" "#FF1A1A" "#FF1515" "#FF1010" "#FF0A0A" "#FF0505"
+[50] "#FF0000"
+> 
+> df <- data.frame(x = rnorm(n = 100, mean = 20, sd = 2), y = rbinom(n = 100, size = 100, prob = 0.2))
+> plot(df, col = PurpleAndYellow())
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("DimHeatmap")
+> ### * DimHeatmap
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: DimHeatmap
+> ### Title: Dimensional reduction heatmap
+> ### Aliases: DimHeatmap PCHeatmap
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> DimHeatmap(object = pbmc_small)
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("DimPlot")
+> ### * DimPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: DimPlot
+> ### Title: Dimensional reduction plot
+> ### Aliases: DimPlot TSNEPlot PCAPlot ICAPlot UMAPPlot
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> DimPlot(object = pbmc_small)
+> DimPlot(object = pbmc_small, split.by = 'letter.idents')
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("DoHeatmap")
+> ### * DoHeatmap
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: DoHeatmap
+> ### Title: Feature expression heatmap
+> ### Aliases: DoHeatmap
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> DoHeatmap(object = pbmc_small)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("DotPlot")
+> ### * DotPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: DotPlot
+> ### Title: Dot plot visualization
+> ### Aliases: DotPlot SplitDotPlotGG
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> cd_genes <- c("CD247", "CD3E", "CD9")
+> DotPlot(object = pbmc_small, features = cd_genes)
+Warning: Scaling data with a low number of groups may produce misleading results
+> pbmc_small[['groups']] <- sample(x = c('g1', 'g2'), size = ncol(x = pbmc_small), replace = TRUE)
+> DotPlot(object = pbmc_small, features = cd_genes, split.by = 'groups')
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ElbowPlot")
+> ### * ElbowPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ElbowPlot
+> ### Title: Quickly Pick Relevant Dimensions
+> ### Aliases: ElbowPlot
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> ElbowPlot(object = pbmc_small)
+Warning in ElbowPlot(object = pbmc_small) :
+  The object only has information for 19 reductions
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ExpMean")
+> ### * ExpMean
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ExpMean
+> ### Title: Calculate the mean of logged values
+> ### Aliases: ExpMean
+> 
+> ### ** Examples
+> 
+> ExpMean(x = c(1, 2, 3))
+[1] 2.308994
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ExpSD")
+> ### * ExpSD
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ExpSD
+> ### Title: Calculate the standard deviation of logged values
+> ### Aliases: ExpSD
+> 
+> ### ** Examples
+> 
+> ExpSD(x = c(1, 2, 3))
+[1] 2.301323
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ExpVar")
+> ### * ExpVar
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ExpVar
+> ### Title: Calculate the variance of logged values
+> ### Aliases: ExpVar
+> 
+> ### ** Examples
+> 
+> ExpVar(x = c(1, 2, 3))
+[1] 4.403948
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FeaturePlot")
+> ### * FeaturePlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FeaturePlot
+> ### Title: Visualize 'features' on a dimensional reduction plot
+> ### Aliases: FeaturePlot FeatureHeatmap
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> FeaturePlot(object = pbmc_small, features = 'PC_1')
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FeatureScatter")
+> ### * FeatureScatter
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FeatureScatter
+> ### Title: Scatter plot of single cell data
+> ### Aliases: FeatureScatter GenePlot
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> FeatureScatter(object = pbmc_small, feature1 = 'CD9', feature2 = 'CD3E')
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FilterSlideSeq")
+> ### * FilterSlideSeq
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FilterSlideSeq
+> ### Title: Filter stray beads from Slide-seq puck
+> ### Aliases: FilterSlideSeq
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # This example uses the ssHippo dataset which you can download
+> ##D # using the SeuratData package.
+> ##D library(SeuratData)
+> ##D data('ssHippo')
+> ##D # perform filtering of beads
+> ##D ssHippo.filtered <- FilterSlideSeq(ssHippo, radius = 2300)
+> ##D # This radius looks to small so increase and repeat until satisfied
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FindAllMarkers")
+> ### * FindAllMarkers
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FindAllMarkers
+> ### Title: Gene expression markers for all identity classes
+> ### Aliases: FindAllMarkers FindAllMarkersNode
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> # Find markers for all clusters
+> all.markers <- FindAllMarkers(object = pbmc_small)
+Calculating cluster 0
+For a (much!) faster implementation of the Wilcoxon Rank Sum Test,
+(default method for FindMarkers) please install the presto package
+--------------------------------------------
+install.packages('devtools')
+devtools::install_github('immunogenomics/presto')
+--------------------------------------------
+After installation of presto, Seurat will automatically use the more 
+efficient implementation (no further action necessary).
+This message will be shown once per session
+Calculating cluster 1
+Calculating cluster 2
+> head(x = all.markers)
+                p_val avg_log2FC pct.1 pct.2    p_val_adj cluster     gene
+HLA-DPB1 9.572778e-13  -6.030507 0.083 0.909 2.201739e-10       0 HLA-DPB1
+HLA-DRB1 7.673127e-12  -5.630708 0.083 0.864 1.764819e-09       0 HLA-DRB1
+HLA-DPA1 3.673172e-11  -4.477325 0.111 0.864 8.448296e-09       0 HLA-DPA1
+HLA-DRA  1.209114e-10  -4.298484 0.417 0.909 2.780962e-08       0  HLA-DRA
+HLA-DRB5 9.547049e-10  -4.576012 0.056 0.773 2.195821e-07       0 HLA-DRB5
+HLA-DQB1 3.035198e-08  -4.629157 0.028 0.659 6.980956e-06       0 HLA-DQB1
+> ## Not run: 
+> ##D # Pass a value to node as a replacement for FindAllMarkersNode
+> ##D pbmc_small <- BuildClusterTree(object = pbmc_small)
+> ##D all.markers <- FindAllMarkers(object = pbmc_small, node = 4)
+> ##D head(x = all.markers)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FindConservedMarkers")
+> ### * FindConservedMarkers
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FindConservedMarkers
+> ### Title: Finds markers that are conserved between the groups
+> ### Aliases: FindConservedMarkers
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D pbmc_small
+> ##D # Create a simulated grouping variable
+> ##D pbmc_small[['groups']] <- sample(x = c('g1', 'g2'), size = ncol(x = pbmc_small), replace = TRUE)
+> ##D FindConservedMarkers(pbmc_small, ident.1 = 0, ident.2 = 1, grouping.var = "groups")
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FindIntegrationAnchors")
+> ### * FindIntegrationAnchors
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FindIntegrationAnchors
+> ### Title: Find integration anchors
+> ### Aliases: FindIntegrationAnchors
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # to install the SeuratData package see https://github.com/satijalab/seurat-data
+> ##D library(SeuratData)
+> ##D data("panc8")
+> ##D 
+> ##D # panc8 is a merged Seurat object containing 8 separate pancreas datasets
+> ##D # split the object by dataset
+> ##D pancreas.list <- SplitObject(panc8, split.by = "tech")
+> ##D 
+> ##D # perform standard preprocessing on each object
+> ##D for (i in 1:length(pancreas.list)) {
+> ##D   pancreas.list[[i]] <- NormalizeData(pancreas.list[[i]], verbose = FALSE)
+> ##D   pancreas.list[[i]] <- FindVariableFeatures(
+> ##D     pancreas.list[[i]], selection.method = "vst",
+> ##D     nfeatures = 2000, verbose = FALSE
+> ##D   )
+> ##D }
+> ##D 
+> ##D # find anchors
+> ##D anchors <- FindIntegrationAnchors(object.list = pancreas.list)
+> ##D 
+> ##D # integrate data
+> ##D integrated <- IntegrateData(anchorset = anchors)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FindMarkers")
+> ### * FindMarkers
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FindMarkers
+> ### Title: Gene expression markers of identity classes
+> ### Aliases: FindMarkers FindMarkersNode FindMarkers.default
+> ###   FindMarkers.Assay FindMarkers.SCTAssay FindMarkers.DimReduc
+> ###   FindMarkers.Seurat
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D # Find markers for cluster 2
+> ##D markers <- FindMarkers(object = pbmc_small, ident.1 = 2)
+> ##D head(x = markers)
+> ##D 
+> ##D # Take all cells in cluster 2, and find markers that separate cells in the 'g1' group (metadata
+> ##D # variable 'group')
+> ##D markers <- FindMarkers(pbmc_small, ident.1 = "g1", group.by = 'groups', subset.ident = "2")
+> ##D head(x = markers)
+> ##D 
+> ##D # Pass 'clustertree' or an object of class phylo to ident.1 and
+> ##D # a node to ident.2 as a replacement for FindMarkersNode
+> ##D if (requireNamespace("ape", quietly = TRUE)) {
+> ##D   pbmc_small <- BuildClusterTree(object = pbmc_small)
+> ##D   markers <- FindMarkers(object = pbmc_small, ident.1 = 'clustertree', ident.2 = 5)
+> ##D   head(x = markers)
+> ##D }
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FindNeighbors")
+> ### * FindNeighbors
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FindNeighbors
+> ### Title: (Shared) Nearest-neighbor graph construction
+> ### Aliases: FindNeighbors FindNeighbors.default FindNeighbors.Assay
+> ###   FindNeighbors.dist FindNeighbors.Seurat
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> pbmc_small
+An object of class Seurat 
+230 features across 80 samples within 1 assay 
+Active assay: RNA (230 features, 20 variable features)
+ 3 layers present: counts, data, scale.data
+ 2 dimensional reductions calculated: pca, tsne
+> # Compute an SNN on the gene expression level
+> pbmc_small <- FindNeighbors(pbmc_small, features = VariableFeatures(object = pbmc_small))
+Computing nearest neighbor graph
+Computing SNN
+> 
+> # More commonly, we build the SNN on a dimensionally reduced form of the data
+> # such as the first 10 principle components.
+> 
+> pbmc_small <- FindNeighbors(pbmc_small, reduction = "pca", dims = 1:10)
+Computing nearest neighbor graph
+Computing SNN
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FindTransferAnchors")
+> ### * FindTransferAnchors
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FindTransferAnchors
+> ### Title: Find transfer anchors
+> ### Aliases: FindTransferAnchors
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # to install the SeuratData package see https://github.com/satijalab/seurat-data
+> ##D library(SeuratData)
+> ##D data("pbmc3k")
+> ##D 
+> ##D # for demonstration, split the object into reference and query
+> ##D pbmc.reference <- pbmc3k[, 1:1350]
+> ##D pbmc.query <- pbmc3k[, 1351:2700]
+> ##D 
+> ##D # perform standard preprocessing on each object
+> ##D pbmc.reference <- NormalizeData(pbmc.reference)
+> ##D pbmc.reference <- FindVariableFeatures(pbmc.reference)
+> ##D pbmc.reference <- ScaleData(pbmc.reference)
+> ##D 
+> ##D pbmc.query <- NormalizeData(pbmc.query)
+> ##D pbmc.query <- FindVariableFeatures(pbmc.query)
+> ##D pbmc.query <- ScaleData(pbmc.query)
+> ##D 
+> ##D # find anchors
+> ##D anchors <- FindTransferAnchors(reference = pbmc.reference, query = pbmc.query)
+> ##D 
+> ##D # transfer labels
+> ##D predictions <- TransferData(
+> ##D   anchorset = anchors,
+> ##D   refdata = pbmc.reference$seurat_annotations
+> ##D )
+> ##D pbmc.query <- AddMetaData(object = pbmc.query, metadata = predictions)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FoldChange")
+> ### * FoldChange
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FoldChange
+> ### Title: Fold Change
+> ### Aliases: FoldChange FoldChange.default FoldChange.Assay
+> ###   FoldChange.SCTAssay FoldChange.DimReduc FoldChange.Seurat
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D FoldChange(pbmc_small, ident.1 = 1)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("GetAssay")
+> ### * GetAssay
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: GetAssay
+> ### Title: Get an Assay object from a given Seurat object.
+> ### Aliases: GetAssay GetAssay.Seurat
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> GetAssay(object = pbmc_small, assay = "RNA")
+Assay data with 230 features for 80 cells
+Top 10 variable features:
+ PPBP, IGLL5, VDAC3, CD1C, AKR1C3, PF4, MYL9, GNLY, TREML1, CA2 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("GetResidual")
+> ### * GetResidual
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: GetResidual
+> ### Title: Calculate pearson residuals of features not in the scale.data
+> ### Aliases: GetResidual
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D pbmc_small <- SCTransform(object = pbmc_small, variable.features.n = 20)
+> ##D pbmc_small <- GetResidual(object = pbmc_small, features = c('MS4A1', 'TCL1A'))
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("GetTransferPredictions")
+> ### * GetTransferPredictions
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: GetTransferPredictions
+> ### Title: Get the predicted identity
+> ### Aliases: GetTransferPredictions
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D   prediction.assay <- TransferData(anchorset = anchors, refdata = reference$class)
+> ##D   query[["predictions"]] <- prediction.assay
+> ##D   query$predicted.id <- GetTransferPredictions(query)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("HTODemux")
+> ### * HTODemux
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HTODemux
+> ### Title: Demultiplex samples based on data from cell 'hashing'
+> ### Aliases: HTODemux
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D object <- HTODemux(object)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("HTOHeatmap")
+> ### * HTOHeatmap
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HTOHeatmap
+> ### Title: Hashtag oligo heatmap
+> ### Aliases: HTOHeatmap
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D object <- HTODemux(object)
+> ##D HTOHeatmap(object)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("HVFInfo.SCTAssay")
+> ### * HVFInfo.SCTAssay
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HVFInfo.SCTAssay
+> ### Title: Get Variable Feature Information
+> ### Aliases: HVFInfo.SCTAssay
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Get the HVF info directly from an SCTAssay object
+> ##D pbmc_small <- SCTransform(pbmc_small)
+> ##D HVFInfo(pbmc_small[["SCT"]], method = 'sct')[1:5, ]
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("HarmonyIntegration")
+> ### * HarmonyIntegration
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HarmonyIntegration
+> ### Title: Harmony Integration
+> ### Aliases: HarmonyIntegration
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Preprocessing
+> ##D obj <- SeuratData::LoadData("pbmcsca")
+> ##D obj[["RNA"]] <- split(obj[["RNA"]], f = obj$Method)
+> ##D obj <- NormalizeData(obj)
+> ##D obj <- FindVariableFeatures(obj)
+> ##D obj <- ScaleData(obj)
+> ##D obj <- RunPCA(obj)
+> ##D 
+> ##D # After preprocessing, we integrate layers with added parameters specific to Harmony:
+> ##D obj <- IntegrateLayers(object = obj, method = HarmonyIntegration, orig.reduction = "pca",
+> ##D   new.reduction = 'harmony', verbose = FALSE)
+> ##D 
+> ##D # Modifying Parameters
+> ##D # We can also add arguments specific to Harmony such as theta, to give more diverse clusters
+> ##D obj <- IntegrateLayers(object = obj, method = HarmonyIntegration, orig.reduction = "pca",
+> ##D   new.reduction = 'harmony', verbose = FALSE, theta = 3)
+> ##D # Integrating SCTransformed data
+> ##D obj <- SCTransform(object = obj)
+> ##D obj <- IntegrateLayers(object = obj, method = HarmonyIntegration,
+> ##D   orig.reduction = "pca", new.reduction = 'harmony',
+> ##D   assay = "SCT", verbose = FALSE)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("HoverLocator")
+> ### * HoverLocator
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HoverLocator
+> ### Title: Hover Locator
+> ### Aliases: HoverLocator
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D plot <- DimPlot(object = pbmc_small)
+> ##D HoverLocator(plot = plot, information = FetchData(object = pbmc_small, vars = 'percent.mito'))
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("IntegrateData")
+> ### * IntegrateData
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: IntegrateData
+> ### Title: Integrate data
+> ### Aliases: IntegrateData
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # to install the SeuratData package see https://github.com/satijalab/seurat-data
+> ##D library(SeuratData)
+> ##D data("panc8")
+> ##D 
+> ##D # panc8 is a merged Seurat object containing 8 separate pancreas datasets
+> ##D # split the object by dataset
+> ##D pancreas.list <- SplitObject(panc8, split.by = "tech")
+> ##D 
+> ##D # perform standard preprocessing on each object
+> ##D for (i in 1:length(pancreas.list)) {
+> ##D   pancreas.list[[i]] <- NormalizeData(pancreas.list[[i]], verbose = FALSE)
+> ##D   pancreas.list[[i]] <- FindVariableFeatures(
+> ##D     pancreas.list[[i]], selection.method = "vst",
+> ##D     nfeatures = 2000, verbose = FALSE
+> ##D   )
+> ##D }
+> ##D 
+> ##D # find anchors
+> ##D anchors <- FindIntegrationAnchors(object.list = pancreas.list)
+> ##D 
+> ##D # integrate data
+> ##D integrated <- IntegrateData(anchorset = anchors)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("JackStraw")
+> ### * JackStraw
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: JackStraw
+> ### Title: Determine statistical significance of PCA scores.
+> ### Aliases: JackStraw
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D pbmc_small = suppressWarnings(JackStraw(pbmc_small))
+> ##D head(JS(object = pbmc_small[['pca']], slot = 'empirical'))
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("JackStrawPlot")
+> ### * JackStrawPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: JackStrawPlot
+> ### Title: JackStraw Plot
+> ### Aliases: JackStrawPlot
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> JackStrawPlot(object = pbmc_small)
+Warning: Removed 83 rows containing missing values (`geom_point()`).
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("LabelClusters")
+> ### * LabelClusters
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: LabelClusters
+> ### Title: Label clusters on a ggplot2-based scatter plot
+> ### Aliases: LabelClusters
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> plot <- DimPlot(object = pbmc_small)
+> LabelClusters(plot = plot, id = 'ident')
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("LabelPoints")
+> ### * LabelPoints
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: LabelPoints
+> ### Title: Add text labels to a ggplot2 plot
+> ### Aliases: LabelPoints Labeler
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> ff <- TopFeatures(object = pbmc_small[['pca']])
+> cc <- TopCells(object = pbmc_small[['pca']])
+> plot <- FeatureScatter(object = pbmc_small, feature1 = ff[1], feature2 = ff[2])
+> LabelPoints(plot = plot, points = cc)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("LinkedPlots")
+> ### * LinkedPlots
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: LinkedPlots
+> ### Title: Visualize spatial and clustering (dimensional reduction) data in
+> ###   a linked, interactive framework
+> ### Aliases: LinkedPlots LinkedDimPlot LinkedPlot LinkedFeaturePlot
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D LinkedDimPlot(seurat.object)
+> ##D LinkedFeaturePlot(seurat.object, feature = 'Hpca')
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("Load10X_Spatial")
+> ### * Load10X_Spatial
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Load10X_Spatial
+> ### Title: Load a 10x Genomics Visium Spatial Experiment into a 'Seurat'
+> ###   object
+> ### Aliases: Load10X_Spatial
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data_dir <- 'path/to/data/directory'
+> ##D list.files(data_dir) # Should show filtered_feature_bc_matrix.h5
+> ##D Load10X_Spatial(data.dir = data_dir)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("LogNormalize")
+> ### * LogNormalize
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: LogNormalize
+> ### Title: Normalize Raw Data
+> ### Aliases: LogNormalize LogNormalize.data.frame LogNormalize.V3Matrix
+> ###   LogNormalize.default
+> 
+> ### ** Examples
+> 
+> mat <- matrix(data = rbinom(n = 25, size = 5, prob = 0.2), nrow = 5)
+> mat
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    2    0    1    2
+[2,]    1    3    0    1    0
+[3,]    1    1    1    3    1
+[4,]    2    1    1    1    0
+[5,]    0    0    2    2    0
+> mat_norm <- LogNormalize(data = mat)
+  |                                                                              |                                                                      |   0%  |                                                                              |==============                                                        |  20%  |                                                                              |============================                                          |  40%  |                                                                              |==========================================                            |  60%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%
+> mat_norm
+         [,1]     [,2]     [,3]     [,4]     [,5]
+[1,] 0.000000 7.957927 0.000000 7.131699 8.805025
+[2,] 7.824446 8.363276 0.000000 7.131699 0.000000
+[3,] 7.824446 7.265130 7.824446 8.229778 8.112028
+[4,] 8.517393 7.265130 7.824446 7.131699 0.000000
+[5,] 0.000000 0.000000 8.517393 7.824446 0.000000
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("LogVMR")
+> ### * LogVMR
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: LogVMR
+> ### Title: Calculate the variance to mean ratio of logged values
+> ### Aliases: LogVMR
+> 
+> ### ** Examples
+> 
+> LogVMR(x = c(1, 2, 3))
+[1] 2.187301
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("MULTIseqDemux")
+> ### * MULTIseqDemux
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MULTIseqDemux
+> ### Title: Demultiplex samples based on classification method from
+> ###   MULTI-seq (McGinnis et al., bioRxiv 2018)
+> ### Aliases: MULTIseqDemux
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D object <- MULTIseqDemux(object)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("MetaFeature")
+> ### * MetaFeature
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MetaFeature
+> ### Title: Aggregate expression of multiple features into a single feature
+> ### Aliases: MetaFeature
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> pbmc_small <- MetaFeature(
++   object = pbmc_small,
++   features = c("LTB", "EAF2"),
++   meta.name = 'var.aggregate'
++ )
+> head(pbmc_small[[]])
+                  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
+ATGCCAGAACGACT SeuratProject         70           47               0
+CATGGCCTGTGCAT SeuratProject         85           52               0
+GAACCTGATGAACC SeuratProject         87           50               1
+TGACTGGATTCTCA SeuratProject        127           56               0
+AGTCAGACTGCACA SeuratProject        173           53               0
+TCTGATACACGTGT SeuratProject         70           48               0
+               letter.idents groups RNA_snn_res.1 var.aggregate
+ATGCCAGAACGACT             A     g2             0    0.01322615
+CATGGCCTGTGCAT             A     g1             0    0.01464857
+GAACCTGATGAACC             B     g2             0    0.01558293
+TGACTGGATTCTCA             A     g2             0    0.01512254
+AGTCAGACTGCACA             A     g2             0    0.01125977
+TCTGATACACGTGT             A     g1             0    0.01385247
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("MinMax")
+> ### * MinMax
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MinMax
+> ### Title: Apply a ceiling and floor to all values in a matrix
+> ### Aliases: MinMax
+> 
+> ### ** Examples
+> 
+> mat <- matrix(data = rbinom(n = 25, size = 20, prob = 0.2 ), nrow = 5)
+> mat
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    3    6    2    4    7
+[2,]    3    7    2    5    3
+[3,]    4    5    5    9    5
+[4,]    6    4    3    3    2
+[5,]    2    1    5    5    3
+> MinMax(data = mat, min = 4, max = 5)
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    4    5    4    4    5
+[2,]    4    5    4    5    4
+[3,]    4    5    5    5    5
+[4,]    5    4    4    4    4
+[5,]    4    4    5    5    4
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("NormalizeData")
+> ### * NormalizeData
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: NormalizeData
+> ### Title: Normalize Data
+> ### Aliases: NormalizeData NormalizeData.V3Matrix NormalizeData.Assay
+> ###   NormalizeData.Seurat
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D pbmc_small
+> ##D pmbc_small <- NormalizeData(object = pbmc_small)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("PCASigGenes")
+> ### * PCASigGenes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PCASigGenes
+> ### Title: Significant genes from a PCA
+> ### Aliases: PCASigGenes
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> PCASigGenes(pbmc_small, pcs.use = 1:2)
+ [1] "PPBP"     "VDAC3"    "CD1C"     "AKR1C3"   "PF4"      "MYL9"    
+ [7] "GNLY"     "TREML1"   "CA2"      "SDPR"     "PGRMC1"   "S100A8"  
+[13] "TUBB1"    "HLA-DQA1" "PARVB"    "RUFY1"    "HLA-DPB1" "S100A9"  
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("PercentAbove")
+> ### * PercentAbove
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PercentAbove
+> ### Title: Calculate the percentage of a vector above some threshold
+> ### Aliases: PercentAbove
+> 
+> ### ** Examples
+> 
+> set.seed(42)
+> PercentAbove(sample(1:100, 10), 75)
+[1] 0.2
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("PercentageFeatureSet")
+> ### * PercentageFeatureSet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PercentageFeatureSet
+> ### Title: Calculate the percentage of all counts that belong to a given
+> ###   set of features
+> ### Aliases: PercentageFeatureSet
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> # Calculate the proportion of transcripts mapping to mitochondrial genes
+> # NOTE: The pattern provided works for human gene names. You may need to adjust depending on your
+> # system of interest
+> pbmc_small[["percent.mt"]] <- PercentageFeatureSet(object = pbmc_small, pattern = "^MT-")
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("PlotClusterTree")
+> ### * PlotClusterTree
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PlotClusterTree
+> ### Title: Plot clusters as a tree
+> ### Aliases: PlotClusterTree
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D if (requireNamespace("ape", quietly = TRUE)) {
+> ##D   data("pbmc_small")
+> ##D   pbmc_small <- BuildClusterTree(object = pbmc_small)
+> ##D   PlotClusterTree(object = pbmc_small)
+> ##D }
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("PrepSCTFindMarkers")
+> ### * PrepSCTFindMarkers
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PrepSCTFindMarkers
+> ### Title: Prepare object to run differential expression on SCT assay with
+> ###   multiple models
+> ### Aliases: PrepSCTFindMarkers
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> pbmc_small1 <- SCTransform(object = pbmc_small, variable.features.n = 20, vst.flavor="v1")
+Running SCTransform on assay: RNA
+Calculating cell attributes from input UMI matrix: log_umi
+Variance stabilizing transformation of count matrix of size 220 by 80
+Model formula is y ~ log_umi
+Get Negative Binomial regression parameters per gene
+Using 220 genes, 80 cells
+Second step: Get residuals using fitted parameters for 220 genes
+Computing corrected count matrix for 220 genes
+Calculating gene attributes
+Wall clock passed: Time difference of 0.3348291 secs
+Determine variable features
+Centering data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Place corrected count matrix in counts slot
+Set default assay to SCT
+> pbmc_small2 <- SCTransform(object = pbmc_small, variable.features.n = 20, vst.flavor="v1")
+Running SCTransform on assay: RNA
+Calculating cell attributes from input UMI matrix: log_umi
+Variance stabilizing transformation of count matrix of size 220 by 80
+Model formula is y ~ log_umi
+Get Negative Binomial regression parameters per gene
+Using 220 genes, 80 cells
+Second step: Get residuals using fitted parameters for 220 genes
+Computing corrected count matrix for 220 genes
+Calculating gene attributes
+Wall clock passed: Time difference of 0.3125849 secs
+Determine variable features
+Centering data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Place corrected count matrix in counts slot
+Set default assay to SCT
+> pbmc_merged <- merge(x = pbmc_small1, y = pbmc_small2)
+Warning: Some cell names are duplicated across objects provided. Renaming to enforce unique cell names.
+> pbmc_merged <- PrepSCTFindMarkers(object = pbmc_merged)
+Found 2 SCT models. Recorrecting SCT counts using minimum median counts: 180
+> markers <- FindMarkers(
++   object = pbmc_merged,
++   ident.1 = "0",
++   ident.2 = "1",
++   assay = "SCT"
++ )
+> pbmc_subset <- subset(pbmc_merged, idents = c("0", "1"))
+> markers_subset <- FindMarkers(
++   object = pbmc_subset,
++   ident.1 = "0",
++   ident.2 = "1",
++   assay = "SCT",
++   recorrect_umi = FALSE
++ )
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("PrepSCTIntegration")
+> ### * PrepSCTIntegration
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PrepSCTIntegration
+> ### Title: Prepare an object list normalized with sctransform for
+> ###   integration.
+> ### Aliases: PrepSCTIntegration
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # to install the SeuratData package see https://github.com/satijalab/seurat-data
+> ##D library(SeuratData)
+> ##D data("panc8")
+> ##D 
+> ##D # panc8 is a merged Seurat object containing 8 separate pancreas datasets
+> ##D # split the object by dataset and take the first 2 to integrate
+> ##D pancreas.list <- SplitObject(panc8, split.by = "tech")[1:2]
+> ##D 
+> ##D # perform SCTransform normalization
+> ##D pancreas.list <- lapply(X = pancreas.list, FUN = SCTransform)
+> ##D 
+> ##D # select integration features and prep step
+> ##D features <- SelectIntegrationFeatures(pancreas.list)
+> ##D pancreas.list <- PrepSCTIntegration(
+> ##D   pancreas.list,
+> ##D   anchor.features = features
+> ##D )
+> ##D 
+> ##D # downstream integration steps
+> ##D anchors <- FindIntegrationAnchors(
+> ##D   pancreas.list,
+> ##D   normalization.method = "SCT",
+> ##D   anchor.features = features
+> ##D )
+> ##D pancreas.integrated <- IntegrateData(anchors, normalization.method = "SCT")
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ProjectDim")
+> ### * ProjectDim
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ProjectDim
+> ### Title: Project Dimensional reduction onto full dataset
+> ### Aliases: ProjectDim
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> pbmc_small
+An object of class Seurat 
+230 features across 80 samples within 1 assay 
+Active assay: RNA (230 features, 20 variable features)
+ 3 layers present: counts, data, scale.data
+ 2 dimensional reductions calculated: pca, tsne
+> pbmc_small <- ProjectDim(object = pbmc_small, reduction = "pca")
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+PC_ 1 
+Positive:  SDPR, PF4, PPBP, TUBB1, CA2, TREML1, MYL9, PGRMC1, RUFY1, PARVB 
+Negative:  HLA-DPB1, HLA-DQA1, S100A9, S100A8, GNLY, RP11-290F20.3, CD1C, AKR1C3, IGLL5, VDAC3 
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+PC_ 2 
+Positive:  HLA-DPB1, HLA-DQA1, S100A8, S100A9, CD1C, RP11-290F20.3, PARVB, IGLL5, MYL9, SDPR 
+Negative:  GNLY, AKR1C3, VDAC3, PGRMC1, TUBB1, PF4, TREML1, RUFY1, CA2, PPBP 
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+PC_ 3 
+Positive:  S100A9, S100A8, RP11-290F20.3, AKR1C3, PARVB, GNLY, PPBP, PGRMC1, MYL9, TUBB1 
+Negative:  HLA-DQA1, CD1C, IGLL5, HLA-DPB1, RUFY1, PF4, VDAC3, SDPR, TREML1, CA2 
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+PC_ 4 
+Positive:  IGLL5, RP11-290F20.3, VDAC3, PPBP, TUBB1, TREML1, PF4, CA2, PARVB, MYL9 
+Negative:  CD1C, AKR1C3, S100A8, GNLY, HLA-DPB1, HLA-DQA1, S100A9, PGRMC1, RUFY1, SDPR 
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+PC_ 5 
+Positive:  MYL9, PARVB, IGLL5, TREML1, AKR1C3, PGRMC1, HLA-DPB1, S100A9, TUBB1, PF4 
+Negative:  VDAC3, RP11-290F20.3, RUFY1, CD1C, HLA-DQA1, CA2, S100A8, PPBP, GNLY, SDPR 
+> # Vizualize top projected genes in heatmap
+> DimHeatmap(object = pbmc_small, reduction = "pca", dims = 1, balanced = TRUE)
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RPCAIntegration")
+> ### * RPCAIntegration
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RPCAIntegration
+> ### Title: Seurat-RPCA Integration
+> ### Aliases: RPCAIntegration
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Preprocessing
+> ##D obj <- SeuratData::LoadData("pbmcsca")
+> ##D obj[["RNA"]] <- split(obj[["RNA"]], f = obj$Method)
+> ##D obj <- NormalizeData(obj)
+> ##D obj <- FindVariableFeatures(obj)
+> ##D obj <- ScaleData(obj)
+> ##D obj <- RunPCA(obj)
+> ##D 
+> ##D # After preprocessing, we run integration
+> ##D obj <- IntegrateLayers(object = obj, method = RPCAIntegration,
+> ##D   orig.reduction = "pca", new.reduction = 'integrated.rpca',
+> ##D   verbose = FALSE)
+> ##D 
+> ##D # Reference-based Integration
+> ##D # Here, we use the first layer as a reference for integraion
+> ##D # Thus, we only identify anchors between the reference and the rest of the datasets,
+> ##D # saving computational resources
+> ##D obj <- IntegrateLayers(object = obj, method = RPCAIntegration,
+> ##D   orig.reduction = "pca", new.reduction = 'integrated.rpca',
+> ##D   reference = 1, verbose = FALSE)
+> ##D 
+> ##D # Modifying parameters
+> ##D # We can also specify parameters such as `k.anchor` to increase the strength of
+> ##D # integration
+> ##D obj <- IntegrateLayers(object = obj, method = RPCAIntegration,
+> ##D   orig.reduction = "pca", new.reduction = 'integrated.rpca',
+> ##D   k.anchor = 20, verbose = FALSE)
+> ##D 
+> ##D # Integrating SCTransformed data
+> ##D obj <- SCTransform(object = obj)
+> ##D obj <- IntegrateLayers(object = obj, method = RPCAIntegration,
+> ##D   orig.reduction = "pca", new.reduction = 'integrated.rpca',
+> ##D   assay = "SCT", verbose = FALSE)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("Read10X")
+> ### * Read10X
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Read10X
+> ### Title: Load in data from 10X
+> ### Aliases: Read10X
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # For output from CellRanger < 3.0
+> ##D data_dir <- 'path/to/data/directory'
+> ##D list.files(data_dir) # Should show barcodes.tsv, genes.tsv, and matrix.mtx
+> ##D expression_matrix <- Read10X(data.dir = data_dir)
+> ##D seurat_object = CreateSeuratObject(counts = expression_matrix)
+> ##D 
+> ##D # For output from CellRanger >= 3.0 with multiple data types
+> ##D data_dir <- 'path/to/data/directory'
+> ##D list.files(data_dir) # Should show barcodes.tsv.gz, features.tsv.gz, and matrix.mtx.gz
+> ##D data <- Read10X(data.dir = data_dir)
+> ##D seurat_object = CreateSeuratObject(counts = data$`Gene Expression`)
+> ##D seurat_object[['Protein']] = CreateAssayObject(counts = data$`Antibody Capture`)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ReadMtx")
+> ### * ReadMtx
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ReadMtx
+> ### Title: Load in data from remote or local mtx files
+> ### Aliases: ReadMtx
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # For local files:
+> ##D 
+> ##D expression_matrix <- ReadMtx(
+> ##D   mtx = "count_matrix.mtx.gz", features = "features.tsv.gz",
+> ##D   cells = "barcodes.tsv.gz"
+> ##D )
+> ##D seurat_object <- CreateSeuratObject(counts = expression_matrix)
+> ##D 
+> ##D # For remote files:
+> ##D 
+> ##D expression_matrix <- ReadMtx(mtx = "http://localhost/matrix.mtx",
+> ##D cells = "http://localhost/barcodes.tsv",
+> ##D features = "http://localhost/genes.tsv")
+> ##D seurat_object <- CreateSeuratObject(counts = data)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ReadVitessce")
+> ### * ReadVitessce
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ReadVitessce
+> ### Title: Read Data From Vitessce
+> ### Aliases: ReadVitessce LoadHuBMAPCODEX
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D coords <- ReadVitessce(
+> ##D   counts =
+> ##D      "https://s3.amazonaws.com/vitessce-data/0.0.31/master_release/wang/wang.genes.json",
+> ##D   coords =
+> ##D      "https://s3.amazonaws.com/vitessce-data/0.0.31/master_release/wang/wang.cells.json",
+> ##D   molecules =
+> ##D      "https://s3.amazonaws.com/vitessce-data/0.0.31/master_release/wang/wang.molecules.json"
+> ##D )
+> ##D names(coords)
+> ##D coords$counts[1:10, 1:10]
+> ##D head(coords$centroids)
+> ##D head(coords$segmentations)
+> ##D head(coords$molecules)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RegroupIdents")
+> ### * RegroupIdents
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RegroupIdents
+> ### Title: Regroup idents based on meta.data info
+> ### Aliases: RegroupIdents
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> pbmc_small <- RegroupIdents(pbmc_small, metadata = "groups")
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RelativeCounts")
+> ### * RelativeCounts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RelativeCounts
+> ### Title: Normalize raw data to fractions
+> ### Aliases: RelativeCounts
+> 
+> ### ** Examples
+> 
+> mat <- matrix(data = rbinom(n = 25, size = 5, prob = 0.2), nrow = 5)
+> mat
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    2    0    1    2
+[2,]    1    3    0    1    0
+[3,]    1    1    1    3    1
+[4,]    2    1    1    1    0
+[5,]    0    0    2    2    0
+> mat_norm <- RelativeCounts(data = mat)
+Performing relative-counts-normalization
+> mat_norm
+5 x 5 sparse Matrix of class "dgCMatrix"
+                                        
+[1,] .    0.2857143 .    0.125 0.6666667
+[2,] 0.25 0.4285714 .    0.125 .        
+[3,] 0.25 0.1428571 0.25 0.375 0.3333333
+[4,] 0.50 0.1428571 0.25 0.125 .        
+[5,] .    .         0.50 0.250 .        
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RidgePlot")
+> ### * RidgePlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RidgePlot
+> ### Title: Single cell ridge plot
+> ### Aliases: RidgePlot
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> RidgePlot(object = pbmc_small, features = 'PC_1')
+Picking joint bandwidth of 0.387
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RunCCA")
+> ### * RunCCA
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RunCCA
+> ### Title: Perform Canonical Correlation Analysis
+> ### Aliases: RunCCA RunCCA.default RunCCA.Seurat
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D pbmc_small
+> ##D # As CCA requires two datasets, we will split our test object into two just for this example
+> ##D pbmc1 <- subset(pbmc_small, cells = colnames(pbmc_small)[1:40])
+> ##D pbmc2 <- subset(pbmc_small, cells = colnames(x = pbmc_small)[41:80])
+> ##D pbmc1[["group"]] <- "group1"
+> ##D pbmc2[["group"]] <- "group2"
+> ##D pbmc_cca <- RunCCA(object1 = pbmc1, object2 = pbmc2)
+> ##D # Print results
+> ##D print(x = pbmc_cca[["cca"]])
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RunUMAP")
+> ### * RunUMAP
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RunUMAP
+> ### Title: Run UMAP
+> ### Aliases: RunUMAP RunUMAP.default RunUMAP.Graph RunUMAP.Neighbor
+> ###   RunUMAP.Seurat
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("pbmc_small")
+> ##D pbmc_small
+> ##D # Run UMAP map on first 5 PCs
+> ##D pbmc_small <- RunUMAP(object = pbmc_small, dims = 1:5)
+> ##D # Plot results
+> ##D DimPlot(object = pbmc_small, reduction = 'umap')
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("SCTAssay-class")
+> ### * SCTAssay-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SCTAssay-class
+> ### Title: The SCTModel Class
+> ### Aliases: SCTAssay-class SCTModel SCTAssay levels.SCTAssay
+> ###   levels<-.SCTAssay
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # SCTAssay objects are generated from SCTransform
+> ##D pbmc_small <- SCTransform(pbmc_small)
+> ## End(Not run)
+> 
+> ## Not run: 
+> ##D # SCTAssay objects are generated from SCTransform
+> ##D pbmc_small <- SCTransform(pbmc_small)
+> ##D pbmc_small[["SCT"]]
+> ## End(Not run)
+> 
+> ## Not run: 
+> ##D # Query and change SCT model names
+> ##D levels(pbmc_small[['SCT']])
+> ##D levels(pbmc_small[['SCT']]) <- '3'
+> ##D levels(pbmc_small[['SCT']])
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("SampleUMI")
+> ### * SampleUMI
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SampleUMI
+> ### Title: Sample UMI
+> ### Aliases: SampleUMI
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> counts = as.matrix(x = GetAssayData(object = pbmc_small, assay = "RNA", slot = "counts"))
+> downsampled = SampleUMI(data = counts)
+> head(x = downsampled)
+6 x 80 sparse Matrix of class "dgCMatrix"
+  [[ suppressing 80 column names ‘ATGCCAGAACGACT’, ‘CATGGCCTGTGCAT’, ‘GAACCTGATGAACC’ ... ]]
+                                                                               
+MS4A1    . . . . . . . . . .  2  2  4 4  2  3 3  4  2  3 .  . .  . 1 . . . .  .
+CD79B    1 . . . . . . . . 1  2  4  3 3  2  3 1  2  2  5 .  . .  . . . . . .  1
+CD79A    . . . . . . . . . .  .  5  2 2  5  8 1  5  5 12 .  . 1  . . . . 1 .  .
+HLA-DRA  . 1 . . 1 1 . 1 . . 14 28 18 7 15 28 7 26 10 16 7 22 . 10 6 . 4 3 7 13
+TCL1A    . . . . . . . . . .  3  .  2 4  .  . 3  3  3  2 .  . .  . . . . . .  .
+HLA-DQB1 1 . . . . . . . . .  1  6  2 2  2  8 2  2  1  2 .  3 .  . . . 1 . 1  .
+                                                                             
+MS4A1    . . . . . . . . . . . . . . . . . . . .  .  . . . .  .  .  . . .   .
+CD79B    1 . 2 . . . . . . . . . . . . . . . . .  1  . 1 1 2  2  .  . 3 .   .
+CD79A    . . . . . . . . . . . . . . . . . . . .  .  . . . .  .  .  . . .   .
+HLA-DRA  . 1 . . 1 . 1 1 . . . . . . . 1 1 1 . . 10 10 4 1 6 28 10 13 5 8 108
+TCL1A    . . . . . . . . . . . . . . . . . . . .  .  . . . .  .  .  . . .   .
+HLA-DQB1 . . . . . . . . . . . . . . . . . . . .  .  1 1 . 2  .  .  1 1 .  21
+                                                         
+MS4A1     .  .  .   .  .  .  1  .   . . . . . . . . . . .
+CD79B     .  .  4   1  .  .  .  .   . . . . . . . . . . .
+CD79A     .  .  8   .  .  .  .  1   . . . . . . . . . . .
+HLA-DRA  93 41 42 138 77 76 15 19 104 1 . . . 2 1 1 . 2 7
+TCL1A     .  .  4   .  .  .  .  .   . . . . . . . . . . .
+HLA-DQB1 21  3  5  11 11 10  1  2  11 . . . . . . . . . 1
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("SelectIntegrationFeatures")
+> ### * SelectIntegrationFeatures
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SelectIntegrationFeatures
+> ### Title: Select integration features
+> ### Aliases: SelectIntegrationFeatures
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # to install the SeuratData package see https://github.com/satijalab/seurat-data
+> ##D library(SeuratData)
+> ##D data("panc8")
+> ##D 
+> ##D # panc8 is a merged Seurat object containing 8 separate pancreas datasets
+> ##D # split the object by dataset and take the first 2
+> ##D pancreas.list <- SplitObject(panc8, split.by = "tech")[1:2]
+> ##D 
+> ##D # perform SCTransform normalization
+> ##D pancreas.list <- lapply(X = pancreas.list, FUN = SCTransform)
+> ##D 
+> ##D # select integration features
+> ##D features <- SelectIntegrationFeatures(pancreas.list)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("SetQuantile")
+> ### * SetQuantile
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SetQuantile
+> ### Title: Find the Quantile of Data
+> ### Aliases: SetQuantile
+> 
+> ### ** Examples
+> 
+> set.seed(42)
+> SetQuantile('q10', sample(1:100, 10))
+[1] 23.4
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("SeuratTheme")
+> ### * SeuratTheme
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SeuratTheme
+> ### Title: Seurat Themes
+> ### Aliases: SeuratTheme CenterTitle DarkTheme FontSize NoAxes NoLegend
+> ###   NoGrid SeuratAxes SpatialTheme RestoreLegend RotatedAxis BoldTitle
+> ###   WhiteBackground
+> 
+> ### ** Examples
+> 
+> # Generate a plot with a dark theme
+> library(ggplot2)
+> df <- data.frame(x = rnorm(n = 100, mean = 20, sd = 2), y = rbinom(n = 100, size = 100, prob = 0.2))
+> p <- ggplot(data = df, mapping = aes(x = x, y = y)) + geom_point(mapping = aes(color = 'red'))
+> p + DarkTheme(legend.position = 'none')
+> 
+> # Generate a plot with no axes
+> library(ggplot2)
+> df <- data.frame(x = rnorm(n = 100, mean = 20, sd = 2), y = rbinom(n = 100, size = 100, prob = 0.2))
+> p <- ggplot(data = df, mapping = aes(x = x, y = y)) + geom_point(mapping = aes(color = 'red'))
+> p + NoAxes()
+> 
+> # Generate a plot with no legend
+> library(ggplot2)
+> df <- data.frame(x = rnorm(n = 100, mean = 20, sd = 2), y = rbinom(n = 100, size = 100, prob = 0.2))
+> p <- ggplot(data = df, mapping = aes(x = x, y = y)) + geom_point(mapping = aes(color = 'red'))
+> p + NoLegend()
+> 
+> # Generate a plot with no grid lines
+> library(ggplot2)
+> df <- data.frame(x = rnorm(n = 100, mean = 20, sd = 2), y = rbinom(n = 100, size = 100, prob = 0.2))
+> p <- ggplot(data = df, mapping = aes(x = x, y = y)) + geom_point(mapping = aes(color = 'red'))
+> p + NoGrid()
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("SpatialPlot")
+> ### * SpatialPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SpatialPlot
+> ### Title: Visualize spatial clustering and expression data.
+> ### Aliases: SpatialPlot SpatialDimPlot SpatialFeaturePlot
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # For functionality analagous to FeaturePlot
+> ##D SpatialPlot(seurat.object, features = "MS4A1")
+> ##D SpatialFeaturePlot(seurat.object, features = "MS4A1")
+> ##D 
+> ##D # For functionality analagous to DimPlot
+> ##D SpatialPlot(seurat.object, group.by = "clusters")
+> ##D SpatialDimPlot(seurat.object, group.by = "clusters")
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("SplitObject")
+> ### * SplitObject
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SplitObject
+> ### Title: Splits object into a list of subsetted objects.
+> ### Aliases: SplitObject
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> # Assign the test object a three level attribute
+> groups <- sample(c("group1", "group2", "group3"), size = 80, replace = TRUE)
+> names(groups) <- colnames(pbmc_small)
+> pbmc_small <- AddMetaData(object = pbmc_small, metadata = groups, col.name = "group")
+> obj.list <- SplitObject(pbmc_small, split.by = "group")
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("SubsetByBarcodeInflections")
+> ### * SubsetByBarcodeInflections
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SubsetByBarcodeInflections
+> ### Title: Subset a Seurat Object based on the Barcode Distribution
+> ###   Inflection Points
+> ### Aliases: SubsetByBarcodeInflections
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> pbmc_small <- CalculateBarcodeInflections(
++   object = pbmc_small,
++   group.column = 'groups',
++   threshold.low = 20,
++   threshold.high = 30
++ )
+> SubsetByBarcodeInflections(object = pbmc_small)
+An object of class Seurat 
+230 features across 16 samples within 1 assay 
+Active assay: RNA (230 features, 20 variable features)
+ 3 layers present: counts, data, scale.data
+ 2 dimensional reductions calculated: pca, tsne
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("TopCells")
+> ### * TopCells
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: TopCells
+> ### Title: Find cells with highest scores for a given dimensional reduction
+> ###   technique
+> ### Aliases: TopCells
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> pbmc_small
+An object of class Seurat 
+230 features across 80 samples within 1 assay 
+Active assay: RNA (230 features, 20 variable features)
+ 3 layers present: counts, data, scale.data
+ 2 dimensional reductions calculated: pca, tsne
+> head(TopCells(object = pbmc_small[["pca"]]))
+[1] "ACGTGATGCCATGA" "ATACCACTCTAAGC" "ATTGCACTTGCTTT" "CTAGGTGATGGTTG"
+[5] "GACATTCTCCACCT" "ATAGGAGAAACAGA"
+> # Can specify which dimension and how many cells to return
+> TopCells(object = pbmc_small[["pca"]], dim = 2, ncells = 5)
+[1] "ACAGGTACTGGTGT" "GTTGACGATATCGG" "GGCATATGCTTATC" "CTAACGGAACCGAT"
+[5] "CATTACACCAACTG"
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("TopFeatures")
+> ### * TopFeatures
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: TopFeatures
+> ### Title: Find features with highest scores for a given dimensional
+> ###   reduction technique
+> ### Aliases: TopFeatures
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> pbmc_small
+An object of class Seurat 
+230 features across 80 samples within 1 assay 
+Active assay: RNA (230 features, 20 variable features)
+ 3 layers present: counts, data, scale.data
+ 2 dimensional reductions calculated: pca, tsne
+> TopFeatures(object = pbmc_small[["pca"]], dim = 1)
+ [1] "HLA-DPB1"      "HLA-DQA1"      "S100A9"        "S100A8"       
+ [5] "GNLY"          "RP11-290F20.3" "CD1C"          "AKR1C3"       
+ [9] "IGLL5"         "VDAC3"         "PARVB"         "RUFY1"        
+[13] "PGRMC1"        "MYL9"          "TREML1"        "CA2"          
+[17] "TUBB1"         "PPBP"          "PF4"           "SDPR"         
+> # After projection:
+> TopFeatures(object = pbmc_small[["pca"]], dim = 1,  projected = TRUE)
+ [1] "HLA-DPB1"      "HLA-DQA1"      "S100A9"        "S100A8"       
+ [5] "GNLY"          "RP11-290F20.3" "CD1C"          "AKR1C3"       
+ [9] "IGLL5"         "VDAC3"         "PARVB"         "RUFY1"        
+[13] "PGRMC1"        "MYL9"          "TREML1"        "CA2"          
+[17] "TUBB1"         "PPBP"          "PF4"           "SDPR"         
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("TransferData")
+> ### * TransferData
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: TransferData
+> ### Title: Transfer data
+> ### Aliases: TransferData
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # to install the SeuratData package see https://github.com/satijalab/seurat-data
+> ##D library(SeuratData)
+> ##D data("pbmc3k")
+> ##D 
+> ##D # for demonstration, split the object into reference and query
+> ##D pbmc.reference <- pbmc3k[, 1:1350]
+> ##D pbmc.query <- pbmc3k[, 1351:2700]
+> ##D 
+> ##D # perform standard preprocessing on each object
+> ##D pbmc.reference <- NormalizeData(pbmc.reference)
+> ##D pbmc.reference <- FindVariableFeatures(pbmc.reference)
+> ##D pbmc.reference <- ScaleData(pbmc.reference)
+> ##D 
+> ##D pbmc.query <- NormalizeData(pbmc.query)
+> ##D pbmc.query <- FindVariableFeatures(pbmc.query)
+> ##D pbmc.query <- ScaleData(pbmc.query)
+> ##D 
+> ##D # find anchors
+> ##D anchors <- FindTransferAnchors(reference = pbmc.reference, query = pbmc.query)
+> ##D 
+> ##D # transfer labels
+> ##D predictions <- TransferData(anchorset = anchors, refdata = pbmc.reference$seurat_annotations)
+> ##D pbmc.query <- AddMetaData(object = pbmc.query, metadata = predictions)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("UpdateSymbolList")
+> ### * UpdateSymbolList
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: UpdateSymbolList
+> ### Title: Get updated synonyms for gene symbols
+> ### Aliases: UpdateSymbolList GeneSymbolThesarus
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D GeneSybmolThesarus(symbols = c("FAM64A"))
+> ## End(Not run)
+> 
+> ## Not run: 
+> ##D UpdateSymbolList(symbols = cc.genes$s.genes)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("VariableFeaturePlot")
+> ### * VariableFeaturePlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: VariableFeaturePlot
+> ### Title: View variable features
+> ### Aliases: VariableFeaturePlot VariableGenePlot MeanVarPlot
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> VariableFeaturePlot(object = pbmc_small)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("VizDimLoadings")
+> ### * VizDimLoadings
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: VizDimLoadings
+> ### Title: Visualize Dimensional Reduction genes
+> ### Aliases: VizDimLoadings
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> VizDimLoadings(object = pbmc_small)
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+Warning: Requested number is larger than the number of available items (20). Setting to 20.
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("VlnPlot")
+> ### * VlnPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: VlnPlot
+> ### Title: Single cell violin plot
+> ### Aliases: VlnPlot
+> 
+> ### ** Examples
+> 
+> data("pbmc_small")
+> VlnPlot(object = pbmc_small, features = 'PC_1')
+> VlnPlot(object = pbmc_small, features = 'LYZ', split.by = 'groups')
+The default behaviour of split.by has changed.
+Separate violin plots are now plotted side-by-side.
+To restore the old behaviour of a single split violin,
+set split.plot = TRUE.
+      
+This message will be shown once per session.
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cc.genes.updated.2019")
+> ### * cc.genes.updated.2019
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cc.genes.updated.2019
+> ### Title: Cell cycle genes: 2019 update
+> ### Aliases: cc.genes.updated.2019
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D cc.genes.updated.2019 <- cc.genes
+> ##D cc.genes.updated.2019$s.genes <- UpdateSymbolList(symbols = cc.genes.updated.2019$s.genes)
+> ##D cc.genes.updated.2019$g2m.genes <- UpdateSymbolList(symbols = cc.genes.updated.2019$g2m.genes)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("contrast-theory")
+> ### * contrast-theory
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: contrast-theory
+> ### Title: Get the intensity and/or luminance of a color
+> ### Aliases: contrast-theory Intensity Luminance
+> 
+> ### ** Examples
+> 
+> Intensity(color = c('black', 'white', '#E76BF3'))
+  black   white #E76BF3 
+   0.00  255.00  159.58 
+> 
+> Luminance(color = c('black', 'white', '#E76BF3'))
+    black     white   #E76BF3 
+0.0000000 1.0000000 0.3397538 
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  8.151 0.235 8.429 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

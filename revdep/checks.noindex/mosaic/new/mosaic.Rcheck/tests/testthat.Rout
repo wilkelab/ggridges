@@ -1,0 +1,151 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(mosaic)
+Registered S3 method overwritten by 'mosaic':
+  method                           from   
+  fortify.SpatialPolygonsDataFrame ggplot2
+
+The 'mosaic' package masks several functions from core packages in order to add 
+additional features.  The original behavior of these functions should not be affected by this.
+
+Attaching package: 'mosaic'
+
+The following objects are masked from 'package:dplyr':
+
+    count, do, tally
+
+The following object is masked from 'package:Matrix':
+
+    mean
+
+The following object is masked from 'package:ggplot2':
+
+    stat
+
+The following object is masked from 'package:testthat':
+
+    compare
+
+The following objects are masked from 'package:stats':
+
+    IQR, binom.test, cor, cor.test, cov, fivenum, median, prop.test,
+    quantile, sd, t.test, var
+
+The following objects are masked from 'package:base':
+
+    max, mean, min, prod, range, sample, sum
+
+> 
+> test_check("mosaic")
+Mapping API still under development and may change in future releases.
+`geom_smooth()` using formula = 'y ~ x'
+Reading data with read.csv()
+
+Null distribution appears to be asymmetric. (p = 8.76e-30) 
+
+Test statistic applied to sample data =  18 
+
+Quantiles of test statistic applied to random data: 
+50% 90% 95% 99% 
+ 16  19  20  22  
+
+Of the  1000  samples (1 original +  999  random), 
+	 131 ( 13.1 % ) had test stats = 18 
+	 297 ( 29.7 % ) had test stats >= 18 
+Loading required package: manipulate
+
+
+If X ~ N(500, 100), then 
+
+	P(X <= 650) = P(Z <= 1.5) = 0.9332
+	P(X >  650) = P(Z >  1.5) = 0.06681
+
+
+[1] 0.9331928
+[ FAIL 0 | WARN 3 | SKIP 18 | PASS 247 ]
+
+══ Skipped tests (18) ══════════════════════════════════════════════════════════
+• On CRAN (18): 'test-ashplots.R:5:3', 'test-bargraph.R:8:3',
+  'test-clustering.R:58:3', 'test-dotplot.R:6:3', 'test-fitspline.R:9:3',
+  'test-frequencyPolygon.R:5:3', 'test-ladd.R:7:3', 'test-ladd.R:20:3',
+  'test-ladd.R:32:3', 'test-maps2.R:30:3', 'test-mplot.R:19:5',
+  'test-plotCumfreq.R:4:3', 'test-plotDist.R:4:3', 'test-plotModel.R:9:3',
+  'test-plotPoints.R:5:3', 'test-rfun.R:17:3', 'test-statTally.R:41:3',
+  'test-xpnorm.R:4:3'
+
+[ FAIL 0 | WARN 3 | SKIP 18 | PASS 247 ]
+Deleting unused snapshots:
+• bargraph/bargraph2.svg
+• bargraph/bargraph3.svg
+• bargraph/bargraph4.svg
+• bargraph/bargraph5.svg
+• clustering/clustering2.svg
+• clustering/clustering3.svg
+• clustering/clustering4.svg
+• dotplot/dotplot2.svg
+• dotplot/dotplot3.svg
+• fitspline/fitspline2.svg
+• fitspline/fitspline3.svg
+• fitspline/fitspline4.svg
+• frequencyPolygon/fourthexample.svg
+• frequencyPolygon/secondexample.svg
+• frequencyPolygon/thirdexample.svg
+• ladd/ladd2.svg
+• ladd/ladd3.svg
+• ladd/ladd4.svg
+• ladd/ladd6.svg
+• ladd/ladd7.svg
+• ladd/ladd8.svg
+• mplot/mplot2.svg
+• mplot/mplot3.svg
+• mplot/mplot4.svg
+• mplot/mplot5.svg
+• mplot/mplot6.svg
+• mplot/mplot7.svg
+• mplot/mplot8.svg
+• plotDist/plotdist10.svg
+• plotDist/plotdist11.svg
+• plotDist/plotdist12.svg
+• plotDist/plotdist13.svg
+• plotDist/plotdist14.svg
+• plotDist/plotdist15.svg
+• plotDist/plotdist16.svg
+• plotDist/plotdist17.svg
+• plotDist/plotdist18.svg
+• plotDist/plotdist19.svg
+• plotDist/plotdist2.svg
+• plotDist/plotdist3.svg
+• plotDist/plotdist4.svg
+• plotDist/plotdist5.svg
+• plotDist/plotdist6.svg
+• plotDist/plotdist7.svg
+• plotDist/plotdist8.svg
+• plotDist/plotdist9.svg
+• plotModel/plotmodel2.svg
+• plotModel/plotmodel3.svg
+• plotPoints/plotpoints2.svg
+• plotPoints/plotpoints3.svg
+• rfun/rfun2.svg
+• statTally/stattally2.svg
+• statTally/stattally3.svg
+• xpnorm/xpnorm2.svg
+> 
+> proc.time()
+   user  system elapsed 
+  6.147   0.172   6.568 

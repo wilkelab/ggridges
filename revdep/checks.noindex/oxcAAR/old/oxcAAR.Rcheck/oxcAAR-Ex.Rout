@@ -1,0 +1,244 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "oxcAAR"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('oxcAAR')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("get_bp")
+> ### * get_bp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_bp
+> ### Title: get bp values (ages)
+> ### Aliases: get_bp get_bp.default get_bp.oxcAARCalibratedDate
+> ###   get_bp.oxcAARCalibratedDatesList
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D x <- oxcalCalibrate(c(5000, 4500, 3000), c(20, 50, 60))
+> ##D get_bp(x)
+> ##D y <- oxcalCalibrate(5000, 20)[[1]]
+> ##D get_bp(y)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_cal_curve")
+> ### * get_cal_curve
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_cal_curve
+> ### Title: get calibration curve names
+> ### Aliases: get_cal_curve get_cal_curve.default
+> ###   get_cal_curve.oxcAARCalibratedDate
+> ###   get_cal_curve.oxcAARCalibratedDatesList
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D x <- oxcalCalibrate(c(5000, 4500, 3000), c(20, 50, 60))
+> ##D get_cal_curve(x)
+> ##D y <- oxcalCalibrate(5000, 20)[[1]]
+> ##D get_cal_curve(y)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_name")
+> ### * get_name
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_name
+> ### Title: get names (labcodes)
+> ### Aliases: get_name get_name.default get_name.oxcAARCalibratedDate
+> ###   get_name.oxcAARCalibratedDatesList
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D x <- oxcalCalibrate(c(5000, 4500, 3000), c(20, 50, 60))
+> ##D get_name(x)
+> ##D y <- oxcalCalibrate(5000, 20)[[1]]
+> ##D get_name(y)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_raw_probabilities")
+> ### * get_raw_probabilities
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_raw_probabilities
+> ### Title: get raw probabilities
+> ### Aliases: get_raw_probabilities get_raw_probabilities.default
+> ###   get_raw_probabilities.oxcAARCalibratedDate
+> ###   get_raw_probabilities.oxcAARCalibratedDatesList
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D x <- oxcalCalibrate(c(5000, 4500, 3000), c(20, 50, 60))
+> ##D get_raw_probabilities(x)
+> ##D y <- oxcalCalibrate(5000, 20)[[1]]
+> ##D get_raw_probabilities(y)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_sigma_ranges")
+> ### * get_sigma_ranges
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_sigma_ranges
+> ### Title: get sigma ranges
+> ### Aliases: get_sigma_ranges get_sigma_ranges.default
+> ###   get_sigma_ranges.oxcAARCalibratedDate
+> ###   get_sigma_ranges.oxcAARCalibratedDatesList
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D x <- oxcalCalibrate(c(5000, 4500, 3000), c(20, 50, 60))
+> ##D get_sigma_ranges(x)
+> ##D y <- oxcalCalibrate(5000, 20)[[1]]
+> ##D get_sigma_ranges(y)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_std")
+> ### * get_std
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_std
+> ### Title: get std values (standard deviations)
+> ### Aliases: get_std get_std.default get_std.oxcAARCalibratedDate
+> ###   get_std.oxcAARCalibratedDatesList
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D x <- oxcalCalibrate(c(5000, 4500, 3000), c(20, 50, 60))
+> ##D get_std(x)
+> ##D y <- oxcalCalibrate(5000, 20)[[1]]
+> ##D get_std(y)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_tidy_oxcalresult")
+> ### * get_tidy_oxcalresult
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_tidy_oxcalresult
+> ### Title: tidy output
+> ### Aliases: get_tidy_oxcalresult get_tidy_oxcalresult.default
+> ###   get_tidy_oxcalresult.oxcAARCalibratedDate
+> ###   get_tidy_oxcalresult.oxcAARCalibratedDatesList
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D x <- oxcalCalibrate(c(5000, 4500, 3000), c(20, 50, 60))
+> ##D get_tidy_oxcalresult(x)
+> ##D y <- oxcalCalibrate(5000, 20)[[1]]
+> ##D get_tidy_oxcalresult(y)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("quickSetupOxcal")
+> ### * quickSetupOxcal
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: quickSetupOxcal
+> ### Title: Quick OxCal setup
+> ### Aliases: quickSetupOxcal
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D   quickSetupOxcal()
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("setOxcalExecutablePath")
+> ### * setOxcalExecutablePath
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: setOxcalExecutablePath
+> ### Title: Setting the Oxcal program path for further use
+> ### Aliases: setOxcalExecutablePath
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D connectOxcal('/home/martin/Documents/scripte/OxCal/bin/OxCalLinux')
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.236 0.017 0.256 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

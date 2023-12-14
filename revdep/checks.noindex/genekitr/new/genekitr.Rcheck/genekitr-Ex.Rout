@@ -1,0 +1,294 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "genekitr"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('genekitr')
+
+Welcome to use genekitr! (Vignette: https://www.genekitr.fun)
+Citation for genekitr:
+Liu, Y., Li, G. Empowering biologists to decode omics data: the Genekitr R package and web server. BMC Bioinformatics 24, 214 (2023). https://doi.org/10.1186/s12859-023-05342-9
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("expoSheet")
+> ### * expoSheet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: expoSheet
+> ### Title: Export list of data sets into different 'Excel' sheets
+> ### Aliases: expoSheet
+> 
+> ### ** Examples
+> 
+> library(openxlsx)
+> expoSheet(
++   data_list = list(mtcars, ToothGrowth),
++   data_name = c("mtcars", "tooth"),
++   filename = "test.xlsx", dir = tempfile()
++ )
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:openxlsx’
+
+> nameEx("genGSEA")
+> ### * genGSEA
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: genGSEA
+> ### Title: Gene Set Enrichment Analysis
+> ### Aliases: genGSEA
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("genInfo")
+> ### * genInfo
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: genInfo
+> ### Title: Get gene related information
+> ### Aliases: genInfo
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("genORA")
+> ### * genORA
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: genORA
+> ### Title: Gene Over-Representation Enrichment Analysis
+> ### Aliases: genORA
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("getGEO")
+> ### * getGEO
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: getGEO
+> ### Title: Get GEO metadata
+> ### Aliases: getGEO
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("getPubmed")
+> ### * getPubmed
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: getPubmed
+> ### Title: Get 'PubMed' paper records by searching abstract
+> ### Aliases: getPubmed
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotEnrich")
+> ### * plotEnrich
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotEnrich
+> ### Title: Plot for gene enrichment analysis of ORA method
+> ### Aliases: plotEnrich
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotGSEA")
+> ### * plotGSEA
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotGSEA
+> ### Title: Plot for gene enrichment analysis of GSEA method
+> ### Aliases: plotGSEA
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotVenn")
+> ### * plotVenn
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotVenn
+> ### Title: Venn plot for groups of genes
+> ### Aliases: plotVenn
+> 
+> ### ** Examples
+> 
+> library(ggplot2)
+> set1 <- paste0(rep("gene", 30), sample(1:1000, 30))
+> set2 <- paste0(rep("gene", 40), sample(1:1000, 40))
+> set3 <- paste0(rep("gene", 50), sample(1:1000, 50))
+> set4 <- paste0(rep("gene", 60), sample(1:1000, 60))
+> set5 <- paste0(rep("gene", 70), sample(1:1000, 70))
+> sm_gene_list <- list(gset1 = set1, gset2 = set2, gset3 = set3)
+> la_gene_list <- list(
++   gset1 = set1, gset2 = set2, gset3 = set3,
++   gset4 = set4, gset5 = set5
++ )
+> plotVenn(sm_gene_list,
++   use_venn = TRUE,
++   color = ggsci::pal_lancet()(3),
++   alpha_degree = 0.5,
++   main_text_size = 3,
++   border_thick = 0,
++   venn_percent = TRUE
++ )
+> plotVenn(la_gene_list,
++   use_venn = FALSE,
++   main_text_size = 15,
++   legend_text_size = 8,
++   legend_position = 'left'
++ )
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("plotVolcano")
+> ### * plotVolcano
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotVolcano
+> ### Title: Volcano plot for differential expression analysis
+> ### Aliases: plotVolcano
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_theme")
+> ### * plot_theme
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_theme
+> ### Title: Themes for all plots
+> ### Aliases: plot_theme
+> 
+> ### ** Examples
+> 
+> library(ggplot2)
+> ggplot(mtcars, aes(x = wt, y = mpg)) +
++   geom_point() +
++   plot_theme(font_type = "Times", border_thick = 2)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("transId")
+> ### * transId
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: transId
+> ### Title: Transform id among symbol, entrezid, ensembl and uniprot.
+> ### Aliases: transId
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("transProbe")
+> ### * transProbe
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: transProbe
+> ### Title: Transform probe id to symbol, entrezid, ensembl or uniprot.
+> ### Aliases: transProbe
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data(deg, package = "genekitr")
+> ##D id <- deg$probe_id
+> ##D transProbe(id, transTo = "symbol")
+> ## End(Not run)
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  4.725 0.198 4.95 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

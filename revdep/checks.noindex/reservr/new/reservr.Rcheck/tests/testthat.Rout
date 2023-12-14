@@ -1,0 +1,62 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(reservr)
+> 
+> test_check("reservr")
+── Warning ('/Users/clauswilke/github/ggridges/revdep/checks.noindex/reservr/new/reservr.Rcheck/tests/testthat/helpers.R:13:3'): set floatx to 64-bit ──
+cannot symlink '/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/config-3.9-darwin' to '/var/folders/l4/yqkcxkkj07jccl06ptwvsnfh0000gn/T/rstudio-fallback-library-path-186132253', reason 'File exists'
+Backtrace:
+     ▆
+  1. └─reservr:::skip_if_no_tensorflow() at tests/testthat/helpers.R:13:3
+  2.   └─reticulate::py_available(initialize = TRUE) at tests/testthat/helpers.R:2:3
+  3.     ├─base::tryCatch(...)
+  4.     │ └─base (local) tryCatchList(expr, classes, parentenv, handlers)
+  5.     │   └─base (local) tryCatchOne(expr, names, parentenv, handlers[[1L]])
+  6.     │     └─base (local) doTryCatch(return(expr), name, parentenv, handler)
+  7.     └─reticulate:::ensure_python_initialized()
+  8.       └─reticulate:::initialize_python()
+  9.         └─(function() {...
+ 10.           └─base::file.symlink(target, symlink)
+
+── Skip ('/Users/clauswilke/github/ggridges/revdep/checks.noindex/reservr/new/reservr.Rcheck/tests/testthat/helpers.R:13:3'): set floatx to 64-bit ──
+Reason: TensorFlow not available for testing
+
+[ FAIL 0 | WARN 0 | SKIP 29 | PASS 1207 ]
+
+══ Skipped tests (29) ══════════════════════════════════════════════════════════
+• TensorFlow not available for testing (29): 'test-dist_beta.R:16:3',
+  'test-dist_binomial.R:26:3', 'test-dist_blended.R:108:3',
+  'test-dist_dirac.R:25:3', 'test-dist_discrete.R:39:3',
+  'test-dist_erlangmix.R:67:3', 'test-dist_erlangmix.R:112:3',
+  'test-dist_exponential.R:17:3', 'test-dist_gamma.R:17:3',
+  'test-dist_genpareto.R:42:5', 'test-dist_lognormal.R:17:3',
+  'test-dist_mixture.R:60:3', 'test-dist_negbinomial.R:18:3',
+  'test-dist_normal.R:17:3', 'test-dist_pareto.R:17:3',
+  'test-dist_poisson.R:18:3', 'test-dist_translate.R:56:3',
+  'test-dist_trunc.R:42:3', 'test-dist_uniform.R:21:3',
+  'test-dist_weibull.R:17:3', 'test-interval.R:159:3', 'test-tf_fit.R:2:3',
+  'test-tf_fit.R:74:3', 'test-tf_fit.R:127:3', 'test-tf_fit.R:179:3',
+  'test-tf_fit.R:239:3', 'test-tf_fit.R:281:3', 'test-tf_fit.R:332:3',
+  'test-tf_initialise.R:2:3'
+
+[ FAIL 0 | WARN 0 | SKIP 29 | PASS 1207 ]
+> 
+> proc.time()
+   user  system elapsed 
+ 11.492   0.264  12.563 

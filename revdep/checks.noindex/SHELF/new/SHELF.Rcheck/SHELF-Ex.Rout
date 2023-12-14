@@ -1,0 +1,968 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "SHELF"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('SHELF')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("SHELF-package")
+> ### * SHELF-package
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SHELF-package
+> ### Title: Tools to Support the Sheffield Elicitation Framework
+> ### Aliases: SHELF-package SHELF
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D ## 1) Elicit judgements from two experts individually 
+> ##D # Expert A states P(X<30)=0.25, P(X<40)=0.5, P(X<50)=0.75
+> ##D # Expert B states P(X<20)=0.25, P(X<25)=0.5, P(X<35)=0.75
+> ##D # Both experts state 0<X<100.
+> ##D 
+> ##D ## 2) Fit distributions to each expert's judgements
+> ##D v <- matrix(c(30, 40, 50, 20, 25, 35), 3, 2)
+> ##D p <- c(0.25, 0.5, 0.75)
+> ##D myfit <- fitdist(vals = v, probs = p, lower = 0, upper = 100)
+> ##D 
+> ##D ## 3) Plot the fitted distributions, including a linear pool
+> ##D plotfit(myfit, lp = T)
+> ##D 
+> ##D ## 4) Now elicit a single 'consensus' distribution from the two experts
+> ##D # Suppose they agree P(X<25)=0.25, P(X<30)=0.5, P(X<40)=0.75
+> ##D v <-c(25, 30, 40)
+> ##D p <-c(0.25, 0.5, 0.75)
+> ##D myfit <- fitdist(vals = v, probs = p, lower = 0, upper = 100)
+> ##D 
+> ##D ## 5) Plot the fitted density, and report some feedback, such as the 
+> ##D # fitted 5th and 95th percentiles
+> ##D plotfit(myfit, ql = 0.05, qu = 0.95)
+> ##D feedback(myfit, quantiles = c(0.05, 0.95))
+> ##D 
+> ##D ## Can also use interactive plotting
+> ##D v <- matrix(c(30, 40, 50, 20, 25, 35), 3, 2)
+> ##D p <- c(0.25, 0.5, 0.75)
+> ##D myfit <- fitdist(vals = v, probs = p, lower = 0, upper = 100)
+> ##D # plot each distribution
+> ##D plotfit(myfit)
+> ##D 
+> ##D ## plot the distribution for one expert only
+> ##D plotfit(myfit, ex = 1)
+> ##D 
+> ##D ## Enter judgements in interactive mode
+> ##D elicit()
+> ##D 
+> ##D #' ## Enter separate judgements for each expert in interactive mode
+> ##D elicitMultiple()
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cdffeedback")
+> ### * cdffeedback
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cdffeedback
+> ### Title: Feedback for the elicited distribution of the population CDF
+> ### Aliases: cdffeedback
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D prfit <- fitprecision(interval = c(60, 70), propvals = c(0.2, 0.4), trans = "log")
+> ##D medianfit <- fitdist(vals = c(50, 60, 70), probs = c(0.05, 0.5,  0.95), lower = 0)
+> ##D cdffeedback(medianfit, prfit, quantiles = c(0.01, 0.99),
+> ##D             vals = c(65, 75), alpha = 0.05, n.rep = 10000)
+> ##D  
+> ## End(Not run)  
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cdfplot")
+> ### * cdfplot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cdfplot
+> ### Title: Plot distribution of CDF
+> ### Aliases: cdfplot
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D prfit <- fitprecision(interval = c(60, 70), propvals = c(0.2, 0.4), trans = "log")
+> ##D medianfit <- fitdist(vals = c(50, 60, 70), probs = c(0.05, 0.5,  0.95), lower = 0)
+> ##D cdfplot(medianfit, prfit)
+> ##D  
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("compareGroupRIO")
+> ### * compareGroupRIO
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: compareGroupRIO
+> ### Title: Compare individual elicited distributions with linear pool and
+> ###   RIO distribution
+> ### Aliases: compareGroupRIO
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D l <- c(2, 1, 5, 1)
+> ##D u <- c(95, 90, 65, 40)
+> ##D v <- matrix(c(15, 25, 40,
+> ##D  10, 20, 40,
+> ##D  10, 15, 25,
+> ##D  5, 10, 20),
+> ##D  3, 4)
+> ##D p <- c(0.25, 0.5, 0.75)
+> ##D group <- fitdist(vals = v, probs = p, lower = l, upper = u)
+> ##D rio <- fitdist(vals = c(12, 20, 25), probs = p, lower = 1, upper = 100)
+> ##D compareGroupRIO(groupFit = group, RIOFit = rio, dRIO = "gamma")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("compareIntervals")
+> ### * compareIntervals
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: compareIntervals
+> ### Title: Plot fitted intervals for each expert
+> ### Aliases: compareIntervals
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D v <- matrix(c(30, 40, 50, 20, 25, 35, 40, 50, 60, 35, 40, 50), 3, 4)
+> ##D p <- c(0.25, 0.5, 0.75)
+> ##D myfit <- fitdist(vals = v, probs = p, lower = 0, upper = 100)
+> ##D compareIntervals(myfit, interval = 0.5)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("condDirichlet")
+> ### * condDirichlet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: condDirichlet
+> ### Title: Plot conditional distributions from an elicited Dirichlet prior
+> ### Aliases: condDirichlet
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D p1 <- c(0.25, 0.5, 0.75)
+> ##D v1 <- c(0.5, 0.55, 0.6)
+> ##D v2 <- c(0.22, 0.3, 0.35)
+> ##D v3 <- c(0.11, 0.15, 0.2)
+> ##D myfit1 <- fitdist(v1, p1, 0, 1)
+> ##D myfit2 <- fitdist(v2, p1, 0, 1)
+> ##D myfit3 <- fitdist(v3, p1, 0, 1)
+> ##D d <- fitDirichlet(myfit1, myfit2, myfit3,
+> ##D                   categories = c("A","B","C"),
+> ##D                   n.fitted = "opt")
+> ##D condDirichlet(d)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("copulaSample")
+> ### * copulaSample
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: copulaSample
+> ### Title: Generate correlated samples from elicited marginal distributions
+> ###   using a multivariate normal copula
+> ### Aliases: copulaSample
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D p1 <- c(0.25, 0.5, 0.75)
+> ##D v1 <- c(0.5, 0.55, 0.6)
+> ##D v2 <- c(0.22, 0.3, 0.35)
+> ##D v3 <- c(0.11, 0.15, 0.2)
+> ##D myfit1 <- fitdist(v1, p1, 0, 1)
+> ##D myfit2 <- fitdist(v2, p1, 0, 1)
+> ##D myfit3 <- fitdist(v3, p1, 0, 1)
+> ##D quad.probs <- matrix(0, 3, 3)
+> ##D quad.probs[1, 2] <- 0.4
+> ##D quad.probs[1, 3] <- 0.4
+> ##D quad.probs[2, 3] <- 0.3
+> ##D copulaSample(myfit1, myfit2, myfit3, cp=quad.probs, n=100, d=NULL)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("elicit")
+> ### * elicit
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: elicit
+> ### Title: Elicit judgements and fit distributions interactively
+> ### Aliases: elicit roulette
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D 
+> ##D elicit()
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("elicitBivariate")
+> ### * elicitBivariate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: elicitBivariate
+> ### Title: Elicit a bivariate distribution using a Gaussian copula
+> ### Aliases: elicitBivariate
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D 
+> ##D elicit()
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("elicitConcProb")
+> ### * elicitConcProb
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: elicitConcProb
+> ### Title: Elicit a concordance probability for two uncertain quantities,
+> ###   and plot a joint sample
+> ### Aliases: elicitConcProb
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D p1 <- c(0.25, 0.5, 0.75)
+> ##D v1 <- c(0.5, 0.55, 0.6)
+> ##D v2 <- c(0.22, 0.3, 0.35)
+> ##D myfit1 <- fitdist(v1, p1, 0, 1)
+> ##D myfit2 <- fitdist(v2, p1, 0, 1)
+> ##D elicitConcProb(myfit1, myfit2, 0.55, 0.3, d=c("beta", "beta"))
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("elicitDirichlet")
+> ### * elicitDirichlet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: elicitDirichlet
+> ### Title: Elicit a Dirichlet distribution interactively
+> ### Aliases: elicitDirichlet
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D 
+> ##D elicit()
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("elicitExtension")
+> ### * elicitExtension
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: elicitExtension
+> ### Title: Elicitation with the extension method
+> ### Aliases: elicitExtension
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D 
+> ##D elicitExtension()
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("elicitHeterogen")
+> ### * elicitHeterogen
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: elicitHeterogen
+> ### Title: Elicit a prior distribution for a random effects variance
+> ###   parameter
+> ### Aliases: elicitHeterogen
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D elicitHeterogen()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("elicitMixture")
+> ### * elicitMixture
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: elicitMixture
+> ### Title: Elicit a mixture distribution using the extension method
+> ### Aliases: elicitMixture
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D 
+> ##D elicitMixture()
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("elicitMultiple")
+> ### * elicitMultiple
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: elicitMultiple
+> ### Title: Elicit individual judgements and fit distributions for multiple
+> ###   experts
+> ### Aliases: elicitMultiple
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D 
+> ##D elicitMultiple()
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("elicitQuartiles")
+> ### * elicitQuartiles
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: elicitQuartiles
+> ### Title: Elicit judgements and fit distributions interactively using the
+> ###   quartile method
+> ### Aliases: elicitQuartiles
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D 
+> ##D elicitQuartiles()
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("elicitTertiles")
+> ### * elicitTertiles
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: elicitTertiles
+> ### Title: Elicit judgements and fit distributions interactively using the
+> ###   tertile method
+> ### Aliases: elicitTertiles
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D 
+> ##D elicitTertiles()
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("feedback")
+> ### * feedback
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: feedback
+> ### Title: Report quantiles and probabilities from the fitted probability
+> ###   distributions
+> ### Aliases: feedback
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Two experts
+> ##D # Expert 1 states P(X<30)=0.25, P(X<40)=0.5, P(X<50)=0.75
+> ##D # Expert 2 states P(X<20)=0.25, P(X<25)=0.5, P(X<35)=0.75
+> ##D # Both experts state 0<X<100.
+> ##D 
+> ##D v <- matrix(c(30, 40, 50, 20, 25, 35), 3, 2)
+> ##D p <- c(0.25, 0.5, 0.75)
+> ##D myfit <- fitdist(vals = v, probs = p, lower = 0, upper = 100)
+> ##D 
+> ##D feedback(myfit)
+> ##D 
+> ##D # Feedback P(X<60) and the tertiles
+> ##D feedback(myfit, values=60, quantiles=c(0.33,0.66))
+> ##D 
+> ##D # Compare fitted tertiles for different distributions, expert 2 only
+> ##D feedback(myfit, quantiles=c(0.33,0.66), ex=2)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("feedbackDirichlet")
+> ### * feedbackDirichlet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: feedbackDirichlet
+> ### Title: Calculate quantiles for the marginal distributions of a
+> ###   Dirichlet distribution
+> ### Aliases: feedbackDirichlet
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D feedbackDirichlet(d = c(20, 10, 5),
+> ##D                   quantiles = c(0.1, 0.33, 0.66, 0.9))
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fitDirichlet")
+> ### * fitDirichlet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fitDirichlet
+> ### Title: Fit a Dirichlet distribution to elicited marginal distributions
+> ###   for proportions
+> ### Aliases: fitDirichlet
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D p1 <- c(0.25, 0.5, 0.75)
+> ##D v1 <- c(0.5, 0.55, 0.6)
+> ##D v2 <- c(0.22, 0.3, 0.35)
+> ##D v3 <- c(0.11, 0.15, 0.2)
+> ##D myfit1 <- fitdist(v1, p1, 0, 1)
+> ##D myfit2 <- fitdist(v2, p1, 0, 1)
+> ##D myfit3 <- fitdist(v3, p1, 0, 1)
+> ##D d <- fitDirichlet(myfit1, myfit2, myfit3,
+> ##D                   categories = c("A","B","C"),
+> ##D                   n.fitted = "opt")
+> ##D 
+> ##D # Note that this will also work:
+> ##D d <- fitDirichlet(list(myfit1, myfit2, myfit3),
+> ##D                   categories = c("A","B","C"),
+> ##D                   n.fitted = "opt")
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fitdist")
+> ### * fitdist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fitdist
+> ### Title: Fit distributions to elicited probabilities
+> ### Aliases: fitdist
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # One expert, with elicited probabilities
+> ##D # P(X<20)=0.25, P(X<30)=0.5, P(X<50)=0.75
+> ##D # and X>0.
+> ##D v <- c(20,30,50)
+> ##D p <- c(0.25,0.5,0.75)
+> ##D fitdist(vals=v, probs=p, lower=0)
+> ##D 
+> ##D # Now add a second expert, with elicited probabilities
+> ##D # P(X<55)=0.25, P(X<60=0.5), P(X<70)=0.75
+> ##D v <- matrix(c(20,30,50,55,60,70),3,2)
+> ##D p <- c(0.25,0.5,0.75)
+> ##D fitdist(vals=v, probs=p, lower=0)
+> ##D 
+> ##D # Two experts, different elicited quantiles and limits.
+> ##D # Expert A: P(X<50)=0.25, P(X<60=0.5), P(X<65)=0.75, and provides bounds 10<X<100
+> ##D # Expert B: P(X<40)=0.33, P(X<50=0.5), P(X<60)=0.66, and provides bounds 0<X
+> ##D v <- matrix(c(50,60,65,40,50,60),3,2)
+> ##D p <- matrix(c(.25,.5,.75,.33,.5,.66),3,2)
+> ##D l <- c(10,0)
+> ##D u <- c(100, Inf)
+> ##D fitdist(vals=v, probs=p, lower=l, upper=u)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fitprecision")
+> ### * fitprecision
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fitprecision
+> ### Title: Fit a distribution to judgements about a population precision
+> ### Aliases: fitprecision
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D fitprecision(interval=c(60, 70), propvals=c(0.2, 0.4), trans = "log")
+> ##D   
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("generateReport")
+> ### * generateReport
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: generateReport
+> ### Title: Generate a report to show the fitted distributions
+> ### Aliases: generateReport
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # One expert, with elicited probabilities
+> ##D # P(X<20)=0.25, P(X<30)=0.5, P(X<50)=0.75
+> ##D # and X>0.
+> ##D v <- c(20,30,50)
+> ##D p <- c(0.25,0.5,0.75)
+> ##D myfit <- fitdist(vals=v, probs=p, lower=0)
+> ##D 
+> ##D generateReport(myfit)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("linearPoolDensity")
+> ### * linearPoolDensity
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: linearPoolDensity
+> ### Title: Obtain points on the density function of a linear pool
+> ### Aliases: linearPoolDensity
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D # Two experts
+> ##D # Expert 1 states P(X<30)=0.25, P(X<40)=0.5, P(X<50)=0.75
+> ##D # Expert 2 states P(X<20)=0.25, P(X<25)=0.5, P(X<35)=0.75
+> ##D # Both experts state 0<X<100. 
+> ##D 
+> ##D v <- matrix(c(30, 40, 50, 20, 25, 35), 3, 2)
+> ##D p <- c(0.25, 0.5, 0.75)
+> ##D myfit <- fitdist(vals = v, probs = p, lower = 0, upper = 100)
+> ##D linearPoolDensity(myfit)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("makeCDFPlot")
+> ### * makeCDFPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: makeCDFPlot
+> ### Title: Plot the elicited cumulative probabilities
+> ### Aliases: makeCDFPlot
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D vQuartiles <- c(30, 35, 45)
+> ##D pQuartiles<- c(0.25, 0.5, 0.75)
+> ##D myfit <- fitdist(vals = vQuartiles, probs = pQuartiles, lower = 0)
+> ##D makeCDFPlot(lower = 0, v = vQuartiles, p = pQuartiles,
+> ##D  upper = 100, fit = myfit, dist = "gamma",
+> ##D  showFittedCDF = TRUE, showQuantiles = TRUE)
+> ##D 
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pdfplots")
+> ### * pdfplots
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pdfplots
+> ### Title: Plot fitted population pdfs
+> ### Aliases: pdfplots
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D prfit <- fitprecision(interval = c(60, 70), propvals = c(0.2, 0.4), trans = "log")
+> ##D medianfit <- fitdist(vals = c(50, 60, 70), probs = c(0.05, 0.5,  0.95), lower = 0)
+> ##D pdfplots(medianfit, prfit, alpha = 0.01)
+> ##D  
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plinearpool")
+> ### * plinearpool
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plinearpool
+> ### Title: Probabilities quantiles and samples from a (weighted) linear
+> ###   pool
+> ### Aliases: plinearpool qlinearpool rlinearpool
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Expert 1 states P(X<30)=0.25, P(X<40)=0.5, P(X<50)=0.75
+> ##D # Expert 2 states P(X<20)=0.25, P(X<25)=0.5, P(X<35)=0.75
+> ##D # Both experts state 0<X<100.
+> ##D 
+> ##D v <- matrix(c(30, 40, 50, 20, 25, 35), 3, 2)
+> ##D p <- c(0.25, 0.5, 0.75)
+> ##D myfit <- fitdist(vals = v, probs = p, lower = 0, upper = 100)
+> ##D 
+> ##D plinearpool(myfit, x=c(20, 50, 80))
+> ##D qlinearpool(myfit, q=c(0.05, 0.5, 0.95))
+> ##D 
+> ##D # give more weight to first expert
+> ##D plinearpool(myfit, x=c(20, 50, 80), w=c(0.7, 0.3)) 
+> ##D 
+> ##D # force the use of gamma distributions for each expert
+> ##D qlinearpool(myfit, q=c(0.05, 0.5, 0.95), d="gamma") 
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotConditionalDensities")
+> ### * plotConditionalDensities
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotConditionalDensities
+> ### Title: Plot density of the target variable, conditional on the
+> ###   extension variable
+> ### Aliases: plotConditionalDensities
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D 
+> ##D myfitX <- fitdist(vals = c(5.5, 9, 14),
+> ##D  probs = c(0.25, 0.5, 0.75),
+> ##D  lower = 0)
+> ##D 
+> ##D plotConditionalDensities(y = c(2, 6, 10),
+> ##D  fitX = myfitX,
+> ##D  yCP = c(3, 5, 7, 9.5, 13.5),
+> ##D  xMed = c(2, 6.5, 9, 13, 20),
+> ##D  medianY = 7,
+> ##D  link = "log",
+> ##D  dist = "lognormal",
+> ##D  xLimits = c(0, 60))
+> ##D 
+> ##D   
+> ##D # Example with the logit link
+> ##D 
+> ##D myfitXlogit <- fitdist(vals = c(0.2, 0.25, 0.3),
+> ##D  probs = c(0.25, 0.5, 0.75),
+> ##D  lower = 0, 
+> ##D  upper = 1)
+> ##D  
+> ##D  plotConditionalDensities(y = c(2, 6, 10),
+> ##D   fitX = myfitXlogit, 
+> ##D   yCP = c(2, 4, 6, 8, 10),
+> ##D   xMed = c(0.1, 0.3, 0.5, 0.7, 0.9),
+> ##D   medianY = 6,
+> ##D   link = "logit",
+> ##D   dist = "beta")
+> ##D  
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotConditionalMedianFunction")
+> ### * plotConditionalMedianFunction
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotConditionalMedianFunction
+> ### Title: Plot the conditional median function
+> ### Aliases: plotConditionalMedianFunction
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D plotConditionalMedianFunction(yCP = c(3, 5, 7, 9.5, 13.5),
+> ##D  xMed = c(2, 6.5, 9, 13, 20),
+> ##D  yLimits = c(0, 20),
+> ##D  link = "log")
+> ##D  
+> ##D plotConditionalMedianFunction(yCP = c(2, 4, 6, 8, 10),
+> ##D  xMed = c(0.1, 0.3, 0.5, 0.7, 0.9),
+> ##D  yLimits = c(0, 15),
+> ##D  link = "logit")
+> ##D  
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotQuartiles")
+> ### * plotQuartiles
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotQuartiles
+> ### Title: Plot elicted quartiles, median and plausible range for each
+> ###   expert
+> ### Aliases: plotQuartiles
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D l <- c(2, 1, 5, 1)
+> ##D u <- c(95, 90, 65, 40)
+> ##D v <- matrix(c(15, 25, 40,
+> ##D  10, 20, 40,
+> ##D  10, 15, 25,
+> ##D  5, 10, 20),
+> ##D  3, 4)
+> ##D plotQuartiles(vals = v, lower = l, upper  = u)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotTertiles")
+> ### * plotTertiles
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotTertiles
+> ### Title: Plot elicted tertiles, median and plausible range for each
+> ###   expert
+> ### Aliases: plotTertiles
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D l <- c(-5, 0, 5, -10)
+> ##D u <- c(15, 35, 50, 35)
+> ##D v <- matrix(c(5, 8, 10,
+> ##D  10, 15, 20,
+> ##D  15, 18, 25,
+> ##D  10, 20, 30),
+> ##D  3, 4)
+> ##D plotTertiles(vals = v, lower = l, upper  = u)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotfit")
+> ### * plotfit
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotfit
+> ### Title: Plot the fitted density function for one or more experts
+> ### Aliases: plotfit
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D # Two experts
+> ##D # Expert 1 states P(X<30)=0.25, P(X<40)=0.5, P(X<50)=0.75
+> ##D # Expert 2 states P(X<20)=0.25, P(X<25)=0.5, P(X<35)=0.75
+> ##D # Both experts state 0<X<100. 
+> ##D 
+> ##D v <- matrix(c(30, 40, 50, 20, 25, 35), 3, 2)
+> ##D p <- c(0.25, 0.5, 0.75)
+> ##D myfit <- fitdist(vals = v, probs = p, lower = 0, upper = 100)
+> ##D 
+> ##D # Plot both fitted densities, using the best fitted distribution
+> ##D plotfit(myfit)
+> ##D 
+> ##D # Plot a fitted beta distribution for expert 2, and show 5th and 95th percentiles
+> ##D plotfit(myfit, d = "beta", ql = 0.05, qu = 0.95, ex = 2)
+> ##D 
+> ##D 
+> ##D # Plot a linear pool, giving double weight to expert 1
+> ##D plotfit(myfit,  lp = T, lpw = c(2,1))
+> ##D 
+> ##D 
+> ##D # Plot a linear pool, giving double weight to expert 1, 
+> ##D # show 5th and 95th percentiles, surpress plotting of individual distributions, 
+> ##D # and force use of Beta distributions
+> ##D plotfit(myfit, d = "beta",  lp = T, lpw = c(2,1), ql = 0.05, qu = 0.95, ind=FALSE )
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("sampleFit")
+> ### * sampleFit
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: sampleFit
+> ### Title: Sample from the elicited distributions
+> ### Aliases: sampleFit
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D v <- c(20,30,50)
+> ##D p <- c(0.25,0.5,0.75)
+> ##D myfit <- fitdist(vals = v, probs = p, lower = 0, upper = 100)
+> ##D samplefit(myfit, n = 10)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("sampleMarginalFit")
+> ### * sampleMarginalFit
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: sampleMarginalFit
+> ### Title: Sample from the marginal distribution of the target variable
+> ### Aliases: sampleMarginalFit
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D 
+> ##D myfitX <- fitdist(vals = c(5.5, 9, 14),
+> ##D  probs = c(0.25, 0.5, 0.75),
+> ##D  lower = 0)
+> ##D ry <- rgamma(10, 5.19, 0.694)
+> ##D sampleMarginalFit(fitX = myfitX, 
+> ##D  sampleY = ry,
+> ##D  medianY = 7,
+> ##D  yCP = c(3, 5, 7, 9.5, 13.5),
+> ##D  xMed = c(2, 6.5, 9, 13, 20),
+> ##D  dist = "lognormal",
+> ##D  link = "log")
+> ##D  
+> ## End(Not run)
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.463 0.031 0.496 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

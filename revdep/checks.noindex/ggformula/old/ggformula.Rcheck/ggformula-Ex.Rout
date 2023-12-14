@@ -1,0 +1,2511 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "ggformula"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('ggformula')
+Loading required package: ggplot2
+Loading required package: scales
+Loading required package: ggridges
+
+New to ggformula?  Try the tutorials: 
+	learnr::run_tutorial("introduction", package = "ggformula")
+	learnr::run_tutorial("refining", package = "ggformula")
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("discrete_breaks")
+> ### * discrete_breaks
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: discrete_breaks
+> ### Title: Discrete Breaks
+> ### Aliases: discrete_breaks
+> 
+> ### ** Examples
+> 
+> x <- rbinom(100, 100, 0.4)
+> p <- gf_bar( ~ x)
+> p |> gf_refine(scale_x_continuous(breaks = discrete_breaks()))
+> p |> gf_refine(scale_x_continuous(breaks = discrete_breaks(5)))
+> p |> gf_refine(scale_x_continuous(breaks = discrete_breaks(2)))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("geom_lm")
+> ### * geom_lm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: stat_lm
+> ### Title: Linear Model Displays
+> ### Aliases: stat_lm geom_lm
+> 
+> ### ** Examples
+> 
+> ggplot(data = mosaicData::KidsFeet, aes(y = length, x = width, color = sex)) +
++   geom_lm() +
++   geom_point()
+Warning: Using the `size` aesthetic with geom_line was deprecated in ggplot2 3.4.0.
+ℹ Please use the `linewidth` aesthetic instead.
+> ggplot(data = mosaicData::KidsFeet, aes(y = length, x = width, color = sex)) +
++   geom_lm(interval = "prediction", color = "skyblue") +
++   geom_lm(interval = "confidence") +
++   geom_point() +
++   facet_wrap(~sex)
+Warning: Using the `size` aesthetic with geom_ribbon was deprecated in ggplot2 3.4.0.
+ℹ Please use the `linewidth` aesthetic instead.
+> # non-standard display
+> ggplot(data = mosaicData::KidsFeet, aes(y = length, x = width, color = sex)) +
++   stat_lm(aes(fill = sex),
++     color = NA, interval = "confidence", geom = "ribbon",
++     alpha = 0.2
++   ) +
++   geom_point() +
++   facet_wrap(~sex)
+> ggplot(mpg, aes(displ, hwy)) +
++   geom_lm(
++     formula = log(y) ~ poly(x, 3), backtrans = exp,
++     interval = "prediction", fill = "skyblue"
++   ) +
++   geom_lm(
++     formula = log(y) ~ poly(x, 3), backtrans = exp, interval = "confidence",
++     color = "red"
++   ) +
++   geom_point()
+> 
+> 
+> 
+> cleanEx()
+> nameEx("geom_spline")
+> ### * geom_spline
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: stat_spline
+> ### Title: Geoms and stats for spline smoothing
+> ### Aliases: stat_spline geom_spline
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++   ggplot(Births) + geom_spline(aes(x = date, y = births, colour = wday))
++   ggplot(Births) + geom_spline(aes(x = date, y = births, colour = wday), nknots = 10)
++ }
+Loading required package: mosaicData
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:mosaicData’
+
+> nameEx("gf_area")
+> ### * gf_area
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_area
+> ### Title: Formula interface to geom_area()
+> ### Aliases: gf_area
+> 
+> ### ** Examples
+> 
+> if (require(dplyr) && require(mosaicData)) {
++   Temps <- Weather |>
++     filter(city == "Chicago", year == 2016, month <= 4)
++   gf_linerange(low_temp + high_temp ~ date, color = ~high_temp, data = Temps)
++   gf_ribbon(low_temp + high_temp ~ date, data = Temps, color = "navy", alpha = 0.3)
++   gf_area(high_temp ~ date, data = Temps, color = "navy", alpha = 0.3)
++ 
++   gf_ribbon(low_temp + high_temp ~ date, data = Weather, alpha = 0.3) |>
++     gf_facet_grid(city ~ .)
++ 
++   gf_linerange(low_temp + high_temp ~ date, color = ~high_temp, data = Weather) |>
++     gf_facet_grid(city ~ .) |>
++     gf_refine(scale_colour_gradientn(colors = rev(rainbow(5))))
++ }
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading required package: mosaicData
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:mosaicData’, ‘package:dplyr’
+
+> nameEx("gf_ash")
+> ### * gf_ash
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_ash
+> ### Title: Average Shifted Histograms
+> ### Aliases: gf_ash stat_ash geom_ash
+> 
+> ### ** Examples
+> 
+> data(penguins, package = "palmerpenguins")
+> gf_ash(~bill_length_mm, color = ~species, data = penguins)
+Warning: Removed 2 rows containing non-finite values (`stat_ash()`).
+> gf_ash(~bill_length_mm, color = ~species, data = penguins, adjust = 2)
+Warning: Removed 2 rows containing non-finite values (`stat_ash()`).
+> gf_ash(~bill_length_mm, color = ~species, data = penguins, binwidth = 1)
+Warning: Removed 2 rows containing non-finite values (`stat_ash()`).
+> gf_ash(~bill_length_mm, color = ~species, data = penguins, binwidth = 1, adjust = 2)
+Warning: Removed 2 rows containing non-finite values (`stat_ash()`).
+> ggplot(faithful, aes(x = eruptions)) +
++   geom_histogram(aes(y = stat(density)),
++     fill = "lightskyblue", colour = "gray50", alpha = 0.2
++   ) +
++   geom_ash(colour = "red") +
++   geom_ash(colour = "forestgreen", adjust = 2) +
++   geom_ash(colour = "navy", adjust = 1 / 2) +
++   theme_minimal()
+Warning: `stat(density)` was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(density)` instead.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_aux")
+> ### * gf_aux
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_labs
+> ### Title: Non-layer functions for gf plots
+> ### Aliases: gf_labs gf_lims gf_refine
+> 
+> ### ** Examples
+> 
+> gf_dens(~cesd, color = ~substance, linewidth = 1.5, data = mosaicData::HELPrct) |>
++   gf_labs(
++     title = "Center for Epidemiologic Studies Depression measure",
++     subtitle = "(at baseline)",
++     color = "Abused substance: ",
++     x = "CESD score",
++     y = "",
++     caption = "Source: HELPrct"
++   ) |>
++   gf_theme(theme_classic()) |>
++   gf_theme(
++     axis.text.y = element_blank(),
++     legend.position = "top",
++     plot.title = element_text(hjust = 0.5, color = "navy"),
++     plot.subtitle = element_text(hjust = 0.5, color = "navy", size = 12)
++   )
+> 
+> gf_point(eruptions ~ waiting, data = faithful, alpha = 0.5)
+> gf_point(eruptions ~ waiting, data = faithful, alpha = 0.5) |>
++   gf_lims(x = c(65, NA), y = c(3, NA))
+Warning: Removed 99 rows containing missing values (`geom_point()`).
+> 
+> # modify scales using gf_refine()
+> data(penguins, package = "palmerpenguins")
+> gf_jitter(bill_length_mm ~ bill_depth_mm, color = ~species, data = penguins) |>
++   gf_refine(scale_color_brewer(type = "qual", palette = 3)) |>
++   gf_theme(theme_bw())
+Warning: Removed 2 rows containing missing values (`geom_point()`).
+> 
+> gf_jitter(bill_length_mm ~ bill_depth_mm, color = ~species, data = penguins) |>
++   gf_refine(scale_color_manual(values = c("red", "navy", "limegreen"))) |>
++   gf_theme(theme_bw())
+Warning: Removed 2 rows containing missing values (`geom_point()`).
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_bar")
+> ### * gf_bar
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_bar
+> ### Title: Formula interface to geom_bar()
+> ### Aliases: gf_bar gf_counts gf_props gf_percents
+> 
+> ### ** Examples
+> 
+> gf_bar(~substance, data = mosaicData::HELPrct)
+> gf_bar(~substance, data = mosaicData::HELPrct, fill = ~sex)
+> gf_bar(~substance,
++   data = mosaicData::HELPrct, fill = ~sex,
++   position = position_dodge()
++ )
+> # gf_counts() is another name for gf_bar()
+> gf_counts(~substance,
++   data = mosaicData::HELPrct, fill = ~sex,
++   position = position_dodge()
++ )
+> # gf_props() and gf_percents() use proportions or percentages instead of counts
+> # use denom to control which denominators are used.
+> gf_props(~substance,
++   data = mosaicData::HELPrct, fill = ~sex,
++   position = position_dodge()
++ )
+> gf_props(substance ~ .,
++   data = mosaicData::HELPrct, fill = ~sex,
++   position = position_dodge(),
++   orientation = 'y'
++ )
+> gf_props(substance ~ .,
++   data = mosaicData::HELPrct, fill = ~sex,
++   position = "dodge"
++ )
+> 
+> gf_percents(~substance,
++   data = mosaicData::HELPrct, fill = ~sex,
++   position = position_dodge()
++ )
+> gf_percents(~substance,
++   data = mosaicData::HELPrct, fill = ~sex,
++   position = position_dodge(),
++   denom = ~x
++ )
+> gf_percents(~substance,
++   data = mosaicData::HELPrct, fill = ~sex,
++   position = position_dodge(),
++   denom = ~fill
++ )
+> gf_percents(~substance | sex,
++   data = mosaicData::HELPrct, fill = ~homeless,
++   position = position_dodge()
++ )
+> gf_percents(~substance | sex,
++   data = mosaicData::HELPrct,
++   fill = ~homeless,
++   denom = ~fill,
++   position = position_dodge()
++ )
+> gf_percents(~substance | sex,
++   data = mosaicData::HELPrct,
++   fill = ~homeless,
++   denom = ~interaction(fill, PANEL),
++   position = position_dodge()
++ )
+> if (require(scales)) {
++   gf_percents(~substance,
++     data = mosaicData::HELPrct, fill = ~sex,
++     position = position_dodge(),
++     denom = ~ x,
++   ) |>
++     gf_refine(scale_y_continuous(labels = scales::percent))
++ }
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_bin2d")
+> ### * gf_bin2d
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_bin2d
+> ### Title: Formula interface to geom_bin2d()
+> ### Aliases: gf_bin2d
+> 
+> ### ** Examples
+> 
+> gf_bin2d(eruptions ~ waiting, data = faithful, bins = 15) |>
++   gf_refine(scale_fill_viridis_c(begin = 0.1, end = 0.9))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_blank")
+> ### * gf_blank
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_blank
+> ### Title: Formula interface to geom_blank()
+> ### Aliases: gf_blank gf_frame
+> 
+> ### ** Examples
+> 
+> 
+> gf_point((c(0, 1)) ~ (c(0, 5)))
+> gf_frame((c(0, 1)) ~ (c(0, 5)))
+> gf_blank((c(0, 1)) ~ (c(0, 5)))
+> # gf_blank() can be used to expand the view
+> gf_point((c(0, 1)) ~ (c(0, 5))) |>
++   gf_blank((c(0, 3)) ~ (c(-2, 7)))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_boxplot")
+> ### * gf_boxplot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_boxplot
+> ### Title: Formula interface to geom_boxplot()
+> ### Aliases: gf_boxplot
+> 
+> ### ** Examples
+> 
+> gf_boxplot(age ~ substance, data = mosaicData::HELPrct)
+> gf_boxplot(age ~ substance, data = mosaicData::HELPrct, varwidth = TRUE)
+> gf_boxplot(age ~ substance, data = mosaicData::HELPrct, color = ~sex)
+> gf_boxplot(age ~ substance,
++   data = mosaicData::HELPrct,
++   color = ~sex, outlier.color = "gray50"
++ )
+> # longer whiskers
+> gf_boxplot(age ~ substance,
++   data = mosaicData::HELPrct,
++   color = ~sex, coef = 2
++ )
+> 
+> # Note: width for boxplots is full width of box.
+> #       For jittering, it is the half-width.
+> gf_boxplot(age ~ substance | sex,
++   data = mosaicData::HELPrct,
++   coef = 5, width = 0.4
++ ) |>
++   gf_jitter(width = 0.2, alpha = 0.3)
+> # move boxplots away a bit by adjusting dodge
+> gf_boxplot(age ~ substance,
++   data = mosaicData::HELPrct,
++   color = ~sex, position = position_dodge(width = 0.9)
++ )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_col")
+> ### * gf_col
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_col
+> ### Title: Formula interface to geom_col()
+> ### Aliases: gf_col
+> 
+> ### ** Examples
+> 
+> SomeData <- data.frame(
++   group = LETTERS[1:3],
++   count = c(20, 25, 18)
++ )
+> gf_col(count ~ group, data = SomeData)
+> 
+> # A Pareto chart
+> 
+> if (require(dplyr) && require(mosaicData)) {
++   HELPrct |>
++     group_by(substance) |>
++     summarise(count = n()) |>
++     ungroup() |>
++     dplyr::arrange(-count) |>
++     mutate(
++       cumcount = cumsum(count),
++       substance = reorder(substance, -count)
++     ) |>
++     gf_col(count ~ substance, fill = "skyblue") |>
++     gf_point(cumcount ~ substance) |>
++     gf_line(cumcount ~ substance, group = 1) |>
++     gf_refine(
++       scale_y_continuous(sec.axis = sec_axis(~ . / nrow(HELPrct)))
++     )
++ }
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading required package: mosaicData
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:mosaicData’, ‘package:dplyr’
+
+> nameEx("gf_contour")
+> ### * gf_contour
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_contour
+> ### Title: Formula interface to geom_contour() and geom_contour_filled()
+> ### Aliases: gf_contour gf_contour_filled
+> 
+> ### ** Examples
+> 
+> gf_density_2d(eruptions ~ waiting, data = faithful, alpha = 0.5, color = "navy") |>
++   gf_contour(density ~ waiting + eruptions, data = faithfuld, bins = 10, color = "red")
+> gf_contour_filled(density ~ waiting + eruptions, data = faithfuld, bins = 10,
++     show.legend = FALSE) |>
++   gf_jitter(eruptions ~ waiting, data = faithful, color = "white", alpha = 0.5,
++     inherit = FALSE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_count")
+> ### * gf_count
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_count
+> ### Title: Formula interface to geom_count()
+> ### Aliases: gf_count
+> 
+> ### ** Examples
+> 
+> # Best used in conjunction with scale_size_area which ensures that
+> # counts of zero would be given size 0. This doesn't make much difference
+> # here because the smallest count is already close to 0.
+> 
+> gf_count(hwy ~ cty, data = mpg, alpha = 0.3) |>
++   gf_refine(scale_size_area())
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_crossbar")
+> ### * gf_crossbar
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_crossbar
+> ### Title: Formula interface to geom_crossbar()
+> ### Aliases: gf_crossbar
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData) && require(dplyr)) {
++   HELP2 <- HELPrct |>
++     summarise(.by = c(substance, sex),
++       mean.age   = mean(age),
++       median.age = median(age),
++       max.age    = max(age),
++       min.age    = min(age),
++       sd.age     = sd(age),
++       lo         = mean.age - sd.age,
++       hi         = mean.age + sd.age
++     )
++ 
++   gf_jitter(age ~ substance, data = HELPrct,
++       alpha = 0.7, width = 0.2, height = 0, color = "skyblue") |>
++     gf_pointrange(mean.age + lo + hi ~ substance, data = HELP2) |>
++     gf_facet_grid(~sex)
++ 
++   gf_jitter(age ~ substance, data = HELPrct,
++       alpha = 0.7, width = 0.2, height = 0, color = "skyblue")  |>
++     gf_errorbar(lo + hi ~ substance, data = HELP2, inherit = FALSE) |>
++     gf_facet_grid(~sex)
++ 
++   gf_jitter(age ~ substance, data = HELPrct,
++       alpha = 0.7, width = 0.2, height = 0, color = "skyblue") |>
++     gf_crossbar(mean.age + lo + hi ~ substance, data = HELP2,
++       fill = "transparent") |>
++     gf_facet_grid(~sex)
++ 
++   gf_jitter(substance ~ age, data = HELPrct,
++       alpha = 0.7, height = 0.2, width = 0, color = "skyblue") |>
++     gf_crossbar(substance ~ mean.age + lo + hi, data = HELP2,
++       fill = "transparent", color = "red") |>
++     gf_facet_grid(~sex)
++ }
+Loading required package: mosaicData
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’, ‘package:mosaicData’
+
+> nameEx("gf_curve")
+> ### * gf_curve
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_curve
+> ### Title: Formula interface to geom_curve()
+> ### Aliases: gf_curve
+> 
+> ### ** Examples
+> 
+> D <- data.frame(x1 = 2.62, x2 = 3.57, y1 = 21.0, y2 = 15.0)
+> gf_point(mpg ~ wt, data = mtcars) |>
++   gf_curve(y1 + y2 ~ x1 + x2, data = D, color = "navy") |>
++   gf_segment(y1 + y2 ~ x1 + x2, data = D, color = "red")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_density")
+> ### * gf_density
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_density
+> ### Title: Formula interface to stat_density()
+> ### Aliases: gf_density gf_dens gf_dens2
+> 
+> ### ** Examples
+> 
+> gf_dens()
+gf_dens() uses 
+    * a formula with shape ~x or y ~ .. 
+    * geom:  line 
+    * stat:  density 
+    * key attributes:  alpha = 0.5, color, fill = NA, group, linetype, linewidth,
+                   kernel = "gaussian", n = 512, trim =
+                   FALSE
+
+For more information, try ?gf_dens
+> data(penguins, package = "palmerpenguins")
+> gf_density(~bill_length_mm, fill = ~species, data = penguins)
+Warning: Removed 2 rows containing non-finite values (`stat_density()`).
+> gf_dens(~bill_length_mm, color = ~species, data = penguins)
+Warning: Removed 2 rows containing non-finite values (`stat_density()`).
+> gf_dens2(~bill_length_mm, color = ~species, fill = ~species, data = penguins)
+Warning: Removed 2 rows containing non-finite values (`stat_density()`).
+> gf_freqpoly(~bill_length_mm, color = ~species, data = penguins, bins = 15)
+Warning: Removed 2 rows containing non-finite values (`stat_bin()`).
+> # Chaining in the data
+> data(penguins, package = "palmerpenguins")
+> penguins |> gf_dens(~bill_length_mm, color = ~species)
+Warning: Removed 2 rows containing non-finite values (`stat_density()`).
+> # horizontal orientation
+> penguins |> gf_dens(bill_length_mm ~ ., color = ~species)
+Warning: Removed 2 rows containing non-finite values (`stat_density()`).
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_density_2d")
+> ### * gf_density_2d
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_density_2d
+> ### Title: Formula interface to geom_density_2d() and
+> ###   geom_density_2d_filled()
+> ### Aliases: gf_density_2d gf_density_2d_filled gf_density2d
+> ###   gf_density2d_filled
+> 
+> ### ** Examples
+> 
+> gf_jitter(avg_drinks ~ age,
++   alpha = 0.2, data = mosaicData::HELPrct,
++   width = 0.4, height = 0.4
++ ) |>
++   gf_density_2d(avg_drinks ~ age, data = mosaicData::HELPrct)
+> gf_density_2d_filled(avg_drinks ~ age, data = mosaicData::HELPrct, show.legend = FALSE) |>
++   gf_jitter(avg_drinks ~ age,
++     alpha = 0.3, data = mosaicData::HELPrct,
++     width = 0.4, height = 0.4,
++     color = "white"
++ )
+> gf_jitter(avg_drinks ~ age,
++   alpha = 0.2, data = mosaicData::HELPrct,
++   width = 0.4, height = 0.4
++ ) |>
++   gf_density2d(avg_drinks ~ age, data = mosaicData::HELPrct)
+> gf_density2d_filled(avg_drinks ~ age, data = mosaicData::HELPrct, show.legend = FALSE) |>
++   gf_jitter(avg_drinks ~ age,
++     alpha = 0.4, data = mosaicData::HELPrct,
++     width = 0.4, height = 0.4,
++     color = "white"
++ )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_dist")
+> ### * gf_dist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_dist
+> ### Title: Plot distributions
+> ### Aliases: gf_dist
+> 
+> ### ** Examples
+> 
+> gf_dhistogram(~ rnorm(100), bins = 20) |>
++   gf_dist("norm", color = "red")
+> 
+> # shading tails -- but see pdist() for this
+> gf_dist("norm", fill = ~ (abs(x) <= 2), geom = "area")
+> gf_dist("norm", color = "red", kind = "cdf")
+> gf_dist("norm", fill = "red", kind = "histogram")
+> gf_dist("norm", color = "red", kind = "qqstep", resolution = 25) |>
++   gf_dist("norm", color = "black", kind = "qq", resolution = 25, linewidth = 2, alpha = 0.5)
+> # size is used as parameter for binomial distribution
+> gf_dist("binom", size = 20, prob = 0.25)
+> # If we want to adjust size argument for plots, we have two choices:
+> gf_dist("binom", size = 20, prob = 0.25, plot_size = 2)
+> gf_dist("binom", params = list(size = 20, prob = 0.25), size = 2)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_dotplot")
+> ### * gf_dotplot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_dotplot
+> ### Title: Formula interface to geom_dotplot()
+> ### Aliases: gf_dotplot
+> 
+> ### ** Examples
+> 
+> data(penguins, package = "palmerpenguins")
+> gf_dotplot(~bill_length_mm, fill = ~species, data = penguins)
+Bin width defaults to 1/30 of the range of the data. Pick better value with
+`binwidth`.
+Warning: Removed 2 rows containing missing values (`stat_bindot()`).
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_ecdf")
+> ### * gf_ecdf
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_ecdf
+> ### Title: Formula interace to empirical cumulative distribution
+> ### Aliases: gf_ecdf
+> 
+> ### ** Examples
+> 
+> Data <- data.frame(
++   x = c(rnorm(100, 0, 1), rnorm(100, 0, 3), rt(100, df = 3)),
++   g = gl(3, 100, labels = c("N(0, 1)", "N(0, 3)", "T(df = 3)") )
++ )
+> gf_ecdf( ~ x, data = Data)
+> # Don't go to positive/negative infinity
+> gf_ecdf( ~ x, data = Data, pad = FALSE)
+> 
+> # Multiple ECDFs
+> gf_ecdf( ~ x, data = Data, color = ~ g)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_ellipse")
+> ### * gf_ellipse
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_ellipse
+> ### Title: Formula interface to stat_ellipse()
+> ### Aliases: gf_ellipse
+> 
+> ### ** Examples
+> 
+> gf_ellipse()
+gf_ellipse() uses 
+    * a formula with shape y ~ x. 
+    * geom:  path 
+    * stat:  ellipse 
+    * key attributes:  alpha, color, group, type = "t", level = 0.95, segments =
+                   51
+
+For more information, try ?gf_ellipse
+> gf_point(eruptions ~ waiting, data = faithful) |>
++   gf_ellipse(alpha = 0.5)
+> 
+> gf_point(eruptions ~ waiting, data = faithful, color = ~ (eruptions > 3)) |>
++   gf_ellipse(alpha = 0.5)
+> 
+> gf_point(eruptions ~ waiting, data = faithful, color = ~ (eruptions > 3)) |>
++   gf_ellipse(type = "norm", linetype = ~ "norm") |>
++   gf_ellipse(type = "t",    linetype = ~ "t")
+> 
+> gf_point(eruptions ~ waiting, data = faithful, color = ~ (eruptions > 3)) |>
++   gf_ellipse(type = "norm",   linetype = ~ "norm") |>
++   gf_ellipse(type = "euclid", linetype = ~ "euclid", level = 3) |>
++   gf_refine(coord_fixed())
+> 
+> # Use geom = "polygon" to enable fill
+> gf_point(eruptions ~ waiting, data = faithful, fill = ~ (eruptions > 3)) |>
++   gf_ellipse(geom = "polygon", alpha = 0.3, color = "black")
+> 
+> gf_point(eruptions ~ waiting, data = faithful, fill = ~ (eruptions > 3)) |>
++   gf_ellipse(geom = "polygon", alpha = 0.3) |>
++   gf_ellipse(alpha = 0.3, color = "black")
+> 
+> gf_ellipse(eruptions ~ waiting, data = faithful, show.legend = FALSE,
++   alpha = 0.3, fill = ~ (eruptions > 3), geom = "polygon") |>
++   gf_ellipse(level = 0.68, geom = "polygon", alpha = 0.3) |>
++   gf_point(data = faithful, color = ~ (eruptions > 3), show.legend = FALSE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_empty")
+> ### * gf_empty
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_empty
+> ### Title: Create an "empty" plot
+> ### Aliases: gf_empty
+> 
+> ### ** Examples
+> 
+> gf_empty()
+> data(penguins, package = "palmerpenguins")
+> gf_empty() |>
++   gf_point(bill_length_mm ~ bill_depth_mm, data = penguins, color = ~species)
+Warning: Removed 2 rows containing missing values (`geom_point()`).
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_errorbar")
+> ### * gf_errorbar
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_errorbar
+> ### Title: Formula interface to geom_errorbar()
+> ### Aliases: gf_errorbar
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData) && require(dplyr)) {
++   HELP2 <- HELPrct |>
++     group_by(substance, sex) |>
++     summarise(
++       mean.age = mean(age),
++       median.age = median(age),
++       max.age = max(age),
++       min.age = min(age),
++       sd.age = sd(age),
++       lo = mean.age - sd.age,
++       hi = mean.age + sd.age
++     )
++ 
++   gf_jitter(age ~ substance, data = HELPrct,
++       alpha = 0.5, width = 0.2, height = 0, color = "skyblue") |>
++     gf_pointrange(mean.age + lo + hi ~ substance, data = HELP2,
++       inherit = FALSE) |>
++     gf_facet_grid(~sex)
++ 
++   gf_jitter(age ~ substance, data = HELPrct,
++       alpha = 0.5, width = 0.2, height = 0, color = "skyblue") |>
++     gf_errorbar(lo + hi ~ substance, data = HELP2, inherit = FALSE) |>
++     gf_facet_grid(~sex)
++   gf_jitter(age ~ substance, data = HELPrct,
++       alpha = 0.5, width = 0.2, height = 0, color = "skyblue") |>
++     gf_boxplot(age ~ substance, data = HELPrct, color = "red") |>
++     gf_crossbar(mean.age + lo + hi ~ substance, data = HELP2) |>
++     gf_facet_grid(~sex)
++ }
+Loading required package: mosaicData
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+`summarise()` has grouped output by 'substance'. You can override using the
+`.groups` argument.
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’, ‘package:mosaicData’
+
+> nameEx("gf_facet_grid")
+> ### * gf_facet_grid
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_facet_wrap
+> ### Title: Add facets to a plot
+> ### Aliases: gf_facet_wrap gf_facet_grid
+> 
+> ### ** Examples
+> 
+> gf_histogram(~avg_drinks, data = mosaicData::HELPrct) |>
++   gf_facet_grid(~substance)
+> gf_histogram(~avg_drinks, data = mosaicData::HELPrct) |>
++   gf_facet_grid(~substance, scales = "free")
+> gf_histogram(~avg_drinks, data = mosaicData::HELPrct) |>
++   gf_facet_grid(~substance, scales = "free", space = "free")
+> gf_line(births ~ date, data = mosaicData::Births, color = ~wday) |>
++   gf_facet_wrap(~year, scales = "free_x", nrow = 5) |>
++   gf_theme(
++     axis.title.x = element_blank(),
++     axis.text.x = element_blank(), axis.ticks.x = element_blank()
++   ) |>
++   gf_labs(color = "Day")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_fitdistr")
+> ### * gf_fitdistr
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_fitdistr
+> ### Title: Plot density function based on fit to data
+> ### Aliases: gf_fitdistr
+> 
+> ### ** Examples
+> 
+> gf_fitdistr(~length, data = mosaicData::KidsFeet, inherit = FALSE) |>
++   gf_dhistogram(~length, data = mosaicData::KidsFeet, binwidth = 0.5, alpha = 0.25)
+> 
+> gf_dhistogram(~length, data = mosaicData::KidsFeet, binwidth = 0.5, alpha = 0.25) |>
++   gf_fitdistr()
+> 
+> set.seed(12345)
+> Dat <- data.frame(
++   f = rf(500, df1 = 3, df2 = 47),
++   g = rgamma(500, 3, 10)
++ )
+> gf_dhistogram(~g, data = Dat) |>
++   gf_fitdistr(dist = "dgamma", linewidth = 1.4)
+> 
+> gf_dhistogram(~g, data = Dat) |>
++   gf_fun(mosaicCore::fit_distr_fun(~g, data = Dat, dist = "dgamma"))
+> 
+> gf_dhistogram(~f, data = Dat) |>
++   gf_fitdistr(dist = "df", start = list(df1 = 2, df2 = 50))
+> 
+> # fitted parameters are default argument values
+> args(
++   mosaicCore::fit_distr_fun(~f,
++     data = Dat, dist = "df",
++     start = list(df1 = 2, df2 = 50)
++   )
++ )
+function (x, df1 = 3.2056566371178, df2 = 33.6602041251509, ncp, 
+    log = FALSE) 
+NULL
+> args(mosaicCore::fit_distr_fun(~g, data = Dat, dist = "dgamma"))
+function (x, shape = 3.06811349020471, rate = 10.7081791970129, 
+    scale = 1/rate, log = FALSE) 
+NULL
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_freqpoly")
+> ### * gf_freqpoly
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_freqpoly
+> ### Title: Formula interface to geom_freqpoly()
+> ### Aliases: gf_freqpoly
+> 
+> ### ** Examples
+> 
+> data(penguins, package = "palmerpenguins")
+> gf_histogram(~ bill_length_mm | species, alpha = 0.2, data = penguins, bins = 20) |>
++   gf_freqpoly(~bill_length_mm, data = penguins, color = ~species, bins = 20)
+Warning: Removed 2 rows containing non-finite values (`stat_bin()`).
+Warning: Removed 2 rows containing non-finite values (`stat_bin()`).
+> gf_freqpoly(~bill_length_mm, color = ~species, data = penguins, bins = 20)
+Warning: Removed 2 rows containing non-finite values (`stat_bin()`).
+> gf_dens(~bill_length_mm, data = penguins, color = "navy") |>
++   gf_freqpoly(after_stat(density) ~ bill_length_mm,
++     data = penguins,
++     color = "red", bins = 20
++   )
+Warning: Ignoring unknown aesthetics: .
+Warning: Removed 2 rows containing non-finite values (`stat_density()`).
+Warning: Removed 2 rows containing non-finite values (`stat_bin()`).
+Warning: The following aesthetics were dropped during statistical transformation: .
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_function")
+> ### * gf_function
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_function
+> ### Title: Layers displaying graphs of functions
+> ### Aliases: gf_function gf_fun
+> 
+> ### ** Examples
+> 
+> gf_function(fun = sqrt, xlim = c(0, 10))
+> gf_dhistogram(~age, data = mosaicData::HELPrct, binwidth = 3, alpha = 0.6) |>
++   gf_function(
++     fun = stats::dnorm,
++     args = list(mean = mean(mosaicData::HELPrct$age), sd = sd(mosaicData::HELPrct$age)),
++     color = "red"
++   )
+> gf_fun(5 + 3 * cos(10 * x) ~ x, xlim = c(0, 2))
+> # Utility bill is quadratic in month?
+> f <- makeFun(lm(totalbill ~ poly(month, 2), data = mosaicData::Utilities))
+> gf_point(totalbill ~ month, data = mosaicData::Utilities, alpha = 0.6) |>
++   gf_fun(f(m) ~ m, color = "red")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_function2d")
+> ### * gf_function2d
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_function_2d
+> ### Title: Plot functions of two variables
+> ### Aliases: gf_function_2d gf_function2d gf_function_contour
+> ###   gf_function_tile gf_fun_2d gf_fun2d gf_fun_tile gf_fun_contour
+> 
+> ### ** Examples
+> 
+> theme_set(theme_bw())
+> gf_function_2d(fun = function(x, y) sin(2 * x * y), xlim = c(-pi, pi), ylim = c(-pi, pi)) |>
++   gf_refine(scale_fill_viridis_c())
+Warning: The following aesthetics were dropped during statistical transformation: fill
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?
+> gf_function_2d(fun = function(x, y) x + y, contour = FALSE)
+> gf_function_tile(fun = function(x, y) x * y) |>
++   gf_function_contour(fun = function(x, y) x * y, color = "white") |>
++   gf_refine(scale_fill_viridis_c())
+Warning: The following aesthetics were dropped during statistical transformation: fill
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?
+> gf_fun_tile(x * y ~ x + y, xlim = c(-3, 3), ylim = c(-2, 2)) |>
++   gf_fun_contour(x * y ~ x + y, color = "white") |>
++   gf_refine(scale_fill_viridis_c()) |>
++   gf_labs(fill = "product")
+Warning: The following aesthetics were dropped during statistical transformation: fill
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:mosaicData’, ‘package:dplyr’, ‘package:Matrix’,
+  ‘package:lattice’
+
+> nameEx("gf_hex")
+> ### * gf_hex
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_hex
+> ### Title: Formula interface to geom_hex()
+> ### Aliases: gf_hex
+> 
+> ### ** Examples
+> 
+> gf_hex(avg_drinks ~ age, data = mosaicData::HELPrct, bins = 15) |>
++   gf_density2d(avg_drinks ~ age, data = mosaicData::HELPrct, color = "red", alpha = 0.5)
+Warning: Computation failed in `stat_binhex()`
+Caused by error in `compute_group()`:
+! The package "hexbin" is required for `stat_binhex()`
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_histogram")
+> ### * gf_histogram
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_histogram
+> ### Title: Formula interface to geom_histogram()
+> ### Aliases: gf_histogram gf_dhistogram gf_dhistogramh
+> 
+> ### ** Examples
+> 
+> x <- rnorm(1000)
+> gf_histogram(~x, bins = 30)
+> gf_dhistogram(~x, bins = 30)
+> gf_dhistogram(~x, binwidth = 0.5, center = 0, color = "black")
+> gf_dhistogram(~x, binwidth = 0.5, boundary = 0, color = "black")
+> gf_dhistogramh(x ~ ., binwidth = 0.5, boundary = 0, color = "black")
+> gf_dhistogram(~x, bins = 30) |>
++   gf_fitdistr(dist = "dnorm") # see help for gf_fitdistr() for more info.
+> 
+> gf_histogram(~x, fill = ~ (abs(x) <= 2), boundary = 2, binwidth = 0.25)
+> 
+> data(penguins, package = "palmerpenguins")
+> gf_histogram(~ bill_length_mm | species, data = penguins, binwidth = 0.25)
+Warning: Removed 2 rows containing non-finite values (`stat_bin()`).
+> gf_histogram(~age,
++   data = mosaicData::HELPrct, binwidth = 5,
++   fill = "skyblue", color = "black"
++ )
+> # bins can be adjusted left/right using center or boundary
+> gf_histogram(~age,
++   data = mosaicData::HELPrct,
++   binwidth = 5, fill = "skyblue", color = "black", center = 42.5
++ )
+> gf_histogram(~age,
++   data = mosaicData::HELPrct,
++   binwidth = 5, fill = "skyblue", color = "black", boundary = 40
++ )
+> gf_histogram(age ~ .,
++   data = mosaicData::HELPrct,
++   binwidth = 5, fill = "skyblue", color = "black", boundary = 40
++ )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_jitter")
+> ### * gf_jitter
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_jitter
+> ### Title: Formula interface to geom_jitter()
+> ### Aliases: gf_jitter
+> 
+> ### ** Examples
+> 
+> gf_jitter()
+gf_jitter() uses 
+    * a formula with shape y ~ x. 
+    * geom:  point 
+    * position:  jitter 
+    * key attributes:  alpha, color, size, shape, fill, width, height, group,
+                   stroke
+
+For more information, try ?gf_jitter
+> # without jitter
+> gf_point(age ~ sex, alpha = 0.25, data = mosaicData::HELPrct)
+> # jitter only horizontally
+> gf_jitter(age ~ sex, alpha = 0.25, data = mosaicData::HELPrct, width = 0.2, height = 0)
+> # alternative way to get jitter
+> gf_point(age ~ sex,
++   alpha = 0.25, data = mosaicData::HELPrct,
++   position = "jitter", width = 0.2, height = 0
++ )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_line")
+> ### * gf_line
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_line
+> ### Title: Formula interface to geom_line() and geom_path()
+> ### Aliases: gf_line gf_path
+> 
+> ### ** Examples
+> 
+> gf_line()
+gf_line() uses 
+    * a formula with shape y ~ x. 
+    * geom:  line 
+    * key attributes:  alpha, color, fill, group, linetype, linewidth, lineend,
+                   linejoin, linemitre, arrow
+
+For more information, try ?gf_line
+> gf_point(age ~ sex, alpha = 0.25, data = mosaicData::HELPrct)
+> gf_point(births ~ date, color = ~wday, data = mosaicData::Births78)
+> # lines make the exceptions stand out more prominently
+> gf_line(births ~ date, color = ~wday, data = mosaicData::Births78)
+> gf_path()
+gf_path() uses 
+    * a formula with shape y ~ x. 
+    * geom:  path 
+    * key attributes:  alpha, color, group, linetype, linewidth, lineend = "butt",
+                   linejoin = "round", linemitre = 1, arrow
+                   = NULL
+
+For more information, try ?gf_path
+> if (require(dplyr)) {
++   data.frame(t = seq(1, 10 * pi, length.out = 400)) |>
++     mutate(x = t * cos(t), y = t * sin(t)) |>
++     gf_path(y ~ x, color = ~t)
++ }
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’
+
+> nameEx("gf_linerange")
+> ### * gf_linerange
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_linerange
+> ### Title: Formula interface to geom_linerange() and geom_pointrange()
+> ### Aliases: gf_linerange gf_pointrange gf_summary
+> 
+> ### ** Examples
+> 
+> gf_linerange()
+gf_linerange() uses 
+    * a formula with shape ymin + ymax ~ x or y ~ xmin + xmax. 
+    * geom:  linerange 
+    * key attributes:  alpha, color, group, linetype, linewidth
+
+For more information, try ?gf_linerange
+> 
+> gf_ribbon(low_temp + high_temp ~ date,
++   data = mosaicData::Weather,
++   fill = ~city, alpha = 0.4
++ ) |>
++   gf_theme(theme = theme_minimal())
+> gf_linerange(
++   low_temp + high_temp ~ date | city ~ .,
++   data = mosaicData::Weather,
++   color = ~ ((low_temp + high_temp) / 2)
++ ) |>
++   gf_refine(scale_colour_gradientn(colors = rev(rainbow(5)))) |>
++   gf_labs(color = "mid-temp")
+> 
+> gf_ribbon(low_temp + high_temp ~ date | city ~ ., data = mosaicData::Weather)
+> 
+> # Chaining in the data
+> mosaicData::Weather |>
++   gf_ribbon(low_temp + high_temp ~ date, alpha = 0.4) |>
++   gf_facet_grid(city ~ .)
+> if (require(mosaicData) && require(dplyr)) {
++   HELP2 <- HELPrct |>
++     group_by(substance, sex) |>
++     summarise(
++       age = NA,
++       mean.age = mean(age),
++       median.age = median(age),
++       max.age = max(age),
++       min.age = min(age),
++       sd.age = sd(age),
++       lo = mean.age - sd.age,
++       hi = mean.age + sd.age
++     )
++ 
++   gf_jitter(age ~ substance, data = HELPrct,
++       alpha = 0.5, width = 0.2, height = 0, color = "skyblue") |>
++     gf_pointrange(mean.age + lo + hi ~ substance, data = HELP2) |>
++     gf_facet_grid(~sex)
++ 
++   gf_jitter(age ~ substance, data = HELPrct,
++     alpha = 0.5, width = 0.2, height = 0, color = "skyblue") |>
++     gf_errorbar(lo + hi ~ substance, data = HELP2, inherit = FALSE) |>
++     gf_facet_grid(~sex)
++ 
++   # width is defined differently for gf_boxplot() and gf_jitter()
++   #   * for gf_boxplot() it is the full width of the box.
++   #   * for gf_jitter() it is half that -- the maximum amount added or subtracted.
++   gf_boxplot(age ~ substance, data = HELPrct, width = 0.4) |>
++     gf_jitter(width = 0.4, height = 0, color = "skyblue", alpha = 0.5)
++ 
++   gf_boxplot(age ~ substance, data = HELPrct, width = 0.4) |>
++     gf_jitter(width = 0.2, height = 0, color = "skyblue", alpha = 0.5)
++ }
+Loading required package: mosaicData
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+`summarise()` has grouped output by 'substance'. You can override using the
+`.groups` argument.
+> p <- gf_jitter(mpg ~ cyl, data = mtcars, height = 0, width = 0.15); p
+> p |> gf_summary(fun.data = "mean_cl_boot", color = "red", size = 2, linewidth = 1.3)
+Warning: Computation failed in `stat_summary()`
+Caused by error in `fun.data()`:
+! The package "Hmisc" is required.
+> # You can supply individual functions to summarise the value at
+> # each x:
+> p |> gf_summary(fun.y = "median", color = "red", size = 3, geom = "point")
+No summary function supplied, defaulting to `mean_se()`
+> p |>
++   gf_summary(fun.y = "mean", color = "red", size = 3, geom = "point") |>
++   gf_summary(fun.y = mean, geom = "line")
+No summary function supplied, defaulting to `mean_se()`
+No summary function supplied, defaulting to `mean_se()`
+> p |>
++   gf_summary(fun.y = mean, fun.ymin = min, fun.ymax = max, color = "red")
+No summary function supplied, defaulting to `mean_se()`
+> ## Not run: 
+> ##D   p |>
+> ##D   gf_summary(fun.ymin = min, fun.ymax = max, color = "red", geom = "linerange")
+> ## End(Not run)
+> 
+> gf_bar(~ cut, data = diamonds)
+> gf_col(price ~ cut, data = diamonds, stat = "summary_bin", fun.y = "mean")
+No summary function supplied, defaulting to `mean_se()`
+No summary function supplied, defaulting to `mean_se()`
+No summary function supplied, defaulting to `mean_se()`
+No summary function supplied, defaulting to `mean_se()`
+No summary function supplied, defaulting to `mean_se()`
+> 
+> # Don't use gf_lims() to zoom into a summary plot - this throws the
+> # data away
+> p <- gf_summary(mpg ~ cyl, data = mtcars, fun.y = "mean", geom = "point")
+> p
+No summary function supplied, defaulting to `mean_se()`
+> p |> gf_lims(y = c(15, 30))
+Warning: Removed 9 rows containing non-finite values (`stat_summary()`).
+No summary function supplied, defaulting to `mean_se()`
+> # Instead use coord_cartesian()
+> p |> gf_refine(coord_cartesian(ylim = c(15, 30)))
+No summary function supplied, defaulting to `mean_se()`
+> # A set of useful summary functions is provided from the Hmisc package.
+> ## Not run: 
+> ##D p <- gf_jitter(mpg ~ cyl, data = mtcars, width = 0.15, height = 0); p
+> ##D p |> gf_summary(fun.data = mean_cl_boot, color = "red")
+> ##D p |> gf_summary(fun.data = mean_cl_boot, color = "red", geom = "crossbar")
+> ##D p |> gf_summary(fun.data = mean_sdl, group = ~ cyl, color = "red",
+> ##D                    geom = "crossbar", width = 0.3)
+> ##D p |> gf_summary(group = ~ cyl, color = "red", geom = "crossbar", width = 0.3,
+> ##D         fun.data = mean_sdl, fun.args = list(mult = 1))
+> ##D p |> gf_summary(fun.data = median_hilow, group = ~ cyl, color = "red",
+> ##D         geom = "crossbar", width = 0.3)
+> ## End(Not run)
+> 
+> # An example with highly skewed distributions:
+> if (require("ggplot2movies")) {
++   set.seed(596)
++   Mov <- movies[sample(nrow(movies), 1000), ]
++   m2 <- gf_jitter(votes ~ factor(round(rating)), data = Mov, width = 0.15, height = 0, alpha = 0.3)
++   m2 <- m2 |>
++     gf_summary(fun.data = "mean_cl_boot", geom = "crossbar",
++                colour = "red", width = 0.3) |>
++     gf_labs(x = "rating")
++   m2
++   # Notice how the overplotting skews off visual perception of the mean
++   # supplementing the raw data with summary statistics is _very_ important
++ 
++   # Next, we'll look at votes on a log scale.
++ 
++   # Transforming the scale means the data are transformed
++   # first, after which statistics are computed:
++   m2 |> gf_refine(scale_y_log10())
++   # Transforming the coordinate system occurs after the
++   # statistic has been computed. This means we're calculating the summary on the raw data
++   # and stretching the geoms onto the log scale.  Compare the widths of the
++   # standard errors.
++   m2 |> gf_refine(coord_trans(y="log10"))
++ }
+Loading required package: ggplot2movies
+Warning: Computation failed in `stat_summary()`
+Caused by error in `fun.data()`:
+! The package "Hmisc" is required.
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2movies’, ‘package:dplyr’,
+  ‘package:mosaicData’
+
+> nameEx("gf_lines")
+> ### * gf_lines
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_abline
+> ### Title: Reference lines - horizontal, vertical, and diagonal.
+> ### Aliases: gf_abline gf_hline gf_vline gf_coefline
+> 
+> ### ** Examples
+> 
+> mtcars2 <- df_stats(wt ~ cyl, data = mtcars, median_wt = median)
+> gf_point(wt ~ hp, size = ~wt, color = ~cyl, data = mtcars) |>
++   gf_abline(slope = ~0, intercept = ~median_wt, color = ~cyl, data = mtcars2)
+> 
+> gf_point(wt ~ hp, size = ~wt, color = ~cyl, data = mtcars) |>
++   gf_abline(slope = 0, intercept = 3, color = "green")
+> 
+> # avoid warnings by using formulas:
+> 
+> gf_point(wt ~ hp, size = ~wt, color = ~cyl, data = mtcars) |>
++   gf_abline(slope = ~0, intercept = ~3, color = "green")
+> 
+> gf_point(wt ~ hp, size = ~wt, color = ~cyl, data = mtcars) |>
++   gf_hline(yintercept = ~median_wt, color = ~cyl, data = mtcars2)
+> 
+> gf_point(mpg ~ hp, color = ~cyl, size = ~wt, data = mtcars) |>
++   gf_abline(color = "red", slope = ~ - 0.10, intercept = ~ 35)
+> 
+> gf_point(mpg ~ hp, color = ~cyl, size = ~wt, data = mtcars) |>
++   gf_abline(
++     color = "red", slope = ~slope, intercept = ~intercept,
++     data = data.frame(slope = -0.10, intercept = 33:35)
++   )
+> 
+> # We can set the color of the guidelines while mapping color in other layers
+> gf_point(mpg ~ hp, color = ~cyl, size = ~ wt, data = mtcars) |>
++   gf_hline(color = "navy", yintercept = ~ c(20, 25), data = NA) |>
++   gf_vline(color = "brown", xintercept = ~ c(200, 300), data = NA)
+> 
+> # If we want to map the color of the guidelines, it must work with the
+> # scale of the other colors in the plot.
+> gf_point(mpg ~ hp, size = ~wt, data = mtcars, alpha = 0.3) |>
++   gf_hline(color = ~"horizontal", yintercept = ~ c(20, 25), data = NA) |>
++   gf_vline(color = ~"vertical", xintercept = ~ c(100, 200, 300), data = NA)
+> 
+> gf_point(mpg ~ hp, size = ~wt, color = ~ factor(cyl), data = mtcars, alpha = 0.3) |>
++   gf_hline(color = "orange", yintercept = ~ 20) |>
++   gf_vline(color = ~ c("4", "6", "8"), xintercept = ~ c(80, 120, 250), data = NA)
+> 
+> gf_point(mpg ~ hp, size = ~wt, color = ~ factor(cyl), data = mtcars, alpha = 0.3) |>
++   gf_hline(color = "orange", yintercept = ~ 20) |>
++   gf_vline(color = c("green", "red", "blue"), xintercept = ~ c(80, 120, 250),
++     data = NA)
+> 
+> # reversing the layers requires using inherit = FALSE
+> gf_hline(color = "orange", yintercept = ~ 20) |>
++   gf_vline(color = ~ c("4", "6", "8"), xintercept = ~ c(80, 120, 250), data = NA) |>
++   gf_point(mpg ~ hp,
++     size = ~wt, color = ~ factor(cyl), data = mtcars, alpha = 0.3,
++     inherit = FALSE
++   )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_plot")
+> ### * gf_plot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_plot
+> ### Title: Formula interface to ggplot()
+> ### Aliases: gf_plot
+> 
+> ### ** Examples
+> 
+> gf_plot(mtcars, x = ~ wt, y = ~ mpg, color = ~ factor(cyl)) |>
++   gf_density_2d() |>
++   gf_point()
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_point")
+> ### * gf_point
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_point
+> ### Title: Formula interface to geom_point()
+> ### Aliases: gf_point
+> 
+> ### ** Examples
+> 
+> gf_point()
+gf_point() uses 
+    * a formula with shape y ~ x. 
+    * geom:  point 
+    * key attributes:  alpha, color, size, shape, fill, group, stroke
+
+For more information, try ?gf_point
+> gf_point((10 * ((1:25) %/% 10)) ~ ((1:25) %% 10),
++   shape = 1:25,
++   fill = "skyblue", color = "navy", size = 4, stroke = 1, data = NA
++ )
+> gf_point(mpg ~ hp, color = ~cyl, size = ~wt, data = mtcars)
+> # faceting -- two ways
+> gf_point(mpg ~ hp, data = mtcars) |>
++   gf_facet_wrap(~am)
+> gf_point(mpg ~ hp | am, group = ~cyl, data = mtcars)
+> gf_point(mpg ~ hp | ~am, group = ~cyl, data = mtcars)
+> gf_point(mpg ~ hp | am ~ ., group = ~cyl, data = mtcars)
+> # Chaining in the data
+> mtcars |> gf_point(mpg ~ wt)
+> 
+> # short cuts for main labels in the plot
+> gf_point(births ~ date,
++   color = ~wday, data = mosaicData::Births78,
++   xlab = "Date", ylab = "Number of Live Births",
++   title = "Interesting Patterns in the Number of Births",
++   subtitle = "(United States, 1978)",
++   caption = "Source: mosaicData::Births78"
++ )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_polygon")
+> ### * gf_polygon
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_polygon
+> ### Title: Formula interface to geom_polygon()
+> ### Aliases: gf_polygon
+> 
+> ### ** Examples
+> 
+> gf_polygon()
+gf_polygon() uses 
+    * a formula with shape y ~ x. 
+    * geom:  polygon 
+    * key attributes:  alpha, color, linewidth, shape, fill, group, stroke
+
+For more information, try ?gf_polygon
+> if (require(maps) && require(ggthemes) && require(dplyr)) {
++   US <- map_data("state") |>
++     dplyr::mutate(name_length = nchar(region))
++   States <- US |>
++     dplyr::group_by(region) |>
++     dplyr::summarise(lat = mean(range(lat)), long = mean(range(long))) |>
++     dplyr::mutate(name = abbreviate(region, 3))
++ 
++   gf_polygon(lat ~ long,
++     data = US, group = ~group,
++     fill = ~name_length, color = "white"
++   ) |>
++     gf_text(lat ~ long,
++       label = ~name, data = States,
++       color = "gray70", inherit = FALSE
++     ) |>
++     gf_refine(ggthemes::theme_map())
++ }
+Loading required package: maps
+Loading required package: ggthemes
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’, ‘package:ggthemes’, ‘package:maps’
+
+> nameEx("gf_qq")
+> ### * gf_qq
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_qq
+> ### Title: Formula interface to geom_qq()
+> ### Aliases: gf_qq gf_qqline gf_qqstep
+> 
+> ### ** Examples
+> 
+> gf_qq(~ rnorm(100))
+> data(penguins, package = "palmerpenguins")
+> gf_qq(~ bill_length_mm | species, data = penguins) |> gf_qqline()
+Warning: Removed 2 rows containing non-finite values (`stat_qq()`).
+Warning: Removed 2 rows containing non-finite values (`stat_qq_line()`).
+> gf_qq(~ bill_length_mm | species, data = penguins) |> gf_qqline(tail = 0.10)
+Warning: Removed 2 rows containing non-finite values (`stat_qq()`).
+Warning: Removed 2 rows containing non-finite values (`stat_qq_line()`).
+> gf_qq(~bill_length_mm, color = ~species, data = penguins) |>
++   gf_qqstep(~bill_length_mm, color = ~species, data = penguins)
+Warning: Removed 2 rows containing non-finite values (`stat_qq()`).
+Warning: Removed 2 rows containing non-finite values (`stat_qq()`).
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_quantile")
+> ### * gf_quantile
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_quantile
+> ### Title: Formula interface to geom_quantile()
+> ### Aliases: gf_quantile
+> 
+> ### ** Examples
+> 
+> gf_point((1 / hwy) ~ displ, data = mpg) |>
++   gf_quantile((1 / hwy) ~ displ)
+Smoothing formula not specified. Using: y ~ x
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_raster")
+> ### * gf_raster
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_raster
+> ### Title: Formula interface to geom_raster()
+> ### Aliases: gf_raster
+> 
+> ### ** Examples
+> 
+> # Justification controls where the cells are anchored
+> D <- expand.grid(x = 0:5, y = 0:5)
+> D$z <- runif(nrow(D))
+> # centered squares
+> gf_raster(z ~ x + y, data = D)
+> gf_raster(y ~ x, fill = ~z, data = D)
+> # zero padding
+> gf_raster(z ~ x + y, data = D, hjust = 0, vjust = 0)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_rect")
+> ### * gf_rect
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_rect
+> ### Title: Formula interface to geom_rect()
+> ### Aliases: gf_rect
+> 
+> ### ** Examples
+> 
+> gf_rect(1 + 2 ~ 3 + 4, alpha = 0.3, color = "red")
+> # use data = data.frame() so we get 1 rectangle and not 1 per row of faithful
+> # use inherit = FALSE because we are not reusing eruptions and waiting
+> gf_point(eruptions ~ waiting, data = faithful) |>
++   gf_rect(1.5 + 3 ~ 45 + 68,
++     fill = "red", alpha = 0.2,
++     data = data.frame(), inherit = FALSE) |>
++   gf_rect(3 + 5.5 ~ 68 + 100,
++     fill = "green", alpha = 0.2,
++     data = data.frame(), inherit = FALSE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_relabel")
+> ### * gf_relabel
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_relabel
+> ### Title: Modify plot labeling
+> ### Aliases: gf_relabel print.gf_ggplot
+> 
+> ### ** Examples
+> 
+> 
+> # labeling using a list
+> labels <- list(width = "width of foot (cm)", length = "length of foot (cm)",
++   domhand = "dominant hand")
+> gf_point(length ~ width, color = ~domhand, data = mosaicData::KidsFeet) |>
++   gf_relabel(labels)
+> 
+> # labeling using ...
+> gf_point(length ~ width, color = ~domhand, data = mosaicData::KidsFeet) |>
++   gf_relabel(
++     width = "width of foot (cm)",
++    length = "length of foot (cm)",
++    domhand = "dominant hand")
+> 
+> # Alternatively, we can store labels with data.
+> KF <- mosaicData::KidsFeet |>
++   set_variable_labels(
++     length = 'foot length (cm)',
++     width = 'foot width (cm)'
++   )
+> gf_point(length ~ width, data = KF)
+> gf_density2d(length ~ width, data = KF)
+> get_variable_labels(KF)
+$name
+NULL
+
+$birthmonth
+NULL
+
+$birthyear
+NULL
+
+$length
+[1] "foot length (cm)"
+
+$width
+[1] "foot width (cm)"
+
+$sex
+NULL
+
+$biggerfoot
+NULL
+
+$domhand
+NULL
+
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_ribbon")
+> ### * gf_ribbon
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_ribbon
+> ### Title: Formula interface to geom_ribbon()
+> ### Aliases: gf_ribbon
+> 
+> ### ** Examples
+> 
+> gf_ribbon()
+gf_ribbon() uses 
+    * a formula with shape ymin + ymax ~ x or y ~ xmin + xmax. 
+    * geom:  ribbon 
+    * key attributes:  alpha = 0.3
+
+For more information, try ?gf_ribbon
+> 
+> gf_ribbon(low_temp + high_temp ~ date, data = mosaicData::Weather, fill = ~city, alpha = 0.4) |>
++   gf_theme(theme = theme_minimal())
+> gf_linerange(
++   low_temp + high_temp ~ date | city ~ .,
++   color = ~high_temp,
++   data = mosaicData::Weather
++ ) |>
++   gf_refine(scale_colour_gradientn(colors = rev(rainbow(5))))
+> gf_ribbon(low_temp + high_temp ~ date | city ~ ., data = mosaicData::Weather)
+> # Chaining in the data
+> ## Not run: 
+> ##D mosaicData::Weather |>
+> ##D   gf_ribbon(low_temp + high_temp ~ date, alpha = 0.4) |>
+> ##D   gf_facet_grid(city ~ .)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_rug")
+> ### * gf_rug
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_rug
+> ### Title: Formula interface to geom_rug()
+> ### Aliases: gf_rug gf_rugx gf_rugy
+> 
+> ### ** Examples
+> 
+> data(penguins, package = "palmerpenguins")
+> gf_point(bill_length_mm ~ bill_depth_mm, data = penguins) |>
++   gf_rug(bill_length_mm ~ bill_depth_mm)
+Warning: Removed 2 rows containing missing values (`geom_point()`).
+> 
+> # There are several ways to control x- and y-rugs separately
+> gf_point(bill_length_mm ~ bill_depth_mm, data = penguins) |>
++   gf_rugx(~bill_depth_mm, data = penguins, color = "red") |>
++   gf_rugy(bill_length_mm ~ ., data = penguins, color = "green")
+Warning: Removed 2 rows containing missing values (`geom_point()`).
+> 
+> gf_point(bill_length_mm ~ bill_depth_mm, data = penguins) |>
++   gf_rug(. ~ bill_depth_mm, data = penguins, color = "red", inherit = FALSE) |>
++   gf_rug(bill_length_mm ~ ., data = penguins, color = "green", inherit = FALSE)
+Warning: Removed 2 rows containing missing values (`geom_point()`).
+> 
+> gf_point(bill_length_mm ~ bill_depth_mm, data = penguins) |>
++   gf_rug(. ~ bill_depth_mm, data = penguins, color = "red", sides = "b") |>
++   gf_rug(bill_length_mm ~ ., data = penguins, color = "green", sides = "l")
+Warning: Removed 2 rows containing missing values (`geom_point()`).
+> 
+> # jitter requires both an x and a y, but we can turn off one or the other with sides
+> gf_jitter(bill_length_mm ~ bill_depth_mm, data = penguins) |>
++   gf_rug(color = "green", sides = "b", position = "jitter")
+Warning: Removed 2 rows containing missing values (`geom_point()`).
+> 
+> # rugs work with some 1-varialbe plots as well.
+> gf_histogram(~eruptions, data = faithful) |>
++   gf_rug(~eruptions, data = faithful, color = "red") |>
++   gf_rug(~eruptions, data = faithful, color = "navy", sides = "t")
+> 
+> # we can take advantage of inheritance to shorten the code
+> gf_histogram(~eruptions, data = faithful) |>
++   gf_rug(color = "red") |>
++   gf_rug(color = "navy", sides = "t")
+> 
+> # Need to turn off inheritance when using gf_dhistogram:
+> gf_dhistogram(~eruptions, data = faithful) |>
++   gf_rug(~eruptions, data = faithful, color = "red", inherit = FALSE)
+> 
+> # using jitter with gf_histogram() requires manually setting the y value.
+> gf_dhistogram(~bill_depth_mm, data = penguins) |>
++   gf_rug(0 ~ bill_depth_mm, data = penguins, color = "green", sides = "b", position = "jitter")
+Warning: Removed 2 rows containing non-finite values (`stat_bin()`).
+> 
+> # the choice of y value can affect how the plot looks.
+> gf_dhistogram(~bill_depth_mm, data = penguins) |>
++   gf_rug(0.5 ~ bill_depth_mm, data = penguins, color = "green", sides = "b", position = "jitter")
+Warning: Removed 2 rows containing non-finite values (`stat_bin()`).
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_segment")
+> ### * gf_segment
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_segment
+> ### Title: Formula interface to geom_segment()
+> ### Aliases: gf_segment
+> 
+> ### ** Examples
+> 
+> D <- data.frame(x1 = 2.62, x2 = 3.57, y1 = 21.0, y2 = 15.0)
+> gf_point(mpg ~ wt, data = mtcars) |>
++   gf_curve(y1 + y2 ~ x1 + x2, data = D, color = "navy") |>
++   gf_segment(y1 + y2 ~ x1 + x2, data = D, color = "red")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_sf")
+> ### * gf_sf
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_sf
+> ### Title: Mapping with shape files
+> ### Aliases: gf_sf
+> 
+> ### ** Examples
+> 
+> 
+> if (requireNamespace('maps', quietly = TRUE)) {
++   library(maps)
++   world1 <- sf::st_as_sf(map('world', plot = FALSE, fill = TRUE))
++   gf_sf(data = world1)
++ }
+> 
+> if (requireNamespace('maps', quietly = TRUE)) {
++   world2 <- sf::st_transform(
++     world1,
++     "+proj=laea +y_0=0 +lon_0=155 +lat_0=-90 +ellps=WGS84 +no_defs"
++   )
++   gf_sf(data = world2)
++ }
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:maps’
+
+> nameEx("gf_sina")
+> ### * gf_sina
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_sina
+> ### Title: Formula interface to geom_sina()
+> ### Aliases: gf_sina
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D   library(ggforce)
+> ##D   gf_sina(age ~ substance, data = mosaicData::HELPrct)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_smooth")
+> ### * gf_smooth
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_smooth
+> ### Title: Formula interface to geom_smooth()
+> ### Aliases: gf_smooth gf_lm
+> 
+> ### ** Examples
+> 
+> gf_smooth()
+gf_smooth() uses 
+    * a formula with shape y ~ x. 
+    * geom:  smooth 
+    * stat:  smooth 
+    * key attributes:  method = "auto", formula = y ~ x, se = FALSE, method.args,
+                   n = 80, span = 0.75, fullrange = FALSE,
+                   level = 0.95
+
+For more information, try ?gf_smooth
+> gf_lm()
+gf_lm() uses 
+    * a formula with shape y ~ x. 
+    * geom:  lm 
+    * stat:  lm 
+    * key attributes:  alpha = 0.3, lm.args = list(), interval = "none", level =
+                   0.95, fullrange = TRUE
+
+For more information, try ?gf_lm
+> gf_smooth(births ~ date, color = ~wday, data = mosaicData::Births78)
+`geom_smooth()` using method = 'loess'
+> gf_smooth(births ~ date,
++   color = ~wday, data = mosaicData::Births78,
++   fullrange = TRUE
++ )
+`geom_smooth()` using method = 'loess'
+Warning: Removed 16 rows containing missing values (`geom_smooth()`).
+> gf_smooth(births ~ date,
++   color = ~wday, data = mosaicData::Births78,
++   show.legend = FALSE, se = FALSE
++ )
+`geom_smooth()` using method = 'loess'
+> gf_smooth(births ~ date,
++   color = ~wday, data = mosaicData::Births78,
++   show.legend = FALSE, se = TRUE
++ )
+`geom_smooth()` using method = 'loess'
+> gf_lm(length ~ width,
++   data = mosaicData::KidsFeet,
++   color = ~biggerfoot, alpha = 0.2
++ ) |>
++   gf_point()
+> gf_lm(length ~ width,
++   data = mosaicData::KidsFeet,
++   color = ~biggerfoot, fullrange = FALSE, alpha = 0.2
++ )
+> gf_point()
+gf_point() uses 
+    * a formula with shape y ~ x. 
+    * geom:  point 
+    * key attributes:  alpha, color, size, shape, fill, group, stroke
+
+For more information, try ?gf_point
+> gf_lm(length ~ width,
++   color = ~sex, data = mosaicData::KidsFeet,
++   formula = y ~ poly(x, 2), linetype = "dashed"
++ ) |>
++   gf_point()
+> gf_lm(length ~ width,
++   color = ~sex, data = mosaicData::KidsFeet,
++   formula = log(y) ~ x, backtrans = exp
++ ) |>
++   gf_point()
+> 
+> gf_lm(hwy ~ displ,
++   data = mpg,
++   formula = log(y) ~ poly(x, 3), backtrans = exp,
++   interval = "prediction", fill = "skyblue"
++ ) |>
++   gf_lm(
++     formula = log(y) ~ poly(x, 3), backtrans = exp,
++     interval = "confidence", color = "red"
++   ) |>
++   gf_point()
+> 
+>   clotting <- data.frame(
++    u = c(5,10,15,20,30,40,60,80,100),
++    lot1 = c(118,58,42,35,27,25,21,19,18),
++    lot2 = c(69,35,26,21,18,16,13,12,12))
+>   gf_point(lot1 ~ u, data = clotting) |>
++     gf_smooth(formula = y ~ log(x), method = "glm",
++               method.args = list(family = Gamma))
+>   gf_point(lot2 ~ u, data = clotting) |>
++     gf_smooth(formula = y ~ log(x), color = "red", method = "glm",
++               method.args = list(family = Gamma))
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_spline")
+> ### * gf_spline
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_spline
+> ### Title: Formula interface to geom_spline()
+> ### Aliases: gf_spline
+> 
+> ### ** Examples
+> 
+> gf_spline(births ~ date, color = ~wday, data = mosaicData::Births78)
+> gf_spline(births ~ date, color = ~wday, data = mosaicData::Births78, df = 20)
+> gf_spline(births ~ date, color = ~wday, data = mosaicData::Births78, df = 4)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_spoke")
+> ### * gf_spoke
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_spoke
+> ### Title: Formula interface to geom_spoke()
+> ### Aliases: gf_spoke
+> 
+> ### ** Examples
+> 
+> SomeData <- expand.grid(x = 1:10, y = 1:10)
+> SomeData$angle <- runif(100, 0, 2 * pi)
+> SomeData$speed <- runif(100, 0, sqrt(0.1 * SomeData$x))
+> 
+> gf_point(y ~ x, data = SomeData) |>
++   gf_spoke(y ~ x, angle = ~angle, radius = 0.5)
+> 
+> gf_point(y ~ x, data = SomeData) |>
++   gf_spoke(y ~ x, angle = ~angle, radius = ~speed)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_step")
+> ### * gf_step
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_step
+> ### Title: Formula interface to geom_step()
+> ### Aliases: gf_step
+> 
+> ### ** Examples
+> 
+> gf_step(births ~ date, data = mosaicData::Births78, color = ~wday)
+> 
+> # Roll your own Kaplan-Meier plot
+> 
+> if (require(survival) && require(broom)) {
++   # fit a survival model
++   surv_fit <- survfit(coxph(Surv(time, status) ~ age + sex, lung))
++   surv_fit
++   # use broom::tidy() to create a tidy data frame for plotting
++   surv_df <- tidy(surv_fit)
++   head(surv_df)
++   # now create a plot
++   surv_df |>
++     gf_step(estimate ~ time) |>
++     gf_ribbon(conf.low + conf.high ~ time, alpha = 0.2)
++ }
+Loading required package: survival
+Loading required package: broom
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:broom’, ‘package:survival’
+
+> nameEx("gf_text")
+> ### * gf_text
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_text
+> ### Title: Formula interface to geom_text() and geom_label()
+> ### Aliases: gf_text gf_label
+> 
+> ### ** Examples
+> 
+> data(penguins, package = "palmerpenguins")
+> gf_text(bill_length_mm ~ bill_depth_mm,
++   data = penguins,
++   label = ~species, color = ~species, size = 2, angle = 30
++ )
+Warning: Removed 2 rows containing missing values (`geom_text()`).
+> penguins |>
++ gf_point(bill_length_mm ~ bill_depth_mm, color = ~species, alpha = 0.5) |>
++   gf_text(bill_length_mm ~ bill_depth_mm,
++     label = ~species, color = ~species,
++     size = 2, angle = 0, hjust = 0, nudge_x = 0.1, nudge_y = 0.1
++   )
+Warning: Removed 2 rows containing missing values (`geom_point()`).
+Warning: Removed 2 rows containing missing values (`geom_text()`).
+> if (require(dplyr)) {
++   data(penguins, package = "palmerpenguins")
++   penguins_means <-
++     penguins |>
++     group_by(species) |>
++     summarise(bill_length_mm = mean(bill_length_mm), bill_depth_mm = mean(bill_depth_mm))
++   gf_point(bill_length_mm ~ bill_depth_mm, data = penguins, color = ~species) |>
++     gf_label(bill_length_mm ~ bill_depth_mm,
++       data = penguins_means,
++       label = ~species, color = ~species, size = 2, alpha = 0.7
++     )
++ }
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Warning: Removed 2 rows containing missing values (`geom_point()`).
+Warning: Removed 2 rows containing missing values (`geom_label()`).
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’
+
+> nameEx("gf_tile")
+> ### * gf_tile
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_tile
+> ### Title: Formula interface to geom_tile()
+> ### Aliases: gf_tile
+> 
+> ### ** Examples
+> 
+> D <- expand.grid(x = 0:5, y = 0:5)
+> D$z <- runif(nrow(D))
+> gf_tile(y ~ x, fill = ~z, data = D)
+> gf_tile(z ~ x + y, data = D)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gf_violin")
+> ### * gf_violin
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_violin
+> ### Title: Formula interface to geom_violin()
+> ### Aliases: gf_violin
+> 
+> ### ** Examples
+> 
+> gf_violin(age ~ substance, data = mosaicData::HELPrct)
+> gf_violin(age ~ substance, data = mosaicData::HELPrct, fill = ~sex)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ggformula")
+> ### * ggformula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ggformula
+> ### Title: ggformula: Formula Interface to the Grammar of Graphics
+> ### Aliases: ggformula ggformula-package
+> ### Keywords: Formula ggplot2 interface internal to
+> 
+> ### ** Examples
+> 
+> apropos("gf_")
+  [1] "gf_abline"                     "gf_area"                      
+  [3] "gf_ash"                        "gf_bar"                       
+  [5] "gf_barh"                       "gf_bin2d"                     
+  [7] "gf_blank"                      "gf_boxplot"                   
+  [9] "gf_boxploth"                   "gf_coefline"                  
+ [11] "gf_col"                        "gf_colh"                      
+ [13] "gf_contour"                    "gf_contour_filled"            
+ [15] "gf_count"                      "gf_counts"                    
+ [17] "gf_countsh"                    "gf_crossbar"                  
+ [19] "gf_crossbarh"                  "gf_curve"                     
+ [21] "gf_dens"                       "gf_dens2"                     
+ [23] "gf_density"                    "gf_density2d"                 
+ [25] "gf_density2d_filled"           "gf_density_2d"                
+ [27] "gf_density_2d_filled"          "gf_density_ridgeline_gradient"
+ [29] "gf_density_ridges"             "gf_density_ridges2"           
+ [31] "gf_density_ridges_gradient"    "gf_dhistogram"                
+ [33] "gf_dhistogramh"                "gf_dist"                      
+ [35] "gf_dotplot"                    "gf_ecdf"                      
+ [37] "gf_ellipse"                    "gf_empty"                     
+ [39] "gf_errorbar"                   "gf_errorbarh"                 
+ [41] "gf_facet_grid"                 "gf_facet_wrap"                
+ [43] "gf_fitdistr"                   "gf_frame"                     
+ [45] "gf_freqpoly"                   "gf_fun"                       
+ [47] "gf_fun2d"                      "gf_fun_2d"                    
+ [49] "gf_fun_contour"                "gf_fun_tile"                  
+ [51] "gf_function"                   "gf_function2d"                
+ [53] "gf_function_2d"                "gf_function_contour"          
+ [55] "gf_function_tile"              "gf_hex"                       
+ [57] "gf_histogram"                  "gf_hline"                     
+ [59] "gf_jitter"                     "gf_label"                     
+ [61] "gf_labs"                       "gf_lims"                      
+ [63] "gf_line"                       "gf_linerange"                 
+ [65] "gf_linerangeh"                 "gf_lm"                        
+ [67] "gf_path"                       "gf_percents"                  
+ [69] "gf_percentsh"                  "gf_plot"                      
+ [71] "gf_point"                      "gf_pointrange"                
+ [73] "gf_pointrangeh"                "gf_polygon"                   
+ [75] "gf_props"                      "gf_propsh"                    
+ [77] "gf_qq"                         "gf_qqline"                    
+ [79] "gf_qqstep"                     "gf_quantile"                  
+ [81] "gf_raster"                     "gf_rect"                      
+ [83] "gf_refine"                     "gf_relabel"                   
+ [85] "gf_ribbon"                     "gf_ridgeline"                 
+ [87] "gf_rug"                        "gf_rugx"                      
+ [89] "gf_rugy"                       "gf_segment"                   
+ [91] "gf_sf"                         "gf_sina"                      
+ [93] "gf_smooth"                     "gf_spline"                    
+ [95] "gf_spoke"                      "gf_step"                      
+ [97] "gf_summary"                    "gf_text"                      
+ [99] "gf_theme"                      "gf_tile"                      
+[101] "gf_violin"                     "gf_violinh"                   
+[103] "gf_vline"                     
+> gf_point()
+gf_point() uses 
+    * a formula with shape y ~ x. 
+    * geom:  point 
+    * key attributes:  alpha, color, size, shape, fill, group, stroke
+
+For more information, try ?gf_point
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ggridges")
+> ### * ggridges
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_ridgeline
+> ### Title: Formula interface to ggridges plots
+> ### Aliases: gf_ridgeline gf_density_ridges gf_density_ridges2
+> ###   gf_density_ridgeline_gradient gf_density_ridges_gradient
+> 
+> ### ** Examples
+> 
+> data.frame(
++   x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
++   height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1)
++ ) |>
++   gf_ridgeline(y ~ x, height = ~ height, group = ~y, fill = "lightblue", alpha = 0.7)
+> diamonds |>
++   gf_density_ridges(cut ~ price,
++     scale = 2, fill = ~ cut, alpha = 0.6, show.legend = FALSE) |>
++   gf_theme(theme_ridges()) |>
++   gf_refine(
++     scale_y_discrete(expand = c(0.01, 0)),
++     scale_x_continuous(expand = c(0.01, 0))
++   )
+Picking joint bandwidth of 458
+> diamonds |>
++   gf_density_ridges(clarity ~ price | cut,
++     scale = 2, fill = ~ clarity, alpha = 0.6, show.legend = FALSE) |>
++   gf_theme(theme_ridges()) |>
++   gf_refine(
++     scale_y_discrete(expand = c(0.01, 0)),
++     scale_x_continuous(expand = c(0.01, 0))
++   )
+Picking joint bandwidth of 796
+Picking joint bandwidth of 751
+Picking joint bandwidth of 677
+Picking joint bandwidth of 718
+Picking joint bandwidth of 400
+> ## Not run: 
+> ##D diamonds |>
+> ##D   gf_density_ridges(clarity ~ price | cut, height = ~after_stat(density), stat = "density",
+> ##D     scale = 2, fill = ~ clarity, alpha = 0.6, show.legend = FALSE) |>
+> ##D   gf_theme(theme_ridges()) |>
+> ##D   gf_refine(
+> ##D     scale_y_discrete(expand = c(0.01, 0)),
+> ##D     scale_x_continuous(expand = c(0.01, 0))
+> ##D   )
+> ## End(Not run)
+> ## Not run: 
+> ##D diamonds |>
+> ##D   gf_density_ridges2(cut ~ price, scale = 2, fill = ~ cut, alpha = 0.6, show.legend = FALSE) |>
+> ##D   gf_theme(theme_ridges()) |>
+> ##D   gf_refine(
+> ##D     scale_y_discrete(expand = c(0.01, 0)),
+> ##D     scale_x_continuous(expand = c(0.01, 0))
+> ##D   )
+> ## End(Not run)
+> diamonds |>
++   gf_density_ridges(cut ~ price,
++     scale = 2, fill = ~ cut, alpha = 0.6, show.legend = FALSE) |>
++   gf_theme(theme_ridges()) |>
++   gf_refine(
++     scale_y_discrete(expand = c(0.01, 0)),
++     scale_x_continuous(expand = c(0.01, 0))
++   )
+Picking joint bandwidth of 458
+> diamonds |>
++   gf_density_ridges(clarity ~ price | cut,
++     scale = 2, fill = ~ clarity, alpha = 0.6, show.legend = FALSE) |>
++   gf_theme(theme_ridges()) |>
++   gf_refine(
++     scale_y_discrete(expand = c(0.01, 0)),
++     scale_x_continuous(expand = c(0.01, 0))
++   )
+Picking joint bandwidth of 796
+Picking joint bandwidth of 751
+Picking joint bandwidth of 677
+Picking joint bandwidth of 718
+Picking joint bandwidth of 400
+> ## Not run: 
+> ##D diamonds |>
+> ##D   gf_density_ridges(clarity ~ price | cut, height = ~ after_stat(density), stat = "density",
+> ##D     scale = 2, fill = ~ clarity, alpha = 0.6, show.legend = FALSE) |>
+> ##D   gf_theme(theme_ridges()) |>
+> ##D   gf_refine(
+> ##D     scale_y_discrete(expand = c(0.01, 0)),
+> ##D     scale_x_continuous(expand = c(0.01, 0))
+> ##D   )
+> ## End(Not run)
+> ## Not run: 
+> ##D mosaicData::Weather |>
+> ##D   gf_density_ridges_gradient(month ~ high_temp | city ~ ., fill = ~stat(x),
+> ##D     group = ~ month, show.legend = FALSE, rel_min_height = 0.02) |>
+> ##D   gf_refine(scale_fill_viridis_c(option = "B"), theme_bw())
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ggstance")
+> ### * ggstance
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gf_barh
+> ### Title: Deprecated horizontal plotting functions
+> ### Aliases: gf_barh ggstance gf_countsh gf_colh gf_propsh gf_percentsh
+> ###   gf_boxploth gf_linerangeh gf_pointrangeh gf_crossbarh gf_violinh
+> ###   gf_errorbarh
+> 
+> ### ** Examples
+> 
+> gf_violin(carat ~ color, data = diamonds)
+> gf_violin(carat ~ color, data = diamonds) |>
++   gf_refine(coord_flip())
+> gf_violin(color ~ carat, data = diamonds)
+> gf_density(~ carat, data = diamonds)
+> gf_density(carat ~ ., data = diamonds)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("labels")
+> ### * labels
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_variable_labels
+> ### Title: Set and extract labels from a labeled object
+> ### Aliases: get_variable_labels
+> 
+> ### ** Examples
+> 
+> KF <-
++   mosaicData::KidsFeet |>
++   set_variable_labels(
++       length      = 'foot length (cm)',
++       width       = 'foot width (cm)',
++       birthmonth  = 'birth month',
++       birthyear   = 'birth year',
++       biggerfoot  = 'bigger foot',
++       domhand     = 'dominant hand'
++   )
+> KF |>
++   gf_point(length ~ width, color = ~ domhand)
+> get_variable_labels(KF)
+$name
+NULL
+
+$birthmonth
+[1] "birth month"
+
+$birthyear
+[1] "birth year"
+
+$length
+[1] "foot length (cm)"
+
+$width
+[1] "foot width (cm)"
+
+$sex
+NULL
+
+$biggerfoot
+[1] "bigger foot"
+
+$domhand
+[1] "dominant hand"
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("proportions")
+> ### * proportions
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: percs_by_group
+> ### Title: Compute groupwise proportions and percents
+> ### Aliases: percs_by_group props_by_group
+> 
+> ### ** Examples
+> 
+> 
+> x <- c(20, 30, 30, 70)
+> g1 <- c("A", "A", "B", "B")
+> g2 <- c("A", "B", "A", "B")
+> props_by_group(x, g1)
+[1] 0.4 0.6 0.3 0.7
+> percs_by_group(x, g1)
+[1] 40 60 30 70
+> props_by_group(x, g2)
+[1] 0.4 0.3 0.6 0.7
+> 
+> 
+> 
+> cleanEx()
+> nameEx("stat_qqline")
+> ### * stat_qqline
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: stat_qqline
+> ### Title: A Stat for Adding Reference Lines to QQ-Plots
+> ### Aliases: stat_qqline
+> 
+> ### ** Examples
+> 
+> data(penguins, package = "palmerpenguins")
+> ggplot(data = penguins, aes(sample = bill_length_mm)) +
++   geom_qq() +
++   stat_qqline(alpha = 0.7, color = "red", linetype = "dashed") +
++   facet_wrap(~species)
+Warning: Removed 2 rows containing non-finite values (`stat_qq()`).
+Warning: Removed 2 rows containing non-finite values (`stat_qqline()`).
+Warning: The following aesthetics were dropped during statistical transformation: sample
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?
+Warning: The following aesthetics were dropped during statistical transformation: sample
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?
+Warning: The following aesthetics were dropped during statistical transformation: sample
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  24.556 0.567 27.183 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

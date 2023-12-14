@@ -1,0 +1,394 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "Bchron"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('Bchron')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("BchronCalibrate")
+> ### * BchronCalibrate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BchronCalibrate
+> ### Title: Fast radiocarbon calibration
+> ### Aliases: BchronCalibrate
+> 
+> ### ** Examples
+> 
+> # Calibrate a single age
+> ages1 <- BchronCalibrate(
++   ages = 11553,
++   ageSds = 230,
++   calCurves = "intcal20",
++   ids = "Date-1"
++ )
+> summary(ages1)
+95% Highest density regions for Date-1
+$`0.4%`
+[1] 13004 13025
+
+$`77.9%`
+[1] 13059 13874
+
+$`16.4%`
+[1] 13923 14012
+
+
+> plot(ages1)
+> 
+> # Or plot with Calibration curve
+> plot(ages1, includeCal = TRUE)
+> 
+> # Calibrate multiple ages with different calibration curves
+> ages2 <- BchronCalibrate(
++   ages = c(3445, 11553, 7456),
++   ageSds = c(50, 230, 110),
++   calCurves = c("intcal20", "intcal20", "shcal20")
++ )
+> summary(ages2)
+95% Highest density regions for Date1
+$`94.4%`
+[1] 3572 3834
+
+
+95% Highest density regions for Date2
+$`0.4%`
+[1] 13004 13025
+
+$`77.9%`
+[1] 13059 13874
+
+$`16.4%`
+[1] 13923 14012
+
+
+95% Highest density regions for Date3
+$`94.6%`
+[1] 8015 8409
+
+
+> plot(ages2)
+[[1]]
+
+[[2]]
+
+[[3]]
+
+> 
+> # Calibrate multiple ages with multiple calibration curves and including depth
+> ages3 <- BchronCalibrate(
++   ages = c(3445, 11553),
++   ageSds = c(50, 230),
++   positions = c(100, 150),
++   calCurves = c("intcal20", "normal")
++ )
+> summary(ages3)
+95% Highest density regions for Date1
+$`94.4%`
+[1] 3572 3834
+
+
+95% Highest density regions for Date2
+$`94.7%`
+[1] 11100 12005
+
+
+> plot(ages3, withPositions = TRUE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BchronCheck")
+> ### * BchronCheck
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BchronCheck
+> ### Title: Check data for input into BchronCalibrate or Bchronology
+> ### Aliases: BchronCheck
+> 
+> ### ** Examples
+> 
+> data(Glendalough)
+> 
+> # Check the Glendalough data are in the right format
+> with(
++   Glendalough,
++   BchronCheck(ages,
++     ageSds,
++     position,
++     pathToCalCurves = system.file("data", package = "Bchron"),
++     calCurves,
++     type = "BchronCalibrate"
++   )
++ )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BchronDensity")
+> ### * BchronDensity
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BchronDensity
+> ### Title: Non-parametric phase model
+> ### Aliases: BchronDensity
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BchronDensityFast")
+> ### * BchronDensityFast
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BchronDensityFast
+> ### Title: Non-parametric phase model (faster version)
+> ### Aliases: BchronDensityFast
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("BchronRSL")
+> ### * BchronRSL
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: BchronRSL
+> ### Title: Relative sea level rate (RSL) estimation
+> ### Aliases: BchronRSL
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("Bchronology")
+> ### * Bchronology
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Bchronology
+> ### Title: Runs the Compound Poisson-Gamma chronology model of Haslett and
+> ###   Parnell (2008)
+> ### Aliases: Bchronology
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("choosePositions")
+> ### * choosePositions
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: choosePositions
+> ### Title: Compute positions to date next which result in maximal decrease
+> ###   of chronological uncertainty
+> ### Aliases: choosePositions
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("coreInfluence")
+> ### * coreInfluence
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: coreInfluence
+> ### Title: Find the influence of dates in a pair of Bchronology runs across
+> ###   the core
+> ### Aliases: coreInfluence
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("createCalCurve")
+> ### * createCalCurve
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: createCalCurve
+> ### Title: Create a new calibration curve
+> ### Aliases: createCalCurve
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Load in the calibration curve with:
+> ##D intcal09 <- read.table(system.file("extdata/intcal09.14c", package = "Bchron"), sep = ",")
+> ##D # Run createCalCurve
+> ##D createCalCurve(
+> ##D   name = "intcal09", calAges = intcal09[, 1],
+> ##D   uncalAges = intcal09[, 2], oneSigma = intcal09[, 3]
+> ##D )
+> ##D 
+> ##D # Copy the file to the right place
+> ##D file.copy(
+> ##D   from = "intcal09.rda",
+> ##D   to = system.file("data", package = "Bchron"),
+> ##D   overwrite = TRUE
+> ##D ) # Only need this if you've run it more than once
+> ##D 
+> ##D # Calibrate the ages under two calibration curves
+> ##D age_09 <- BchronCalibrate(
+> ##D   ages = 15500, ageSds = 150,
+> ##D   calCurves = "intcal09", ids = "My Date",
+> ##D   pathToCalCurves = getwd()
+> ##D )
+> ##D age_20 <- BchronCalibrate(ages = 15500, ageSds = 150, calCurves = "intcal20")
+> ##D 
+> ##D # Finally plot the difference
+> ##D library(ggplot2)
+> ##D plot(age_09) +
+> ##D   geom_line(
+> ##D     data = as.data.frame(age_20$Date1),
+> ##D     aes(x = ageGrid, y = densities), col = "red"
+> ##D   ) +
+> ##D   ggtitle("Intcal09 vs Intcal20")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dateInfluence")
+> ### * dateInfluence
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dateInfluence
+> ### Title: Find the influence of the dates in a Bchronology run
+> ### Aliases: dateInfluence
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("hdr")
+> ### * hdr
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: hdr
+> ### Title: Calculate highest density regions for Bchron calibrated ages
+> ### Aliases: hdr
+> 
+> ### ** Examples
+> 
+> # Calibrate multiple ages and summarise them
+> ages <- BchronCalibrate(
++   ages = 11553, ageSds = 230,
++   calCurves = "intcal20"
++ )
+> # Get samples
+> hdr(ages$Date1)
+$`0.4%`
+[1] 13004 13025
+
+$`77.9%`
+[1] 13059 13874
+
+$`16.4%`
+[1] 13923 14012
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("sampleAges")
+> ### * sampleAges
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: sampleAges
+> ### Title: Get sample ages from a set of Bchron calibrated dates
+> ### Aliases: sampleAges
+> 
+> ### ** Examples
+> 
+> # Calibrate multiple ages and summarise them
+> ages <- BchronCalibrate(
++   ages = c(3445, 11553, 7456), ageSds = c(50, 230, 110),
++   calCurves = c("intcal20", "intcal20", "shcal20")
++ )
+> # Get samples
+> age_samples <- sampleAges(ages)
+> # Create a credible interval and the median for each date
+> apply(age_samples, 2, quantile, probs = c(0.05, 0.5, 0.95))
+    Date1 Date2 Date3
+5%   3582 13109  8037
+50%  3703 13432  8226
+95%  3823 13829  8383
+> 
+> 
+> 
+> cleanEx()
+> nameEx("unCalibrate")
+> ### * unCalibrate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: unCalibrate
+> ### Title: Uncalibrate a Radiocarbon date
+> ### Aliases: unCalibrate
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.854 0.04 0.896 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

@@ -1,0 +1,3476 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "dittoSeq"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('dittoSeq')
+Loading required package: ggplot2
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("Darken")
+> ### * Darken
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Darken
+> ### Title: Darkens input colors by a set amount
+> ### Aliases: Darken
+> 
+> ### ** Examples
+> 
+> Darken("blue") #"blue" = "#0000FF"
+[1] "#0000BF"
+> #Output: "#0000BF"
+> Darken(dittoColors()[1:8]) #Works for multiple color inputs as well.
+[1] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[8] "#4D4D4D"
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("Lighten")
+> ### * Lighten
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Lighten
+> ### Title: Lightens input colors by a set amount
+> ### Aliases: Lighten
+> 
+> ### ** Examples
+> 
+> Lighten("blue") #"blue" = "#0000FF"
+[1] "#4040FF"
+> #Output: "#4040FF"
+> Lighten(dittoColors()[1:8]) #Works for multiple color inputs as well.
+[1] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[8] "#8C8C8C"
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("Simulate")
+> ### * Simulate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Simulate
+> ### Title: Simulates what a colorblind person would see for any dittoSeq
+> ###   plot!
+> ### Aliases: Simulate
+> 
+> ### ** Examples
+> 
+> example(importDittoBulk, echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+> Simulate("deutan", dittoDimPlot, object=myRNA, var="clustering", size = 2)
+> Simulate("protan", dittoDimPlot, myRNA, "clustering", size = 2)
+> Simulate("tritan", dittoDimPlot, myRNA, "clustering", size = 2)
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:SingleCellExperiment’,
+  ‘package:SummarizedExperiment’, ‘package:Biobase’,
+  ‘package:GenomicRanges’, ‘package:GenomeInfoDb’, ‘package:IRanges’,
+  ‘package:S4Vectors’, ‘package:BiocGenerics’, ‘package:stats4’,
+  ‘package:MatrixGenerics’, ‘package:matrixStats’
+
+> nameEx("addDimReduction")
+> ### * addDimReduction
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: addDimReduction
+> ### Title: Add any dimensionality reduction space to a SingleCellExperiment
+> ###   object containing bulk or single-cell data
+> ### Aliases: addDimReduction
+> 
+> ### ** Examples
+> 
+> 
+> example("importDittoBulk", echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+> 
+> # Calculate PCA
+> #   NOTE: This is typically not done with all genes in the dataset.
+> #   The inclusion of this example code is not an endorsement of a particular
+> #   method of PCA. Consult yourself, a bioinformatician, or literature for
+> #   tips on proper techniques.
+> embeds <- prcomp(t(logcounts(myRNA)), center = TRUE, scale = TRUE)$x
+> 
+> myRNA <- addDimReduction(
++     object = myRNA,
++     embeddings = embeds,
++     name = "pca",
++     key = "PC")
+> 
+> # Visualize conditions metadata on a PCA plot
+> dittoDimPlot(myRNA, "conditions", reduction.use = "pca", size = 3)
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:SingleCellExperiment’,
+  ‘package:SummarizedExperiment’, ‘package:Biobase’,
+  ‘package:GenomicRanges’, ‘package:GenomeInfoDb’, ‘package:IRanges’,
+  ‘package:S4Vectors’, ‘package:BiocGenerics’, ‘package:stats4’,
+  ‘package:MatrixGenerics’, ‘package:matrixStats’
+
+> nameEx("addPrcomp")
+> ### * addPrcomp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: addPrcomp
+> ### Title: Add a prcomp pca calculation to a SingleCellExperiment object
+> ###   containing bulk or single-cell data
+> ### Aliases: addPrcomp
+> 
+> ### ** Examples
+> 
+> 
+> example("importDittoBulk", echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+> 
+> # Calculate PCA with prcomp
+> #   NOTE: This is typically not done with all genes in a dataset.
+> #   The inclusion of this example code is not an endorsement of a particular
+> #   method of PCA. Consult yourself, a bioinformatician, or literature for
+> #   tips on proper techniques.
+> calc <- prcomp(t(logcounts(myRNA)), center = TRUE, scale = TRUE)
+> 
+> myRNA <- addPrcomp(
++     object = myRNA,
++     prcomp = calc)
+> 
+> # Now we can visualize conditions metadata on a PCA plot
+> dittoDimPlot(myRNA, "conditions", reduction.use = "pca", size = 3)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:SingleCellExperiment’,
+  ‘package:SummarizedExperiment’, ‘package:Biobase’,
+  ‘package:GenomicRanges’, ‘package:GenomeInfoDb’, ‘package:IRanges’,
+  ‘package:S4Vectors’, ‘package:BiocGenerics’, ‘package:stats4’,
+  ‘package:MatrixGenerics’, ‘package:matrixStats’
+
+> nameEx("demux.SNP.summary")
+> ### * demux.SNP.summary
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: demux.SNP.summary
+> ### Title: Plots the number of SNPs sequenced per droplet
+> ### Aliases: demux.SNP.summary
+> 
+> ### ** Examples
+> 
+> example(importDemux, echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+Adding 'Lane' information as meta.data
+Extracting the Demuxlet calls
+Matching barcodes
+Adding Demuxlet info as metadata
+Checking for barcode duplicates across lanes...
+  No barcode duplicates were found.
+
+SUMMARY:
+4 lanes were identified and named:
+  A, B, C, D
+The average number of SNPs per cell for all lanes was: 518.1
+Out of 60 cells in the Seurat object, Demuxlet assigned:
+    56 cells or 93.3% as singlets
+    4 cells or 6.7% as doublets
+    and 0 cells as too ambiguous to call.
+0 cells were not annotated in the demuxlet.best file.
+> demux.SNP.summary(myRNA)
+> 
+> #Function wraps dittoPlot. See dittoPlot docs for more examples
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:SingleCellExperiment’,
+  ‘package:SummarizedExperiment’, ‘package:Biobase’,
+  ‘package:GenomicRanges’, ‘package:GenomeInfoDb’, ‘package:IRanges’,
+  ‘package:S4Vectors’, ‘package:BiocGenerics’, ‘package:stats4’,
+  ‘package:MatrixGenerics’, ‘package:matrixStats’
+
+> nameEx("demux.calls.summary")
+> ### * demux.calls.summary
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: demux.calls.summary
+> ### Title: Plots the number of annotations per sample, per lane
+> ### Aliases: demux.calls.summary
+> 
+> ### ** Examples
+> 
+> example(importDemux, echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+Adding 'Lane' information as meta.data
+Extracting the Demuxlet calls
+Matching barcodes
+Adding Demuxlet info as metadata
+Checking for barcode duplicates across lanes...
+  No barcode duplicates were found.
+
+SUMMARY:
+4 lanes were identified and named:
+  A, B, C, D
+The average number of SNPs per cell for all lanes was: 518.1
+Out of 60 cells in the Seurat object, Demuxlet assigned:
+    56 cells or 93.3% as singlets
+    4 cells or 6.7% as doublets
+    and 0 cells as too ambiguous to call.
+0 cells were not annotated in the demuxlet.best file.
+> 
+> demux.calls.summary(myRNA)
+> 
+> # Exclude doublets by setting 'singlets only = TRUE'
+> demux.calls.summary(myRNA,
++     singlets.only = TRUE)
+> 
+> # To return the underlying data.frame
+> demux.calls.summary(myRNA, data.out = TRUE)
+     Sample Lane Counts
+1   sample1    A      3
+2  sample10    A      3
+3   sample2    A      3
+4   sample3    A      1
+5   sample4    A      2
+6   sample6    A      1
+7   sample7    A      3
+8   sample8    A      2
+9   sample9    A      0
+10  sample1    B      2
+11 sample10    B      2
+12  sample2    B      3
+13  sample3    B      0
+14  sample4    B      3
+15  sample6    B      1
+16  sample7    B      2
+17  sample8    B      1
+18  sample9    B      2
+19  sample1    C      0
+20 sample10    C      0
+21  sample2    C      1
+22  sample3    C      1
+23  sample4    C      3
+24  sample6    C      2
+25  sample7    C      1
+26  sample8    C      1
+27  sample9    C      1
+28  sample1    D      3
+29 sample10    D      2
+30  sample2    D      1
+31  sample3    D      1
+32  sample4    D      0
+33  sample6    D      1
+34  sample7    D      2
+35  sample8    D      2
+36  sample9    D      4
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:SingleCellExperiment’,
+  ‘package:SummarizedExperiment’, ‘package:Biobase’,
+  ‘package:GenomicRanges’, ‘package:GenomeInfoDb’, ‘package:IRanges’,
+  ‘package:S4Vectors’, ‘package:BiocGenerics’, ‘package:stats4’,
+  ‘package:MatrixGenerics’, ‘package:matrixStats’
+
+> nameEx("dittoBarPlot")
+> ### * dittoBarPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dittoBarPlot
+> ### Title: Outputs a stacked bar plot to show the percent composition of
+> ###   samples, groups, clusters, or other groupings
+> ### Aliases: dittoBarPlot
+> 
+> ### ** Examples
+> 
+> example(importDittoBulk, echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+> myRNA
+class: SingleCellExperiment 
+dim: 1000 60 
+metadata(0):
+assays(2): counts logcounts
+rownames(1000): gene1 gene2 ... gene999 gene1000
+rowData names(0):
+colnames(60): sample1 sample2 ... sample59 sample60
+colData names(7): conditions timepoint ... score1 score2
+reducedDimNames(2): pca tsne
+mainExpName: NULL
+altExpNames(0):
+> 
+> dittoBarPlot(myRNA, "clustering", group.by = "groups")
+> dittoBarPlot(myRNA, "clustering", group.by = "groups",
++     scale = "count")
+> 
+> # Reordering the x-axis groupings to have "C" (#3) come first
+> dittoBarPlot(myRNA, "clustering", group.by = "groups",
++     x.reorder = c(3,1,2,4))
+> 
+> ### Accessing underlying data:
+> # as dataframe
+> dittoBarPlot(myRNA, "clustering", group.by = "groups",
++     data.out = TRUE)
+$p
+
+$data
+   label grouping count label.count.total.per.facet    percent
+1      1        A     5                          18 0.27777778
+2      2        A     6                          18 0.33333333
+3      3        A     1                          18 0.05555556
+4      4        A     6                          18 0.33333333
+5      1        B     6                          16 0.37500000
+6      2        B     6                          16 0.37500000
+7      3        B     1                          16 0.06250000
+8      4        B     3                          16 0.18750000
+9      1        C     3                          10 0.30000000
+10     2        C     2                          10 0.20000000
+11     3        C     3                          10 0.30000000
+12     4        C     2                          10 0.20000000
+13     1        D     5                          16 0.31250000
+14     2        D     4                          16 0.25000000
+15     3        D     2                          16 0.12500000
+16     4        D     5                          16 0.31250000
+
+> # through hovering the cursor over the relevant parts of the plot
+> if (requireNamespace("plotly", quietly = TRUE)) {
++     dittoBarPlot(myRNA, "clustering", group.by = "groups",
++         do.hover = TRUE)
++     }
+> 
+> ### Previous Version Compatibility
+> # Mistakenly, dittoBarPlot used to remove factor identities entirely from the
+> #  data it used. This manifests as ignorance of a user's set orderings for
+> #  their data. That is nolonger done by default, but to recreate old plots,
+> #  restoring this behavior can be achieved with 'retain.factor.levels = FALSE'
+> # Set factor level ordering for a metadata we'll give to 'group.by'
+> myRNA$groups_reverse_levels <- factor(
++     myRNA$groups,
++     levels = c("D", "C", "B", "A"))
+> # dittoBarPlot will now respect this level order by default. 
+> dittoBarPlot(myRNA, "clustering", group.by = "groups_reverse_levels")
+> # But that respect can be turned off...
+> dittoBarPlot(myRNA, "clustering", group.by = "groups_reverse_levels",
++     retain.factor.levels = FALSE)
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:SingleCellExperiment’,
+  ‘package:SummarizedExperiment’, ‘package:Biobase’,
+  ‘package:GenomicRanges’, ‘package:GenomeInfoDb’, ‘package:IRanges’,
+  ‘package:S4Vectors’, ‘package:BiocGenerics’, ‘package:stats4’,
+  ‘package:MatrixGenerics’, ‘package:matrixStats’
+
+> nameEx("dittoColors")
+> ### * dittoColors
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dittoColors
+> ### Title: Extracts the dittoSeq default colors
+> ### Aliases: dittoColors
+> 
+> ### ** Examples
+> 
+> dittoColors()
+   [1] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+   [8] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+  [15] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+  [22] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+  [29] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+  [36] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+  [43] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+  [50] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+  [57] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+  [64] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+  [71] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+  [78] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+  [85] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+  [92] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+  [99] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+ [106] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+ [113] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+ [120] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+ [127] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+ [134] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+ [141] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+ [148] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+ [155] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+ [162] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+ [169] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+ [176] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+ [183] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+ [190] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+ [197] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+ [204] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+ [211] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+ [218] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+ [225] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+ [232] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+ [239] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+ [246] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+ [253] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+ [260] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+ [267] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+ [274] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+ [281] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+ [288] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+ [295] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+ [302] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+ [309] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+ [316] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+ [323] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+ [330] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+ [337] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+ [344] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+ [351] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+ [358] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+ [365] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+ [372] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+ [379] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+ [386] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+ [393] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+ [400] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+ [407] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+ [414] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+ [421] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+ [428] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+ [435] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+ [442] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+ [449] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+ [456] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+ [463] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+ [470] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+ [477] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+ [484] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+ [491] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+ [498] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+ [505] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+ [512] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+ [519] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+ [526] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+ [533] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+ [540] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+ [547] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+ [554] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+ [561] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+ [568] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+ [575] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+ [582] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+ [589] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+ [596] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+ [603] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+ [610] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+ [617] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+ [624] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+ [631] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+ [638] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+ [645] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+ [652] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+ [659] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+ [666] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+ [673] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+ [680] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+ [687] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+ [694] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+ [701] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+ [708] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+ [715] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+ [722] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+ [729] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+ [736] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+ [743] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+ [750] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+ [757] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+ [764] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+ [771] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+ [778] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+ [785] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+ [792] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+ [799] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+ [806] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+ [813] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+ [820] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+ [827] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+ [834] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+ [841] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+ [848] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+ [855] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+ [862] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+ [869] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+ [876] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+ [883] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+ [890] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+ [897] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+ [904] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+ [911] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+ [918] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+ [925] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+ [932] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+ [939] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+ [946] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+ [953] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+ [960] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+ [967] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+ [974] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+ [981] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+ [988] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+ [995] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[1002] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[1009] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[1016] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[1023] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[1030] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[1037] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[1044] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[1051] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[1058] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[1065] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[1072] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[1079] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[1086] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[1093] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[1100] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[1107] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[1114] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[1121] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[1128] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[1135] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[1142] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[1149] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[1156] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[1163] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[1170] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[1177] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[1184] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[1191] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[1198] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+[1205] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+[1212] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+[1219] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+[1226] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+[1233] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+[1240] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+[1247] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+[1254] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+[1261] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+[1268] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+[1275] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[1282] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[1289] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[1296] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[1303] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[1310] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[1317] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[1324] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[1331] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[1338] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[1345] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[1352] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[1359] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[1366] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[1373] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[1380] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[1387] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[1394] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[1401] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[1408] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[1415] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[1422] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[1429] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[1436] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[1443] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[1450] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[1457] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[1464] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[1471] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[1478] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+[1485] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+[1492] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+[1499] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+[1506] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+[1513] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+[1520] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+[1527] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+[1534] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+[1541] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+[1548] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+[1555] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[1562] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[1569] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[1576] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[1583] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[1590] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[1597] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[1604] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[1611] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[1618] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[1625] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[1632] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[1639] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[1646] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[1653] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[1660] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[1667] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[1674] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[1681] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[1688] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[1695] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[1702] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[1709] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[1716] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[1723] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[1730] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[1737] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[1744] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[1751] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[1758] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+[1765] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+[1772] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+[1779] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+[1786] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+[1793] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+[1800] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+[1807] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+[1814] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+[1821] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+[1828] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+[1835] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[1842] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[1849] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[1856] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[1863] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[1870] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[1877] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[1884] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[1891] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[1898] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[1905] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[1912] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[1919] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[1926] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[1933] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[1940] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[1947] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[1954] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[1961] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[1968] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[1975] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[1982] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[1989] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[1996] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[2003] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[2010] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[2017] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[2024] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[2031] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[2038] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+[2045] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+[2052] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+[2059] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+[2066] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+[2073] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+[2080] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+[2087] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+[2094] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+[2101] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+[2108] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+[2115] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[2122] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[2129] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[2136] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[2143] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[2150] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[2157] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[2164] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[2171] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[2178] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[2185] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[2192] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[2199] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[2206] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[2213] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[2220] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[2227] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[2234] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[2241] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[2248] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[2255] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[2262] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[2269] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[2276] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[2283] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[2290] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[2297] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[2304] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[2311] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[2318] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+[2325] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+[2332] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+[2339] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+[2346] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+[2353] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+[2360] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+[2367] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+[2374] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+[2381] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+[2388] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+[2395] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[2402] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[2409] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[2416] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[2423] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[2430] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[2437] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[2444] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[2451] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[2458] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[2465] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[2472] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[2479] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[2486] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[2493] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[2500] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[2507] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[2514] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[2521] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[2528] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[2535] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[2542] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[2549] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[2556] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[2563] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[2570] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[2577] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[2584] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[2591] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[2598] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+[2605] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+[2612] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+[2619] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+[2626] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+[2633] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+[2640] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+[2647] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+[2654] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+[2661] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+[2668] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+[2675] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[2682] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[2689] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[2696] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[2703] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[2710] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[2717] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[2724] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[2731] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[2738] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[2745] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[2752] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[2759] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[2766] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[2773] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[2780] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[2787] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[2794] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[2801] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[2808] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[2815] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[2822] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[2829] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[2836] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[2843] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[2850] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[2857] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[2864] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[2871] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[2878] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+[2885] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+[2892] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+[2899] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+[2906] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+[2913] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+[2920] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+[2927] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+[2934] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+[2941] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+[2948] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+[2955] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[2962] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[2969] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[2976] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[2983] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[2990] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[2997] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[3004] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[3011] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[3018] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[3025] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[3032] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[3039] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[3046] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[3053] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[3060] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[3067] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[3074] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[3081] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[3088] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[3095] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[3102] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[3109] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[3116] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[3123] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[3130] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[3137] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[3144] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[3151] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[3158] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+[3165] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+[3172] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+[3179] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+[3186] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+[3193] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+[3200] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+[3207] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+[3214] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+[3221] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+[3228] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+[3235] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[3242] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[3249] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[3256] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[3263] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[3270] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[3277] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[3284] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[3291] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[3298] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[3305] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[3312] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[3319] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[3326] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[3333] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[3340] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[3347] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[3354] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[3361] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[3368] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[3375] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[3382] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[3389] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[3396] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[3403] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[3410] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[3417] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[3424] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[3431] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[3438] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+[3445] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+[3452] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+[3459] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+[3466] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+[3473] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+[3480] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+[3487] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+[3494] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+[3501] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+[3508] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+[3515] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[3522] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[3529] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[3536] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[3543] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[3550] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[3557] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[3564] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[3571] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[3578] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[3585] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[3592] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[3599] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[3606] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[3613] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[3620] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[3627] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[3634] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[3641] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[3648] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[3655] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[3662] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[3669] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[3676] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[3683] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[3690] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[3697] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[3704] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[3711] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[3718] "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442"
+[3725] "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756"
+[3732] "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF"
+[3739] "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57"
+[3746] "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3"
+[3753] "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666"
+[3760] "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00"
+[3767] "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685"
+[3774] "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71"
+[3781] "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6"
+[3788] "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9"
+[3795] "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00"
+[3802] "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666"
+[3809] "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380"
+[3816] "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320"
+[3823] "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF"
+[3830] "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D"
+[3837] "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73"
+[3844] "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4"
+[3851] "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D"
+[3858] "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C"
+[3865] "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA"
+[3872] "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800"
+[3879] "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2"
+[3886] "#D55E00" "#CC79A7" "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711"
+[3893] "#005685" "#A04700" "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3"
+[3900] "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2"
+[3907] "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00"
+[3914] "#1674A9" "#005F45" "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D"
+[3921] "#E69F00" "#56B4E9" "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7"
+[3928] "#666666" "#AD7700" "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700"
+[3935] "#B14380" "#4D4D4D" "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF"
+[3942] "#FF8320" "#D99BBD" "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E"
+[3949] "#38B7FF" "#FF9B4D" "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45"
+[3956] "#AA9F0D" "#00446B" "#803800" "#8D3666" "#3D3D3D" "#E69F00" "#56B4E9"
+[3963] "#009E73" "#F0E442" "#0072B2" "#D55E00" "#CC79A7" "#666666" "#AD7700"
+[3970] "#1C91D4" "#007756" "#D5C711" "#005685" "#A04700" "#B14380" "#4D4D4D"
+[3977] "#FFBE2D" "#80C7EF" "#00F6B3" "#F4EB71" "#06A5FF" "#FF8320" "#D99BBD"
+[3984] "#8C8C8C" "#FFCB57" "#9AD2F2" "#2CFFC6" "#F6EF8E" "#38B7FF" "#FF9B4D"
+[3991] "#E0AFCA" "#A3A3A3" "#8A5F00" "#1674A9" "#005F45" "#AA9F0D" "#00446B"
+[3998] "#803800" "#8D3666" "#3D3D3D"
+> 
+> #To retrieve names:
+> dittoColors(get.names = TRUE)
+   [1] "orange"            "skyBlue"           "bluishGreen"      
+   [4] "yellow"            "blue"              "vermillion"       
+   [7] "reddishPurple"     "gray40"            "orange-25%"       
+  [10] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+  [13] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+  [16] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+  [19] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+  [22] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+  [25] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+  [28] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+  [31] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+  [34] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+  [37] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+  [40] "gray40-40%"        "orange"            "skyBlue"          
+  [43] "bluishGreen"       "yellow"            "blue"             
+  [46] "vermillion"        "reddishPurple"     "gray40"           
+  [49] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+  [52] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+  [55] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+  [58] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+  [61] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+  [64] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+  [67] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+  [70] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+  [73] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+  [76] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+  [79] "reddishPurple-40%" "gray40-40%"        "orange"           
+  [82] "skyBlue"           "bluishGreen"       "yellow"           
+  [85] "blue"              "vermillion"        "reddishPurple"    
+  [88] "gray40"            "orange-25%"        "skyBlue-25%"      
+  [91] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+  [94] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+  [97] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+ [100] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+ [103] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+ [106] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+ [109] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+ [112] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+ [115] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+ [118] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+ [121] "orange"            "skyBlue"           "bluishGreen"      
+ [124] "yellow"            "blue"              "vermillion"       
+ [127] "reddishPurple"     "gray40"            "orange-25%"       
+ [130] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+ [133] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+ [136] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+ [139] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+ [142] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+ [145] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+ [148] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+ [151] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+ [154] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+ [157] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+ [160] "gray40-40%"        "orange"            "skyBlue"          
+ [163] "bluishGreen"       "yellow"            "blue"             
+ [166] "vermillion"        "reddishPurple"     "gray40"           
+ [169] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+ [172] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+ [175] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+ [178] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+ [181] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+ [184] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+ [187] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+ [190] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+ [193] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+ [196] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+ [199] "reddishPurple-40%" "gray40-40%"        "orange"           
+ [202] "skyBlue"           "bluishGreen"       "yellow"           
+ [205] "blue"              "vermillion"        "reddishPurple"    
+ [208] "gray40"            "orange-25%"        "skyBlue-25%"      
+ [211] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+ [214] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+ [217] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+ [220] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+ [223] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+ [226] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+ [229] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+ [232] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+ [235] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+ [238] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+ [241] "orange"            "skyBlue"           "bluishGreen"      
+ [244] "yellow"            "blue"              "vermillion"       
+ [247] "reddishPurple"     "gray40"            "orange-25%"       
+ [250] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+ [253] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+ [256] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+ [259] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+ [262] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+ [265] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+ [268] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+ [271] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+ [274] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+ [277] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+ [280] "gray40-40%"        "orange"            "skyBlue"          
+ [283] "bluishGreen"       "yellow"            "blue"             
+ [286] "vermillion"        "reddishPurple"     "gray40"           
+ [289] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+ [292] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+ [295] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+ [298] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+ [301] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+ [304] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+ [307] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+ [310] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+ [313] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+ [316] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+ [319] "reddishPurple-40%" "gray40-40%"        "orange"           
+ [322] "skyBlue"           "bluishGreen"       "yellow"           
+ [325] "blue"              "vermillion"        "reddishPurple"    
+ [328] "gray40"            "orange-25%"        "skyBlue-25%"      
+ [331] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+ [334] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+ [337] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+ [340] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+ [343] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+ [346] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+ [349] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+ [352] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+ [355] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+ [358] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+ [361] "orange"            "skyBlue"           "bluishGreen"      
+ [364] "yellow"            "blue"              "vermillion"       
+ [367] "reddishPurple"     "gray40"            "orange-25%"       
+ [370] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+ [373] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+ [376] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+ [379] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+ [382] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+ [385] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+ [388] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+ [391] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+ [394] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+ [397] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+ [400] "gray40-40%"        "orange"            "skyBlue"          
+ [403] "bluishGreen"       "yellow"            "blue"             
+ [406] "vermillion"        "reddishPurple"     "gray40"           
+ [409] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+ [412] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+ [415] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+ [418] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+ [421] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+ [424] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+ [427] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+ [430] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+ [433] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+ [436] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+ [439] "reddishPurple-40%" "gray40-40%"        "orange"           
+ [442] "skyBlue"           "bluishGreen"       "yellow"           
+ [445] "blue"              "vermillion"        "reddishPurple"    
+ [448] "gray40"            "orange-25%"        "skyBlue-25%"      
+ [451] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+ [454] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+ [457] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+ [460] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+ [463] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+ [466] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+ [469] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+ [472] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+ [475] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+ [478] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+ [481] "orange"            "skyBlue"           "bluishGreen"      
+ [484] "yellow"            "blue"              "vermillion"       
+ [487] "reddishPurple"     "gray40"            "orange-25%"       
+ [490] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+ [493] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+ [496] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+ [499] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+ [502] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+ [505] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+ [508] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+ [511] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+ [514] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+ [517] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+ [520] "gray40-40%"        "orange"            "skyBlue"          
+ [523] "bluishGreen"       "yellow"            "blue"             
+ [526] "vermillion"        "reddishPurple"     "gray40"           
+ [529] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+ [532] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+ [535] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+ [538] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+ [541] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+ [544] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+ [547] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+ [550] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+ [553] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+ [556] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+ [559] "reddishPurple-40%" "gray40-40%"        "orange"           
+ [562] "skyBlue"           "bluishGreen"       "yellow"           
+ [565] "blue"              "vermillion"        "reddishPurple"    
+ [568] "gray40"            "orange-25%"        "skyBlue-25%"      
+ [571] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+ [574] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+ [577] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+ [580] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+ [583] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+ [586] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+ [589] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+ [592] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+ [595] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+ [598] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+ [601] "orange"            "skyBlue"           "bluishGreen"      
+ [604] "yellow"            "blue"              "vermillion"       
+ [607] "reddishPurple"     "gray40"            "orange-25%"       
+ [610] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+ [613] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+ [616] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+ [619] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+ [622] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+ [625] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+ [628] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+ [631] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+ [634] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+ [637] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+ [640] "gray40-40%"        "orange"            "skyBlue"          
+ [643] "bluishGreen"       "yellow"            "blue"             
+ [646] "vermillion"        "reddishPurple"     "gray40"           
+ [649] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+ [652] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+ [655] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+ [658] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+ [661] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+ [664] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+ [667] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+ [670] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+ [673] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+ [676] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+ [679] "reddishPurple-40%" "gray40-40%"        "orange"           
+ [682] "skyBlue"           "bluishGreen"       "yellow"           
+ [685] "blue"              "vermillion"        "reddishPurple"    
+ [688] "gray40"            "orange-25%"        "skyBlue-25%"      
+ [691] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+ [694] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+ [697] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+ [700] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+ [703] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+ [706] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+ [709] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+ [712] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+ [715] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+ [718] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+ [721] "orange"            "skyBlue"           "bluishGreen"      
+ [724] "yellow"            "blue"              "vermillion"       
+ [727] "reddishPurple"     "gray40"            "orange-25%"       
+ [730] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+ [733] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+ [736] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+ [739] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+ [742] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+ [745] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+ [748] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+ [751] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+ [754] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+ [757] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+ [760] "gray40-40%"        "orange"            "skyBlue"          
+ [763] "bluishGreen"       "yellow"            "blue"             
+ [766] "vermillion"        "reddishPurple"     "gray40"           
+ [769] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+ [772] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+ [775] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+ [778] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+ [781] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+ [784] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+ [787] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+ [790] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+ [793] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+ [796] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+ [799] "reddishPurple-40%" "gray40-40%"        "orange"           
+ [802] "skyBlue"           "bluishGreen"       "yellow"           
+ [805] "blue"              "vermillion"        "reddishPurple"    
+ [808] "gray40"            "orange-25%"        "skyBlue-25%"      
+ [811] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+ [814] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+ [817] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+ [820] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+ [823] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+ [826] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+ [829] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+ [832] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+ [835] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+ [838] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+ [841] "orange"            "skyBlue"           "bluishGreen"      
+ [844] "yellow"            "blue"              "vermillion"       
+ [847] "reddishPurple"     "gray40"            "orange-25%"       
+ [850] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+ [853] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+ [856] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+ [859] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+ [862] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+ [865] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+ [868] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+ [871] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+ [874] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+ [877] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+ [880] "gray40-40%"        "orange"            "skyBlue"          
+ [883] "bluishGreen"       "yellow"            "blue"             
+ [886] "vermillion"        "reddishPurple"     "gray40"           
+ [889] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+ [892] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+ [895] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+ [898] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+ [901] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+ [904] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+ [907] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+ [910] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+ [913] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+ [916] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+ [919] "reddishPurple-40%" "gray40-40%"        "orange"           
+ [922] "skyBlue"           "bluishGreen"       "yellow"           
+ [925] "blue"              "vermillion"        "reddishPurple"    
+ [928] "gray40"            "orange-25%"        "skyBlue-25%"      
+ [931] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+ [934] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+ [937] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+ [940] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+ [943] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+ [946] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+ [949] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+ [952] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+ [955] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+ [958] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+ [961] "orange"            "skyBlue"           "bluishGreen"      
+ [964] "yellow"            "blue"              "vermillion"       
+ [967] "reddishPurple"     "gray40"            "orange-25%"       
+ [970] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+ [973] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+ [976] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+ [979] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+ [982] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+ [985] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+ [988] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+ [991] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+ [994] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+ [997] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[1000] "gray40-40%"        "orange"            "skyBlue"          
+[1003] "bluishGreen"       "yellow"            "blue"             
+[1006] "vermillion"        "reddishPurple"     "gray40"           
+[1009] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[1012] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[1015] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[1018] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[1021] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[1024] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[1027] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[1030] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[1033] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[1036] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[1039] "reddishPurple-40%" "gray40-40%"        "orange"           
+[1042] "skyBlue"           "bluishGreen"       "yellow"           
+[1045] "blue"              "vermillion"        "reddishPurple"    
+[1048] "gray40"            "orange-25%"        "skyBlue-25%"      
+[1051] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[1054] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[1057] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[1060] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[1063] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[1066] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[1069] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[1072] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[1075] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[1078] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[1081] "orange"            "skyBlue"           "bluishGreen"      
+[1084] "yellow"            "blue"              "vermillion"       
+[1087] "reddishPurple"     "gray40"            "orange-25%"       
+[1090] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[1093] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[1096] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[1099] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[1102] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[1105] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[1108] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[1111] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[1114] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[1117] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[1120] "gray40-40%"        "orange"            "skyBlue"          
+[1123] "bluishGreen"       "yellow"            "blue"             
+[1126] "vermillion"        "reddishPurple"     "gray40"           
+[1129] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[1132] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[1135] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[1138] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[1141] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[1144] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[1147] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[1150] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[1153] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[1156] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[1159] "reddishPurple-40%" "gray40-40%"        "orange"           
+[1162] "skyBlue"           "bluishGreen"       "yellow"           
+[1165] "blue"              "vermillion"        "reddishPurple"    
+[1168] "gray40"            "orange-25%"        "skyBlue-25%"      
+[1171] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[1174] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[1177] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[1180] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[1183] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[1186] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[1189] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[1192] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[1195] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[1198] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[1201] "orange"            "skyBlue"           "bluishGreen"      
+[1204] "yellow"            "blue"              "vermillion"       
+[1207] "reddishPurple"     "gray40"            "orange-25%"       
+[1210] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[1213] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[1216] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[1219] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[1222] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[1225] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[1228] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[1231] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[1234] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[1237] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[1240] "gray40-40%"        "orange"            "skyBlue"          
+[1243] "bluishGreen"       "yellow"            "blue"             
+[1246] "vermillion"        "reddishPurple"     "gray40"           
+[1249] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[1252] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[1255] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[1258] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[1261] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[1264] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[1267] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[1270] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[1273] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[1276] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[1279] "reddishPurple-40%" "gray40-40%"        "orange"           
+[1282] "skyBlue"           "bluishGreen"       "yellow"           
+[1285] "blue"              "vermillion"        "reddishPurple"    
+[1288] "gray40"            "orange-25%"        "skyBlue-25%"      
+[1291] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[1294] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[1297] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[1300] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[1303] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[1306] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[1309] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[1312] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[1315] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[1318] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[1321] "orange"            "skyBlue"           "bluishGreen"      
+[1324] "yellow"            "blue"              "vermillion"       
+[1327] "reddishPurple"     "gray40"            "orange-25%"       
+[1330] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[1333] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[1336] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[1339] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[1342] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[1345] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[1348] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[1351] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[1354] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[1357] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[1360] "gray40-40%"        "orange"            "skyBlue"          
+[1363] "bluishGreen"       "yellow"            "blue"             
+[1366] "vermillion"        "reddishPurple"     "gray40"           
+[1369] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[1372] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[1375] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[1378] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[1381] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[1384] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[1387] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[1390] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[1393] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[1396] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[1399] "reddishPurple-40%" "gray40-40%"        "orange"           
+[1402] "skyBlue"           "bluishGreen"       "yellow"           
+[1405] "blue"              "vermillion"        "reddishPurple"    
+[1408] "gray40"            "orange-25%"        "skyBlue-25%"      
+[1411] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[1414] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[1417] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[1420] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[1423] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[1426] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[1429] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[1432] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[1435] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[1438] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[1441] "orange"            "skyBlue"           "bluishGreen"      
+[1444] "yellow"            "blue"              "vermillion"       
+[1447] "reddishPurple"     "gray40"            "orange-25%"       
+[1450] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[1453] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[1456] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[1459] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[1462] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[1465] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[1468] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[1471] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[1474] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[1477] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[1480] "gray40-40%"        "orange"            "skyBlue"          
+[1483] "bluishGreen"       "yellow"            "blue"             
+[1486] "vermillion"        "reddishPurple"     "gray40"           
+[1489] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[1492] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[1495] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[1498] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[1501] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[1504] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[1507] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[1510] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[1513] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[1516] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[1519] "reddishPurple-40%" "gray40-40%"        "orange"           
+[1522] "skyBlue"           "bluishGreen"       "yellow"           
+[1525] "blue"              "vermillion"        "reddishPurple"    
+[1528] "gray40"            "orange-25%"        "skyBlue-25%"      
+[1531] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[1534] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[1537] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[1540] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[1543] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[1546] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[1549] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[1552] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[1555] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[1558] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[1561] "orange"            "skyBlue"           "bluishGreen"      
+[1564] "yellow"            "blue"              "vermillion"       
+[1567] "reddishPurple"     "gray40"            "orange-25%"       
+[1570] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[1573] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[1576] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[1579] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[1582] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[1585] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[1588] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[1591] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[1594] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[1597] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[1600] "gray40-40%"        "orange"            "skyBlue"          
+[1603] "bluishGreen"       "yellow"            "blue"             
+[1606] "vermillion"        "reddishPurple"     "gray40"           
+[1609] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[1612] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[1615] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[1618] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[1621] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[1624] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[1627] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[1630] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[1633] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[1636] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[1639] "reddishPurple-40%" "gray40-40%"        "orange"           
+[1642] "skyBlue"           "bluishGreen"       "yellow"           
+[1645] "blue"              "vermillion"        "reddishPurple"    
+[1648] "gray40"            "orange-25%"        "skyBlue-25%"      
+[1651] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[1654] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[1657] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[1660] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[1663] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[1666] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[1669] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[1672] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[1675] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[1678] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[1681] "orange"            "skyBlue"           "bluishGreen"      
+[1684] "yellow"            "blue"              "vermillion"       
+[1687] "reddishPurple"     "gray40"            "orange-25%"       
+[1690] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[1693] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[1696] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[1699] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[1702] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[1705] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[1708] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[1711] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[1714] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[1717] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[1720] "gray40-40%"        "orange"            "skyBlue"          
+[1723] "bluishGreen"       "yellow"            "blue"             
+[1726] "vermillion"        "reddishPurple"     "gray40"           
+[1729] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[1732] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[1735] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[1738] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[1741] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[1744] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[1747] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[1750] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[1753] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[1756] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[1759] "reddishPurple-40%" "gray40-40%"        "orange"           
+[1762] "skyBlue"           "bluishGreen"       "yellow"           
+[1765] "blue"              "vermillion"        "reddishPurple"    
+[1768] "gray40"            "orange-25%"        "skyBlue-25%"      
+[1771] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[1774] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[1777] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[1780] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[1783] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[1786] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[1789] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[1792] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[1795] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[1798] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[1801] "orange"            "skyBlue"           "bluishGreen"      
+[1804] "yellow"            "blue"              "vermillion"       
+[1807] "reddishPurple"     "gray40"            "orange-25%"       
+[1810] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[1813] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[1816] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[1819] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[1822] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[1825] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[1828] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[1831] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[1834] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[1837] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[1840] "gray40-40%"        "orange"            "skyBlue"          
+[1843] "bluishGreen"       "yellow"            "blue"             
+[1846] "vermillion"        "reddishPurple"     "gray40"           
+[1849] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[1852] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[1855] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[1858] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[1861] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[1864] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[1867] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[1870] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[1873] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[1876] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[1879] "reddishPurple-40%" "gray40-40%"        "orange"           
+[1882] "skyBlue"           "bluishGreen"       "yellow"           
+[1885] "blue"              "vermillion"        "reddishPurple"    
+[1888] "gray40"            "orange-25%"        "skyBlue-25%"      
+[1891] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[1894] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[1897] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[1900] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[1903] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[1906] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[1909] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[1912] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[1915] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[1918] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[1921] "orange"            "skyBlue"           "bluishGreen"      
+[1924] "yellow"            "blue"              "vermillion"       
+[1927] "reddishPurple"     "gray40"            "orange-25%"       
+[1930] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[1933] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[1936] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[1939] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[1942] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[1945] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[1948] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[1951] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[1954] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[1957] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[1960] "gray40-40%"        "orange"            "skyBlue"          
+[1963] "bluishGreen"       "yellow"            "blue"             
+[1966] "vermillion"        "reddishPurple"     "gray40"           
+[1969] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[1972] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[1975] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[1978] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[1981] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[1984] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[1987] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[1990] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[1993] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[1996] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[1999] "reddishPurple-40%" "gray40-40%"        "orange"           
+[2002] "skyBlue"           "bluishGreen"       "yellow"           
+[2005] "blue"              "vermillion"        "reddishPurple"    
+[2008] "gray40"            "orange-25%"        "skyBlue-25%"      
+[2011] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[2014] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[2017] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[2020] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[2023] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[2026] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[2029] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[2032] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[2035] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[2038] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[2041] "orange"            "skyBlue"           "bluishGreen"      
+[2044] "yellow"            "blue"              "vermillion"       
+[2047] "reddishPurple"     "gray40"            "orange-25%"       
+[2050] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[2053] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[2056] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[2059] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[2062] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[2065] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[2068] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[2071] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[2074] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[2077] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[2080] "gray40-40%"        "orange"            "skyBlue"          
+[2083] "bluishGreen"       "yellow"            "blue"             
+[2086] "vermillion"        "reddishPurple"     "gray40"           
+[2089] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[2092] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[2095] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[2098] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[2101] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[2104] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[2107] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[2110] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[2113] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[2116] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[2119] "reddishPurple-40%" "gray40-40%"        "orange"           
+[2122] "skyBlue"           "bluishGreen"       "yellow"           
+[2125] "blue"              "vermillion"        "reddishPurple"    
+[2128] "gray40"            "orange-25%"        "skyBlue-25%"      
+[2131] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[2134] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[2137] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[2140] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[2143] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[2146] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[2149] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[2152] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[2155] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[2158] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[2161] "orange"            "skyBlue"           "bluishGreen"      
+[2164] "yellow"            "blue"              "vermillion"       
+[2167] "reddishPurple"     "gray40"            "orange-25%"       
+[2170] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[2173] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[2176] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[2179] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[2182] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[2185] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[2188] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[2191] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[2194] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[2197] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[2200] "gray40-40%"        "orange"            "skyBlue"          
+[2203] "bluishGreen"       "yellow"            "blue"             
+[2206] "vermillion"        "reddishPurple"     "gray40"           
+[2209] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[2212] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[2215] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[2218] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[2221] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[2224] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[2227] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[2230] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[2233] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[2236] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[2239] "reddishPurple-40%" "gray40-40%"        "orange"           
+[2242] "skyBlue"           "bluishGreen"       "yellow"           
+[2245] "blue"              "vermillion"        "reddishPurple"    
+[2248] "gray40"            "orange-25%"        "skyBlue-25%"      
+[2251] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[2254] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[2257] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[2260] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[2263] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[2266] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[2269] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[2272] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[2275] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[2278] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[2281] "orange"            "skyBlue"           "bluishGreen"      
+[2284] "yellow"            "blue"              "vermillion"       
+[2287] "reddishPurple"     "gray40"            "orange-25%"       
+[2290] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[2293] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[2296] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[2299] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[2302] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[2305] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[2308] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[2311] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[2314] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[2317] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[2320] "gray40-40%"        "orange"            "skyBlue"          
+[2323] "bluishGreen"       "yellow"            "blue"             
+[2326] "vermillion"        "reddishPurple"     "gray40"           
+[2329] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[2332] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[2335] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[2338] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[2341] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[2344] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[2347] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[2350] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[2353] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[2356] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[2359] "reddishPurple-40%" "gray40-40%"        "orange"           
+[2362] "skyBlue"           "bluishGreen"       "yellow"           
+[2365] "blue"              "vermillion"        "reddishPurple"    
+[2368] "gray40"            "orange-25%"        "skyBlue-25%"      
+[2371] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[2374] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[2377] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[2380] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[2383] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[2386] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[2389] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[2392] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[2395] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[2398] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[2401] "orange"            "skyBlue"           "bluishGreen"      
+[2404] "yellow"            "blue"              "vermillion"       
+[2407] "reddishPurple"     "gray40"            "orange-25%"       
+[2410] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[2413] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[2416] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[2419] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[2422] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[2425] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[2428] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[2431] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[2434] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[2437] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[2440] "gray40-40%"        "orange"            "skyBlue"          
+[2443] "bluishGreen"       "yellow"            "blue"             
+[2446] "vermillion"        "reddishPurple"     "gray40"           
+[2449] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[2452] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[2455] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[2458] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[2461] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[2464] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[2467] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[2470] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[2473] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[2476] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[2479] "reddishPurple-40%" "gray40-40%"        "orange"           
+[2482] "skyBlue"           "bluishGreen"       "yellow"           
+[2485] "blue"              "vermillion"        "reddishPurple"    
+[2488] "gray40"            "orange-25%"        "skyBlue-25%"      
+[2491] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[2494] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[2497] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[2500] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[2503] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[2506] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[2509] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[2512] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[2515] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[2518] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[2521] "orange"            "skyBlue"           "bluishGreen"      
+[2524] "yellow"            "blue"              "vermillion"       
+[2527] "reddishPurple"     "gray40"            "orange-25%"       
+[2530] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[2533] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[2536] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[2539] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[2542] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[2545] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[2548] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[2551] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[2554] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[2557] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[2560] "gray40-40%"        "orange"            "skyBlue"          
+[2563] "bluishGreen"       "yellow"            "blue"             
+[2566] "vermillion"        "reddishPurple"     "gray40"           
+[2569] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[2572] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[2575] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[2578] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[2581] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[2584] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[2587] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[2590] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[2593] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[2596] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[2599] "reddishPurple-40%" "gray40-40%"        "orange"           
+[2602] "skyBlue"           "bluishGreen"       "yellow"           
+[2605] "blue"              "vermillion"        "reddishPurple"    
+[2608] "gray40"            "orange-25%"        "skyBlue-25%"      
+[2611] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[2614] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[2617] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[2620] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[2623] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[2626] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[2629] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[2632] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[2635] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[2638] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[2641] "orange"            "skyBlue"           "bluishGreen"      
+[2644] "yellow"            "blue"              "vermillion"       
+[2647] "reddishPurple"     "gray40"            "orange-25%"       
+[2650] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[2653] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[2656] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[2659] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[2662] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[2665] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[2668] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[2671] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[2674] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[2677] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[2680] "gray40-40%"        "orange"            "skyBlue"          
+[2683] "bluishGreen"       "yellow"            "blue"             
+[2686] "vermillion"        "reddishPurple"     "gray40"           
+[2689] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[2692] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[2695] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[2698] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[2701] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[2704] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[2707] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[2710] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[2713] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[2716] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[2719] "reddishPurple-40%" "gray40-40%"        "orange"           
+[2722] "skyBlue"           "bluishGreen"       "yellow"           
+[2725] "blue"              "vermillion"        "reddishPurple"    
+[2728] "gray40"            "orange-25%"        "skyBlue-25%"      
+[2731] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[2734] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[2737] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[2740] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[2743] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[2746] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[2749] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[2752] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[2755] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[2758] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[2761] "orange"            "skyBlue"           "bluishGreen"      
+[2764] "yellow"            "blue"              "vermillion"       
+[2767] "reddishPurple"     "gray40"            "orange-25%"       
+[2770] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[2773] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[2776] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[2779] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[2782] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[2785] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[2788] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[2791] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[2794] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[2797] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[2800] "gray40-40%"        "orange"            "skyBlue"          
+[2803] "bluishGreen"       "yellow"            "blue"             
+[2806] "vermillion"        "reddishPurple"     "gray40"           
+[2809] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[2812] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[2815] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[2818] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[2821] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[2824] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[2827] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[2830] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[2833] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[2836] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[2839] "reddishPurple-40%" "gray40-40%"        "orange"           
+[2842] "skyBlue"           "bluishGreen"       "yellow"           
+[2845] "blue"              "vermillion"        "reddishPurple"    
+[2848] "gray40"            "orange-25%"        "skyBlue-25%"      
+[2851] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[2854] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[2857] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[2860] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[2863] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[2866] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[2869] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[2872] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[2875] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[2878] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[2881] "orange"            "skyBlue"           "bluishGreen"      
+[2884] "yellow"            "blue"              "vermillion"       
+[2887] "reddishPurple"     "gray40"            "orange-25%"       
+[2890] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[2893] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[2896] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[2899] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[2902] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[2905] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[2908] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[2911] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[2914] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[2917] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[2920] "gray40-40%"        "orange"            "skyBlue"          
+[2923] "bluishGreen"       "yellow"            "blue"             
+[2926] "vermillion"        "reddishPurple"     "gray40"           
+[2929] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[2932] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[2935] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[2938] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[2941] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[2944] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[2947] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[2950] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[2953] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[2956] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[2959] "reddishPurple-40%" "gray40-40%"        "orange"           
+[2962] "skyBlue"           "bluishGreen"       "yellow"           
+[2965] "blue"              "vermillion"        "reddishPurple"    
+[2968] "gray40"            "orange-25%"        "skyBlue-25%"      
+[2971] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[2974] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[2977] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[2980] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[2983] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[2986] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[2989] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[2992] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[2995] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[2998] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[3001] "orange"            "skyBlue"           "bluishGreen"      
+[3004] "yellow"            "blue"              "vermillion"       
+[3007] "reddishPurple"     "gray40"            "orange-25%"       
+[3010] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[3013] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[3016] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[3019] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[3022] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[3025] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[3028] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[3031] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[3034] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[3037] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[3040] "gray40-40%"        "orange"            "skyBlue"          
+[3043] "bluishGreen"       "yellow"            "blue"             
+[3046] "vermillion"        "reddishPurple"     "gray40"           
+[3049] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[3052] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[3055] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[3058] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[3061] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[3064] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[3067] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[3070] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[3073] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[3076] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[3079] "reddishPurple-40%" "gray40-40%"        "orange"           
+[3082] "skyBlue"           "bluishGreen"       "yellow"           
+[3085] "blue"              "vermillion"        "reddishPurple"    
+[3088] "gray40"            "orange-25%"        "skyBlue-25%"      
+[3091] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[3094] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[3097] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[3100] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[3103] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[3106] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[3109] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[3112] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[3115] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[3118] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[3121] "orange"            "skyBlue"           "bluishGreen"      
+[3124] "yellow"            "blue"              "vermillion"       
+[3127] "reddishPurple"     "gray40"            "orange-25%"       
+[3130] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[3133] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[3136] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[3139] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[3142] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[3145] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[3148] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[3151] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[3154] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[3157] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[3160] "gray40-40%"        "orange"            "skyBlue"          
+[3163] "bluishGreen"       "yellow"            "blue"             
+[3166] "vermillion"        "reddishPurple"     "gray40"           
+[3169] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[3172] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[3175] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[3178] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[3181] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[3184] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[3187] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[3190] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[3193] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[3196] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[3199] "reddishPurple-40%" "gray40-40%"        "orange"           
+[3202] "skyBlue"           "bluishGreen"       "yellow"           
+[3205] "blue"              "vermillion"        "reddishPurple"    
+[3208] "gray40"            "orange-25%"        "skyBlue-25%"      
+[3211] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[3214] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[3217] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[3220] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[3223] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[3226] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[3229] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[3232] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[3235] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[3238] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[3241] "orange"            "skyBlue"           "bluishGreen"      
+[3244] "yellow"            "blue"              "vermillion"       
+[3247] "reddishPurple"     "gray40"            "orange-25%"       
+[3250] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[3253] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[3256] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[3259] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[3262] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[3265] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[3268] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[3271] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[3274] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[3277] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[3280] "gray40-40%"        "orange"            "skyBlue"          
+[3283] "bluishGreen"       "yellow"            "blue"             
+[3286] "vermillion"        "reddishPurple"     "gray40"           
+[3289] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[3292] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[3295] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[3298] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[3301] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[3304] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[3307] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[3310] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[3313] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[3316] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[3319] "reddishPurple-40%" "gray40-40%"        "orange"           
+[3322] "skyBlue"           "bluishGreen"       "yellow"           
+[3325] "blue"              "vermillion"        "reddishPurple"    
+[3328] "gray40"            "orange-25%"        "skyBlue-25%"      
+[3331] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[3334] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[3337] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[3340] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[3343] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[3346] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[3349] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[3352] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[3355] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[3358] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[3361] "orange"            "skyBlue"           "bluishGreen"      
+[3364] "yellow"            "blue"              "vermillion"       
+[3367] "reddishPurple"     "gray40"            "orange-25%"       
+[3370] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[3373] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[3376] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[3379] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[3382] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[3385] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[3388] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[3391] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[3394] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[3397] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[3400] "gray40-40%"        "orange"            "skyBlue"          
+[3403] "bluishGreen"       "yellow"            "blue"             
+[3406] "vermillion"        "reddishPurple"     "gray40"           
+[3409] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[3412] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[3415] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[3418] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[3421] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[3424] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[3427] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[3430] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[3433] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[3436] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[3439] "reddishPurple-40%" "gray40-40%"        "orange"           
+[3442] "skyBlue"           "bluishGreen"       "yellow"           
+[3445] "blue"              "vermillion"        "reddishPurple"    
+[3448] "gray40"            "orange-25%"        "skyBlue-25%"      
+[3451] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[3454] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[3457] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[3460] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[3463] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[3466] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[3469] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[3472] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[3475] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[3478] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[3481] "orange"            "skyBlue"           "bluishGreen"      
+[3484] "yellow"            "blue"              "vermillion"       
+[3487] "reddishPurple"     "gray40"            "orange-25%"       
+[3490] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[3493] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[3496] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[3499] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[3502] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[3505] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[3508] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[3511] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[3514] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[3517] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[3520] "gray40-40%"        "orange"            "skyBlue"          
+[3523] "bluishGreen"       "yellow"            "blue"             
+[3526] "vermillion"        "reddishPurple"     "gray40"           
+[3529] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[3532] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[3535] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[3538] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[3541] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[3544] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[3547] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[3550] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[3553] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[3556] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[3559] "reddishPurple-40%" "gray40-40%"        "orange"           
+[3562] "skyBlue"           "bluishGreen"       "yellow"           
+[3565] "blue"              "vermillion"        "reddishPurple"    
+[3568] "gray40"            "orange-25%"        "skyBlue-25%"      
+[3571] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[3574] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[3577] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[3580] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[3583] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[3586] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[3589] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[3592] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[3595] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[3598] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[3601] "orange"            "skyBlue"           "bluishGreen"      
+[3604] "yellow"            "blue"              "vermillion"       
+[3607] "reddishPurple"     "gray40"            "orange-25%"       
+[3610] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[3613] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[3616] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[3619] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[3622] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[3625] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[3628] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[3631] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[3634] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[3637] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[3640] "gray40-40%"        "orange"            "skyBlue"          
+[3643] "bluishGreen"       "yellow"            "blue"             
+[3646] "vermillion"        "reddishPurple"     "gray40"           
+[3649] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[3652] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[3655] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[3658] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[3661] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[3664] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[3667] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[3670] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[3673] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[3676] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[3679] "reddishPurple-40%" "gray40-40%"        "orange"           
+[3682] "skyBlue"           "bluishGreen"       "yellow"           
+[3685] "blue"              "vermillion"        "reddishPurple"    
+[3688] "gray40"            "orange-25%"        "skyBlue-25%"      
+[3691] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[3694] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[3697] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[3700] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[3703] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[3706] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[3709] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[3712] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[3715] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[3718] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[3721] "orange"            "skyBlue"           "bluishGreen"      
+[3724] "yellow"            "blue"              "vermillion"       
+[3727] "reddishPurple"     "gray40"            "orange-25%"       
+[3730] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[3733] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[3736] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[3739] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[3742] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[3745] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[3748] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[3751] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[3754] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[3757] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[3760] "gray40-40%"        "orange"            "skyBlue"          
+[3763] "bluishGreen"       "yellow"            "blue"             
+[3766] "vermillion"        "reddishPurple"     "gray40"           
+[3769] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[3772] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[3775] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[3778] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[3781] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[3784] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[3787] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[3790] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[3793] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[3796] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[3799] "reddishPurple-40%" "gray40-40%"        "orange"           
+[3802] "skyBlue"           "bluishGreen"       "yellow"           
+[3805] "blue"              "vermillion"        "reddishPurple"    
+[3808] "gray40"            "orange-25%"        "skyBlue-25%"      
+[3811] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[3814] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[3817] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[3820] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[3823] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[3826] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[3829] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[3832] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[3835] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[3838] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[3841] "orange"            "skyBlue"           "bluishGreen"      
+[3844] "yellow"            "blue"              "vermillion"       
+[3847] "reddishPurple"     "gray40"            "orange-25%"       
+[3850] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[3853] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[3856] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[3859] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[3862] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[3865] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[3868] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[3871] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[3874] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[3877] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[3880] "gray40-40%"        "orange"            "skyBlue"          
+[3883] "bluishGreen"       "yellow"            "blue"             
+[3886] "vermillion"        "reddishPurple"     "gray40"           
+[3889] "orange-25%"        "skyBlue-25%"       "bluishGreen-25%"  
+[3892] "yellow-25%"        "blue-25%"          "vermillion-25%"   
+[3895] "reddishPurple-25%" "gray40-25%"        "orange+25%"       
+[3898] "skyBlue+25%"       "bluishGreen+25%"   "yellow+25%"       
+[3901] "blue+25%"          "vermillion+25%"    "reddishPurple+25%"
+[3904] "gray40+25%"        "orange+40%"        "skyBlue+40%"      
+[3907] "bluishGreen+40%"   "yellow+40%"        "blue+40%"         
+[3910] "vermillion+40%"    "reddishPurple+40%" "gray40+40%"       
+[3913] "orange-40%"        "skyBlue-40%"       "bluishGreen-40%"  
+[3916] "yellow-40%"        "blue-40%"          "vermillion-40%"   
+[3919] "reddishPurple-40%" "gray40-40%"        "orange"           
+[3922] "skyBlue"           "bluishGreen"       "yellow"           
+[3925] "blue"              "vermillion"        "reddishPurple"    
+[3928] "gray40"            "orange-25%"        "skyBlue-25%"      
+[3931] "bluishGreen-25%"   "yellow-25%"        "blue-25%"         
+[3934] "vermillion-25%"    "reddishPurple-25%" "gray40-25%"       
+[3937] "orange+25%"        "skyBlue+25%"       "bluishGreen+25%"  
+[3940] "yellow+25%"        "blue+25%"          "vermillion+25%"   
+[3943] "reddishPurple+25%" "gray40+25%"        "orange+40%"       
+[3946] "skyBlue+40%"       "bluishGreen+40%"   "yellow+40%"       
+[3949] "blue+40%"          "vermillion+40%"    "reddishPurple+40%"
+[3952] "gray40+40%"        "orange-40%"        "skyBlue-40%"      
+[3955] "bluishGreen-40%"   "yellow-40%"        "blue-40%"         
+[3958] "vermillion-40%"    "reddishPurple-40%" "gray40-40%"       
+[3961] "orange"            "skyBlue"           "bluishGreen"      
+[3964] "yellow"            "blue"              "vermillion"       
+[3967] "reddishPurple"     "gray40"            "orange-25%"       
+[3970] "skyBlue-25%"       "bluishGreen-25%"   "yellow-25%"       
+[3973] "blue-25%"          "vermillion-25%"    "reddishPurple-25%"
+[3976] "gray40-25%"        "orange+25%"        "skyBlue+25%"      
+[3979] "bluishGreen+25%"   "yellow+25%"        "blue+25%"         
+[3982] "vermillion+25%"    "reddishPurple+25%" "gray40+25%"       
+[3985] "orange+40%"        "skyBlue+40%"       "bluishGreen+40%"  
+[3988] "yellow+40%"        "blue+40%"          "vermillion+40%"   
+[3991] "reddishPurple+40%" "gray40+40%"        "orange-40%"       
+[3994] "skyBlue-40%"       "bluishGreen-40%"   "yellow-40%"       
+[3997] "blue-40%"          "vermillion-40%"    "reddishPurple-40%"
+[4000] "gray40-40%"       
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dittoDimPlot")
+> ### * dittoDimPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dittoDimPlot
+> ### Title: Shows data overlayed on a tsne, pca, or similar type of plot
+> ### Aliases: dittoDimPlot
+> 
+> ### ** Examples
+> 
+> example(importDittoBulk, echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+> myRNA
+class: SingleCellExperiment 
+dim: 1000 60 
+metadata(0):
+assays(2): counts logcounts
+rownames(1000): gene1 gene2 ... gene999 gene1000
+rowData names(0):
+colnames(60): sample1 sample2 ... sample59 sample60
+colData names(7): conditions timepoint ... score1 score2
+reducedDimNames(2): pca tsne
+mainExpName: NULL
+altExpNames(0):
+> 
+> # Display discrete data:
+> dittoDimPlot(myRNA, "clustering")
+> # Display continuous data:
+> dittoDimPlot(myRNA, "gene1")
+> 
+> # You can also plot multiple sets of continuous data:
+> dittoDimPlot(myRNA, c("gene1", "gene2"))
+> # (See ?multi_dittoDimPlot if you would like to have wholy separate
+> # plots/scales/legends for each set.)
+> 
+> # To show currently set clustering for seurat objects, you can use "ident".
+> # To change the dimensional reduction type, use 'reduction.use'.
+> dittoDimPlot(myRNA, "clustering",
++     reduction.use = "pca",
++     dim.1 = 3,
++     dim.2 = 4)
+> 
+> # Subset to certain cells with cells.use
+> dittoDimPlot(myRNA, "clustering",
++     cells.us = !myRNA$SNP)
+> 
+> # Data can also be split in other ways with 'shape.by' or 'split.by'
+> dittoDimPlot(myRNA, "gene1",
++     shape.by = "clustering",
++     split.by = "SNP") # single split.by element
+> dittoDimPlot(myRNA, "gene1",
++     split.by = c("groups","SNP")) # row and col split.by elements
+> 
+> # Modify the look with intuitive inputs
+> dittoDimPlot(myRNA, "clustering",
++     size = 2, opacity = 0.7, show.axes.numbers = FALSE,
++     ylab = NULL, xlab = "tSNE",
++     main = "Plot Title",
++     sub = "subtitle",
++     legend.title = "clustering")
+> 
+> # MANY addtional tweaks are possible.
+> # Also, many extra features are easy to add as well:
+> dittoDimPlot(myRNA, "clustering",
++     do.label = TRUE, do.ellipse = TRUE)
+> dittoDimPlot(myRNA, "clustering",
++     do.label = TRUE, labels.highlight = FALSE, labels.size = 8)
+> if (requireNamespace("plotly", quietly = TRUE)) {
++     dittoDimPlot(myRNA, "gene1", do.hover = TRUE,
++         hover.data = c("gene2", "clustering", "timepoint"))
++ }
+> dittoDimPlot(myRNA, "gene1", add.trajectory.lineages = list(c(1,2,4), c(1,3)),
++     trajectory.cluster.meta = "clustering",
++     sub = "Pseudotime Trajectories")
+> 
+> dittoDimPlot(myRNA, "gene1",
++     do.contour = TRUE,
++     contour.color = "lightblue", # Optional, black by default
++     contour.linetype = "dashed") # Optional, solid by default
+> 
+> # Plotting ordering can also be adjusted with 'order':
+> dittoDimPlot(myRNA, "timepoint", size = 20,
++     order = "increasing")
+> dittoDimPlot(myRNA, "timepoint", size = 20,
++     order = "decreasing")
+> dittoDimPlot(myRNA, "timepoint", size = 20,
++     order = "randomize")
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:SingleCellExperiment’,
+  ‘package:SummarizedExperiment’, ‘package:Biobase’,
+  ‘package:GenomicRanges’, ‘package:GenomeInfoDb’, ‘package:IRanges’,
+  ‘package:S4Vectors’, ‘package:BiocGenerics’, ‘package:stats4’,
+  ‘package:MatrixGenerics’, ‘package:matrixStats’
+
+> nameEx("dittoDotPlot")
+> ### * dittoDotPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dittoDotPlot
+> ### Title: Compact plotting of per group summaries for expression of
+> ###   multiple features
+> ### Aliases: dittoDotPlot
+> 
+> ### ** Examples
+> 
+> example(importDittoBulk, echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+> myRNA
+class: SingleCellExperiment 
+dim: 1000 60 
+metadata(0):
+assays(2): counts logcounts
+rownames(1000): gene1 gene2 ... gene999 gene1000
+rowData names(0):
+colnames(60): sample1 sample2 ... sample59 sample60
+colData names(7): conditions timepoint ... score1 score2
+reducedDimNames(2): pca tsne
+mainExpName: NULL
+altExpNames(0):
+> 
+> # These random data aren't very exciting, but we can at least add some zeros
+> #   for making slightly more interesting dot plots.
+> counts(myRNA)[1:4,1:40] <- 0
+> logcounts(myRNA)[1:4,1:40] <- 0
+> 
+> dittoDotPlot(
++     myRNA, c("gene1", "gene2", "gene3", "gene4"),
++     group.by = "clustering")
+>     
+> # 'size' adjusts the dot-size associated with the highest percent expression
+> dittoDotPlot(myRNA, c("gene1", "gene2", "gene3", "gene4"), "clustering",
++     size = 12)
+> 
+> # 'scale' input can be used to control / turn off scaling of avg exp values.
+> dittoDotPlot(myRNA, c("gene1", "gene2", "gene3", "gene4"), "clustering",
++     scale = FALSE)
+>     
+> # x-axis label rotation can be controlled with 'x.labels.rotate'
+> dittoDotPlot(myRNA, c("gene1", "gene2", "gene3", "gene4"), "clustering",
++     x.labels.rotate = FALSE)
+> 
+> # Title are adjustable via various discrete inputs:
+> dittoDotPlot(myRNA, c("gene1", "gene2", "gene3", "gene4"), "clustering",
++     main = "Title",
++     sub = "Subtitle",
++     ylab = "y-axis label",
++     xlab = "x-axis label",
++     legend.color.title = "Colors title",
++     legend.size.title = "Dot size title")
+>     
+> # For certain specialized applications, it may be helpful to adjust the
+> #   functions used for summarizing the data as well. Inputs are:
+> #   summary.fxn.color & summary.fxn.size
+> #     Requirement for each: Any function that takes in a numeric vector &
+> #     returns, as output, a single numeric value.
+> dittoDotPlot(myRNA, c("gene1", "gene2", "gene3", "gene4"), "clustering",
++     summary.fxn.color = mean,
++     legend.color.title = "mean\nexpression\nincluding 0s",
++     main = "scater::plotDots() defaulting recreation",
++     x.labels.rotate = FALSE,
++     scale = FALSE)
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:SingleCellExperiment’,
+  ‘package:SummarizedExperiment’, ‘package:Biobase’,
+  ‘package:GenomicRanges’, ‘package:GenomeInfoDb’, ‘package:IRanges’,
+  ‘package:S4Vectors’, ‘package:BiocGenerics’, ‘package:stats4’,
+  ‘package:MatrixGenerics’, ‘package:matrixStats’
+
+> nameEx("dittoFreqPlot")
+> ### * dittoFreqPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dittoFreqPlot
+> ### Title: Plot cell type/cluster/identity frequencies per sample and per
+> ###   grouping
+> ### Aliases: dittoFreqPlot
+> 
+> ### ** Examples
+> 
+> # Establish some workable example data
+> example(importDittoBulk, echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+> myRNA1 <- myRNA
+> colnames(myRNA) <- paste0(colnames(myRNA),"_1")
+> example(importDittoBulk, echo = FALSE)
+> myRNA <- cbind(myRNA, myRNA1)
+> myRNA <- setBulk(myRNA, FALSE) 
+> myRNA$sample <- rep(1:12, each = 10)
+> myRNA$groups <- rep(c("A", "B"), each = 60)
+> myRNA$subgroups <- rep(as.character(c(1:3,1:3,1:3,1:3)), each = 10)
+> myRNA
+class: SingleCellExperiment 
+dim: 1000 120 
+metadata(0):
+assays(2): counts logcounts
+rownames(1000): gene1 gene2 ... gene999 gene1000
+rowData names(0):
+colnames(120): sample1 sample2 ... sample59 sample60
+colData names(9): conditions timepoint ... sample subgroups
+reducedDimNames(2): pca tsne
+mainExpName: NULL
+altExpNames(0):
+> 
+> # There are three main inputs for this function, in addition to 'object'.
+> #  var = typically this will be cell types annotations or clustering
+> #  sample.by = the name of a metadata containing sample assignment of cells.
+> #  group.by = how to group the data on the x-axis (y-axis for ridgeplots)
+> dittoFreqPlot(myRNA,
++     var = "clustering",
++     sample.by = "sample",
++     group.by = "groups")
+>     
+> # 'color.by' can also be set differently from 'group.by' to have the effect
+> #  of highlighting supersets or subgroupings:
+> dittoFreqPlot(myRNA, "clustering",
++     group.by = "groups",
++     sample.by = "sample",
++     color.by = "subgroups")
+> 
+> # The var-values shown can be subset with 'vars.use'
+> dittoFreqPlot(myRNA, "clustering",
++     group.by = "groups", sample.by = "sample", color.by = "subgroups",
++     vars.use = 1:2)
+> 
+> # Lower frequency groups can be expanded to use the entire y-axis by:
+> #  turning on 'max.normalize'-ation: 
+> dittoFreqPlot(myRNA, "clustering",
++     group.by = "groups", sample.by = "sample", color.by = "subgroups",
++     max.normalize = TRUE)
+> #  or by setting y-scale limits to be set by the contents of facets:
+> dittoFreqPlot(myRNA, "clustering",
++     group.by = "groups", sample.by = "sample", color.by = "subgroups",
++     split.adjust = list(scales = "free_y")) 
+> 
+> # Data representations can also be selected and reordered with the 'plots'
+> #  input, and further adjusted with inputs applying to each representation.
+> dittoFreqPlot(myRNA,
++     var = "clustering", sample.by = "sample", group.by = "groups",
++     plots = c("vlnplot", "boxplot", "jitter"),
++     vlnplot.lineweight = 0.2,
++     boxplot.fill = FALSE,
++     boxplot.lineweight = 0.2)
+> 
+> # Finally, 'sample.by' is not technically required. When not given, a
+> #  single-datapoint of overall composition stats will be shown for each
+> #  grouping.
+> #  Just note, all data representation other than "jitter" will complain
+> #  due to there only being the one datapoint per group.
+> dittoFreqPlot(myRNA,
++     var = "clustering", group.by = "groups", color.by = "subgroups",
++     plots = "jitter") 
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:SingleCellExperiment’,
+  ‘package:SummarizedExperiment’, ‘package:Biobase’,
+  ‘package:GenomicRanges’, ‘package:GenomeInfoDb’, ‘package:IRanges’,
+  ‘package:S4Vectors’, ‘package:BiocGenerics’, ‘package:stats4’,
+  ‘package:MatrixGenerics’, ‘package:matrixStats’
+
+> nameEx("dittoHeatmap")
+> ### * dittoHeatmap
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dittoHeatmap
+> ### Title: Outputs a heatmap of given genes
+> ### Aliases: dittoHeatmap
+> 
+> ### ** Examples
+> 
+> example(importDittoBulk, echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+> scRNA <- setBulk(myRNA, FALSE)
+> 
+> # We now have two SCEs for our example purposes:
+>   # 'myRNA' will be treated as a bulk RNAseq dataset
+>   # 'scRNA' will be treated as a single-cell RNAseq dataset
+> 
+> # Pick a set of genes
+> genes <- getGenes(myRNA)[1:30]
+> 
+> # Make a heatmap with cells/samples annotated by their clusters
+> dittoHeatmap(myRNA, genes,
++     annot.by = "clustering")
+> 
+> # For single-cell data, you will typically have more cells than can be
+> # clustered quickly. Thus, cell clustering is turned off by default for
+> # single-cell data.
+> dittoHeatmap(scRNA, genes,
++     annot.by = "clustering")
+> 
+> # Using the 'order.by' input:
+> #   Ordering by a useful metadata or gene is often helpful.
+> #   For single-cell data, order.by defaults to the first element given to
+> #     annot.by.
+> #   For bulk data, order.by must be set separately.
+> dittoHeatmap(myRNA, genes,
++     annot.by = "clustering",
++     order.by = "clustering",
++     cluster_cols = FALSE)
+> # 'order.by' can be multiple metadata/genes, or a vector of indexes directly 
+> dittoHeatmap(scRNA, genes,
++     annot.by = "clustering",
++     order.by = c("clustering", "timepoint"))
+> dittoHeatmap(scRNA, genes,
++     annot.by = "clustering",
++     order.by = ncol(scRNA):1)
+> 
+> # When there are many cells, showing names becomes less useful.
+> #   Names can be turned off with the 'show_colnames' parameter.
+> dittoHeatmap(scRNA, genes,
++     annot.by = "groups",
++     show_colnames = FALSE)
+> 
+> # When theree are many many cells & genes, rasterization can be super useful
+> # as well.
+> #   Rasterization, or flattening of the distinct color objects to a matrix of
+> #   pixels, is the default for large heatmaps in the ComplexHeatmap package,
+> #   and you can have the heatmap rendered with this package (rather than the
+> #   pheatmap package) by setting 'complex = TRUE'.
+> #   Our data here is too small to hit that defaulting switch, so lets give
+> #   the direct input, 'use_raster' as well:
+> if (requireNamespace("ComplexHeatmap")) { # Checks if you have the package.
++     dittoHeatmap(scRNA, genes, annot.by = "groups", show_colnames = FALSE,
++         complex = TRUE,
++         use_raster = TRUE)
++ }
+Loading required namespace: ComplexHeatmap
+'magick' package is suggested to install to give better rasterization.
+
+Set `ht_opt$message = FALSE` to turn off this message.
+Warning in grSoftVersion() :
+  unable to load shared object '/Library/Frameworks/R.framework/Resources/modules//R_X11.so':
+  dlopen(/Library/Frameworks/R.framework/Resources/modules//R_X11.so, 0x0006): Library not loaded: /opt/X11/lib/libSM.6.dylib
+  Referenced from: <B3716E5A-BF4D-3CA3-B8EB-89643DB72A04> /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/modules/R_X11.so
+  Reason: tried: '/opt/X11/lib/libSM.6.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/opt/X11/lib/libSM.6.dylib' (no such file), '/opt/X11/lib/libSM.6.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libSM.6.dylib' (no such file), '/Library/Java/JavaVirtualMachines/jdk-11.0.18+10/Contents/Home/lib/server/libSM.6.dylib' (no such file)
+Warning in cairoVersion() :
+  unable to load shared object '/Library/Frameworks/R.framework/Resources/library/grDevices/libs//cairo.so':
+  dlopen(/Library/Frameworks/R.framework/Resources/library/grDevices/libs//cairo.so, 0x0006): Library not loaded: /opt/X11/lib/libXrender.1.dylib
+  Referenced from: <52C9ABC5-C730-30ED-BC04-27F1B9C71044> /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library/grDevices/libs/cairo.so
+  Reason: tried: '/opt/X11/lib/libXrender.1.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/opt/X11/lib/libXrender.1.dylib' (no such file), '/opt/X11/lib/libXrender.1.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libXrender.1.dylib' (no such file), '/Library/Java/JavaVirtualMachines/jdk-11.0.18+10/Contents/Home/lib/server/libXrender.1.dylib' (no such file)
+Warning in (function (filename = "Rplot%03d.png", width = 480, height = 480,  :
+  failed to load cairo DLL
+Error in getFromNamespace(device_info[3], ns = device_info[2])(temp_image) : 
+  unable to open /var/folders/l4/yqkcxkkj07jccl06ptwvsnfh0000gn/T//Rtmp7azfzJ/.heatmap_body_846b848a76c3afd8199b0903d87e964b_1_1bdac6242ec66.png
+Calls: <Anonymous> ... draw_heatmap_body -> draw_heatmap_body -> .local -> <Anonymous>
+Execution halted

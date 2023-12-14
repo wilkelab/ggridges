@@ -1,0 +1,135 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "HDStIM"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('HDStIM')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("HDStIM")
+> ### * HDStIM
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HDStIM
+> ### Title: HDStIM: High Dimensional Stimulation Immune Mapping
+> ### Aliases: HDStIM
+> 
+> ### ** Examples
+> 
+> mapped_data <- HDStIM(chi11$expr_data, chi11$state_markers,
++                   chi11$cluster_col, chi11$stim_label,
++                   chi11$unstim_label, seed_val = 123, umap = FALSE, umap_cells = NULL,
++                   verbose = FALSE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("marker_ranking_boruta")
+> ### * marker_ranking_boruta
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: marker_ranking_boruta
+> ### Title: Marker Ranking by Boruta
+> ### Aliases: marker_ranking_boruta
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_K_Fisher")
+> ### * plot_K_Fisher
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_K_Fisher
+> ### Title: Diagnostic plots explaining K-means clustering and Fisher's
+> ###   exact test carried out by HDStIM
+> ### Aliases: plot_K_Fisher
+> 
+> ### ** Examples
+> 
+> mapped_data <- HDStIM(chi11$expr_data, chi11$state_markers,
++                   chi11$cluster_col, chi11$stim_label,
++                   chi11$unstim_label, seed_val = 123, umap = FALSE, umap_cells = NULL,
++                   verbose = FALSE)
+> 
+> pk <- plot_K_Fisher(mapped_data, path = NULL, verbose = FALSE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_exprs")
+> ### * plot_exprs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_exprs
+> ### Title: Diagnostic plots showing individual marker distribution before
+> ###   and after mapping by HDStIM
+> ### Aliases: plot_exprs
+> 
+> ### ** Examples
+> 
+> mapped_data <- HDStIM(chi11$expr_data, chi11$state_markers,
++                   chi11$cluster_col, chi11$stim_label,
++                   chi11$unstim_label, seed_val = 123, umap = FALSE, umap_cells = NULL,
++                   verbose = FALSE)
+> 
+> pe <- plot_exprs(mapped_data, path = NULL, verbose = FALSE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_umap")
+> ### * plot_umap
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_umap
+> ### Title: Diagnostic UMAP plots showing the partitioning of cells into
+> ###   responding and non-responding groups by HDStIM
+> ### Aliases: plot_umap
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  2.116 0.073 2.465 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

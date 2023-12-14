@@ -1,0 +1,79 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(easyalluvial)
+> 
+> test_check("easyalluvial")
+[ FAIL 0 | WARN 6 | SKIP 18 | PASS 42 ]
+
+══ Skipped tests (18) ══════════════════════════════════════════════════════════
+• On CRAN (17): 'test_alluvial_long.R:13:3',
+  'test_alluvial_model_response.R:6:3', 'test_alluvial_model_response.R:32:3',
+  'test_alluvial_model_response.R:61:5', 'test_alluvial_model_response.R:95:5',
+  'test_alluvial_model_response.R:121:5',
+  'test_alluvial_model_response.R:289:3',
+  'test_alluvial_model_response.R:369:3', 'test_alluvial_wide.R:15:5',
+  'test_model.R:5:3', 'test_model.R:117:3', 'test_model.R:172:3',
+  'test_model.R:228:3', 'test_model.R:368:3', 'test_plot_condensation.R:17:5',
+  'test_plot_marginal_histograms.R:16:3',
+  'test_plot_marginal_histograms.R:95:3'
+• xgboost test skipped for performance (1): 'test_model.R:301:3'
+
+[ FAIL 0 | WARN 6 | SKIP 18 | PASS 42 ]
+Deleting unused snapshots:
+• alluvial_long/long-all-nums-plus-fill.svg
+• alluvial_long/long-all-nums.svg
+• alluvial_long/long-fill-first.svg
+• alluvial_long/long-fill-last.svg
+• alluvial_long/long-fill-to-right.svg
+• alluvial_long/long-fill-value.svg
+• alluvial_long/long-reorder-carrier-by-size.svg
+• alluvial_long/long-reorder-x-levels.svg
+• alluvial_long/long-reorder-y-levels.svg
+• alluvial_long/long-sprecify-color.svg
+• alluvial_model_response/model-response-all-facs.svg
+• alluvial_model_response/model-response-all-nums.svg
+• alluvial_model_response/model-response-cat-bi.svg
+• alluvial_model_response/model-response-cat-multi.svg
+• alluvial_model_response/model-response-new-change-bins-3.svg
+• alluvial_model_response/model-response-new-change-bins-7.svg
+• alluvial_model_response/model-response-new-labs.svg
+• alluvial_model_response/model-response-pdb-non-binary.svg
+• alluvial_model_response/model-response-pdb.svg
+• alluvial_model_response/model-response.svg
+• alluvial_wide/wide-all-flows.svg
+• alluvial_wide/wide-islr-cars-rotate-labels.svg
+• alluvial_wide/wide-islr-cars.svg
+• alluvial_wide/wide-last.svg
+• alluvial_wide/wide-reorder-y-levels.svg
+• alluvial_wide/wide-values.svg
+• plot_condensation/cond-price-first.svg
+• plot_condensation/cond-with-first.svg
+• plot_marginal_histograms/mod-num-cat.svg
+• plot_marginal_histograms/mod-num-num.svg
+• plot_marginal_histograms/mod-num-pred-train.svg
+• plot_marginal_histograms/plot-hist-long-cat-fill.svg
+• plot_marginal_histograms/plot-hist-long-cat.svg
+• plot_marginal_histograms/plot-hist-long-num-has-fill.svg
+• plot_marginal_histograms/plot-hist-long-num-is-fill.svg
+• plot_marginal_histograms/plot-hist-long-num.svg
+• plot_marginal_histograms/plot-hist-wide-num.svg
+> 
+> proc.time()
+   user  system elapsed 
+ 14.184   0.185  14.413 

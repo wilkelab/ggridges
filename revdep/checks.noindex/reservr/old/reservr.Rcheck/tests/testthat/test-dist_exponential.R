@@ -1,0 +1,21 @@
+test_that("exponential distribution works", {
+  set.seed(1337L)
+  expo <- dist_exponential()
+  params <- list(rate = 2.0)
+  x <- expo$sample(100L, with_params = params)
+
+  expect_equal(fit_dist(expo, x)$params$rate, 1 / mean(x))
+  expect_identical(expo$get_type(), "continuous")
+  expect_density(expo, dexp, params, x)
+  expect_probability(expo, pexp, params, x)
+  expect_quantile(expo, qexp, params)
+  expect_identical(expo$is_in_support(x), rep_len(TRUE, length(x)))
+  expect_diff_density(expo, x, params)
+  expect_diff_density(expo, x, list(rate = 4.0))
+  expect_diff_probability(expo, x, params)
+  expect_diff_probability(expo, x, list(rate = 4.0))
+  expect_tf_logdensity(expo, params, x)
+  expect_tf_logprobability(expo, params, x, x + 1.0)
+
+  expect_tf_fit(expo, params, I_POSITIVE_REALS)
+})

@@ -1,0 +1,180 @@
+* using log directory ‘/Users/clauswilke/github/ggridges/revdep/checks.noindex/ggcyto/new/ggcyto.Rcheck’
+* using R version 4.3.1 (2023-06-16)
+* using platform: aarch64-apple-darwin20 (64-bit)
+* R was compiled by
+    Apple clang version 14.0.0 (clang-1400.0.29.202)
+    GNU Fortran (GCC) 12.2.0
+* running under: macOS Ventura 13.6
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘ggcyto/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘ggcyto’ version ‘1.30.0’
+* checking package namespace information ... OK
+* checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘openCyto’
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... NOTE
+Found the following hidden files and directories:
+  .travis.yml
+These were most likely included in error. See section ‘Package
+structure’ in the ‘Writing R Extensions’ manual.
+* checking for portable file names ... NOTE
+Found the following non-portable file path:
+  ggcyto/docs/articles/advanced/ggplot.flowSet.overlay_files/accessible-code-block-0.0.1/empty-anchor.js
+
+Tarballs are only required to store paths of up to 100 bytes and cannot
+store those of more than 256 bytes, with restrictions including to 100
+bytes for the final component.
+See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘ggcyto’ can be installed ... WARNING
+Found the following significant warnings:
+  Warning: package ‘flowWorkspace’ was built under R version 4.3.2
+See ‘/Users/clauswilke/github/ggridges/revdep/checks.noindex/ggcyto/new/ggcyto.Rcheck/00install.out’ for details.
+* checking installed package size ... NOTE
+  installed size is  6.4Mb
+  sub-directories of 1Mb or more:
+    doc   5.5Mb
+* checking package directory ... OK
+* checking ‘build’ directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... NOTE
+Namespace in Imports field not imported from: ‘scales’
+  All declared Imports should be used.
+':::' call which should be '::': ‘flowWorkspace:::gh_pop_is_negated’
+  See the note in ?`:::` about the use of this operator.
+Unexported objects imported by ':::' calls:
+  ‘flowWorkspace:::.mergeGates’ ‘flowWorkspace:::compact’
+  ‘flowWorkspace:::fix_y_axis’ ‘ggplot2:::+.gg’ ‘ggplot2:::add_group’
+  ‘ggplot2:::as_gg_data_frame’ ‘ggplot2:::check_aesthetics’
+  ‘ggplot2:::hex_binwidth’ ‘ggplot2:::is.waive’
+  ‘ggplot2:::is_calculated_aes’ ‘ggplot2:::make_labels’
+  ‘ggplot2:::make_scale’ ‘ggplot2:::plot_clone’
+  ‘ggplot2:::print.ggplot’ ‘ggplot2:::scales_add_defaults’
+  ‘ggplot2:::scales_list’
+  See the note in ?`:::` about the use of this operator.
+* checking S3 generic/method consistency ... WARNING
+grid.draw:
+  function(x, recording)
+grid.draw.ggcyto_GatingLayout:
+  function(x)
+See section ‘Generic functions and methods’ in the ‘Writing R
+Extensions’ manual.
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+.fs2dt: no visible binding for global variable ‘name’
+add_ggcyto: no visible binding for global variable ‘name’
+add_ggcyto: no visible global function definition for ‘modifyList’
+add_ggcyto: no visible binding for global variable ‘axis’
+add_ggcyto: no visible binding for global variable ‘desc’
+add_par: no visible global function definition for ‘modifyList’
+as.ggplot: no visible binding for global variable ‘axis’
+as.ggplot: no visible binding for global variable ‘name’
+as.ggplot : <anonymous>: no visible binding for global variable ‘axis’
+as.ggplot : <anonymous>: no visible binding for global variable ‘name’
+as.ggplot: no visible binding for global variable ‘count’
+as.ggplot: no visible global function definition for ‘densCols’
+as.ggplot: no visible global function definition for ‘colorRampPalette’
+as.ggplot: no visible binding for global variable ‘density’
+autoplot.GatingHierarchy : <anonymous>: no visible global function
+  definition for ‘gray’
+autoplot.GatingSetList: no visible global function definition for
+  ‘getS3method’
+autoplot.cytoframe: no visible global function definition for
+  ‘getS3method’
+autoplot.cytoset: no visible global function definition for
+  ‘getS3method’
+autoplot.ncdfFlowList: no visible global function definition for
+  ‘getS3method’
+density_fr_all : <anonymous>: no visible global function definition for
+  ‘gray’
+faust_gating_plot: no visible global function definition for ‘gray’
+fortify.GatingSetList: no visible global function definition for
+  ‘getS3method’
+fortify.cytoframe: no visible global function definition for
+  ‘getS3method’
+fortify.cytoset: no visible global function definition for
+  ‘getS3method’
+fortify.ncdfFlowList: no visible global function definition for
+  ‘getS3method’
+fortify_fs.GatingSetList: no visible global function definition for
+  ‘getS3method’
+getFlowFrame.GatingSetList: no visible global function definition for
+  ‘getS3method’
+getFlowFrame.cytoset: no visible global function definition for
+  ‘getS3method’
+getFlowFrame.ncdfFlowList: no visible global function definition for
+  ‘getS3method’
+ggcyto.GatingSetList: no visible global function definition for
+  ‘getS3method’
+ggcyto.cytoset: no visible global function definition for ‘getS3method’
+ggcyto.flowSet: no visible binding for global variable ‘name’
+ggcyto.flowSet: no visible binding for global variable ‘axis’
+ggcyto.ncdfFlowList: no visible global function definition for
+  ‘getS3method’
+ggcyto_arrange: no visible binding for global variable ‘name’
+stat_position.filter: no visible global function definition for
+  ‘setNames’
+Undefined global functions or variables:
+  axis colorRampPalette count densCols density desc getS3method gray
+  modifyList name setNames
+Consider adding
+  importFrom("grDevices", "colorRampPalette", "densCols", "gray")
+  importFrom("graphics", "axis")
+  importFrom("stats", "density", "setNames")
+  importFrom("utils", "getS3method", "modifyList")
+to your NAMESPACE file.
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... WARNING
+Undocumented arguments in documentation object 'faust_gating_plot'
+  ‘gh’ ‘...’
+
+Documented arguments not in \usage in documentation object 'fortify.multiRangeGate':
+  ‘nPoints’
+
+Undocumented arguments in documentation object 'geom_multi_range'
+  ‘stat’ ‘linejoin’ ‘na.rm’ ‘inherit.aes’
+
+Functions with \usage entries need to have the appropriate \alias
+entries, and all their arguments documented.
+The \usage entries must correspond to syntactically valid R code.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... OK
+  Running ‘testthat.R’
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘Top_features_of_ggcyto.Rmd’... OK
+  ‘autoplot.Rmd’... OK
+  ‘ggcyto.GatingSet.Rmd’... OK
+  ‘ggcyto.flowSet.Rmd’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 3 WARNINGs, 6 NOTEs

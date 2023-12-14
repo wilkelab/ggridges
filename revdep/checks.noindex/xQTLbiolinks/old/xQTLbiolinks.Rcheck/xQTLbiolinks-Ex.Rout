@@ -1,0 +1,759 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "xQTLbiolinks"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('xQTLbiolinks')
+xQTLbiolinks v1.6.2  For help: https://github.com/lilab-bioinfo/xQTLbiolinks/
+
+If you use xQTLbiolinks in published research, please cite:
+Ruofan Ding, Xudong Zou, Yangmei Qin, Xuelian Ma, Gao Wang, Lei Li. xQTLbiolinks: a comprehensive and scalable tool for integrative analysis of molecular QTLs.
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("EBIquery_allTerm")
+> ### * EBIquery_allTerm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: EBIquery_allTerm
+> ### Title: Query supported terms (phenotypes, studies, tissues) in eQTL
+> ###   catalogue
+> ### Aliases: EBIquery_allTerm
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("extractGeneInfo")
+> ### * extractGeneInfo
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: extractGeneInfo
+> ### Title: Extract gene details from gencodeGeneInfoAllGranges object
+> ### Aliases: extractGeneInfo
+> 
+> ### ** Examples
+> 
+> gencodeGeneInfo <- extractGeneInfo(gencodeGeneInfoAllGranges)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("retrieveLD")
+> ### * retrieveLD
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: retrieveLD
+> ### Title: Retrieve SNP pairwise LD from locuscompare database
+> ### Aliases: retrieveLD
+> 
+> ### ** Examples
+> 
+> ld <- retrieveLD('6', 'rs9349379', 'AFR')
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTL_export")
+> ### * xQTL_export
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTL_export
+> ### Title: Export expression object to a specified format
+> ### Aliases: xQTL_export
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLanalyze_coloc")
+> ### * xQTLanalyze_coloc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLanalyze_coloc
+> ### Title: Conduct colocalization analysis with trait genes generated from
+> ###   'xQTLanalyze_getTraits'
+> ### Aliases: xQTLanalyze_coloc
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLanalyze_coloc_diy")
+> ### * xQTLanalyze_coloc_diy
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLanalyze_coloc_diy
+> ### Title: Conduct colocalization analysis with customized QTL data
+> ### Aliases: xQTLanalyze_coloc_diy
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLanalyze_getSentinelSnp")
+> ### * xQTLanalyze_getSentinelSnp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLanalyze_getSentinelSnp
+> ### Title: Detect sentinel SNPs for GWAS using summary statistics data
+> ### Aliases: xQTLanalyze_getSentinelSnp
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLanalyze_getTraits")
+> ### * xQTLanalyze_getTraits
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLanalyze_getTraits
+> ### Title: Identify trait genes using sentinel SNPs generated from
+> ###   'xQTLanalyze_getSentinelSnp'
+> ### Aliases: xQTLanalyze_getTraits
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLanno_calLambda")
+> ### * xQTLanno_calLambda
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLanno_calLambda
+> ### Title: calculate genomic control inflation factor for a QTL/GWAS
+> ###   summary statistics dataset.
+> ### Aliases: xQTLanno_calLambda
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLanno_chippeak")
+> ### * xQTLanno_chippeak
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLanno_chippeak
+> ### Title: enrichment analysis for GWAS / QTL signals in functional
+> ###   elements, including enhancer, promoter, CPG, and TFs
+> ### Aliases: xQTLanno_chippeak
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLdownload_egene")
+> ### * xQTLdownload_egene
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLdownload_egene
+> ### Title: Download eGenes (eQTL Genes) for a specified gene or a tissue
+> ### Aliases: xQTLdownload_egene
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLdownload_eqtlAllAsso")
+> ### * xQTLdownload_eqtlAllAsso
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLdownload_eqtlAllAsso
+> ### Title: Download summary statistics data for eQTLs with a specified
+> ###   gene, variant, tissue or study
+> ### Aliases: xQTLdownload_eqtlAllAsso
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLdownload_eqtlAllAssoPos")
+> ### * xQTLdownload_eqtlAllAssoPos
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLdownload_eqtlAllAssoPos
+> ### Title: Download summary statistics data for eQTLs with genome
+> ###   positions.
+> ### Aliases: xQTLdownload_eqtlAllAssoPos
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLdownload_eqtlExp")
+> ### * xQTLdownload_eqtlExp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLdownload_eqtlExp
+> ### Title: Download normalized expression for gene with a variant-gene pair
+> ### Aliases: xQTLdownload_eqtlExp
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLdownload_exp")
+> ### * xQTLdownload_exp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLdownload_exp
+> ### Title: Download normalized gene expression at the sample level for a
+> ###   specified tissue.
+> ### Aliases: xQTLdownload_exp
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLdownload_geneMedExp")
+> ### * xQTLdownload_geneMedExp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLdownload_geneMedExp
+> ### Title: Download median expressions for multiple genes in a specified
+> ###   tissue
+> ### Aliases: xQTLdownload_geneMedExp
+> 
+> ### ** Examples
+> 
+> geneMedExp <- xQTLdownload_geneMedExp(genes="LYNX1")
+== Check the gene name:
+== Done.
+Downloading gene median expression... | 2023-Dec-14 00:04:29 
+Downloaded  108 records.
+Unit of expression: TPM
+> geneMedExp <- xQTLdownload_geneMedExp(genes=c("TP53", "IRF5"))
+== Check the gene name:
+== Done.
+Downloading gene median expression... | 2023-Dec-14 00:04:30 
+Downloaded  108 records.
+Unit of expression: TPM
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLdownload_sgene")
+> ### * xQTLdownload_sgene
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLdownload_sgene
+> ### Title: Download details of sGenes (sQTL Genes) for a specified gene or
+> ###   a tissue.
+> ### Aliases: xQTLdownload_sgene
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLdownload_sqtlExp")
+> ### * xQTLdownload_sqtlExp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLdownload_sqtlExp
+> ### Title: Download normalized PSI value of intron for a sQTL pair
+> ### Aliases: xQTLdownload_sqtlExp
+> 
+> ### ** Examples
+> 
+> # Download sQTL expression in different tissues:
+> xQTLdownload_sqtlExp(variantName="rs1450891501",
++                      phenotypeId="chr1:497299:498399:clu_54863:ENSG00000239906.1",
++                      tissueSiteDetail="Lung")
+== Check the variant name:
+Querying variant... | 2023-Dec-14 00:04:30 
+== Done.
+== Downloading expression...
+== Done.
+=================================
+== Summary: 
+[ pValue ]:          5.93492283559215e-07
+[ pValueThreshold ]: 2.10462e-05
+[ nes ]:             1.49360971143302
+[ maf ]:             0.00776699029126214
+[ error ]:           0.29517058152385
+== Normalized expression and genotypes of [515] samples were found for variant [rs1450891501] - phenotypeId [chr1:497299:498399:clu_54863:ENSG00000239906.1] pair in tissue [Lung] in [gtex_v8].
+== Genotype: 6 het; 1 hom; 508 ref.
+== For more normalization method details, you can visit: https://www.gtexportal.org/home/faq#normalization. 
+         normExp genotypes
+  1:  0.30853649         0
+  2: -1.10832525         0
+  3: -0.51356350         0
+  4: -0.13294637         0
+  5:  1.85559213         1
+ ---                      
+511: -0.18096540         0
+512:  0.02225539         0
+513: -0.95222625         0
+514: -0.05138049         0
+515: -0.13835237         0
+> 
+> # Dowload sQTL expression using variant ID.
+> xQTLdownload_sqtlExp(variantName="chr1_1259424_T_C_b38",
++                      phenotypeId=" chr1:1487914:1489204:clu_52051:ENSG00000160072.19",
++                      tissueSiteDetail="Adipose - Subcutaneous")
+== Check the variant name:
+Querying variant... | 2023-Dec-14 00:04:31 
+== Done.
+== Downloading expression...
+== Done.
+=================================
+== Summary: 
+[ pValue ]:          2.63274330410663e-06
+[ pValueThreshold ]: 6.49936e-06
+[ nes ]:             -0.334711684766284
+[ maf ]:             0.301204819277108
+[ error ]:           0.0705140406615062
+== Normalized expression and genotypes of [581] samples were found for variant [chr1_1259424_T_C_b38] - phenotypeId [ chr1:1487914:1489204:clu_52051:ENSG00000160072.19] pair in tissue [Adipose - Subcutaneous] in [gtex_v8].
+== Genotype: 194 het; 78 hom; 309 ref.
+== For more normalization method details, you can visit: https://www.gtexportal.org/home/faq#normalization. 
+        normExp genotypes
+  1:  0.2024711         1
+  2: -0.1693515         0
+  3:  0.4906557         1
+  4:  1.1288329         0
+  5:  1.0640730         0
+ ---                     
+577: -1.5113986         1
+578:  0.4367975         0
+579:  0.5310522         1
+580: -0.2338854         0
+581:  1.0613446         0
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLquery_eqtl")
+> ### * xQTLquery_eqtl
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLquery_eqtl
+> ### Title: Query multi-tissue eQTL metasoft results
+> ### Aliases: xQTLquery_eqtl
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLquery_eqtlSig")
+> ### * xQTLquery_eqtlSig
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLquery_eqtlSig
+> ### Title: Query significant eQTL associations for a specified tissue or
+> ###   multiple tissues.
+> ### Aliases: xQTLquery_eqtlSig
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLquery_gene")
+> ### * xQTLquery_gene
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLquery_gene
+> ### Title: Query basic information for genes, including name, symbol,
+> ###   position and description
+> ### Aliases: xQTLquery_gene
+> 
+> ### ** Examples
+> 
+> # query gene of gencode version v26/hg38
+> geneInfo <- xQTLquery_gene("TP53")
+Querying genes... | 2023-Dec-14 00:04:31 
+1 record has been obtained!
+> geneInfo <- xQTLquery_gene(c("tp53","naDK","SDF4") )
+Querying genes... | 2023-Dec-14 00:04:32 
+Batch 1/1. Downloaded  page1/1; 3 records.
+> geneInfo <- xQTLquery_gene(c("ENSG00000210195.2","ENSG00000078808"))
+Querying genes... | 2023-Dec-14 00:04:32 
+Batch 1/1. Downloaded  page1/1; 2 records.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLquery_sampleBySampleId")
+> ### * xQTLquery_sampleBySampleId
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLquery_sampleBySampleId
+> ### Title: Query details of samples with GTEx IDs
+> ### Aliases: xQTLquery_sampleBySampleId
+> 
+> ### ** Examples
+> 
+> sampleIds <- c("GTEX-11NUK-0011-R4a-SM-DO12B", "GTEX-11ONC-0011-R4b-SM-DO93H",
++                "GTEX-11DXY-0526-SM-5EGGQ", "GTEX-13OVJ-1026-SM-5IFGI")
+> sampleInfo <- xQTLquery_sampleBySampleId(sampleIds)
+Querying samples by sampleId... | 2023-Dec-14 00:04:32 
+== Batch 1
+Total records: 4; downloaded: 1/1
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLquery_sampleByTissue")
+> ### * xQTLquery_sampleByTissue
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLquery_sampleByTissue
+> ### Title: Query details of samples by tissue name
+> ### Aliases: xQTLquery_sampleByTissue
+> 
+> ### ** Examples
+> 
+> sampleInfo <- xQTLquery_sampleByTissue("Brain - Amygdala" )
+Querying samples by tissue... | 2023-Dec-14 00:04:33 
+ == No pathologyNotesCategories information found in tissue [Brain - Amygdala] samples!
+Total records: 152; downloaded: 1/1
+> sampleInfo <- xQTLquery_sampleByTissue(tissueSiteDetail="Liver", pathologyNotesCategories=TRUE)
+Querying samples by tissue... | 2023-Dec-14 00:04:33 
+Total records: 226; downloaded: 1/2
+Total records: 226; downloaded: 2/2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLquery_sqtlSig")
+> ### * xQTLquery_sqtlSig
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLquery_sqtlSig
+> ### Title: Query significant sQTL associations for a tissue or multple
+> ###   tissues
+> ### Aliases: xQTLquery_sqtlSig
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLquery_tissue")
+> ### * xQTLquery_tissue
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLquery_tissue
+> ### Title: Query details for a specified tissue
+> ### Aliases: xQTLquery_tissue
+> 
+> ### ** Examples
+> 
+> tissueAll <- xQTLquery_tissue() # fetch all tissues
+> Brain <- xQTLquery_tissue("Brain")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLquery_varId")
+> ### * xQTLquery_varId
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLquery_varId
+> ### Title: Query variant with variant ID or dbSNP ID
+> ### Aliases: xQTLquery_varId
+> 
+> ### ** Examples
+> 
+> xQTLquery_varId("rs12596338")
+Querying variant... | 2023-Dec-14 00:04:34 
+                variantId      snpId        b37VariantId chromosome      pos
+1: chr16_57156226_C_T_b38 rs12596338 16_57190138_C_T_b37      chr16 57156226
+   ref alt datasetId maf01 shorthand
+1:   C   T   gtex_v8  TRUE        NA
+> xQTLquery_varId("chr11_66561248_T_C_b38")
+Querying variant... | 2023-Dec-14 00:04:34 
+                variantId    snpId        b37VariantId chromosome      pos ref
+1: chr11_66561248_T_C_b38 rs618838 11_66328719_T_C_b37      chr11 66561248   T
+   alt datasetId maf01 shorthand
+1:   C   gtex_v8  TRUE        NA
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLquery_varPos")
+> ### * xQTLquery_varPos
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLquery_varPos
+> ### Title: Query variants using genome position.
+> ### Aliases: xQTLquery_varPos
+> 
+> ### ** Examples
+> 
+> xQTLquery_varPos(chrom="chr1", pos=c(1102708,1105739))
+Querying variant by position... | 2023-Dec-14 00:04:34 
+   Got varints: 2/2 (100%)
+                      variantId      snpId              b37VariantId chromosome
+1: chr1_1105739_G_GGGCGTGGT_b38 rs71576600 1_1041119_G_GGGCGTGGT_b37       chr1
+2:         chr1_1102708_G_C_b38 rs66622470         1_1038088_G_C_b37       chr1
+       pos ref       alt datasetId maf01             shorthand
+1: 1105739   G GGGCGTGGT   gtex_v8  TRUE chr1_1105739_G_8I_b38
+2: 1102708   G         C   gtex_v8  TRUE                  <NA>
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_PZPlot")
+> ### * xQTLvisual_PZPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_PZPlot
+> ### Title: Compare P-values reported to P-values calculated from Z
+> ###   statistics derived from the reported beta and standard error.
+> ### Aliases: xQTLvisual_PZPlot
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_coloc")
+> ### * xQTLvisual_coloc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_coloc
+> ### Title: Heatmap plot of the LD-p-value relationship of the eQTL
+> ### Aliases: xQTLvisual_coloc
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_eqtl")
+> ### * xQTLvisual_eqtl
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_eqtl
+> ### Title: Box plot with jittered points for showing number and
+> ###   significance of eQTL associations
+> ### Aliases: xQTLvisual_eqtl
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_eqtlExp")
+> ### * xQTLvisual_eqtlExp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_eqtlExp
+> ### Title: Boxplot of normalized expression stratified by genotypes for
+> ###   eQTL.
+> ### Aliases: xQTLvisual_eqtlExp
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_geneExpTissues")
+> ### * xQTLvisual_geneExpTissues
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_geneExpTissues
+> ### Title: Violin plot of distribution of the gene expression profiles
+> ###   among multiple tissues.
+> ### Aliases: xQTLvisual_geneExpTissues
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_genoBox")
+> ### * xQTLvisual_genoBox
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_genoBox
+> ### Title: Boxplot of values stratified by genotypes with customized data
+> ### Aliases: xQTLvisual_genoBox
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_locusCompare")
+> ### * xQTLvisual_locusCompare
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_locusCompare
+> ### Title: Dotplot of comparing regional signals between GWAS and xQTL
+> ### Aliases: xQTLvisual_locusCompare
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_locusZoom")
+> ### * xQTLvisual_locusZoom
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_locusZoom
+> ### Title: Locuszoom plot for visualizing regional signals relative to
+> ###   genomic position with summary statistics data
+> ### Aliases: xQTLvisual_locusZoom
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_manhattan")
+> ### * xQTLvisual_manhattan
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_manhattan
+> ### Title: Manhattan plot for a GWAS summary statistics dataset
+> ### Aliases: xQTLvisual_manhattan
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_qqPlot")
+> ### * xQTLvisual_qqPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_qqPlot
+> ### Title: Quantile-quantile plot with p-values from GWAS summary
+> ###   statistics data
+> ### Aliases: xQTLvisual_qqPlot
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xQTLvisual_sqtl")
+> ### * xQTLvisual_sqtl
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xQTLvisual_sqtl
+> ### Title: Box plot with jittered points for showing number and
+> ###   significance of sQTL associations
+> ### Aliases: xQTLvisual_sqtl
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  6.121 0.183 11.817 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

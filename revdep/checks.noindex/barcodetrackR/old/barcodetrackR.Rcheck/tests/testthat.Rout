@@ -1,0 +1,34 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(barcodetrackR)
+> 
+> test_check("barcodetrackR")
+No threshold supplied. All barcodes will be retained. Be aware that lower abundance barcodes are likely to be less reliable due to sampling bias. To estimate an appropriate threshold, please see the barcodetrackR function `estimate_barcode_threshold`. 
+No threshold supplied. All barcodes will be retained. Be aware that lower abundance barcodes are likely to be less reliable due to sampling bias. To estimate an appropriate threshold, please see the barcodetrackR function `estimate_barcode_threshold`. 
+Removed 0 barcodes from the supplied dataframe based on relative threshold of 1e-07 
+Removed 0 barcodes from the supplied dataframe based on relative threshold of 1e-07 
+Removed 71 barcodes from the supplied dataframe based on relative threshold of 0.005 
+Removed 71 barcodes from the supplied dataframe based on relative threshold of 0.005 
+[ FAIL 0 | WARN 9 | SKIP 0 | PASS 31 ]
+
+[ FAIL 0 | WARN 9 | SKIP 0 | PASS 31 ]
+> 
+> proc.time()
+   user  system elapsed 
+  6.242   0.233   6.596 

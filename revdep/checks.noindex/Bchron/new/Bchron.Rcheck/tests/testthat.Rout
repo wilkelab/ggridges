@@ -1,0 +1,50 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(Bchron)
+> 
+> test_check("Bchron")
+ages not given as whole numbers - rounding occurred
+ageSds not given as whole numbers - rounding occurred
+ages not given as whole numbers - rounding occurred
+ageSds not given as whole numbers - rounding occurred
+ages not given as whole numbers - rounding occurred
+ageSds not given as whole numbers - rounding occurred
+ages not given as whole numbers - rounding occurred
+ageSds not given as whole numbers - rounding occurred
+ages not given as whole numbers - rounding occurred
+ageSds not given as whole numbers - rounding occurred
+ages not given as whole numbers - rounding occurred
+ageSds not given as whole numbers - rounding occurred
+The Bchron run provided does not have position 0 included in the predictPositions argument. Using closest predictPosition 0 instead.
+Completed!
+[ FAIL 0 | WARN 75 | SKIP 11 | PASS 100 ]
+
+══ Skipped tests (11) ══════════════════════════════════════════════════════════
+• On CRAN (11): 'test_all_chrons.R:72:3', 'test_all_chrons.R:178:3',
+  'test_all_chrons.R:278:3', 'test_all_chrons.R:370:3',
+  'test_all_chrons.R:431:3', 'test_all_chrons.R:481:3',
+  'test_all_chrons.R:547:3', 'test_all_chrons.R:608:3',
+  'test_all_chrons.R:661:3', 'test_all_chrons.R:731:3',
+  'test_all_chrons.R:874:3'
+
+[ FAIL 0 | WARN 75 | SKIP 11 | PASS 100 ]
+> 
+> proc.time()
+   user  system elapsed 
+ 37.421   2.648  40.595 

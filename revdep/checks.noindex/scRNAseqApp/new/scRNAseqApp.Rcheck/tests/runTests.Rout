@@ -1,0 +1,47 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> require("scRNAseqApp") || stop("unable to load Package:scRNAseqApp")
+Loading required package: scRNAseqApp
+No methods found in package 'utils' for request: 'packageVersion' when loading 'scRNAseqApp'
+[1] TRUE
+> require("Seurat") || stop("unable to load Package::Seurat")
+Loading required package: Seurat
+Loading required package: SeuratObject
+Loading required package: sp
+'SeuratObject' was built with package 'Matrix' 1.6.3 but the current
+version is 1.6.4; it is recomended that you reinstall 'SeuratObject' as
+the ABI for 'Matrix' may have changed
+
+Attaching package: 'SeuratObject'
+
+The following object is masked from 'package:base':
+
+    intersect
+
+[1] TRUE
+> require("testthat") || stop("unable to load testthat")
+Loading required package: testthat
+[1] TRUE
+> test_check("scRNAseqApp")
+[ FAIL 0 | WARN 70 | SKIP 0 | PASS 9 ]
+
+[ FAIL 0 | WARN 70 | SKIP 0 | PASS 9 ]
+> 
+> proc.time()
+   user  system elapsed 
+ 12.124   0.898  14.412 

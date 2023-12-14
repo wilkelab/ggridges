@@ -1,0 +1,111 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(signifinder)
+
+> 
+> test_check("signifinder")
+'select()' returned 1:1 mapping between keys and columns
+Loading required package: edgeR
+Loading required package: limma
+
+Attaching package: 'limma'
+
+The following object is masked from 'package:BiocGenerics':
+
+    plotMA
+
+pyroptosisSignLin is using 100% of signature genes
+ferroptosisSignLiang is using 100% of signature genes
+lipidMetabolismSign is using 100% of signature genes
+StemCellCD49fSign is using 100% of signature genes
+glycolysisSignZhang is using 100% of signature genes
+autophagySignXu is using 100% of signature genes
+'select()' returned 1:1 mapping between keys and columns
+autophagySignChenM is using 100% of OS signature genes
+autophagySignChenM is using 60% of DFS signature genes
+TinflamSign is using 100% of signature genes
+EMTSignMiow is using 100% of epithelial signature genes
+EMTSignMiow is using 0% of mesenchymal signature genes
+[1] "Calculating ranks..."
+[1] "Calculating absolute values from ranks..."
+EMTSignMiow is using 0% of mesenchymal signature genes
+[1] "Calculating ranks..."
+[1] "Calculating absolute values from ranks..."
+EMTSignMak is using 100% of epithelial signature genes
+EMTSignMak is using 100% of mesenchymal signature genes
+EMTSignMak is using 100% of mesenchymal signature genes
+EMTSignCheng is using 100% of signature genes
+ASCSign is using 100% of signature genes
+ChemokineSign is using 100% of signature genes
+'select()' returned 1:1 mapping between keys and columns
+PassONSign is using 100% of signature genes
+[1] "Calculating ranks..."
+[1] "Calculating absolute values from ranks..."
+[1] "Normalizing..."
+CISSign is using 100% of up signature genes
+CISSign is using 100% of down signature genes
+CISSign is using 100% of down signature genes
+HRDSSign is using 100% of signature genes
+DNArepSign is using 100% of signature genes
+'select()' returned 1:1 mapping between keys and columns
+IPRESSign is using 100% of signature genes
+[1] "Calculating ranks..."
+[1] "Calculating absolute values from ranks..."
+[1] "Normalizing..."
+ECMSign is using 0% of up signature genes
+ECMSign is using 100% of down signature genes
+[1] "Calculating ranks..."
+[1] "Calculating absolute values from ranks..."
+ECMSign is using 0% of up signature genes
+[1] "Calculating ranks..."
+[1] "Calculating absolute values from ranks..."
+IPSOVSign is using 100% of signature genes
+[1] "Calculating ranks..."
+[1] "Calculating absolute values from ranks..."
+[1] "Calculating ranks..."
+[1] "Calculating absolute values from ranks..."
+'select()' returned 1:1 mapping between keys and columns
+glioCellStateSign is using 100% of MES2 signature genes
+glioCellStateSign is using 100% of MES1 signature genes
+glioCellStateSign is using 100% of AC signature genes
+glioCellStateSign is using 100% of OPC signature genes
+glioCellStateSign is using 100% of NPC1 signature genes
+glioCellStateSign is using 100% of NPC2 signature genes
+TLSSign is using 100% of signature genes
+expandedImmuneSign is using 100% of signature genes
+IFNSign is using 100% of signature genes
+ImmuneCytSignRooney is using 100% of signature genes
+mitoticIndexSign is using 100% of signature genes
+matrisomeSign is using 100% of signature genes
+immunoScoreSignRoh is using 100% of signature genes
+CINSign is using 100% of signature genes
+CINSign is using 36% of signature genes
+CINSign is using 36% of signature genes
+hypoxiaSign is using 100% of signature genes
+cellCycleSignLundberg is using 100% of signature genes
+cellCycleSignDavoli is using 100% of signature genes
+VEGFSign is using 100% of signature genes
+ImmuneCytSignDavoli is using 100% of signature genes
+[ FAIL 0 | WARN 19 | SKIP 0 | PASS 196 ]
+
+[ FAIL 0 | WARN 19 | SKIP 0 | PASS 196 ]
+> 
+> proc.time()
+   user  system elapsed 
+ 53.524   1.476  55.247 

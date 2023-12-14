@@ -1,0 +1,78 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(bayesplot)
+This is bayesplot version 1.10.0
+- Online documentation and vignettes at mc-stan.org/bayesplot
+- bayesplot theme set to bayesplot::theme_default()
+   * Does _not_ affect other ggplot2 plots
+   * See ?bayesplot_theme_set for details on theme setting
+> 
+> Sys.unsetenv("R_TESTS")
+> test_check("bayesplot")
+[ FAIL 0 | WARN 1 | SKIP 73 | PASS 1019 ]
+
+══ Skipped tests (73) ══════════════════════════════════════════════════════════
+• On CRAN (73): 'test-aesthetics.R:220:3', 'test-extractors.R:119:3',
+  'test-mcmc-diagnostics.R:110:3', 'test-mcmc-diagnostics.R:123:3',
+  'test-mcmc-diagnostics.R:137:3', 'test-mcmc-diagnostics.R:147:3',
+  'test-mcmc-diagnostics.R:160:3', 'test-mcmc-diagnostics.R:171:3',
+  'test-mcmc-distributions.R:124:3', 'test-mcmc-distributions.R:138:3',
+  'test-mcmc-distributions.R:149:3', 'test-mcmc-distributions.R:157:3',
+  'test-mcmc-distributions.R:165:3', 'test-mcmc-distributions.R:173:3',
+  'test-mcmc-intervals.R:179:3', 'test-mcmc-intervals.R:206:3',
+  'test-mcmc-intervals.R:239:3', 'test-mcmc-nuts.R:98:3',
+  'test-mcmc-nuts.R:109:3', 'test-mcmc-nuts.R:120:3', 'test-mcmc-nuts.R:131:3',
+  'test-mcmc-nuts.R:142:3', 'test-mcmc-recover.R:107:3',
+  'test-mcmc-recover.R:115:3', 'test-mcmc-recover.R:126:3',
+  'test-mcmc-scatter-and-parcoord.R:374:3',
+  'test-mcmc-scatter-and-parcoord.R:395:3',
+  'test-mcmc-scatter-and-parcoord.R:411:3',
+  'test-mcmc-scatter-and-parcoord.R:427:3', 'test-mcmc-traces.R:117:3',
+  'test-mcmc-traces.R:139:3', 'test-mcmc-traces.R:168:3',
+  'test-mcmc-traces.R:200:3', 'test-mcmc-traces.R:228:3',
+  'test-mcmc-traces.R:256:3', 'test-ppc-censoring.R:32:3',
+  'test-ppc-censoring.R:49:3', 'test-ppc-discrete.R:105:3',
+  'test-ppc-discrete.R:138:3', 'test-ppc-discrete.R:159:3',
+  'test-ppc-distributions.R:92:3', 'test-ppc-distributions.R:110:3',
+  'test-ppc-distributions.R:141:3', 'test-ppc-distributions.R:153:3',
+  'test-ppc-distributions.R:177:3', 'test-ppc-distributions.R:198:3',
+  'test-ppc-distributions.R:219:3', 'test-ppc-distributions.R:231:3',
+  'test-ppc-distributions.R:249:3', 'test-ppc-distributions.R:269:3',
+  'test-ppc-distributions.R:301:3', 'test-ppc-errors.R:67:3',
+  'test-ppc-errors.R:74:3', 'test-ppc-errors.R:81:3', 'test-ppc-errors.R:88:3',
+  'test-ppc-errors.R:95:3', 'test-ppc-errors.R:102:3',
+  'test-ppc-errors.R:109:3', 'test-ppc-intervals.R:109:3',
+  'test-ppc-intervals.R:133:3', 'test-ppc-intervals.R:158:3',
+  'test-ppc-intervals.R:191:3', 'test-ppc-loo.R:160:3', 'test-ppc-loo.R:177:3',
+  'test-ppc-loo.R:186:3', 'test-ppc-loo.R:217:3',
+  'test-ppc-scatterplots.R:36:3', 'test-ppc-scatterplots.R:55:3',
+  'test-ppc-scatterplots.R:74:3', 'test-ppc-test-statistics.R:100:3',
+  'test-ppc-test-statistics.R:133:3', 'test-ppc-test-statistics.R:166:3',
+  'test-ppc-test-statistics.R:201:3'
+
+[ FAIL 0 | WARN 1 | SKIP 73 | PASS 1019 ]
+> 
+> # Alternative interactive tester that doesn't bail after 24 failures
+> # pr <- testthat::ProgressReporter$new()
+> # pr$max_fail = 1000
+> # devtools::test(reporter = pr)
+> 
+> proc.time()
+   user  system elapsed 
+ 43.965   0.912  46.925 

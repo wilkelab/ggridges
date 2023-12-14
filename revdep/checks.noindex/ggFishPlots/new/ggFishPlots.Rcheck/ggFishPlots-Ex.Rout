@@ -1,0 +1,134 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "ggFishPlots"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('ggFishPlots')
+Loading required package: ggplot2
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("plot_growth")
+> ### * plot_growth
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_growth
+> ### Title: Plot age-length relationships and growth curves
+> ### Aliases: plot_growth
+> 
+> ### ** Examples
+> 
+> # Simple plot. Note that a list is returned.
+> data(survey_ghl)
+> plot_growth(survey_ghl, length = "length", age = "age")
+$plot
+
+$text
+[1] "von Bertalanffy growth function coefficients:  \n Linf (asymptotic average length) = 91.2 cm +/- 88.3 - 94.6 (95% CIs)  \n K (growth rate coefficient) = 0.0633 +/- 0.059 - 0.068 (95% CIs)  \n t0 (age at length 0) = -3.04 (years) +/- -3.337 - -2.769 (95% CIs)  \n tmax (life span; t0 + 3/K) = 44.4 years  \n Number of included specimens = 10401  \n Total number of measured = 618779  \n Excluded (length or age missing):  \n Length = 0; age = 608378"
+
+$params
+# A tibble: 3 × 7
+  term  estimate std.error statistic   p.value conf.low conf.high
+  <chr>    <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
+1 Sinf   91.2      1.51         60.3 0          88.3      94.6   
+2 K       0.0633   0.00231      27.4 4.90e-160   0.0586    0.0680
+3 t0     -3.04     0.139       -21.8 1.71e-103  -3.34     -2.77  
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_lw")
+> ### * plot_lw
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_lw
+> ### Title: Plot length-weight relationships
+> ### Aliases: plot_lw
+> 
+> ### ** Examples
+> 
+> data(survey_ghl)
+> 
+> # Simple plot
+> plot_lw(survey_ghl, length = "length", weight = "weight")
+$plot
+
+$text
+[1] "Logarithm transformed linear length-weight model. Not splitted by sex:  \n a = 0 +/- 0 - 0 (95% CIs).  \n b = 3.221 +/- 3.22 - 3.22 (95% CIs).  \n Number of included specimens = 67457  \n Total number of measured = 618779  \n Excluded (data missing): \n Length = 0; weight = 551322"
+
+$params
+# A tibble: 2 × 7
+  term    estimate std.error statistic p.value   conf.low  conf.high
+  <chr>      <dbl>     <dbl>     <dbl>   <dbl>      <dbl>      <dbl>
+1 a     0.00000382   0.00491    -2540.       0 0.00000379 0.00000386
+2 b     3.22         0.00128     2519.       0 3.22       3.22      
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_maturity")
+> ### * plot_maturity
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_maturity
+> ### Title: Plot maturity ogive
+> ### Aliases: plot_maturity
+> 
+> ### ** Examples
+> 
+> # Simple L50 plot
+> data(survey_ghl)
+> plot_maturity(survey_ghl, length = "length", maturity = "maturity")
+Warning in ggridges::geom_density_ridges(data = dt, aes(x = length, y = maturity,  :
+  Ignoring unknown parameters: `size`
+$plot
+Picking joint bandwidth of 1.21
+
+$text
+[1] "50% maturity at length (L50) based on logit regressions:\n54.784 cm. 95% confidence intervals: 52.852 - 56.787\n  Number of specimens: 64265.\n Confidence intervals estimated from the glm object."
+
+$params
+      mean   ci.min ci.max  sex intercept     slope     n
+1 54.78361 52.85249 56.787 both -5.755492 0.1050587 64265
+
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  5.724 0.268 6.086 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

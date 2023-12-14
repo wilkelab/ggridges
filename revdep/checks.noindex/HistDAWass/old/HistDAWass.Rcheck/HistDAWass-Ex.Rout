@@ -1,0 +1,1988 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "HistDAWass"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('HistDAWass')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("Center.cell.MatH-methods")
+> ### * Center.cell.MatH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Center.cell.MatH
+> ### Title: Method Center.cell.MatH Centers all the cells of a matrix of
+> ###   distributions
+> ### Aliases: Center.cell.MatH Center.cell.MatH,MatH-method
+> 
+> ### ** Examples
+> 
+> CEN_BLOOD <- Center.cell.MatH(BLOOD)
+> get.MatH.stats(BLOOD, stat = "mean")
+$stat
+[1] "mean"
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20      150.1025   13.69530   41.52550
+u2: F-30      150.7100   12.15805   36.49700
+u3: F-40      164.9600   12.13355   36.54900
+u4: F-50      186.5075   12.13270   36.48025
+u5: F-60      194.0300   12.14510   36.34075
+u6: F-70      193.2000   12.20480   36.70300
+u7: F-80+     187.1400   12.14085   36.50350
+u8: M-20      159.6225   13.55700   40.50000
+u9: M-30      164.4300   12.08820   35.91400
+u10: M-40     170.0550   12.09160   36.45650
+u11: M-50     194.2200   12.21360   36.72000
+u12: M-60     203.3600   12.24500   35.81450
+u13: M-70     205.6650   12.15000   35.75000
+u14: M-80+    205.4750   12.11960   38.45000
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("HTS.exponential.smoothing")
+> ### * HTS.exponential.smoothing
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HTS.exponential.smoothing
+> ### Title: Smoothing with exponential smoothing of a histogram time series
+> ### Aliases: HTS.exponential.smoothing
+> 
+> ### ** Examples
+> 
+> mov.expo.smooth <- HTS.exponential.smoothing(HTS = RetHTS, alpha = 0.8)
+> # a show method for HTS must be implemented you can see it using
+> # str(mov.expo.smooth$AveragedHTS)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("HTS.moving.averages")
+> ### * HTS.moving.averages
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HTS.moving.averages
+> ### Title: Smoothing with moving averages of a histogram time series
+> ### Aliases: HTS.moving.averages
+> 
+> ### ** Examples
+> 
+> mov.av.smoothed <- HTS.moving.averages(HTS = RetHTS, k = 5)
+> # a show method for HTS must be implemented you can see it using
+> # str(mov.av.smoothed$AveragedHTS)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("HTS.predict.knn")
+> ### * HTS.predict.knn
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HTS.predict.knn
+> ### Title: K-NN predictions of a histogram time series
+> ### Aliases: HTS.predict.knn
+> 
+> ### ** Examples
+> 
+> prediction <- HTS.predict.knn(HTS = RetHTS, position = 108, k = 3)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("HistDAWass-package")
+> ### * HistDAWass-package
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HistDAWass-package
+> ### Title: Histogram-Valued Data Analysis
+> ### Aliases: HistDAWass-package HistDAWass
+> ### Keywords: package
+> 
+> ### ** Examples
+> 
+> 
+> # Generating a list of distributions
+> a <- vector("list", 4)
+> a[[1]] <- distributionH(
++   x = c(80, 100, 120, 135, 150, 165, 180, 200, 240),
++   p = c(0, 0.025, 0.1, 0.275, 0.525, 0.725, 0.887, 0.975, 1)
++ )
+> a[[2]] <- distributionH(
++   x = c(80, 100, 120, 135, 150, 165, 180, 195, 210, 240),
++   p = c(0, 0.013, 0.101, 0.255, 0.508, 0.718, 0.895, 0.961, 0.987, 1)
++ )
+> a[[3]] <- distributionH(
++   x = c(95, 110, 125, 140, 155, 170, 185, 200, 215, 230, 245),
++   p = c(0, 0.012, 0.041, 0.154, 0.36, 0.595, 0.781, 0.929, 0.972, 0.992, 1)
++ )
+> a[[4]] <- distributionH(
++   x = c(105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 260),
++   p = c(0, 0.009, 0.035, 0.081, 0.186, 0.385, 0.633, 0.832, 0.932, 0.977, 1)
++ )
+> # Generating a list of names of observations
+> namerows <- list("u1", "u2")
+> # Generating a list of names of variables
+> namevars <- list("Var_1", "Var_2")
+> # creating the MatH
+> Mat_of_distributions <- MatH(
++   x = a, nrows = 2, ncols = 2,
++   rownames = namerows, varnames = namevars, by.row = FALSE
++ )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("MatH-class")
+> ### * MatH-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MatH-class
+> ### Title: Class MatH.
+> ### Aliases: MatH-class MatH initialize,MatH-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- create a list of six distributionH objects
+> ListOfDist <- vector("list", 6)
+> ListOfDist[[1]] <- distributionH(c(1, 2, 3), c(0, 0.4, 1))
+> ListOfDist[[2]] <- distributionH(c(7, 8, 10, 15), c(0, 0.2, 0.7, 1))
+> ListOfDist[[3]] <- distributionH(c(9, 11, 20), c(0, 0.5, 1))
+> ListOfDist[[4]] <- distributionH(c(2, 5, 8), c(0, 0.3, 1))
+> ListOfDist[[5]] <- distributionH(c(8, 10, 15), c(0, 0.75, 1))
+> ListOfDist[[6]] <- distributionH(c(20, 22, 24), c(0, 0.12, 1))
+> 
+> ## create a MatH object filling it by columns
+> MyMAT <- new("MatH",
++   nrows = 3, ncols = 2, ListOfDist = ListOfDist,
++   names.rows = c("I1", "I2", "I3"), names.cols = c("Var1", "Var2"), by.row = FALSE
++ )
+> 
+> showClass("MatH")
+Class "MatH" [package "HistDAWass"]
+
+Slots:
+             
+Name:       M
+Class: matrix
+
+Known Subclasses: "TMatH"
+> 
+> # bulding an empty 10 by 4 matrix of histograms
+> MAT <- MatH(nrows = 10, ncols = 4)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.1d.PCA")
+> ### * WH.1d.PCA
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.1d.PCA
+> ### Title: Principal components analysis of histogram variable based on
+> ###   Wasserstein distance
+> ### Aliases: WH.1d.PCA
+> 
+> ### ** Examples
+> 
+> results <- WH.1d.PCA(data = BLOOD, var = 1, listaxes = c(1:2))
+We do a PCA on variable --->  Cholesterol 
+dev.new(): using pdf(file="Rplots1.pdf")
+dev.new(): using pdf(file="Rplots2.pdf")
+dev.new(): using pdf(file="Rplots3.pdf")
+dev.new(): using pdf(file="Rplots4.pdf")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.SSQ-methods")
+> ### * WH.SSQ-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.SSQ
+> ### Title: Method WH.SSQ
+> ### Aliases: WH.SSQ WH.SSQ,MatH-method
+> 
+> ### ** Examples
+> 
+> WH.SSQ(BLOOD)
+            Cholesterol Hemoglobin Hematocrit
+Cholesterol  5433.92687 -70.007187 -208.88333
+Hemoglobin    -70.00719   3.923101   11.57318
+Hematocrit   -208.88333  11.573182   41.69170
+> # generate a set of random weights
+> RN <- runif(get.MatH.nrows(BLOOD))
+> WH.SSQ(BLOOD, w = RN)
+            Cholesterol Hemoglobin Hematocrit
+Cholesterol  2307.64958 -30.199843  -86.03367
+Hemoglobin    -30.19984   1.786583    5.14757
+Hematocrit    -86.03367   5.147570   17.81049
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.SSQ2-methods")
+> ### * WH.SSQ2-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.SSQ2
+> ### Title: Method WH.SSQ2
+> ### Aliases: WH.SSQ2 WH.SSQ2,MatH,MatH-method WH.SSQ2,MatH-method
+> 
+> ### ** Examples
+> 
+> M1 <- BLOOD[, 1]
+> M2 <- BLOOD[, 2:3]
+> WH.SSQ2(M1, M2)
+            Hemoglobin Hematocrit
+Cholesterol  -70.00719  -208.8833
+> # generate a set of random weights
+> RN <- runif(get.MatH.nrows(BLOOD))
+> WH.SSQ2(M1, M2, w = RN)
+            Hemoglobin Hematocrit
+Cholesterol  -30.19955  -86.03279
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.bind-methods")
+> ### * WH.bind-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.bind
+> ### Title: Method WH.bind
+> ### Aliases: WH.bind WH.bind,MatH,MatH-method WH.bind,MatH-method
+> 
+> ### ** Examples
+> 
+> # binding by row
+> M1 <- BLOOD[1:10, 1]
+> M2 <- BLOOD[1:10, 3]
+> MAT <- WH.bind(M1, M2, byrow = TRUE)
+> # binding by col
+> M1 <- BLOOD[1:10, 1]
+> M2 <- BLOOD[1:10, 3]
+> MAT <- WH.bind(M1, M2, byrow = FALSE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.bind.col-methods")
+> ### * WH.bind.col-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.bind.col
+> ### Title: Method WH.bind.col
+> ### Aliases: WH.bind.col WH.bind.col,MatH,MatH-method
+> ###   WH.bind.col,MatH-method
+> 
+> ### ** Examples
+> 
+> M1 <- BLOOD[1:10, 1]
+> M2 <- BLOOD[1:10, 3]
+> MAT <- WH.bind.col(M1, M2)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.bind.row-methods")
+> ### * WH.bind.row-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.bind.row
+> ### Title: Method WH.bind.row
+> ### Aliases: WH.bind.row WH.bind.row,MatH,MatH-method
+> ###   WH.bind.row,MatH-method
+> 
+> ### ** Examples
+> 
+> M1 <- BLOOD[1:3, ]
+> M2 <- BLOOD[5:8, ]
+> MAT <- WH.bind.row(M1, M2)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.correlation-methods")
+> ### * WH.correlation-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.correlation
+> ### Title: Method WH.correlation
+> ### Aliases: WH.correlation WH.correlation,MatH-method
+> 
+> ### ** Examples
+> 
+> WH.correlation(BLOOD)
+            Cholesterol Hemoglobin Hematocrit
+Cholesterol   1.0000000 -0.4794806 -0.4388560
+Hemoglobin   -0.4794806  1.0000000  0.9049264
+Hematocrit   -0.4388560  0.9049264  1.0000000
+> # generate a set of random weights
+> RN <- runif(get.MatH.nrows(BLOOD))
+> WH.correlation(BLOOD, w = RN)
+            Cholesterol Hemoglobin Hematocrit
+Cholesterol   1.0000000 -0.4703283 -0.4243640
+Hemoglobin   -0.4703283  1.0000000  0.9125427
+Hematocrit   -0.4243640  0.9125427  1.0000000
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.correlation2-methods")
+> ### * WH.correlation2-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.correlation2
+> ### Title: Method WH.correlation2
+> ### Aliases: WH.correlation2 WH.correlation2,MatH,MatH-method
+> ###   WH.correlation2,MatH-method
+> 
+> ### ** Examples
+> 
+> M1 <- BLOOD[, 1]
+> M2 <- BLOOD[, 2:3]
+> WH.correlation2(M1, M2)
+            Hemoglobin Hematocrit
+Cholesterol -0.4794806  -0.438856
+> # generate a set of random weights
+> RN <- runif(get.MatH.nrows(BLOOD))
+> WH.correlation2(M1, M2, w = RN)
+            Hemoglobin Hematocrit
+Cholesterol -0.4703283  -0.424364
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.mat.prod-methods")
+> ### * WH.mat.prod-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.mat.prod
+> ### Title: Method WH.mat.prod
+> ### Aliases: WH.mat.prod WH.mat.prod,MatH,MatH-method
+> ###   WH.mat.prod,MatH-method
+> 
+> ### ** Examples
+> 
+> 
+> M1 <- BLOOD[1:5, ]
+> M2 <- BLOOD[6:10, ]
+> MAT <- WH.mat.prod(M1, M2, traspose1 = TRUE, traspose2 = FALSE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.mat.sum-methods")
+> ### * WH.mat.sum-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.mat.sum
+> ### Title: Method WH.mat.sum
+> ### Aliases: WH.mat.sum WH.mat.sum,MatH,MatH-method WH.mat.sum,MatH-method
+> 
+> ### ** Examples
+> 
+> # binding by row
+> M1 <- BLOOD[1:5, ]
+> M2 <- BLOOD[6:10, ]
+> MAT <- WH.mat.sum(M1, M2)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.plot_multiple_Spanish.funs")
+> ### * WH.plot_multiple_Spanish.funs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.plot_multiple_Spanish.funs
+> ### Title: Plotting Spanish fun plots for Multiple factor analysis of
+> ###   Histogram Variables
+> ### Aliases: WH.plot_multiple_Spanish.funs
+> 
+> ### ** Examples
+> 
+> # Do a MultiplePCA on the BLOOD dataset
+> ## Not run: 
+> ##D res <- WH.MultiplePCA(BLOOD, list.of.vars = c(1:3))
+> ## End(Not run)
+> # Plot results
+> ## Not run: 
+> ##D WH.plot_multiple_Spanish.funs(res, axes = c(1, 2), var = c(1:3))
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.plot_multiple_indivs")
+> ### * WH.plot_multiple_indivs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.plot_multiple_indivs
+> ### Title: Plot histograms of individuals after a Multiple factor analysis
+> ###   of Histogram Variables
+> ### Aliases: WH.plot_multiple_indivs
+> 
+> ### ** Examples
+> 
+> # Do a MultiplePCA on the BLOOD dataset
+> ## Not run: 
+> ##D #' results=WH.MultiplePCA(BLOOD,list.of.vars = c(1:3))
+> ##D # Plot histograms of variable 1 of BLOOD dataset on the first
+> ##D # factorial plane showing histograms
+> ##D WH.plot_multiple_indivs(BLOOD, results,
+> ##D   axes = c(1, 2), var = 1, strx = 0.1,
+> ##D   stry = 0.1, HISTO = TRUE
+> ##D )
+> ##D # Plot histograms of variable 1 of BLOOD dataset on the first
+> ##D # factorial plane showing densities
+> ##D 
+> ##D WH.plot_multiple_indivs(BLOOD, results,
+> ##D   axes = c(1, 2), var = 1, strx = 0.1,
+> ##D   stry = 0.1, HISTO = FALSE
+> ##D )
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.regression.GOF")
+> ### * WH.regression.GOF
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.regression.GOF
+> ### Title: Goodness of Fit indices for Multiple regression of histogram
+> ###   variables based on a two component model and L2 Wasserstein distance
+> ### Aliases: WH.regression.GOF
+> 
+> ### ** Examples
+> 
+> # do regression
+> model.parameters <- WH.regression.two.components(data = BLOOD, Yvar = 1, Xvars = c(2:3))
+> #' # do prediction
+> Predicted.BLOOD <- WH.regression.two.components.predict(data = BLOOD[, 2:3], 
++                                               parameters = model.parameters)
+> # compute GOF indices
+> GOF.indices <- WH.regression.GOF(observed = BLOOD[, 1], predicted = Predicted.BLOOD)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.regression.two.components")
+> ### * WH.regression.two.components
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.regression.two.components
+> ### Title: Multiple regression analysis for histogram variables based on a
+> ###   two component model and L2 Wasserstein distance
+> ### Aliases: WH.regression.two.components
+> 
+> ### ** Examples
+> 
+> model.parameters <- WH.regression.two.components(data = BLOOD, Yvar = 1, Xvars = c(2:3))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.regression.two.components.predict")
+> ### * WH.regression.two.components.predict
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.regression.two.components.predict
+> ### Title: Multiple regression analysis for histogram variables based on a
+> ###   two component model and L2 Wasserstein distance
+> ### Aliases: WH.regression.two.components.predict
+> 
+> ### ** Examples
+> 
+> # do regression
+> model.parameters <- WH.regression.two.components(data = BLOOD, Yvar = 1, Xvars = c(2:3))
+> # do prediction
+> Predicted.BLOOD <- WH.regression.two.components.predict(data = BLOOD[, 2:3], 
++                                                         parameters = model.parameters)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.var.covar-methods")
+> ### * WH.var.covar-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.var.covar
+> ### Title: Method WH.var.covar
+> ### Aliases: WH.var.covar WH.var.covar,MatH-method
+> 
+> ### ** Examples
+> 
+> WH.var.covar(BLOOD)
+            Cholesterol Hemoglobin  Hematocrit
+Cholesterol  388.137633 -5.0005134 -14.9202378
+Hemoglobin    -5.000513  0.2802215   0.8266558
+Hematocrit   -14.920238  0.8266558   2.9779786
+> # generate a set of random weights
+> RN <- runif(get.MatH.nrows(BLOOD))
+> WH.var.covar(BLOOD, w = RN)
+            Cholesterol Hemoglobin  Hematocrit
+Cholesterol  331.140954 -4.3335388 -12.3454299
+Hemoglobin    -4.333539  0.2563718   0.7386684
+Hematocrit   -12.345430  0.7386684   2.5557737
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.var.covar2-methods")
+> ### * WH.var.covar2-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.var.covar2
+> ### Title: Method WH.var.covar2
+> ### Aliases: WH.var.covar2 WH.var.covar2,MatH,MatH-method
+> ###   WH.var.covar2,MatH-method
+> 
+> ### ** Examples
+> 
+> M1 <- BLOOD[, 1]
+> M2 <- BLOOD[, 2:3]
+> WH.var.covar2(M1, M2)
+            Hemoglobin Hematocrit
+Cholesterol  -5.000513  -14.92024
+> # generate a set of random weights
+> RN <- runif(get.MatH.nrows(BLOOD))
+> WH.var.covar2(M1, M2, w = RN)
+            Hemoglobin Hematocrit
+Cholesterol  -4.333539  -12.34543
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.vec.mean-methods")
+> ### * WH.vec.mean-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.vec.mean
+> ### Title: Method WH.vec.mean
+> ### Aliases: WH.vec.mean WH.vec.mean,MatH-method
+> 
+> ### ** Examples
+> 
+> hmean <- WH.vec.mean(BLOOD)
+> # generate a set of random weights
+> RN <- runif(get.MatH.nrows(BLOOD) * get.MatH.ncols(BLOOD))
+> hmean <- WH.vec.mean(BLOOD, w = RN)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH.vec.sum-methods")
+> ### * WH.vec.sum-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH.vec.sum
+> ### Title: Method WH.vec.sum
+> ### Aliases: WH.vec.sum WH.vec.sum,MatH-method
+> 
+> ### ** Examples
+> 
+> hsum <- WH.vec.sum(BLOOD)
+> # generate a set of random weights
+> RN <- runif(get.MatH.nrows(BLOOD) * get.MatH.ncols(BLOOD))
+> hsum <- WH.vec.sum(BLOOD, w = RN)
+> ### SUM of distributions ----
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH_2d_Adaptive_Kohonen_maps")
+> ### * WH_2d_Adaptive_Kohonen_maps
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH_2d_Adaptive_Kohonen_maps
+> ### Title: Batch Kohonen self-organizing 2d maps using adaptive distances
+> ###   for histogram-valued data
+> ### Aliases: WH_2d_Adaptive_Kohonen_maps
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D results <- WH_2d_Adaptive_Kohonen_maps(
+> ##D   x = BLOOD,
+> ##D   net = list(xdim = 2, ydim = 3, topo = c("rectangular")),
+> ##D   repetitions = 2, simplify = TRUE,
+> ##D   qua = 10, standardize = TRUE
+> ##D )
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH_2d_Kohonen_maps")
+> ### * WH_2d_Kohonen_maps
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH_2d_Kohonen_maps
+> ### Title: Batch Kohonen self-organizing 2d maps for histogram-valued data
+> ### Aliases: WH_2d_Kohonen_maps
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D results <- WH_2d_Kohonen_maps(
+> ##D   x = BLOOD,
+> ##D   net = list(xdim = 2, ydim = 3, topo = c("rectangular")),
+> ##D   repetitions = 2, simplify = TRUE,
+> ##D   qua = 10, standardize = TRUE
+> ##D )
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH_MAT_DIST")
+> ### * WH_MAT_DIST
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH_MAT_DIST
+> ### Title: L2 Wasserstein distance matrix
+> ### Aliases: WH_MAT_DIST
+> 
+> ### ** Examples
+> 
+> DMAT <- WH_MAT_DIST(x = BLOOD, simplify = TRUE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH_adaptive.kmeans")
+> ### * WH_adaptive.kmeans
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH_adaptive.kmeans
+> ### Title: K-means of a dataset of histogram-valued data using adaptive
+> ###   Wasserstein distances
+> ### Aliases: WH_adaptive.kmeans
+> 
+> ### ** Examples
+> 
+> results <- WH_adaptive.kmeans(x = BLOOD, k = 2, rep = 10, 
++             simplify = TRUE, qua = 10, standardize = TRUE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH_adaptive_fcmeans")
+> ### * WH_adaptive_fcmeans
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH_adaptive_fcmeans
+> ### Title: Fuzzy c-means with adaptive distances for histogram-valued data
+> ### Aliases: WH_adaptive_fcmeans
+> 
+> ### ** Examples
+> 
+> results <- WH_adaptive_fcmeans(
++   x = BLOOD, k = 2, schema = 4, m = 1.5, rep = 3, simplify = TRUE,
++   qua = 10, standardize = TRUE, init.weights = "EQUAL", weight.sys = "PROD"
++ )
+Weights initialization === EQUAL  
+AFCM-- PROD --Cl.  2 ---------> rep   1 
+Weights initialization === EQUAL  
+AFCM-- PROD --Cl.  2 ---------> rep   2 
+Weights initialization === EQUAL  
+AFCM-- PROD --Cl.  2 ---------> rep   3 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH_fcmeans")
+> ### * WH_fcmeans
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH_fcmeans
+> ### Title: Fuzzy c-means of a dataset of histogram-valued data
+> ### Aliases: WH_fcmeans
+> 
+> ### ** Examples
+> 
+> results <- WH_fcmeans(x = BLOOD, k = 2, m = 1.5, rep = 10, 
++                       simplify = TRUE, qua = 10, standardize = TRUE)
+FCM---------> rep   1 
+FCM---------> rep   2 
+FCM---------> rep   3 
+FCM---------> rep   4 
+FCM---------> rep   5 
+FCM---------> rep   6 
+FCM---------> rep   7 
+FCM---------> rep   8 
+FCM---------> rep   9 
+FCM---------> rep   10 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH_hclust")
+> ### * WH_hclust
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH_hclust
+> ### Title: Hierarchical clustering of histogram data
+> ### Aliases: WH_hclust
+> 
+> ### ** Examples
+> 
+> results <- WH_hclust(x = BLOOD, simplify = TRUE, method = "complete")
+> plot(results) # it plots the dendrogram
+> cutree(results, k = 5) # it returns the labels for 5 clusters
+  u1: F-20   u2: F-30   u3: F-40   u4: F-50   u5: F-60   u6: F-70  u7: F-80+ 
+         1          1          2          3          3          3          3 
+  u8: M-20   u9: M-30  u10: M-40  u11: M-50  u12: M-60  u13: M-70 u14: M-80+ 
+         4          2          2          3          5          5          5 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WH_kmeans")
+> ### * WH_kmeans
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WH_kmeans
+> ### Title: K-means of a dataset of histogram-valued data
+> ### Aliases: WH_kmeans
+> 
+> ### ** Examples
+> 
+> results <- WH_kmeans(
++   x = BLOOD, k = 2, rep = 10, simplify = TRUE,
++   qua = 10, standardize = TRUE, verbose = TRUE
++ )
+---------> rep   1 
+1---->26.0812963134783---->
+2---->25.358676951955---->
+3---->19.7196817302181---->
+4---->13.3516357118352---->
+5---->13.3516357118352---->
+---------> rep   2 
+1---->26.0812963134783---->
+2---->25.358676951955---->
+3---->19.7196817302181---->
+4---->13.3516357118352---->
+5---->13.3516357118352---->
+---------> rep   3 
+1---->34.899522034222---->
+2---->21.9232147375357---->
+3---->13.3516357118352---->
+4---->13.3516357118352---->
+---------> rep   4 
+1---->21.9232147375357---->
+2---->13.3516357118352---->
+3---->13.3516357118352---->
+---------> rep   5 
+1---->26.0812963134783---->
+2---->25.358676951955---->
+3---->19.7196817302181---->
+4---->13.3516357118352---->
+5---->13.3516357118352---->
+---------> rep   6 
+1---->19.7196817302181---->
+2---->13.3516357118352---->
+3---->13.3516357118352---->
+---------> rep   7 
+1---->21.9232147375357---->
+2---->13.3516357118352---->
+3---->13.3516357118352---->
+---------> rep   8 
+1---->23.1769737028258---->
+2---->19.7196817302181---->
+3---->13.3516357118352---->
+4---->13.3516357118352---->
+---------> rep   9 
+1---->35.0222538063679---->
+2---->35.0222538063679---->
+---------> rep   10 
+1---->26.0812963134783---->
+2---->25.358676951955---->
+3---->19.7196817302181---->
+4---->13.3516357118352---->
+5---->13.3516357118352---->
+> 
+> 
+> 
+> cleanEx()
+> nameEx("WassSqDistH-methods")
+> ### * WassSqDistH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: WassSqDistH
+> ### Title: Method 'WassSqDistH'
+> ### Aliases: WassSqDistH WassSqDistH,distributionH,distributionH-method
+> ###   WassSqDistH,distributionH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> ## ---- create two distributionH objects ----
+> mydist1 <- distributionH(x = c(1, 2, 3), p = c(0, 0.4, 1))
+> mydist2 <- distributionH(x = c(7, 8, 10, 15), p = c(0, 0.2, 0.7, 1))
+> # -- compute the squared L2 Waaserstein distance
+> WassSqDistH(mydist1, mydist2)
+[1] 61.03667
+> # -- compute the squared L2 Waaserstein distance with details
+> WassSqDistH(mydist1, mydist2, details = TRUE)
+ SQ_W_dist   POSITION       SIZE      SHAPE        rQQ 
+61.0366667 58.5225000  2.3165745  0.1975922  0.9168940 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("checkEmptyBins-methods")
+> ### * checkEmptyBins-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: checkEmptyBins
+> ### Title: Method 'checkEmptyBins'
+> ### Aliases: checkEmptyBins checkEmptyBins,distributionH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- A mydist distribution with an empty bin i.e. two consecutive values of p are equal----
+> mydist <- distributionH(x = c(1, 2, 3, 10), p = c(0, 0.5, 0.5, 1))
+> ## ---- Checks for empty byns and returns the newdist object without empty bins ----
+> newdist <- checkEmptyBins(mydist)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("compP-methods")
+> ### * compP-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: compP
+> ### Title: Method 'compP'
+> ### Aliases: compP compP,distributionH,numeric-method
+> ###   compP,distributionH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- A mydist distribution ----
+> mydist <- distributionH(x = c(1, 2, 3, 10), p = c(0, 0.1, 0.5, 1))
+> ## ---- Compute the cfd value for q=5 (not observed) ----
+> p <- compP(mydist, 5)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("compQ-methods")
+> ### * compQ-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: compQ
+> ### Title: Method 'compQ'
+> ### Aliases: compQ compQ,distributionH,numeric-method
+> ###   compQ,distributionH-method
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- A mydist distribution ----
+> mydist <- distributionH(x = c(1, 2, 3, 10), p = c(0, 0.1, 0.5, 1))
+> ## ---- Compute the quantile of mydist for different values of p ----
+> y <- compQ(mydist, 0.5) # the median
+> y <- compQ(mydist, 0) # the minimum
+> y <- compQ(mydist, 1) # the maximum
+> y <- compQ(mydist, 0.25) # the first quartile
+> y <- compQ(mydist, 0.9) # the ninth decile
+> 
+> 
+> 
+> cleanEx()
+> nameEx("crwtransform-methods")
+> ### * crwtransform-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: crwtransform
+> ### Title: Method 'crwtransform': returns the centers and the radii of bins
+> ###   of a distribution
+> ### Aliases: crwtransform crwtransform,distributionH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- A mydist distribution ----
+> mydist <- distributionH(x = c(1, 2, 3, 10), p = c(0, 0.1, 0.5, 1))
+> ## ---- Compute the cfd value for q=5 (not observed) ----
+> crwtransform(mydist)
+$Centers
+[1] 1.5 2.5 6.5
+
+$Radii
+[1] 0.5 0.5 3.5
+
+$Weights
+[1] 0.1 0.4 0.5
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("data2hist")
+> ### * data2hist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: data2hist
+> ### Title: From real data to distributionH.
+> ### Aliases: data2hist
+> 
+> ### ** Examples
+> 
+> data <- rnorm(n = 1000, mean = 2, sd = 3)
+> mydist <- data2hist(data)
+> plot(mydist)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("distributionH-class")
+> ### * distributionH-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: distributionH-class
+> ### Title: Class distributionH.
+> ### Aliases: distributionH-class distributionH
+> ###   initialize,distributionH-method
+> ### Keywords: classes
+> 
+> ### ** Examples
+> 
+> #---- initialize a distributionH object mydist
+> # from a simple histogram
+> # ----------------------------
+> # | Bins    |  Prob  | cdf   |
+> # ----------------------------
+> # | [1,2)   |  0.4   | 0.4   |
+> # | [2,3]   |  0.6   | 1.0   |
+> # ----------------------------
+> # | Tot.    |  1.0   | -     |
+> # ----------------------------
+> mydist <- new("distributionH", c(1, 2, 3), c(0, 0.4, 1))
+> str(mydist)
+Formal class 'distributionH' [package "HistDAWass"] with 4 slots
+  ..@ x: num [1:3] 1 2 3
+  ..@ p: num [1:3] 0 0.4 1
+  ..@ m: num 2.1
+  ..@ s: num 0.569
+> # OUTPUT
+> # Formal class 'distributionH' [package "HistDAWass"] with 4 slots
+> #   ..@ x: num [1:3] 1 2 3 the quantiles
+> #   ..@ p: num [1:3] 0 0.4 1 the cdf
+> #   ..@ m: num 2.1 the mean
+> #   ..@ s: num 0.569 the standard deviation
+> # or using
+> mydist <- distributionH(x = c(1, 2, 3), p = c(0, 0.4, 1))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dotpW-methods")
+> ### * dotpW-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dotpW
+> ### Title: Method 'dotpW'
+> ### Aliases: dotpW dotpW,distributionH,distributionH-method
+> ###   dotpW,distributionH-method dotpW,numeric,distributionH-method
+> ###   dotpW,distributionH,numeric-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> 
+> ## let's define two distributionH objects
+> mydist1 <- distributionH(x = c(1, 2, 3, 10), p = c(0, 0.1, 0.5, 1))
+> mydist2 <- distributionH(x = c(5, 7, 15), p = c(0, 0.7, 1))
+> 
+> ## the dot product between the distributions
+> dotpW(mydist1, mydist2) #---> 39.51429
+[1] 39.51429
+> 
+> ## the dot product between a distribution and a numeric
+> dotpW(mydist1, 3) #---> 13.2
+[1] 13.2
+> dotpW(3, mydist1) #---> 13.2
+[1] 13.2
+> 
+> 
+> # DOTPW method -----
+> 
+> 
+> 
+> cleanEx()
+> nameEx("extract-methods")
+> ### * extract-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: [
+> ### Title: extract from a MatH Method [
+> ### Aliases: [ [,MatH,ANY,ANY,ANY-method [,MatH-method
+> 
+> ### ** Examples
+> 
+> D <- BLOOD # the BLOOD dataset
+> SUB_D <- BLOOD[c(1, 2, 5), c(1, 2)]
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get.MatH.stats-methods")
+> ### * get.MatH.stats-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get.MatH.stats
+> ### Title: Method get.MatH.stats
+> ### Aliases: get.MatH.stats get.MatH.stats,MatH-method
+> 
+> ### ** Examples
+> 
+> get.MatH.stats(BLOOD) # the means of the distributions in BLOOD dataset
+$stat
+[1] "mean"
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20      150.1025   13.69530   41.52550
+u2: F-30      150.7100   12.15805   36.49700
+u3: F-40      164.9600   12.13355   36.54900
+u4: F-50      186.5075   12.13270   36.48025
+u5: F-60      194.0300   12.14510   36.34075
+u6: F-70      193.2000   12.20480   36.70300
+u7: F-80+     187.1400   12.14085   36.50350
+u8: M-20      159.6225   13.55700   40.50000
+u9: M-30      164.4300   12.08820   35.91400
+u10: M-40     170.0550   12.09160   36.45650
+u11: M-50     194.2200   12.21360   36.72000
+u12: M-60     203.3600   12.24500   35.81450
+u13: M-70     205.6650   12.15000   35.75000
+u14: M-80+    205.4750   12.11960   38.45000
+
+> get.MatH.stats(BLOOD, stat = "median") # the medians of the distributions in BLOOD dataset
+$stat
+[1] "median"
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20      148.5000   13.68806   41.32171
+u2: F-30      149.5257   12.17500   36.43898
+u3: F-40      163.9362   12.15000   36.65560
+u4: F-50      186.9556   12.15135   36.48701
+u5: F-60      194.2000   12.13699   36.42510
+u6: F-70      193.1973   12.21974   36.60294
+u7: F-80+     187.0769   12.12174   36.39404
+u8: M-20      162.4825   13.56636   40.50000
+u9: M-30      163.9446   12.14400   35.91158
+u10: M-40     167.7059   12.06740   36.37615
+u11: M-50     193.6395   12.18473   36.45408
+u12: M-60     203.3333   12.27725   35.66800
+u13: M-70     202.5000   12.12532   35.45057
+u14: M-80+    205.6180   12.19940   38.24906
+
+> get.MatH.stats(BLOOD, stat = "quantile", prob = 0.5) # the same as median
+$stat
+[1] "quantile"
+
+$prob
+[1] 0.5
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20      148.5000   13.68806   41.32171
+u2: F-30      149.5257   12.17500   36.43898
+u3: F-40      163.9362   12.15000   36.65560
+u4: F-50      186.9556   12.15135   36.48701
+u5: F-60      194.2000   12.13699   36.42510
+u6: F-70      193.1973   12.21974   36.60294
+u7: F-80+     187.0769   12.12174   36.39404
+u8: M-20      162.4825   13.56636   40.50000
+u9: M-30      163.9446   12.14400   35.91158
+u10: M-40     167.7059   12.06740   36.37615
+u11: M-50     193.6395   12.18473   36.45408
+u12: M-60     203.3333   12.27725   35.66800
+u13: M-70     202.5000   12.12532   35.45057
+u14: M-80+    205.6180   12.19940   38.24906
+
+> get.MatH.stats(BLOOD, stat = "min") # minima of the distributions in BLOOD dataset
+$stat
+[1] "min"
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20            80       12.0       35.0
+u2: F-30            80       10.5       31.0
+u3: F-40            95       10.5       31.0
+u4: F-50           105       10.5       31.0
+u5: F-60           115       10.8       31.0
+u6: F-70           120       10.8       31.0
+u7: F-80+          120       10.8       31.0
+u8: M-20           110       12.9       37.5
+u9: M-30            90       10.2       30.0
+u10: M-40          120       10.8       30.0
+u11: M-50          105       10.8       33.5
+u12: M-60          130       11.3       32.0
+u13: M-70          165       11.4       32.0
+u14: M-80+         155       10.8       33.5
+
+> get.MatH.stats(BLOOD, stat = "quantile", prob = 0) # the same as min
+$stat
+[1] "quantile"
+
+$prob
+[1] 0
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20            80       12.0       35.0
+u2: F-30            80       10.5       31.0
+u3: F-40            95       10.5       31.0
+u4: F-50           105       10.5       31.0
+u5: F-60           115       10.8       31.0
+u6: F-70           120       10.8       31.0
+u7: F-80+          120       10.8       31.0
+u8: M-20           110       12.9       37.5
+u9: M-30            90       10.2       30.0
+u10: M-40          120       10.8       30.0
+u11: M-50          105       10.8       33.5
+u12: M-60          130       11.3       32.0
+u13: M-70          165       11.4       32.0
+u14: M-80+         155       10.8       33.5
+
+> get.MatH.stats(BLOOD, stat = "max") # maxima of the distributions in BLOOD dataset
+$stat
+[1] "max"
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20           240       15.0       47.0
+u2: F-30           240       14.0       44.0
+u3: F-40           245       14.0       43.5
+u4: F-50           260       14.0       42.5
+u5: F-60           260       13.6       42.5
+u6: F-70           260       13.6       43.5
+u7: F-80+          260       13.6       43.0
+u8: M-20           195       14.1       43.5
+u9: M-30           220       13.4       41.0
+u10: M-40          225       13.6       41.0
+u11: M-50          265       14.0       42.0
+u12: M-60          270       13.5       41.0
+u13: M-70          255       12.9       39.5
+u14: M-80+         260       13.2       43.0
+
+> get.MatH.stats(BLOOD, stat = "quantile", prob = 1) # the same as max
+$stat
+[1] "quantile"
+
+$prob
+[1] 1
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20           240       15.0       47.0
+u2: F-30           240       14.0       44.0
+u3: F-40           245       14.0       43.5
+u4: F-50           260       14.0       42.5
+u5: F-60           260       13.6       42.5
+u6: F-70           260       13.6       43.5
+u7: F-80+          260       13.6       43.0
+u8: M-20           195       14.1       43.5
+u9: M-30           220       13.4       41.0
+u10: M-40          225       13.6       41.0
+u11: M-50          265       14.0       42.0
+u12: M-60          270       13.5       41.0
+u13: M-70          255       12.9       39.5
+u14: M-80+         260       13.2       43.0
+
+> get.MatH.stats(BLOOD, stat = "std") # standard deviations of the distributions in BLOOD dataset
+$stat
+[1] "std"
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20      26.33561  0.5503071   2.196782
+u2: F-30      25.28364  0.5283404   2.122457
+u3: F-40      25.33374  0.5073865   2.229933
+u4: F-50      26.65510  0.5851359   2.198471
+u5: F-60      25.21492  0.5203070   2.097889
+u6: F-70      26.56112  0.5225804   2.181809
+u7: F-80+     24.59174  0.5524653   2.191116
+u8: M-20      19.84416  0.2997404   1.635848
+u9: M-30      26.48600  0.6223671   2.114104
+u10: M-40     20.01117  0.5265575   2.247578
+u11: M-50     30.16496  0.5970832   2.002440
+u12: M-60     26.22296  0.5086207   2.008255
+u13: M-70     22.49906  0.3342454   2.165064
+u14: M-80+    23.53666  0.6163028   2.615754
+
+> get.MatH.stats(BLOOD, stat = "skewness") # skewness indices of the distributions in BLOOD dataset
+$stat
+[1] "skewness"
+
+$mat
+           Cholesterol  Hemoglobin    Hematocrit
+u1: F-20    0.22934064 -0.20883034  1.192414e-01
+u2: F-30    0.19707652  0.38810824 -7.453425e-02
+u3: F-40    0.16257094  0.06054520 -1.313935e-01
+u4: F-50   -0.10033796 -0.16759578  7.150371e-02
+u5: F-60   -0.15027057  0.05780638 -1.354211e-02
+u6: F-70   -0.02676301 -0.11370208  1.654135e-01
+u7: F-80+  -0.05552866  0.18518380  1.830670e-01
+u8: M-20   -0.66245988 -0.15271359 -1.306356e-16
+u9: M-30   -0.30545952 -0.43862079 -2.809854e-02
+u10: M-40   0.37352856  0.24110186 -2.080231e-01
+u11: M-50  -0.16745577  0.52350483  4.959364e-01
+u12: M-60  -0.17354549  0.08145040  3.460391e-01
+u13: M-70   0.21698266  0.22559110  2.095089e-01
+u14: M-80+  0.10635003 -0.43952999  9.002414e-02
+
+> get.MatH.stats(BLOOD, stat = "kurtosis") # kurtosis indices of the distributions in BLOOD dataset
+$stat
+[1] "kurtosis"
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20      3.366591   3.080171   2.999469
+u2: F-30      3.230212   4.097250   2.720938
+u3: F-40      2.953111   3.603189   2.497760
+u4: F-50      3.182851   2.806651   2.508789
+u5: F-60      2.647993   2.774913   2.583077
+u6: F-70      2.681039   2.906379   2.606993
+u7: F-80+     3.043597   2.718046   2.728497
+u8: M-20      2.849524   2.141288   1.956856
+u9: M-30      3.157972   2.832183   2.726084
+u10: M-40     2.829566   2.613529   2.657402
+u11: M-50     2.736278   3.444919   2.489308
+u12: M-60     3.368635   2.338811   2.626914
+u13: M-70     1.917167   2.365812   1.858061
+u14: M-80+    2.562910   2.415976   1.944048
+
+> get.MatH.stats(BLOOD, stat = "quantile", prob = 0.05)
+$stat
+[1] "quantile"
+
+$prob
+[1] 0.05
+
+$mat
+           Cholesterol Hemoglobin Hematocrit
+u1: F-20      106.6667   12.90000   38.00000
+u2: F-30      108.4091   11.31463   33.04678
+u3: F-40      126.1947   11.24405   33.00985
+u4: F-50      139.8913   11.21194   32.88636
+u5: F-60      151.0145   11.28148   33.10955
+u6: F-70      147.9518   11.26800   33.15730
+u7: F-80+     144.3077   11.26632   32.94860
+u8: M-20      118.7413   13.04085   37.85047
+u9: M-30      112.7273   10.94889   32.37838
+u10: M-40     139.4037   11.27853   32.44037
+u11: M-50     146.8644   11.30169   33.84884
+u12: M-60     154.2857   11.42000   32.60000
+u13: M-70     172.1429   11.68302   32.47468
+u14: M-80+    166.1940   10.95038   34.25188
+
+> # the fifth percentiles of distributions in BLOOD dataset
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get.cell.MatH-methods")
+> ### * get.cell.MatH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get.cell.MatH
+> ### Title: Method get.cell.MatH Returns the histogram in a cell of a matrix
+> ###   of distributions
+> ### Aliases: get.cell.MatH get.cell.MatH,MatH,numeric,numeric-method
+> ###   get.cell.MatH,MatH-method
+> 
+> ### ** Examples
+> 
+> get.cell.MatH(BLOOD, r = 1, c = 1)
+              X             p
+Bin_1  [ 80 ; 100 )         0.025
+Bin_2 [ 100 ; 120 )         0.075
+Bin_3 [ 120 ; 135 )         0.175
+Bin_4 [ 135 ; 150 )          0.25
+Bin_5 [ 150 ; 165 )           0.2
+Bin_6 [ 165 ; 180 )         0.162
+Bin_7 [ 180 ; 200 )         0.088
+Bin_8 [ 200 ; 240 ]         0.025
+
+ mean =  150.1025   std  =  26.3356126518827 
+ > 
+> 
+> 
+> cleanEx()
+> nameEx("get.distr-methods")
+> ### * get.distr-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get.distr
+> ### Title: Method 'get.distr': show the distribution
+> ### Aliases: get.distr get.distr,distributionH-method
+> 
+> ### ** Examples
+> 
+> D <- distributionH(x = c(1, 2, 3, 4), p = c(0, 0.2, 0.6, 1))
+> get.distr(D) # a data.frame describing the CDF of D
+  x   p
+1 1 0.0
+2 2 0.2
+3 3 0.6
+4 4 1.0
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get.histo-methods")
+> ### * get.histo-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get.histo
+> ### Title: Method 'get.histo': show the distribution with bins
+> ### Aliases: get.histo get.histo,distributionH-method
+> 
+> ### ** Examples
+> 
+> D <- distributionH(x = c(1, 2, 3, 4), p = c(0, 0.2, 0.6, 1))
+> get.histo(D) # returns the histogram representation of D by a data.frame
+  min.x max.x   p
+1     1     2 0.2
+2     2     3 0.4
+3     3     4 0.4
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get.m-methods")
+> ### * get.m-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get.m
+> ### Title: Method 'get.m': the mean of a distribution
+> ### Aliases: get.m get.m,distributionH-method
+> 
+> ### ** Examples
+> 
+> D <- distributionH(x = c(1, 2, 3, 4), p = c(0, 0.2, 0.6, 1))
+> get.m(D) # returns the mean of D
+[1] 2.7
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get.s-methods")
+> ### * get.s-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get.s
+> ### Title: Method 'get.s': the standard deviation of a distribution
+> ### Aliases: get.s get.s,distributionH-method
+> 
+> ### ** Examples
+> 
+> D <- distributionH(x = c(1, 2, 3, 4), p = c(0, 0.2, 0.6, 1))
+> get.s(D) # returns the standard deviation of D
+[1] 0.8020806
+> 
+> 
+> 
+> cleanEx()
+> nameEx("is.registeredMH-methods")
+> ### * is.registeredMH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: is.registeredMH
+> ### Title: Method is.registeredMH
+> ### Aliases: is.registeredMH is.registeredMH,MatH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- initialize three distributionH objects mydist1 and mydist2
+> mydist1 <- new("distributionH", c(1, 2, 3), c(0, 0.4, 1))
+> mydist2 <- new("distributionH", c(7, 8, 10, 15), c(0, 0.2, 0.7, 1))
+> mydist3 <- new("distributionH", c(9, 11, 20), c(0, 0.8, 1))
+> ## create a MatH object
+> MyMAT <- new("MatH", nrows = 1, ncols = 3, ListOfDist = c(mydist1, mydist2, mydist3), 1, 3)
+> is.registeredMH(MyMAT)
+[1] FALSE
+> ## [1] FALSE #the distributions do not share the same cdf
+> ## Hint: check with str(MyMAT)
+> 
+> ## register the two distributions
+> MATregistered <- registerMH(MyMAT)
+> is.registeredMH(MATregistered)
+[1] TRUE
+> ## TRUE #the distributions share the same cdf
+> ## Hint: check with str(MATregistered)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("kurtH-methods")
+> ### * kurtH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: kurtH
+> ### Title: Method 'kurtH': computes the kurthosis of a distribution
+> ### Aliases: kurtH kurtH,distributionH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- A mydist distribution ----
+> mydist <- distributionH(x = c(1, 2, 3, 10), p = c(0, 0.1, 0.5, 1))
+> ## ---- Compute the kurtosis of mydist ----
+> kurtH(mydist) #---> 1.473242
+[1] 2.133533
+> 
+> 
+> 
+> cleanEx()
+> nameEx("meanH-methods")
+> ### * meanH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: meanH
+> ### Title: Method 'meanH': computes the mean of a distribution
+> ### Aliases: meanH meanH,distributionH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- A mydist distribution ----
+> mydist <- distributionH(x = c(1, 2, 3, 10), p = c(0, 0.1, 0.5, 1))
+> ## ---- Compute the mean of mydist ----
+> meanH(mydist) #---> 4.4
+[1] 4.4
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot-HTS")
+> ### * plot-HTS
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot-HTS
+> ### Title: Method plot for a histogram time series
+> ### Aliases: plot-HTS plot,HTS-method
+> 
+> ### ** Examples
+> 
+> plot(subsetHTS(RetHTS, from = 1, to = 10)) # plots RetHTS dataset
+> ## Not run: 
+> ##D plot(RetHTS, type = "BOXPLOT", border = "blue", maxno.perplot = 20)
+> ##D plot(RetHTS, type = "VIOLIN", border = "blue", maxno.perplot = 20)
+> ##D plot(RetHTS, type = "VIOLIN", border = "blue", maxno.perplot = 10)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot-MatH")
+> ### * plot-MatH
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot-MatH
+> ### Title: Method plot for a matrix of histograms
+> ### Aliases: plot-MatH plot,MatH-method
+> 
+> ### ** Examples
+> 
+> plot(BLOOD) # plots BLOOD dataset
+> ## Not run: 
+> ##D plot(BLOOD, type = "HISTO", border = "blue") # plots a matrix of histograms
+> ##D plot(BLOOD, type = "DENS", border = "blue") # plots a matrix of densities
+> ##D plot(BLOOD, type = "BOXPLOT") # plots a  boxplots
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot-distributionH")
+> ### * plot-distributionH
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot-distributionH
+> ### Title: plot for a distributionH object
+> ### Aliases: plot-distributionH plot,distributionH-method
+> 
+> ### ** Examples
+> 
+> ## ---- initialize a distributionH
+> mydist <- distributionH(x = c(7, 8, 10, 15), p = c(0, 0.2, 0.7, 1))
+> # show the histogram
+> plot(mydist) # plots mydist
+> plot(mydist, type = "HISTO", col = "red", border = "blue") # plots mydist
+> plot(mydist, type = "DENS", col = "red", border = "blue") # plots a density approximation for mydist
+> plot(mydist, type = "HBOXPLOT") # plots a horizontal boxplot for mydist
+> plot(mydist, type = "VBOXPLOT") # plots a vertical boxplot for mydist
+> plot(mydist, type = "CDF") # plots the cumulative distribution function of mydist
+> plot(mydist, type = "QF") # plots the quantile function of mydist
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotPredVsObs")
+> ### * plotPredVsObs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotPredVsObs
+> ### Title: A function for comparing observed vs predicted histograms
+> ### Aliases: plotPredVsObs
+> 
+> ### ** Examples
+> 
+> ## do a regression
+> pars <- WH.regression.two.components(BLOOD, Yvar = 1, Xvars = c(2:3))
+> ## predict data
+> PRED <- WH.regression.two.components.predict(data = BLOOD[, 2:3], parameters = pars)
+> ## define observed data
+> ## Not run: 
+> ##D OBS <- BLOOD[, 1]
+> ##D plotPredVsObs(PRED, OBS, "HISTO")
+> ##D plotPredVsObs(PRED, OBS, "CDF")
+> ##D plotPredVsObs(PRED, OBS, "DENS")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_errors")
+> ### * plot_errors
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_errors
+> ### Title: A function for plotting functions of errors
+> ### Aliases: plot_errors
+> 
+> ### ** Examples
+> 
+> ## do a regression
+> pars <- WH.regression.two.components(BLOOD, Yvar = 1, Xvars = c(2:3))
+> ## predict data
+> PRED <- WH.regression.two.components.predict(data = BLOOD[, 2:3], parameters = pars)
+> ## define observed data
+> OBS <- BLOOD[, 1]
+> plot_errors(PRED, OBS, "HISTO_QUA")
+[1] 17.07434
+> plot_errors(PRED, OBS, "HISTO_DEN")
+[1] 17.07434
+> plot_errors(PRED, OBS, "DENS_KDE")
+[1] 17.07434
+> 
+> 
+> 
+> cleanEx()
+> nameEx("rQQ-methods")
+> ### * rQQ-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: rQQ
+> ### Title: Method 'rQQ'
+> ### Aliases: rQQ rQQ,distributionH,distributionH-method
+> ###   rQQ,distributionH-method
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- initialize two distributionH object mydist1 and mydist2
+> mydist1 <- distributionH(x = c(1, 2, 3), p = c(0, 0.4, 1))
+> mydist2 <- distributionH(x = c(7, 8, 10, 15), p = c(0, 0.2, 0.7, 1))
+> ## computes the rQQ
+> rQQ(mydist1, mydist2)
+[1] 0.916894
+> ## OUTPUT 0.916894
+> 
+> 
+> 
+> cleanEx()
+> nameEx("register-methods")
+> ### * register-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: register
+> ### Title: Method 'register'
+> ### Aliases: register register,distributionH,distributionH-method
+> ###   register,distributionH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- initialize two distributionH objects mydist1 and mydist2
+> mydist1 <- distributionH(c(1, 2, 3), c(0, 0.4, 1))
+> mydist2 <- distributionH(c(7, 8, 10, 15), c(0, 0.2, 0.7, 1))
+> ## register the two distributions
+> regDist <- register(mydist1, mydist2)
+> 
+> ## OUTPUT:
+> ## regDist$[[1]]
+> ## An object of class "distributionH"
+> ## Slot "x": [1] 1.0 1.5 2.0 2.5 3.0
+> ## Slot "p": [1] 0.0 0.2 0.4 0.7 1.0
+> ## ...
+> ## regDist$[[2]]
+> ## An object of class "distributionH"
+> ## Slot "x": [1] 7.0 8.0 8.8 10.0 15.0
+> ## Slot "p": [1] 0.0 0.2 0.4  0.7  1.0
+> ## ...
+> # The REGISTER function ----
+> 
+> 
+> 
+> cleanEx()
+> nameEx("registerMH-methods")
+> ### * registerMH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: registerMH
+> ### Title: Method registerMH
+> ### Aliases: registerMH registerMH,MatH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> # initialize three distributionH objects mydist1 and mydist2
+> mydist1 <- new("distributionH", c(1, 2, 3), c(0, 0.4, 1))
+> mydist2 <- new("distributionH", c(7, 8, 10, 15), c(0, 0.2, 0.7, 1))
+> mydist3 <- new("distributionH", c(9, 11, 20), c(0, 0.8, 1))
+> # create a MatH object
+> 
+> MyMAT <- new("MatH", nrows = 1, ncols = 3, ListOfDist = c(mydist1, mydist2, mydist3), 1, 3)
+> # register the two distributions
+> MATregistered <- registerMH(MyMAT)
+> #
+> # OUTPUT the structure of MATregstered
+> str(MATregistered)
+Formal class 'MatH' [package "HistDAWass"] with 1 slot
+  ..@ M:List of 3
+  .. ..$ :Formal class 'distributionH' [package "HistDAWass"] with 4 slots
+  .. .. .. ..@ x: num [1:6] 1 1.5 2 2.5 2.67 ...
+  .. .. .. ..@ p: num [1:6] 0 0.2 0.4 0.7 0.8 1
+  .. .. .. ..@ m: num 2.1
+  .. .. .. ..@ s: num 0.569
+  .. ..$ :Formal class 'distributionH' [package "HistDAWass"] with 4 slots
+  .. .. .. ..@ x: num [1:6] 7 8 8.8 10 11.7 ...
+  .. .. .. ..@ p: num [1:6] 0 0.2 0.4 0.7 0.8 1
+  .. .. .. ..@ m: num 9.75
+  .. .. .. ..@ s: num 2.09
+  .. ..$ :Formal class 'distributionH' [package "HistDAWass"] with 4 slots
+  .. .. .. ..@ x: num [1:6] 9 9.5 10 10.8 11 ...
+  .. .. .. ..@ p: num [1:6] 0 0.2 0.4 0.7 0.8 1
+  .. .. .. ..@ m: num 11.1
+  .. .. .. ..@ s: num 2.54
+  .. ..- attr(*, "dim")= int [1:2] 1 3
+  .. ..- attr(*, "dimnames")=List of 2
+  .. .. ..$ : chr "I1"
+  .. .. ..$ : chr [1:3] "X1" "X2" "X3"
+> #   Formal class 'MatH' [package "HistDAWass"] with 1 slots
+> #   .. @ M:List of 3
+> #   .. ..$ :Formal class 'distributionH' [package "HistDAWass"] with 4 slots
+> #   .. .. .. ..@ x: num [1:6] 1 1.5 2 2.5 2.67 ...
+> #   .. .. .. ..@ p: num [1:6] 0 0.2 0.4 0.7 0.8 1
+> #   ...
+> #   .. ..$ :Formal class 'distributionH' [package "HistDAWass"] with 4 slots
+> #   .. .. .. ..@ x: num [1:6] 7 8 8.8 10 11.7 ...
+> #   .. .. .. ..@ p: num [1:6] 0 0.2 0.4 0.7 0.8 1
+> #   ...
+> #   .. ..$ :Formal class 'distributionH' [package "HistDAWass"] with 4 slots
+> #   .. .. .. ..@ x: num [1:6] 9 9.5 10 10.8 11 ...
+> #   .. .. .. ..@ p: num [1:6] 0 0.2 0.4 0.7 0.8 1
+> #   ...
+> #   .. ..- attr(*, "dim")= int [1:2] 1 3
+> #   .. ..- attr(*, "dimnames")=List of 2
+> #   .. .. ..$ : chr "I1"
+> #   .. .. ..$ : chr [1:3] "X1" "X2" "X3"
+> #
+> 
+> 
+> 
+> cleanEx()
+> nameEx("set.cell.MatH-methods")
+> ### * set.cell.MatH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: set.cell.MatH
+> ### Title: Method set.cell.MatH assign a histogram to a cell of a matrix of
+> ###   histograms
+> ### Aliases: set.cell.MatH
+> ###   set.cell.MatH,distributionH,MatH,numeric,numeric-method
+> ###   set.cell.MatH,MatH-method
+> 
+> ### ** Examples
+> 
+> mydist <- distributionH(x = c(0, 1, 2, 3, 4), p = c(0, 0.1, 0.6, 0.9, 1))
+> MAT <- set.cell.MatH(mydist, BLOOD, r = 1, c = 1)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("show-MatH-methods")
+> ### * show-MatH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: show-MatH
+> ### Title: Method show for MatH
+> ### Aliases: show-MatH show,MatH-method
+> 
+> ### ** Examples
+> 
+> show(BLOOD)
+a matrix of distributions 
+ 3  variables  14  rows 
+ each distibution in the cell is represented by the mean and the standard deviation 
+                 Cholesterol               Hemoglobin                Hematocrit        
+u1: F-20  [m= 150.1  ,s= 26.336 ]  [m= 13.695  ,s= 0.55031 ] [m= 41.526  ,s= 2.1968 ] 
+u2: F-30 [m= 150.71  ,s= 25.284 ]  [m= 12.158  ,s= 0.52834 ] [m= 36.497  ,s= 2.1225 ] 
+u3: F-40 [m= 164.96  ,s= 25.334 ]  [m= 12.134  ,s= 0.50739 ] [m= 36.549  ,s= 2.2299 ] 
+u4: F-50 [m= 186.51  ,s= 26.655 ]  [m= 12.133  ,s= 0.58514 ]  [m= 36.48  ,s= 2.1985 ] 
+u5: F-60 [m= 194.03  ,s= 25.215 ]  [m= 12.145  ,s= 0.52031 ] [m= 36.341  ,s= 2.0979 ] 
+u6: F-70  [m= 193.2  ,s= 26.561 ]  [m= 12.205  ,s= 0.52258 ] [m= 36.703  ,s= 2.1818 ] 
+u7: F-80+ [m= 187.14  ,s= 24.592 ]  [m= 12.141  ,s= 0.55247 ] [m= 36.503  ,s= 2.1911 ] 
+u8: M-20 [m= 159.62  ,s= 19.844 ]  [m= 13.557  ,s= 0.29974 ]  [m= 40.5  ,s= 1.6358 ]  
+u9: M-30 [m= 164.43  ,s= 26.486 ]  [m= 12.088  ,s= 0.62237 ] [m= 35.914  ,s= 2.1141 ] 
+u10: M-40 [m= 170.06  ,s= 20.011 ]  [m= 12.092  ,s= 0.52656 ] [m= 36.456  ,s= 2.2476 ] 
+u11: M-50 [m= 194.22  ,s= 30.165 ]  [m= 12.214  ,s= 0.59708 ]  [m= 36.72  ,s= 2.0024 ] 
+u12: M-60 [m= 203.36  ,s= 26.223 ]  [m= 12.245  ,s= 0.50862 ] [m= 35.814  ,s= 2.0083 ] 
+u13: M-70 [m= 205.66  ,s= 22.499 ]  [m= 12.15  ,s= 0.33425 ]   [m= 35.75  ,s= 2.1651 ] 
+u14: M-80+ [m= 205.48  ,s= 23.537 ]   [m= 12.12  ,s= 0.6163 ]   [m= 38.45  ,s= 2.6158 ] 
+> print(BLOOD)
+a matrix of distributions 
+ 3  variables  14  rows 
+ each distibution in the cell is represented by the mean and the standard deviation 
+                 Cholesterol               Hemoglobin                Hematocrit        
+u1: F-20  [m= 150.1  ,s= 26.336 ]  [m= 13.695  ,s= 0.55031 ] [m= 41.526  ,s= 2.1968 ] 
+u2: F-30 [m= 150.71  ,s= 25.284 ]  [m= 12.158  ,s= 0.52834 ] [m= 36.497  ,s= 2.1225 ] 
+u3: F-40 [m= 164.96  ,s= 25.334 ]  [m= 12.134  ,s= 0.50739 ] [m= 36.549  ,s= 2.2299 ] 
+u4: F-50 [m= 186.51  ,s= 26.655 ]  [m= 12.133  ,s= 0.58514 ]  [m= 36.48  ,s= 2.1985 ] 
+u5: F-60 [m= 194.03  ,s= 25.215 ]  [m= 12.145  ,s= 0.52031 ] [m= 36.341  ,s= 2.0979 ] 
+u6: F-70  [m= 193.2  ,s= 26.561 ]  [m= 12.205  ,s= 0.52258 ] [m= 36.703  ,s= 2.1818 ] 
+u7: F-80+ [m= 187.14  ,s= 24.592 ]  [m= 12.141  ,s= 0.55247 ] [m= 36.503  ,s= 2.1911 ] 
+u8: M-20 [m= 159.62  ,s= 19.844 ]  [m= 13.557  ,s= 0.29974 ]  [m= 40.5  ,s= 1.6358 ]  
+u9: M-30 [m= 164.43  ,s= 26.486 ]  [m= 12.088  ,s= 0.62237 ] [m= 35.914  ,s= 2.1141 ] 
+u10: M-40 [m= 170.06  ,s= 20.011 ]  [m= 12.092  ,s= 0.52656 ] [m= 36.456  ,s= 2.2476 ] 
+u11: M-50 [m= 194.22  ,s= 30.165 ]  [m= 12.214  ,s= 0.59708 ]  [m= 36.72  ,s= 2.0024 ] 
+u12: M-60 [m= 203.36  ,s= 26.223 ]  [m= 12.245  ,s= 0.50862 ] [m= 35.814  ,s= 2.0083 ] 
+u13: M-70 [m= 205.66  ,s= 22.499 ]  [m= 12.15  ,s= 0.33425 ]   [m= 35.75  ,s= 2.1651 ] 
+u14: M-80+ [m= 205.48  ,s= 23.537 ]   [m= 12.12  ,s= 0.6163 ]   [m= 38.45  ,s= 2.6158 ] 
+> BLOOD
+a matrix of distributions 
+ 3  variables  14  rows 
+ each distibution in the cell is represented by the mean and the standard deviation 
+                 Cholesterol               Hemoglobin                Hematocrit        
+u1: F-20  [m= 150.1  ,s= 26.336 ]  [m= 13.695  ,s= 0.55031 ] [m= 41.526  ,s= 2.1968 ] 
+u2: F-30 [m= 150.71  ,s= 25.284 ]  [m= 12.158  ,s= 0.52834 ] [m= 36.497  ,s= 2.1225 ] 
+u3: F-40 [m= 164.96  ,s= 25.334 ]  [m= 12.134  ,s= 0.50739 ] [m= 36.549  ,s= 2.2299 ] 
+u4: F-50 [m= 186.51  ,s= 26.655 ]  [m= 12.133  ,s= 0.58514 ]  [m= 36.48  ,s= 2.1985 ] 
+u5: F-60 [m= 194.03  ,s= 25.215 ]  [m= 12.145  ,s= 0.52031 ] [m= 36.341  ,s= 2.0979 ] 
+u6: F-70  [m= 193.2  ,s= 26.561 ]  [m= 12.205  ,s= 0.52258 ] [m= 36.703  ,s= 2.1818 ] 
+u7: F-80+ [m= 187.14  ,s= 24.592 ]  [m= 12.141  ,s= 0.55247 ] [m= 36.503  ,s= 2.1911 ] 
+u8: M-20 [m= 159.62  ,s= 19.844 ]  [m= 13.557  ,s= 0.29974 ]  [m= 40.5  ,s= 1.6358 ]  
+u9: M-30 [m= 164.43  ,s= 26.486 ]  [m= 12.088  ,s= 0.62237 ] [m= 35.914  ,s= 2.1141 ] 
+u10: M-40 [m= 170.06  ,s= 20.011 ]  [m= 12.092  ,s= 0.52656 ] [m= 36.456  ,s= 2.2476 ] 
+u11: M-50 [m= 194.22  ,s= 30.165 ]  [m= 12.214  ,s= 0.59708 ]  [m= 36.72  ,s= 2.0024 ] 
+u12: M-60 [m= 203.36  ,s= 26.223 ]  [m= 12.245  ,s= 0.50862 ] [m= 35.814  ,s= 2.0083 ] 
+u13: M-70 [m= 205.66  ,s= 22.499 ]  [m= 12.15  ,s= 0.33425 ]   [m= 35.75  ,s= 2.1651 ] 
+u14: M-80+ [m= 205.48  ,s= 23.537 ]   [m= 12.12  ,s= 0.6163 ]   [m= 38.45  ,s= 2.6158 ] 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("show-distributionH-methods")
+> ### * show-distributionH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: show
+> ### Title: Method show for distributionH
+> ### Aliases: show show,distributionH-method
+> 
+> ### ** Examples
+> 
+> ## ---- initialize a distributionH
+> mydist <- distributionH(x = c(7, 8, 10, 15), p = c(0, 0.2, 0.7, 1))
+> # show the histogram
+> mydist
+            X           p
+Bin_1   [ 7 ; 8 )         0.2
+Bin_2  [ 8 ; 10 )         0.5
+Bin_3 [ 10 ; 15 ]         0.3
+
+ mean =  9.75   std  =  2.09065380523255 
+ > 
+> 
+> 
+> cleanEx()
+> nameEx("skewH-methods")
+> ### * skewH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: skewH
+> ### Title: Method 'skewH': computes the skewness of a distribution
+> ### Aliases: skewH skewH,distributionH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- A mydist distribution ----
+> mydist <- distributionH(x = c(1, 2, 3, 10), p = c(0, 0.1, 0.5, 1))
+> ## ---- Compute the skewness of mydist ----
+> skewH(mydist) #---> -1.186017
+[1] 0.7148855
+> 
+> 
+> 
+> cleanEx()
+> nameEx("stdH-methods")
+> ### * stdH-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: stdH
+> ### Title: Method 'stdH': computes the standard deviation of a distribution
+> ### Aliases: stdH stdH,distributionH-method
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> 
+> ## ---- A mydist distribution ----
+> mydist <- distributionH(x = c(1, 2, 3, 10), p = c(0, 0.1, 0.5, 1))
+> ## ---- Compute the standard deviation of mydist ----
+> stdH(mydist) #---> 2.563851
+[1] 2.563851
+> 
+> 
+> 
+> cleanEx()
+> nameEx("subsetHTS-methods")
+> ### * subsetHTS-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: subsetHTS
+> ### Title: Method 'subsetHTS': extract a subset of a histogram time series
+> ### Aliases: subsetHTS subsetHTS,HTS,numeric,numeric-method
+> 
+> ### ** Examples
+> 
+> SUB_RetHTS <- subsetHTS(RetHTS, from = 1, to = 20) # the first 20 elements
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  3.282 0.115 3.53 0 0 
+> grDevices::dev.off()
+pdf 
+  2 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

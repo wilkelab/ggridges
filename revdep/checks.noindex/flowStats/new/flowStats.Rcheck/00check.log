@@ -1,0 +1,150 @@
+* using log directory ‘/Users/clauswilke/github/ggridges/revdep/checks.noindex/flowStats/new/flowStats.Rcheck’
+* using R version 4.3.1 (2023-06-16)
+* using platform: aarch64-apple-darwin20 (64-bit)
+* R was compiled by
+    Apple clang version 14.0.0 (clang-1400.0.29.202)
+    GNU Fortran (GCC) 12.2.0
+* running under: macOS Ventura 13.6
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘flowStats/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘flowStats’ version ‘4.14.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘openCyto’
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘flowStats’ can be installed ... WARNING
+Found the following significant warnings:
+  Warning: replacing previous import ‘flowViz::contour’ by ‘graphics::contour’ when loading ‘flowStats’
+See ‘/Users/clauswilke/github/ggridges/revdep/checks.noindex/flowStats/new/flowStats.Rcheck/00install.out’ for details.
+* checking installed package size ... NOTE
+  installed size is 12.2Mb
+  sub-directories of 1Mb or more:
+    data   1.4Mb
+    doc    9.8Mb
+* checking package directory ... OK
+* checking ‘build’ directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... WARNING
+Missing or unexported object: ‘flowWorkspace::plotGate’
+Missing object imported by a ':::' call: ‘flowWorkspace:::.isBooleanGate.graphNEL’
+Unexported objects imported by ':::' calls:
+  ‘flowCore:::checkClass’ ‘flowCore:::copyFlowSet’
+  ‘flowCore:::findTimeChannel’ ‘flowCore:::inPolygon’
+  ‘flowViz:::evalError’ ‘flowViz:::plotType’
+  See the note in ?`:::` about the use of this operator.
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+.combinePriorsForChildNodes: no visible global function definition for
+  ‘adj’
+.combinePriorsForChildNodes: no visible global function definition for
+  ‘nodeData’
+.graph_parent: no visible global function definition for ‘ugraph’
+.plotGPAprocess: no visible binding for global variable ‘whichS’
+.plotGPAprocess: no visible binding for global variable ‘cluster’
+.plotWorkFlow: no visible binding for global variable ‘cluster’
+.plotWorkFlow: no visible binding for global variable ‘bogus’
+.usingSVD: no visible binding for global variable ‘params’
+SimulateMixture: no visible global function definition for ‘rbox’
+density1d_simple: no visible binding for global variable ‘y’
+normQA: no visible binding for global variable ‘group’
+normQA: no visible binding for global variable ‘hasPeak’
+spillover,flowSet : <anonymous>: no visible global function definition
+  for ‘adist’
+Undefined global functions or variables:
+  adist adj bogus cluster group hasPeak nodeData params rbox ugraph
+  whichS y
+Consider adding
+  importFrom("utils", "adist")
+to your NAMESPACE file.
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... WARNING
+Missing link or links in documentation object 'SimulateMixture.Rd':
+  ‘flowClust’
+
+See section 'Cross-references' in the 'Writing R Extensions' manual.
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... WARNING
+Undocumented arguments in documentation object 'ellipse'
+  ‘cov’ ‘centre’ ‘level’
+
+Functions with \usage entries need to have the appropriate \alias
+entries, and all their arguments documented.
+The \usage entries must correspond to syntactically valid R code.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... OK
+* checking data for ASCII and uncompressed saves ... OK
+* checking sizes of PDF files under ‘inst/doc’ ... OK
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  matching  FL3-H  to  FL3-H 
+  matching  FL4-H  to  FL4-H 
+  [ FAIL 1 | WARN 0 | SKIP 0 | PASS 27 ]
+  
+  ══ Failed tests ════════════════════════════════════════════════════════════════
+  ── Error ('test-warpset.R:7:3'): normalize ─────────────────────────────────────
+  <packageNotFoundError/error/condition>
+  Error in `library(openCyto)`: there is no package called 'openCyto'
+  Backtrace:
+      ▆
+   1. └─base::library(openCyto) at test-warpset.R:7:3
+  
+  [ FAIL 1 | WARN 0 | SKIP 0 | PASS 27 ]
+  Error: Test failures
+  Execution halted
+* checking for unstated dependencies in vignettes ... NOTE
+'library' or 'require' calls not declared from:
+  ‘gridExtra’ ‘scales’
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... ERROR
+Errors in running code in vignettes:
+when running code in ‘GettingStartedWithFlowStats.Rnw’
+  ...
+
+> inv.func <- sinh
+
+> trans.obj <- trans_new("myAsinh", trans.func, inv.func)
+
+> transList <- transformerList(colnames(ITN)[3:7], trans.obj)
+
+  When sourcing ‘GettingStartedWithFlowStats.R’:
+Error: 'trans' must be a list of transformer objects (generated by scales::trans_new method)
+Execution halted
+
+  ‘GettingStartedWithFlowStats.Rnw’ using ‘UTF-8’... failed
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 2 ERRORs, 4 WARNINGs, 4 NOTEs

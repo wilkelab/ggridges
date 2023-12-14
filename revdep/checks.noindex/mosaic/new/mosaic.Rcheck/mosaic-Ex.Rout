@@ -1,0 +1,3824 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "mosaic"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('mosaic')
+Registered S3 method overwritten by 'mosaic':
+  method                           from   
+  fortify.SpatialPolygonsDataFrame ggplot2
+
+The 'mosaic' package masks several functions from core packages in order to add 
+additional features.  The original behavior of these functions should not be affected by this.
+
+Attaching package: ‘mosaic’
+
+The following objects are masked from ‘package:dplyr’:
+
+    count, do, tally
+
+The following object is masked from ‘package:Matrix’:
+
+    mean
+
+The following object is masked from ‘package:ggplot2’:
+
+    stat
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, binom.test, cor, cor.test, cov, fivenum, median, prop.test,
+    quantile, sd, t.test, var
+
+The following objects are masked from ‘package:base’:
+
+    max, mean, min, prod, range, sample, sum
+
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("CIAdata")
+> ### * CIAdata
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CIAdata
+> ### Title: Return a dataset based on the CIA World Factbook
+> ### Aliases: CIAdata
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D head(CIAdata())
+> ##D Population <- CIAdata("pop")
+> ##D nrow(Population)
+> ##D head(Population)
+> ##D 
+> ##D PopArea <- 
+> ##D   CIAdata(c("pop","area")) |> 
+> ##D   mutate(density = pop / area)
+> ##D nrow(PopArea)
+> ##D head(PopArea)
+> ##D PopArea |> 
+> ##D   filter(!is.na(density)) |>
+> ##D   arrange(density) |> 
+> ##D   tail()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("CIsim")
+> ### * CIsim
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CIsim
+> ### Title: Compute confidence intervals from (multiple) simulated data sets
+> ### Aliases: CIsim
+> ### Keywords: inference simulation
+> 
+> ### ** Examples
+> 
+> # 1000 95% intervals using t.test; population is N(0,1)
+> CIsim(n = 10, samples = 1000)    
+Interval coverage:
+    cover
+n      Low   Yes  High
+  10 0.019 0.957 0.024
+> # this time population is Exp(1); fewer samples, so we get a plot 
+> CIsim(n = 10, samples = 100, rdist = rexp, estimand = 1) 
+Interval coverage:
+    cover
+n     Low  Yes High
+  10 0.04 0.96 0.00
+> # Binomial treats 1 like success, 0 like failure
+> CIsim(n = 30, samples = 100, rdist = rbinom, args = list(size = 1, prob = .7), 
++        estimand = .7, method = binom.test, method.args = list(ci = "Plus4"))  
+Interval coverage:
+    cover
+n     Low  Yes High
+  30 0.02 0.96 0.02
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("FunctionsFromData")
+> ### * FunctionsFromData
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: FunctionsFromData
+> ### Title: Create function from data
+> ### Aliases: FunctionsFromData spliner smoother linearModel connector
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++ data(CPS85)
++ f <- smoother(wage ~ age, span=.9, data=CPS85)
++ f(40)
++ g <- linearModel(log(wage) ~ age + educ + 1, data=CPS85)
++ g(age=40, educ=12)
++ # an alternative way to define g (Note: + 1 is the default for lm().)
++ g2 <- makeFun(lm(log(wage) ~ age + educ, data=CPS85))
++ g2(age=40, educ=12)
++ x<-1:5; y=c(1, 2, 4, 8, 8.2)
++ f1 <- spliner(y ~ x)
++ f1(x=8:10)
++ f2 <- connector(x~y)
++ }
+> 
+> 
+> 
+> cleanEx()
+> nameEx("MAD")
+> ### * MAD
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MAD
+> ### Title: All pairs mean and sum of absolute differences
+> ### Aliases: MAD SAD
+> 
+> ### ** Examples
+> 
+> SAD(1:3)
+[1] 4
+> MAD(1:3)
+[1] 1.333333
+> MAD(~eruptions, data = faithful)
+[1] 171.5886
+> 
+> 
+> 
+> cleanEx()
+> nameEx("TukeyHSD.lm")
+> ### * TukeyHSD.lm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: TukeyHSD.lm
+> ### Title: Additional interfaces to TukeyHSD
+> ### Aliases: TukeyHSD.lm TukeyHSD.formula
+> 
+> ### ** Examples
+> 
+> ## These should all give the same results
+> if (require(mosaicData)) {
++   model <- lm(age ~ substance, data=HELPrct)
++   TukeyHSD(model)
++   TukeyHSD( age ~ substance, data=HELPrct)
++   TukeyHSD(aov(age ~ substance, data=HELPrct))
++ }
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = age ~ substance, data = HELPrct)
+
+$substance
+                     diff       lwr       upr     p adj
+cocaine-alcohol -3.704319 -5.639202 -1.769436 0.0000255
+heroin-alcohol  -4.754192 -6.803234 -2.705149 0.0000002
+heroin-cocaine  -1.049873 -3.167195  1.067450 0.4741712
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("adapt_seq")
+> ### * adapt_seq
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: adapt_seq
+> ### Title: Adaptively generate sequences in an interval
+> ### Aliases: adapt_seq
+> 
+> ### ** Examples
+> 
+> adapt_seq(0, pi, 25, sin)
+ [1] 0.0000000 0.1745329 0.3490659 0.4363323 0.5235988 0.6108652 0.6981317
+ [8] 0.7853982 0.8726646 0.9599311 1.0471976 1.1344640 1.2217305 1.3089969
+[15] 1.3962634 1.4835299 1.5707963 1.6580628 1.7453293 1.8325957 1.9198622
+[22] 2.0071286 2.0943951 2.1816616 2.2689280 2.3561945 2.4434610 2.5307274
+[29] 2.6179939 2.7052603 2.7925268 2.9670597 3.1415927
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("aggregating")
+> ### * aggregating
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: mean_
+> ### Title: Aggregating functions
+> ### Aliases: mean_ sum min max mean median sd var cov cor favstats range
+> ###   IQR fivenum iqr prod quantile
+> 
+> ### ** Examples
+> 
+> mean(HELPrct$age)
+[1] 35.65342
+> mean( ~ age, data = HELPrct)
+[1] 35.65342
+> mean( ~ drugrisk, na.rm = TRUE, data = HELPrct)
+[1] 1.887168
+> mean(age ~ shuffle(sex), data = HELPrct)
+  female     male 
+35.44860 35.71676 
+> mean(age ~ shuffle(sex), data = HELPrct, .format = "table")
+  shuffle(sex)     mean
+1       female 35.09346
+2         male 35.82659
+> # wrap in data.frame() to auto-convert awkward variable names
+> data.frame(mean(age ~ shuffle(sex), data = HELPrct, .format = "table"))
+  shuffle.sex.     mean
+1       female 35.58879
+2         male 35.67341
+> mean(age ~ sex + substance, data = HELPrct)
+female.alcohol   male.alcohol female.cocaine   male.cocaine  female.heroin 
+      39.16667       37.95035       34.85366       34.36036       34.66667 
+   male.heroin 
+      33.05319 
+> mean( ~ age | sex + substance, data = HELPrct)
+female.alcohol   male.alcohol female.cocaine   male.cocaine  female.heroin 
+      39.16667       37.95035       34.85366       34.36036       34.66667 
+   male.heroin 
+      33.05319 
+> mean( ~ sqrt(age), data = HELPrct)
+[1] 5.936703
+> sum( ~ age, data = HELPrct)
+[1] 16151
+> sd(HELPrct$age)
+[1] 7.710266
+> sd( ~ age, data = HELPrct)
+[1] 7.710266
+> sd(age ~ sex + substance, data = HELPrct)
+female.alcohol   male.alcohol female.cocaine   male.cocaine  female.heroin 
+      7.980333       7.575644       6.195002       6.889772       8.035839 
+   male.heroin 
+      7.973568 
+> var(HELPrct$age)
+[1] 59.4482
+> var( ~ age, data = HELPrct)
+[1] 59.4482
+> var(age ~ sex + substance, data = HELPrct)
+female.alcohol   male.alcohol female.cocaine   male.cocaine  female.heroin 
+      63.68571       57.39037       38.37805       47.46896       64.57471 
+   male.heroin 
+      63.57779 
+> IQR(width ~ sex, data = KidsFeet)
+   B    G 
+0.75 0.60 
+> iqr(width ~ sex, data = KidsFeet)
+   B    G 
+0.75 0.60 
+> favstats(width ~ sex, data = KidsFeet)
+  sex min    Q1 median    Q3 max     mean        sd  n missing
+1   B 8.4 8.875   9.15 9.625 9.8 9.190000 0.4517801 20       0
+2   G 7.9 8.550   8.80 9.150 9.5 8.784211 0.4935846 19       0
+> 
+> cor(length ~ width, data = KidsFeet)
+[1] 0.6410961
+> cov(length ~ width, data = KidsFeet)
+[1] 0.4304453
+> tally(is.na(mcs) ~ is.na(pcs), data = HELPmiss)
+          is.na(pcs)
+is.na(mcs) TRUE FALSE
+     TRUE     2     0
+     FALSE    0   468
+> cov(mcs ~ pcs, data = HELPmiss)             # NA because of missing data
+[1] NA
+> cov(mcs ~ pcs, data = HELPmiss, use = "complete")  # ignore missing data
+[1] 13.46433
+> # alternative approach using filter explicitly
+> cov(mcs ~ pcs, data = HELPmiss |> filter(!is.na(mcs) & !is.na(pcs)))    
+[1] 13.46433
+> 
+> 
+> 
+> cleanEx()
+> nameEx("aggregatingAux")
+> ### * aggregatingAux
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: maggregate
+> ### Title: Aggregate for mosaic
+> ### Aliases: maggregate
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++ maggregate( cesd ~ sex, HELPrct, FUN = mean )
++ # using groups instead
++ maggregate( ~ cesd, groups = sex, HELPrct, FUN = sd )
++ # the next four all do the same thing
++ maggregate( cesd ~ sex + homeless, HELPrct, FUN = mean )
++ maggregate( cesd ~ sex | homeless, HELPrct, FUN = sd )
++ maggregate( ~ cesd | sex , groups= homeless, HELPrct, FUN = sd )
++ maggregate( cesd ~ sex, groups = homeless, HELPrct, FUN = sd )
++ # this is unusual, but also works.
++ maggregate( cesd ~ NULL , groups = sex, HELPrct, FUN = sd )
++ }
+  female     male 
+13.01764 12.10332 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("aggregatingFunction1")
+> ### * aggregatingFunction1
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: aggregatingFunction1
+> ### Title: 1-ary Aggregating functions
+> ### Aliases: aggregatingFunction1
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++   foo <- aggregatingFunction1(base::mean)
++   foo( ~ length, data = KidsFeet)
++   base::mean(KidsFeet$length)
++   foo(length ~ sex, data = KidsFeet)
++ } 
+       B        G 
+25.10500 24.32105 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("aggregatingFunction2")
+> ### * aggregatingFunction2
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: aggregatingFunction2
+> ### Title: 2-ary aggregating functions
+> ### Aliases: aggregatingFunction2
+> 
+> ### ** Examples
+> 
+> if(require(mosaicData)) {
++   foo <- aggregatingFunction2(stats::cor)
++   foo(length ~ width, data = KidsFeet)
++   stats::cor(KidsFeet$length, KidsFeet$width)
++ }
+[1] 0.6410961
+> 
+> 
+> 
+> cleanEx()
+> nameEx("as-xtabs")
+> ### * as-xtabs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: as.xtabs
+> ### Title: Convert objects to xtabs format
+> ### Aliases: as.xtabs as.xtabs.data.frame as.xtabs.matrix
+> ### Keywords: manipulate
+> 
+> ### ** Examples
+> 
+> # example from example(fisher.test)
+> df <- data.frame( X=c('Tea','Milk'), Tea=c(3,1), Milk=c(1,3) )
+> xt <- as.xtabs(df, rowvar="Guess", colvar="Truth"); xt
+      Truth
+Guess  Tea Milk
+  Tea    3    1
+  Milk   1    3
+> if (require(vcd)) { mosaic(xt) }
+Loading required package: vcd
+Loading required package: grid
+
+Attaching package: ‘vcd’
+
+The following object is masked from ‘package:mosaic’:
+
+    mplot
+
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:vcd’, ‘package:grid’
+
+> nameEx("ashplot")
+> ### * ashplot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ashplot
+> ### Title: Average Shifted Histograms
+> ### Aliases: ashplot prepanel.default.ashplot panel.ashplot
+> 
+> ### ** Examples
+> 
+> ashplot( ~age | substance, groups = sex, data = HELPrct)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("bargraph")
+> ### * bargraph
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: bargraph
+> ### Title: Create bar graphs from raw data
+> ### Aliases: bargraph
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++ data(HELPrct)
++ bargraph( ~ substance, data = HELPrct)
++ bargraph( ~ substance, data = HELPrct, horizontal = TRUE)
++ bargraph( ~ substance | sex, groups = homeless, auto.key = TRUE, data = HELPrct)
++ bargraph( ~ substance, groups = homeless, auto.key=TRUE, 
++             data = HELPrct |> filter(sex == "male"))
++ HELPrct2 <- mutate(HELPrct, older = age > 40)
++ bargraph( ~ substance | older, data = HELPrct2)
++ }
+> 
+> 
+> 
+> cleanEx()
+> nameEx("binom.test")
+> ### * binom.test
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: binom.test
+> ### Title: Exact Tests for Proportions
+> ### Aliases: binom.test
+> ### Keywords: stats
+> 
+> ### ** Examples
+> 
+> # Several ways to get a confidence interval for the proportion of Old Faithful
+> # eruptions lasting more than 3 minutes.
+> data(faithful)
+> binom.test(faithful$eruptions > 3)
+
+
+
+data:  faithful$eruptions > 3  [with success = TRUE]
+number of successes = 175, number of trials = 272, p-value = 2.609e-06
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.5832982 0.7003038
+sample estimates:
+probability of success 
+             0.6433824 
+
+> binom.test(97, 272)
+
+
+
+data:  97 out of 272
+number of successes = 97, number of trials = 272, p-value = 2.609e-06
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.2996962 0.4167018
+sample estimates:
+probability of success 
+             0.3566176 
+
+> binom.test(c(97, 272-97))
+
+
+
+data:  c(97, 272 - 97)
+number of successes = 97, number of trials = 272, p-value = 2.609e-06
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.2996962 0.4167018
+sample estimates:
+probability of success 
+             0.3566176 
+
+> faithful$long <- faithful$eruptions > 3
+> binom.test(faithful$long)
+
+
+
+data:  faithful$long  [with success = TRUE]
+number of successes = 175, number of trials = 272, p-value = 2.609e-06
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.5832982 0.7003038
+sample estimates:
+probability of success 
+             0.6433824 
+
+> binom.test(resample(1:4, 400), p=.25)
+
+
+
+data:  resample(1:4, 400)  [with success = 1]
+number of successes = 109, number of trials = 400, p-value = 0.2989
+alternative hypothesis: true probability of success is not equal to 0.25
+95 percent confidence interval:
+ 0.2294406 0.3189623
+sample estimates:
+probability of success 
+                0.2725 
+
+> binom.test(~ long, data = faithful)
+
+
+
+data:  faithful$long  [with success = TRUE]
+number of successes = 175, number of trials = 272, p-value = 2.609e-06
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.5832982 0.7003038
+sample estimates:
+probability of success 
+             0.6433824 
+
+> binom.test(~ long, data = faithful, ci.method = "Wald")
+
+	Exact binomial test (Wald CI)
+
+data:  faithful$long  [with success = TRUE]
+number of successes = 175, number of trials = 272, p-value = 2.609e-06
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.5864578 0.7003069
+sample estimates:
+probability of success 
+             0.6433824 
+
+> binom.test(~ long, data = faithful, ci.method = "Plus4")
+
+	Exact binomial test (Plus 4 CI)
+
+data:  faithful$long  [with success = TRUE]
+number of successes = 175, number of trials = 272, p-value = 2.609e-06
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.5847210 0.6978877
+sample estimates:
+probability of success 
+             0.6433824 
+
+> with(faithful, binom.test(~long))
+
+
+
+data:  NULL$long  [with success = TRUE]
+number of successes = 175, number of trials = 272, p-value = 2.609e-06
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.5832982 0.7003038
+sample estimates:
+probability of success 
+             0.6433824 
+
+> with(faithful, binom.test(long))
+
+
+
+data:  long  [with success = TRUE]
+number of successes = 175, number of trials = 272, p-value = 2.609e-06
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.5832982 0.7003038
+sample estimates:
+probability of success 
+             0.6433824 
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cdist")
+> ### * cdist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cdist
+> ### Title: Central portion of a distribution
+> ### Aliases: cdist xcgamma xct xcchisq xcf xcbinom xcpois xcgeom xcnbinom
+> ###   xcbeta
+> 
+> ### ** Examples
+> 
+> cdist( "norm", .95)
+[1] -1.959964  1.959964
+> cdist( "t", c(.90, .95, .99), df=5)
+[1] -4.032143 -2.570582 -2.015048  2.015048  2.570582  4.032143
+> cdist( "t", c(.90, .95, .99), df=50)
+[1] -2.677793 -2.008559 -1.675905  1.675905  2.008559  2.677793
+> # plotting doesn't work well when the parameters are not constant
+> cdist( "t", .95, df=c(3,5,10,20), plot = FALSE)
+          [,1]     [,2]
+[1,] -3.182446 3.182446
+[2,] -2.570582 2.570582
+[3,] -2.228139 2.228139
+[4,] -2.085963 2.085963
+> cdist( "norm", .95, mean=500, sd=100 )
+[1] 304.0036 695.9964
+> cdist( "chisq", c(.90, .95), df=3 )
+[1] 0.2157953 0.3518463 7.8147279 9.3484036
+> # CI
+> x <- rnorm(23, mean = 10, sd = 2)
+> cdist("t", p = 0.95, df=22)
+[1] -2.073873  2.073873
+> mean(x) + cdist("t", p = 0.95, df=22) * sd(x) / sqrt(23)
+[1]  9.732736 11.238769
+> confint(t.test(x))
+  mean of x    lower    upper level
+1  10.48575 9.732736 11.23877  0.95
+> cdist("t", p = 0.95, df=22, verbose = TRUE)
+Verbose output not yet implemented.
+[1] -2.073873  2.073873
+> 
+> 
+> 
+> cleanEx()
+> nameEx("chisq")
+> ### * chisq
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: chisq
+> ### Title: Extract Chi-squared statistic
+> ### Aliases: chisq chisq.htest chisq.table chisq.default
+> 
+> ### ** Examples
+> 
+> 
+> if(require(mosaicData)) {
++   Mites.table <- tally( ~ outcome + treatment, data=Mites )
++   Mites.table 
++   chisq.test(Mites.table)
++   chisq(Mites.table)
++   chisq(chisq.test(Mites.table))
++   ## Randomization test.  Increase replications to decrease Monte Carlo error.
++   do(3) * chisq( tally( ~ outcome + shuffle(treatment),  data=Mites ) )
++   Mites.rand <- do(1000) * chisq( tally( ~ outcome + shuffle(treatment),  data=Mites ) )
++   tally( ~(X.squared >= chisq(Mites.table)), data=Mites.rand, format="proportion")
++ }
+(X.squared >= chisq(Mites.table))
+ TRUE FALSE 
+0.015 0.985 
+>   
+> 
+> 
+> 
+> cleanEx()
+> nameEx("clustering")
+> ### * clustering
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fortify.hclust
+> ### Title: mosaic tools for clustering
+> ### Aliases: fortify.hclust mplot.hclust
+> 
+> ### ** Examples
+> 
+> KidsFeet |> select(-name, -birthmonth) |> rescale() -> KidsFeet2
+>   M <- dist(KidsFeet2)
+>   Cl <- hclust(M)
+>   fortify(Cl, k=5) |> head(3)
+         x        y    xend     yend order group
+1 17.64258 2.153880 6.03125 2.153880    34     4
+2  6.03125 2.153880 6.03125 1.833039    34     4
+3  6.03125 1.833039 2.68750 1.833039    35     4
+>   fortify(Cl, which="heatmap", data=KidsFeet2) |> head(3)
+  idx position  variable value variable_num
+1   1       15 birthyear     1            1
+2   2       37 birthyear     0            1
+3   3       35 birthyear     0            1
+>   fortify(Cl, which="data", data=KidsFeet2) |> head(3)
+  birthyear    length     width sex biggerfoot domhand idx position
+1         1 0.4745763 0.2631579   0          0       1   1       15
+2         0 0.6440678 0.4736842   0          0       0   2       37
+3         0 0.4915254 0.9473684   0          1       1   3       35
+>   fortify(Cl, which="labels") |> head(3)
+  x y label order
+1 1 0     6     6
+2 2 0    21    21
+3 3 0    35    35
+>   mplot(Cl, data=KidsFeet2, k=4, heatmap=2)
+>   mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent")
+>   mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
+>   mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cnorm")
+> ### * cnorm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cnorm
+> ### Title: Central Probability in a Normal or T Distribution
+> ### Aliases: cnorm ct
+> 
+> ### ** Examples
+> 
+> qnorm(.975)
+[1] 1.959964
+> cnorm(.95)
+         lower    upper
+[1,] -1.959964 1.959964
+> xcnorm(.95)
+
+
+If X ~ N(0, 1), then 
+
+	P(X <= -1.959964) = 0.025	P(X <=  1.959964) = 0.975
+	P(X >  -1.959964) = 0.975	P(X >   1.959964) = 0.025
+
+
+[1] -1.959964  1.959964
+> xcnorm(.95, verbose = FALSE, return = "plot") |>
++   gf_refine(
++   scale_fill_manual( values = c("navy", "limegreen")),
++   scale_color_manual(values = c("black", "black")))
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.
+Scale for colour is already present.
+Adding another scale for colour, which will replace the existing scale.
+> cnorm(.95, mean = 100, sd = 10)
+        lower    upper
+[1,] 80.40036 119.5996
+> xcnorm(.95, mean = 100, sd = 10)
+
+
+If X ~ N(100, 10), then 
+
+	P(X <=  80.40036) = 0.025	P(X <= 119.59964) = 0.975
+	P(X >   80.40036) = 0.975	P(X >  119.59964) = 0.025
+
+
+[1]  80.40036 119.59964
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("confint")
+> ### * confint
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: confint
+> ### Title: Confidence interval methods for output of resampling
+> ### Aliases: confint confint.numeric confint.do.tbl_df
+> ###   confint.do.data.frame confint.data.frame confint.summary.lm
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++   bootstrap <- do(500) * diffmean( age ~ sex, data = resample(HELPrct) )
++   confint(bootstrap)
++   confint(bootstrap, method = "percentile")
++   confint(bootstrap, method = "boot")
++   confint(bootstrap, method = "se", df = nrow(HELPrct) - 1)
++   confint(bootstrap, margin.of.error = FALSE)
++   confint(bootstrap, margin.of.error = TRUE, level = 0.99, 
++     method = c("se", "perc") )
++     
++   # bootstrap t method requires both mean and sd
++   bootstrap2 <- do(500) * favstats(resample(1:10)) 
++   confint(bootstrap2, method = "boot")
++ }
+Warning: confint: Unable to compute any of the desired CIs
+  name    lower   upper level      method estimate
+1 mean 3.535108 7.50623  0.95 bootstrap-t      5.5
+> lm(width ~ length * sex, data = KidsFeet) |>
++   summary() |>
++   confint()
+                  2.5 %    97.5 %
+(Intercept)  0.09816469 7.6059964
+length       0.06326171 0.3619858
+sexG        -5.70117633 4.4534183
+length:sexG -0.18914537 0.2207867
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cor.test")
+> ### * cor.test
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cor_test.formula
+> ### Title: Alternative formula interface for cor.test
+> ### Aliases: cor_test.formula cor.test cor_test cor_test.default
+> 
+> ### ** Examples
+> 
+> # This is an example from example(stats::cor.test) done in old and new style
+> require(graphics)
+> cor.test(~ CONT + INTG, data = USJudgeRatings)
+
+	Pearson's product-moment correlation
+
+data:  CONT and INTG
+t = -0.8605, df = 41, p-value = 0.3945
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.4168591  0.1741182
+sample estimates:
+       cor 
+-0.1331909 
+
+> cor.test(CONT ~ INTG, data = USJudgeRatings)
+
+	Pearson's product-moment correlation
+
+data:  CONT and INTG
+t = -0.8605, df = 41, p-value = 0.3945
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.4168591  0.1741182
+sample estimates:
+       cor 
+-0.1331909 
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cross")
+> ### * cross
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cross
+> ### Title: Factor cross products
+> ### Aliases: cross
+> ### Keywords: manipulate
+> 
+> ### ** Examples
+> 
+> x <- letters[1:3]
+> y <- c(1,2,1,1,3,1,3)
+> cross(x, y)
+[1] a:1 b:2 c:1 a:1 b:3 c:1 a:3
+Levels: a:1 a:2 a:3 b:1 b:2 b:3 c:1 c:2 c:3
+> cross(x, y, drop.unused.levels=TRUE)
+[1] a:1 b:2 c:1 a:1 b:3 c:1 a:3
+Levels: a:1 a:3 b:2 b:3 c:1
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cull_for_do")
+> ### * cull_for_do
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cull_for_do
+> ### Title: Cull objects used with do()
+> ### Aliases: cull_for_do
+> 
+> ### ** Examples
+> 
+> cull_for_do(lm(length ~ width, data = KidsFeet))
+  Intercept    width    sigma r.squared        F numdf dendf
+1  9.817212 1.657624 1.024769 0.4110041 25.81878     1    37
+> do(1) * lm(length ~ width, data = KidsFeet)
+  Intercept    width    sigma r.squared        F numdf dendf .row .index
+1  9.817212 1.657624 1.024769 0.4110041 25.81878     1    37    1      1
+> 
+> 
+> 
+> cleanEx()
+> nameEx("deg2rad")
+> ### * deg2rad
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: deg2rad
+> ### Title: Convert between degrees and radians
+> ### Aliases: deg2rad rad2deg
+> 
+> ### ** Examples
+> 
+> deg2rad(180)
+[1] 3.141593
+> rad2deg(2*pi)
+[1] 360
+> 
+> 
+> 
+> cleanEx()
+> nameEx("derivedVariable")
+> ### * derivedVariable
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: derivedVariable
+> ### Title: Create new variables from logicals
+> ### Aliases: derivedVariable derivedFactor
+> 
+> ### ** Examples
+> 
+> Kf <- mutate(KidsFeet, biggerfoot2 = derivedFactor(
++                    dom = biggerfoot == domhand,
++                    nondom = biggerfoot != domhand)
++                    )
+> tally( ~ biggerfoot + biggerfoot2, data = Kf)
+          biggerfoot2
+biggerfoot dom nondom
+         L   2     20
+         R  11      6
+> tally( ~ biggerfoot + domhand, data = Kf)
+          domhand
+biggerfoot  L  R
+         L  2 20
+         R  6 11
+> 
+> # Three equivalent ways to define a new variable
+> # Method 1: explicitly define all levels
+> modHELP <- mutate(HELPrct, drink_status = derivedFactor( 
++   abstinent = i1 == 0,
++   moderate = (i1>0 & i1<=1 & i2<=3 & sex=='female') |
++      (i1>0 & i1<=2 & i2<=4 & sex=='male'),
++   highrisk = ((i1>1 | i2>3) & sex=='female') | 
++       ((i1>2 | i2>4) & sex=='male'),
++   .ordered = TRUE)
++ )
+> tally( ~ drink_status, data = modHELP)
+drink_status
+abstinent  moderate  highrisk 
+       68        28       357 
+> 
+> # Method 2: Use .default for last level
+> modHELP <- mutate(HELPrct, drink_status = derivedFactor( 
++   abstinent = i1 == 0,
++   moderate = (i1<=1 & i2<=3 & sex=='female') |
++      (i1<=2 & i2<=4 & sex=='male'),
++   .ordered = TRUE,
++   .method = "first",
++   .default = "highrisk")
++ )
+> tally( ~ drink_status, data = modHELP)
+drink_status
+abstinent  moderate  highrisk 
+       68        28       357 
+> 
+> # Method 3: use TRUE to catch any fall through slots
+> modHELP <- mutate(HELPrct, drink_status = derivedFactor( 
++   abstinent = i1 == 0,
++   moderate = (i1<=1 & i2<=3 & sex=='female') |
++      (i1<=2 & i2<=4 & sex=='male'),
++   highrisk=TRUE,
++   .ordered = TRUE,
++   .method = "first"
++   )
++ )
+> tally( ~ drink_status, data = modHELP)
+drink_status
+abstinent  moderate  highrisk 
+       68        28       357 
+> is.factor(modHELP$drink_status)
+[1] TRUE
+> 
+> modHELP <- mutate(HELPrct, drink_status = derivedVariable( 
++   abstinent = i1 == 0,
++   moderate = (i1<=1 & i2<=3 & sex=='female') |
++      (i1<=2 & i2<=4 & sex=='male'),
++   highrisk=TRUE,
++   .ordered = TRUE,
++   .method = "first"
++   )
++ )
+> is.factor(modHELP$drink_status)
+[1] FALSE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("design_plot")
+> ### * design_plot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: design_plot
+> ### Title: Interactively design plots
+> ### Aliases: design_plot
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D   mtcars2 <- 
+> ##D     mtcars |> 
+> ##D       mutate(
+> ##D         cyl2 = factor(cyl), 
+> ##D         carb2 = factor(carb),
+> ##D         shape = c("V-shaped", "straight")[1 + vs], 
+> ##D         gear2 = factor(gear), 
+> ##D         transmission = c("automatic", "manual")[1 + am])
+> ##D   design_plot(mtcars2)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("diffmean")
+> ### * diffmean
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: diffmean
+> ### Title: Difference in means and proportions
+> ### Aliases: diffmean diffprop
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++ diffprop( homeless ~ sex , data=HELPrct)
++ do(3) * diffprop( homeless ~ shuffle(sex) , data=HELPrct)
++ diffmean( age ~ substance, data=HELPrct, only.2=FALSE)
++ do(3) * diffmean(age ~ shuffle(substance), data=HELPrct, only.2=FALSE)
++ diffmean( age ~ sex, data=HELPrct)
++ do(3) * diffmean(age ~ shuffle(sex), data=HELPrct)
++ }
+    diffmean
+1 -0.1356221
+2  0.8310194
+3  0.8799633
+> 
+> 
+> 
+> cleanEx()
+> nameEx("do")
+> ### * do
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: do
+> ### Title: Do Things Repeatedly
+> ### Aliases: do do.numeric do.default Do print.repeater
+> ###   *,repeater,ANY-method
+> ### Keywords: iteration
+> 
+> ### ** Examples
+> 
+> do(3) * rnorm(1)
+       rnorm
+1  0.1836433
+2 -0.8356286
+3  1.5952808
+> do(3) * "hello"
+  hello
+1 hello
+2 hello
+3 hello
+> do(3) * 1:4
+  V1 V2 V3 V4
+1  1  2  3  4
+2  1  2  3  4
+3  1  2  3  4
+> do(3) * mean(rnorm(25))
+         mean
+1  0.01905405
+2 -0.43916828
+3  0.05180951
+> do(3) * lm(shuffle(height) ~ sex + mother, Galton)
+  Intercept        sexM       mother    sigma    r.squared          F numdf
+1  67.40489 -0.25562690 -0.007986811 3.584613 0.0012857436 0.57611098     2
+2  57.99707  0.03437807  0.136473491 3.573056 0.0077149416 3.47927878     2
+3  67.12170  0.06623841 -0.006168499 3.586733 0.0001038224 0.04646535     2
+  dendf .row .index
+1   895    1      1
+2   895    1      2
+3   895    1      3
+> do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
+                 source  df           SS         MS          F       pval .row
+sex...1             sex   1 8.587129e+00  8.5871293 0.66823513 0.41388515    1
+mother...2       mother   1 5.312872e+00  5.3128716 0.41343822 0.52039423    2
+Residuals...3 Residuals 895 1.150116e+04 12.8504607         NA         NA    3
+sex...4             sex   1 4.724370e+01 47.2436971 3.69588865 0.05486384    1
+mother...5       mother   1 2.723890e+01 27.2388953 2.13090698 0.14470622    2
+Residuals...6 Residuals 895 1.144058e+04 12.7827707         NA         NA    3
+sex...7             sex   1 1.782024e-01  0.1782024 0.01390901 0.90614446    1
+mother...8       mother   1 4.813418e+01 48.1341750 3.75695700 0.05290236    2
+Residuals...9 Residuals 895 1.146675e+04 12.8120112         NA         NA    3
+              .index
+sex...1            1
+mother...2         1
+Residuals...3      1
+sex...4            2
+mother...5         2
+Residuals...6      2
+sex...7            3
+mother...8         3
+Residuals...9      3
+> do(3) * c(sample.mean = mean(rnorm(25)))
+  sample.mean
+1  0.20285663
+2 -0.08517941
+3  0.02015358
+> # change the names on the fly
+> do(3) * mean(~height, data = resample(Galton))
+      mean
+1 66.68519
+2 66.79254
+3 66.59588
+> do(3) * c(mean_height = mean(~height, data = resample(Galton)))
+  mean_height
+1    66.78463
+2    66.79209
+3    66.79543
+> set.rseed(1234)
+> do(3) * tally( ~sex|treat, data=resample(HELPrct))
+  female.no male.no female.yes male.yes
+1        45     184         59      165
+2        52     179         58      164
+3        52     163         43      195
+> set.rseed(1234)  # re-using seed gives same results again
+> do(3) * tally( ~sex|treat, data=resample(HELPrct))
+  female.no male.no female.yes male.yes
+1        45     184         59      165
+2        52     179         58      164
+3        52     163         43      195
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dotPlot")
+> ### * dotPlot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dotPlot
+> ### Title: Dotplots
+> ### Aliases: dotPlot panel.dotPlot
+> ### Keywords: graphics
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++ dotPlot( ~ age, data = HELPrct)
++ dotPlot( ~ age, nint=42, data = HELPrct)
++ dotPlot( ~ height | voice.part, data = singer, nint = 17,
++           endpoints = c(59.5, 76.5), layout = c(4,2), aspect = 1,
++           xlab = "Height (inches)")
++ }
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dpqrdist")
+> ### * dpqrdist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dpqrdist
+> ### Title: Distribution wrapper
+> ### Aliases: dpqrdist
+> 
+> ### ** Examples
+> 
+> # 3 random draws from N(1,2)
+> dpqrdist("norm", "r", n = 3, mean = 1, sd = 2)
+           [,1]
+[1,] -0.2529076
+[2,]  1.3672866
+[3,] -0.6712572
+> # These should all be the same
+> dpqrdist("norm", "d", x = 0) == dnorm(x = 0)
+[1] TRUE
+> dpqrdist("norm", "p", q = 0, mean = 1, sd = 2) == pnorm(q = 0, mean = 1, sd = 2)
+[1] TRUE
+> dpqrdist("norm", "q", p = 0.5, mean = 1, sd = 2) == qnorm(p = 0.5, mean = 1, sd = 2)
+[1] TRUE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("expandFun")
+> ### * expandFun
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: expandFun
+> ### Title: Expand the left-hand side of a formula
+> ### Aliases: expandFun
+> 
+> ### ** Examples
+> 
+> f=makeFun(x^2~x)
+> expandFun(f(z)~z) #Returns z^2~z
+$formula
+(z)^2 ~ z
+
+$formals
+$formals$x
+
+
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("factorize")
+> ### * factorize
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: factorize
+> ### Title: Conditionally convert vectors to factors
+> ### Aliases: factorize factorize.default factorize.numeric
+> ###   factorize.character factorize.data.frame factorise
+> 
+> ### ** Examples
+> 
+> data(KidsFeet, package="mosaicData")
+> str(KidsFeet)
+'data.frame':	39 obs. of  8 variables:
+ $ name      : Factor w/ 36 levels "Abby","Alisha",..: 10 24 36 20 23 34 13 4 14 8 ...
+ $ birthmonth: int  5 10 12 1 2 3 2 6 5 9 ...
+ $ birthyear : int  88 87 87 88 88 88 88 88 88 88 ...
+ $ length    : num  24.4 25.4 24.5 25.2 25.1 25.7 26.1 23 23.6 22.9 ...
+ $ width     : num  8.4 8.8 9.7 9.8 8.9 9.7 9.6 8.8 9.3 8.8 ...
+ $ sex       : Factor w/ 2 levels "B","G": 1 1 1 1 1 1 1 2 2 1 ...
+ $ biggerfoot: Factor w/ 2 levels "L","R": 1 1 2 1 1 2 1 1 2 2 ...
+ $ domhand   : Factor w/ 2 levels "L","R": 2 1 2 2 2 2 2 2 2 1 ...
+> factorize(KidsFeet$birthyear)
+ [1] 88 87 87 88 88 88 88 88 88 88 87 88 87 88 87 88 87 88 88 88 88 88 88 88 88
+[26] 88 88 87 88 88 88 88 88 88 88 88 88 88 88
+Levels: 87 88
+> str(factorize(KidsFeet))
+'data.frame':	39 obs. of  8 variables:
+ $ name      : Factor w/ 36 levels "Abby","Alisha",..: 10 24 36 20 23 34 13 4 14 8 ...
+ $ birthmonth: int  5 10 12 1 2 3 2 6 5 9 ...
+ $ birthyear : Factor w/ 2 levels "87","88": 2 1 1 2 2 2 2 2 2 2 ...
+ $ length    : num  24.4 25.4 24.5 25.2 25.1 25.7 26.1 23 23.6 22.9 ...
+ $ width     : num  8.4 8.8 9.7 9.8 8.9 9.7 9.6 8.8 9.3 8.8 ...
+ $ sex       : Factor w/ 2 levels "B","G": 1 1 1 1 1 1 1 2 2 1 ...
+ $ biggerfoot: Factor w/ 2 levels "L","R": 1 1 2 1 1 2 1 1 2 2 ...
+ $ domhand   : Factor w/ 2 levels "L","R": 2 1 2 2 2 2 2 2 2 1 ...
+> # alternative spelling
+> str(factorise(KidsFeet))
+'data.frame':	39 obs. of  8 variables:
+ $ name      : Factor w/ 36 levels "Abby","Alisha",..: 10 24 36 20 23 34 13 4 14 8 ...
+ $ birthmonth: int  5 10 12 1 2 3 2 6 5 9 ...
+ $ birthyear : Factor w/ 2 levels "87","88": 2 1 1 2 2 2 2 2 2 2 ...
+ $ length    : num  24.4 25.4 24.5 25.2 25.1 25.7 26.1 23 23.6 22.9 ...
+ $ width     : num  8.4 8.8 9.7 9.8 8.9 9.7 9.6 8.8 9.3 8.8 ...
+ $ sex       : Factor w/ 2 levels "B","G": 1 1 1 1 1 1 1 2 2 1 ...
+ $ biggerfoot: Factor w/ 2 levels "L","R": 1 1 2 1 1 2 1 1 2 2 ...
+ $ domhand   : Factor w/ 2 levels "L","R": 2 1 2 2 2 2 2 2 2 1 ...
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fav_stats")
+> ### * fav_stats
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fav_stats
+> ### Title: Some favorite statistical summaries
+> ### Aliases: fav_stats
+> ### Keywords: stats
+> 
+> ### ** Examples
+> 
+> fav_stats(1:10)
+ min   Q1 median   Q3 max mean      sd  n missing
+   1 3.25    5.5 7.75  10  5.5 3.02765 10       0
+> fav_stats(faithful$eruptions)
+ min      Q1 median      Q3 max     mean       sd   n missing
+ 1.6 2.16275      4 4.45425 5.1 3.487783 1.141371 272       0
+> data(penguins, package = "palmerpenguins")
+> 
+> # Note: this is favstats() rather than fav_stats()
+> favstats(bill_length_mm ~ species, data = penguins)  
+    species  min    Q1 median     Q3  max     mean       sd   n missing
+1    Adelie 32.1 36.75  38.80 40.750 46.0 38.79139 2.663405 151       1
+2 Chinstrap 40.9 46.35  49.55 51.075 58.0 48.83382 3.339256  68       0
+3    Gentoo 40.9 45.30  47.30 49.550 59.6 47.50488 3.081857 123       1
+> 
+> 
+> 
+> cleanEx()
+> nameEx("findZeros")
+> ### * findZeros
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: findZeros
+> ### Title: Find zeros of functions
+> ### Aliases: findZeros solve.formula
+> ### Keywords: calculus
+> 
+> ### ** Examples
+> 
+> findZeros( sin(t) ~ t, xlim=c(-10,10) )
+         t
+1 -12.5664
+2  -9.4248
+3  -6.2832
+4  -3.1416
+5   0.0000
+6   3.1416
+7   6.2832
+8   9.4248
+9  12.5664
+> # Can use tlim or t.lim instead of xlim if we prefer
+> findZeros( sin(t) ~ t, tlim=c(-10,10) )
+         t
+1 -12.5664
+2  -9.4248
+3  -6.2832
+4  -3.1416
+5   0.0000
+6   3.1416
+7   6.2832
+8   9.4248
+9  12.5664
+> findZeros( sin(theta) ~ theta, near=0, nearest=20)
+      theta
+1  -28.2743
+2  -25.1327
+3  -21.9912
+4  -18.8496
+5  -15.7080
+6  -12.5664
+7   -9.4248
+8   -6.2832
+9   -3.1416
+10   0.0000
+11   3.1416
+12   6.2832
+13   9.4248
+14  12.5664
+15  15.7080
+16  18.8496
+17  21.9912
+18  25.1327
+19  28.2743
+> findZeros( A*sin(2*pi*t/P) ~ t, xlim=c(0,100), P=50, A=2)
+   t
+1  0
+2 25
+3 50
+4 75
+> # Interval of a normal at half its maximum height.
+> findZeros( dnorm(x,mean=0,sd=10) - 0.5*dnorm(0,mean=0,sd=10) ~ x )
+         x
+1 -11.7741
+2  11.7741
+> # A pathological example
+> # There are no "neareset" zeros for this function.  Each iteration finds new zeros.
+> f <- function(x) { if (x==0) 0 else sin(1/x) }
+> findZeros( f(x) ~ x, near=0 )
+        x
+1 -0.0089
+2 -0.0082
+3 -0.0032
+4 -0.0018
+5  0.0000
+6  0.0018
+7  0.0032
+8  0.0082
+9  0.0089
+> # Better to look nearer to 0
+> findZeros( f(x) ~ x, near=0, within=100 )
+        x
+1 -0.0089
+2 -0.0082
+3 -0.0032
+4 -0.0018
+5  0.0000
+6  0.0018
+7  0.0032
+8  0.0082
+9  0.0089
+> findZeros( f(x) ~ x, near=0, within=100, iterate=0 )
+        x
+1 -0.3183
+2  0.0000
+3  0.3183
+> findZeros( f(x) ~ x, near=0, within=100, iterate=3 )
+       x
+1 -2e-06
+2 -1e-06
+3  0e+00
+4  1e-06
+5  2e-06
+6  3e-06
+> # Zeros in multiple dimensions (not run: these take a long time)
+> # findZeros(x^2+y^2+z^2-5~x&y&z, nearest=3000, within = 5)
+> # findZeros(x*y+z^2~z&y&z, z+y~x&y&z, npts=10)
+> solve(3*x==3~x)
+  x
+1 1
+> 
+> # plot out sphere (not run)
+> # sphere = solve(x^2+y^2+z^2==5~x&y&z, within=5, nearest=1000)
+> # cloud(z~x+y, data=sphere)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("findZerosMult")
+> ### * findZerosMult
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: findZerosMult
+> ### Title: Find the zeros of a function of two or more variables
+> ### Aliases: findZerosMult
+> 
+> ### ** Examples
+> 
+> findZerosMult(a*x^2-8~a&x, npts = 50)
+           a        x
+1  0.4631470 4.156167
+2  0.4815988 4.075546
+3  0.4839904 4.065619
+4  0.4895583 4.042433
+5  0.4965593 4.013842
+6  0.5068974 3.972699
+7  0.5069208 3.972609
+8  0.5159563 3.937915
+9  0.5209283 3.919258
+10 0.5263881 3.898549
+11 0.5278132 3.893428
+12 0.5291708 3.888735
+13 0.5468485 3.824798
+14 0.5500788 3.813573
+15 0.5505174 3.811792
+16 0.5538986 3.800832
+17 0.5570937 3.789217
+18 0.5582809 3.785116
+19 0.5662895 3.758521
+20 0.5697239 3.747312
+21 0.5700331 3.746332
+22 0.5725457 3.737998
+23 0.5761881 3.726115
+24 0.5815567 3.708782
+25 0.5817396 3.707950
+26 0.5869323 3.691907
+27 0.6004361 3.650151
+28 0.6010137 3.648492
+29 0.6157788 3.604392
+30 0.6256789 3.575720
+31 0.6274700 3.570654
+32 0.6571173 3.489174
+33 0.6619889 3.476310
+34 0.6727472 3.448401
+35 0.7061345 3.365874
+36 0.8879086 3.001656
+37 0.9339584 2.926796
+38 1.0023487 2.825108
+39 1.1759660 2.608211
+40 1.3039600 2.476907
+41 1.4092227 2.382625
+42 1.6215040 2.221194
+43 1.8572068 2.075468
+44 1.9427542 2.029252
+45 2.5391777 1.775005
+46 3.0739727 1.613222
+47 3.2902656 1.559299
+48 3.3357326 1.548722
+49 3.6906291 1.472294
+50 3.7317985 1.464151
+> findZerosMult(a^2+x^2-8~a&x, npts = 100, sortBy='radial')
+               a          x
+1    2.825281114 -0.1333276
+2    2.693612188  0.8628207
+3    1.553022434  2.3639042
+4    1.430712641  2.4398916
+5    1.373142397  2.4727050
+6    1.289410908  2.5174919
+7    1.260850101  2.5318487
+8    1.235919768  2.5441311
+9    1.188621002  2.5665242
+10   1.153786549  2.5823963
+11   1.126401800  2.5944743
+12   1.121295991  2.5966706
+13   1.045243266  2.6281972
+14   0.982803050  2.6520999
+15   0.946781405  2.6652598
+16   0.937021777  2.6687114
+17   0.934491287  2.6695938
+18   0.895083125  2.6830672
+19   0.686679465  2.7438077
+20   0.650568807  2.7525802
+21   0.619213095  2.7598162
+22   0.612720894  2.7613730
+23   0.495414996  2.7847018
+24   0.472928559  2.7886091
+25   0.466030117  2.7897624
+26   0.425035704  2.7963072
+27   0.357538903  2.8057346
+28   0.353312718  2.8062734
+29   0.350278200  2.8066550
+30   0.328308832  2.8093081
+31   0.318705918  2.8104140
+32   0.302592197  2.8121945
+33   0.232341066  2.8188704
+34   0.231210358  2.8189617
+35   0.203741802  2.8210818
+36   0.158167388  2.8239578
+37   0.135193823  2.8252268
+38   0.055814270  2.8278021
+39   0.009744701  2.8283352
+40  -0.005353994  2.8284224
+41  -0.061301008  2.8278384
+42  -0.098206694  2.8268200
+43  -0.105998209  2.8264313
+44  -0.145329847  2.8246873
+45  -0.159970323  2.8238883
+46  -0.173743282  2.8231001
+47  -0.204237940  2.8210344
+48  -0.277183849  2.8147692
+49  -0.296584079  2.8128354
+50  -0.336588623  2.8082982
+51  -0.420405634  2.7970054
+52  -0.446954787  2.7928896
+53  -0.476378158  2.7880143
+54  -0.795330552  2.7143038
+55  -0.881955308  2.6874147
+56  -1.053647562  2.6250067
+57  -1.055278091  2.6242572
+58  -1.064585687  2.6203475
+59  -1.200008841  2.5612401
+60  -1.208146664  2.5575062
+61  -1.238963996  2.5426557
+62  -1.263179648  2.5305825
+63  -1.299218543  2.5123691
+64  -1.367271367  2.4760610
+65  -1.434972620  2.4374412
+66  -1.467050435  2.4181947
+67  -1.470668054  2.4160442
+68  -1.488179212  2.4052457
+69  -1.491424607  2.4031745
+70  -1.496803207  2.3998457
+71  -1.498723231  2.3987079
+72  -1.504261937  2.3952574
+73  -1.522815091  2.3834372
+74  -1.532996751  2.3769548
+75  -1.606837575  2.3276005
+76  -1.650359858  2.2970563
+77  -1.660225049  2.2899382
+78  -1.750235617  2.2217992
+79  -1.769921525  2.2061541
+80  -1.789035919  2.1907646
+81  -1.793370681  2.1872538
+82  -1.810847596  2.1727383
+83  -1.923771881  2.0733534
+84  -1.968827369  2.0307067
+85  -1.979100682  2.0207351
+86  -1.993275022  2.0065695
+87  -2.055178585  1.9431912
+88  -2.189769903  1.7904367
+89  -2.213719103  1.7604843
+90  -2.235664426  1.7327611
+91  -2.243068784  1.7229264
+92  -2.270361260  1.6868484
+93  -2.284337032  1.6678991
+94  -2.311346968  1.6302355
+95  -2.346209284  1.5796178
+96  -2.360279869  1.5584126
+97  -2.538600511  1.2471669
+98  -2.612243905  1.0845145
+99  -2.627107800  1.0479957
+100 -2.641018937  1.0124065
+> ## Not run: findZerosMult(a^2+x^2-8~a&x, npts = 1000, sortBy='radial')
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fitModel")
+> ### * fitModel
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fitModel
+> ### Title: Fit a nonlinear least squares model
+> ### Aliases: fitModel model model.nlsfunction summary.nlsfunction
+> ###   coef.nlsfunction
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++ f <- fitModel(temp ~ A+B*exp(-k*time), data=CoolingWater, start=list(A=50,B=50,k=1/20))
++ f(time=50)
++ coef(f)
++ summary(f)
++ model(f)
++ }
+Nonlinear regression model
+  model: temp ~ A + B * exp(-k * time)
+   data: data
+       A        B        k 
+27.00444 62.13543  0.02096 
+ residual sum-of-squares: 484.6
+
+Number of iterations to convergence: 7 
+Achieved convergence tolerance: 5.627e-06
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fitSpline")
+> ### * fitSpline
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fitSpline
+> ### Title: Fit splines to data
+> ### Aliases: fitSpline
+> 
+> ### ** Examples
+> 
+> f <- fitSpline( weight ~ height, data=women, df=5 )
+> xyplot( weight ~ height, data=women )
+> plotFun(f(height) ~ height, add=TRUE)
+> 
+> g <- fitSpline( length ~ width, data = KidsFeet, type='natural', df=5 )
+> h <- fitSpline( length ~ width, data = KidsFeet, type='linear', df=5 )
+> xyplot( length ~ width, data = KidsFeet, col='gray70', pch=16)
+> plotFun(g, add=TRUE, col='navy')
+> plotFun(h, add=TRUE, col='red')
+> 
+> 
+> 
+> cleanEx()
+> nameEx("freqpoly")
+> ### * freqpoly
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: freqpoly
+> ### Title: Turn histograms into frequency polygons
+> ### Aliases: freqpoly hist2freqpolygon plot.freqpolygon
+> 
+> ### ** Examples
+> 
+> freqpoly(faithful$eruptions)
+> bks <- c(0, 1, 1.5, 2, 3, 3.5, 4, 4.5, 5, 7)
+> hist(faithful$eruptions, breaks = bks)
+> freqpoly(faithful$eruptions, col = rgb(0,0,1,.5), lwd = 5, breaks = bks, add = TRUE)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("freqpolygon")
+> ### * freqpolygon
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: freqpolygon
+> ### Title: Frequency Polygons
+> ### Aliases: freqpolygon prepanel.default.freqpolygon panel.freqpolygon
+> 
+> ### ** Examples
+> 
+> freqpolygon(~age | substance, data=HELPrct, v=35)
+> freqpolygon(~age, data=HELPrct, labels=TRUE, type='count')
+> freqpolygon(~age | substance, data=HELPrct, groups=sex)
+> freqpolygon(~age | substance, data=HELPrct, groups=sex, ylim=c(0,0.11))
+> ## comparison of histogram and frequency polygon
+> histogram(~eruptions, faithful, type='density', width=.5)
+> ladd( panel.freqpolygon(faithful$eruptions, width=.5 ))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("getVarFormula")
+> ### * getVarFormula
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: getVarFormula
+> ### Title: Extract data from a data frame using a formula interface
+> ### Aliases: getVarFormula
+> 
+> ### ** Examples
+> 
+> getVarFormula( ~ wt + mpg, data = mtcars)
+                       wt  mpg
+Mazda RX4           2.620 21.0
+Mazda RX4 Wag       2.875 21.0
+Datsun 710          2.320 22.8
+Hornet 4 Drive      3.215 21.4
+Hornet Sportabout   3.440 18.7
+Valiant             3.460 18.1
+Duster 360          3.570 14.3
+Merc 240D           3.190 24.4
+Merc 230            3.150 22.8
+Merc 280            3.440 19.2
+Merc 280C           3.440 17.8
+Merc 450SE          4.070 16.4
+Merc 450SL          3.730 17.3
+Merc 450SLC         3.780 15.2
+Cadillac Fleetwood  5.250 10.4
+Lincoln Continental 5.424 10.4
+Chrysler Imperial   5.345 14.7
+Fiat 128            2.200 32.4
+Honda Civic         1.615 30.4
+Toyota Corolla      1.835 33.9
+Toyota Corona       2.465 21.5
+Dodge Challenger    3.520 15.5
+AMC Javelin         3.435 15.2
+Camaro Z28          3.840 13.3
+Pontiac Firebird    3.845 19.2
+Fiat X1-9           1.935 27.3
+Porsche 914-2       2.140 26.0
+Lotus Europa        1.513 30.4
+Ford Pantera L      3.170 15.8
+Ferrari Dino        2.770 19.7
+Maserati Bora       3.570 15.0
+Volvo 142E          2.780 21.4
+> 
+> 
+> 
+> cleanEx()
+> nameEx("googleMap")
+> ### * googleMap
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: googleMap
+> ### Title: Display a point on earth on a Google Map
+> ### Aliases: googleMap
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D googleMap(40.7566, -73.9863, radius=1)   # Times Square
+> ##D googleMap(position=rgeo(2), radius=1)    # 2 random locations
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("inferArgs")
+> ### * inferArgs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: inferArgs
+> ### Title: Infer arguments
+> ### Aliases: inferArgs
+> 
+> ### ** Examples
+> 
+> inferArgs(c('x','u','t'), list(t=c(1,3), x.lim=c(1,10), u=c(1,3), u.lim=c(2,4)))
+$xlim
+[1]  1 10
+
+$ylim
+[1] 2 4
+
+$zlim
+
+
+> inferArgs(c('x','u'), list(u=c(1,3)), defaults=list(xlim=c(0,1), ylim=NULL)) 
+$xlim
+[1] 0 1
+
+$ylim
+NULL
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("interval")
+> ### * interval
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: confint.htest
+> ### Title: Extract summary statistics
+> ### Aliases: confint.htest pval pval.htest stat stat.htest stat.uneval
+> ### Keywords: inference stats
+> 
+> ### ** Examples
+> 
+> confint(t.test(rnorm(100)))
+  mean of x       lower     upper level
+1 0.1088874 -0.06933487 0.2871096  0.95
+> pval(t.test(rnorm(100)))
+  p.value 
+0.6939088 
+> stat(t.test(rnorm(100)))
+        t 
+0.2869044 
+> confint(var.test(rnorm(10,sd=1), rnorm(20, sd=2)))
+  ratio of variances    lower    upper level
+1          0.3704958 0.128642 1.364661  0.95
+> pval(var.test(rnorm(10,sd=1), rnorm(20, sd=2)))
+    p.value 
+0.004572575 
+> if (require(mosaicData)) {
++ data(HELPrct)
++ stat(t.test (age ~ shuffle(sex), data=HELPrct))
++ # Compare to test statistic computed with permuted values of sex.
++ do(10) * stat(t.test (age ~ shuffle(sex), data=HELPrct))
++ }
+            t
+1   0.1251078
+2  -0.5103440
+3  -0.5812028
+4   0.3582310
+5   0.3113925
+6   0.1636006
+7  -0.6222819
+8  -1.1764616
+9  -0.8394254
+10  0.1633038
+> 
+> 
+> 
+> cleanEx()
+> nameEx("is.wholenumber")
+> ### * is.wholenumber
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: is.wholenumber
+> ### Title: Check for whole number values
+> ### Aliases: is.wholenumber
+> 
+> ### ** Examples
+> 
+> is.wholenumber(1)
+[1] TRUE
+> all(is.wholenumber(rbinom(100,10,.5)))
+[1] TRUE
+> is.wholenumber((1:10)/2)
+ [1] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ladd")
+> ### * ladd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ladd
+> ### Title: Add to Lattice Plots
+> ### Aliases: ladd
+> ### Keywords: graphics
+> 
+> ### ** Examples
+> 
+> p <- xyplot(rnorm(100) ~rnorm(100))
+> print(p)
+> ladd(panel.abline(a=0,b=1))
+> ladd(panel.abline(h=0,col='blue'))
+> ladd(grid.text('Hello'))
+> ladd(grid.text(x=.95,y=.05,'text here',just=c('right','bottom')))
+> q <- xyplot(rnorm(100) ~rnorm(100)|factor(rbinom(100,4,.5)))
+> q <- update(q, layout=c(3,2))
+> ladd(panel.abline(a=0,b=1), plot=q)
+> ladd(panel.abline(h=0,col='blue'))
+> ladd( grid.text("(2,1)",gp=gpar(cex=3,alpha=.5)), columns=2, rows=1)
+> ladd( grid.text("p5",gp=gpar(cex=3,alpha=.5)), packets=5)
+> q
+> ladd( grid.text(paste(current.column(), current.row(),sep=','), gp=gpar(cex=3,alpha=.5)) )
+> histogram( ~eruptions, data=faithful )
+> # over would probably be better here, but the demonstrates what under=TRUE does.
+> ladd(panel.densityplot(faithful$eruptions, lwd=4), under=TRUE) 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("latlon2xyz")
+> ### * latlon2xyz
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xyz2latlon
+> ### Title: Convert back and forth between latitude/longitude and XYZ-space
+> ### Aliases: xyz2latlon latlon2xyz lonlat2xyz
+> 
+> ### ** Examples
+> 
+> xyz2latlon(1, 1, 1)     # point may be on sphere of any radius
+          lat lon
+[1,] 35.26439  45
+> xyz2latlon(0, 0, 0)     # this produces a NaN for latitude
+     lat lon
+[1,] NaN   0
+> latlon2xyz(30, 45)
+            x        y   z
+[1,] 30.09873 48.75318 0.5
+> lonlat2xyz(45, 30)
+            x        y   z
+[1,] 30.09873 48.75318 0.5
+> 
+> 
+> 
+> cleanEx()
+> nameEx("leaflet_map")
+> ### * leaflet_map
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: leaflet_map
+> ### Title: Simple Leaflet Maps
+> ### Aliases: leaflet_map
+> 
+> ### ** Examples
+> 
+> # the leaflet package is required
+> if (require(leaflet)) {
++   # Times Square
++   leaflet_map(40.7566, -73.9863, radius = 1, units = "miles")  
++   # 3 random locations; 5 km circles
++   leaflet_map(position = rgeo(3), radius = 5, mark = TRUE, color = "red") 
++   # using pipes
++   rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)) |>
++     leaflet_map(radius = 5, mark = TRUE, color = "purple")
++ }
+Loading required package: leaflet
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:leaflet’
+
+> nameEx("linear.algebra")
+> ### * linear.algebra
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: linear.algebra
+> ### Title: Functions for teaching linear algebra.
+> ### Aliases: linear.algebra mat singvals
+> 
+> ### ** Examples
+> 
+> a <- c(1,0,0); b <- c(1,2,3); c <- c(4,5,6); x <- rnorm(3)
+> # Formula interface
+> mat(~a+b)
+     a b
+[1,] 1 1
+[2,] 0 2
+[3,] 0 3
+> mat(~a+b+1)
+     (Intercept) a b
+[1,]           1 1 1
+[2,]           1 0 2
+[3,]           1 0 3
+> if (require(mosaicData)) {
++ mat(~length+sex, data=KidsFeet)
++ singvals(~length*sex*width, data=KidsFeet)
++ }
+[1] 1.574862e+03 6.256393e+02 9.268586e+00 3.460037e+00 2.539537e+00
+[6] 9.789860e-01 1.240576e-02 7.446299e-03
+> 
+> 
+> 
+> cleanEx()
+> nameEx("mPlotting")
+> ### * mPlotting
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: mPlot
+> ### Title: Interactive plotting
+> ### Aliases: mPlot mMap mScatter mUniplot
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D mPlot(HELPrct, format = "scatter")
+> ##D mPlot(HELPrct, format = "density")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("mUSMap")
+> ### * mUSMap
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: mUSMap
+> ### Title: Make a US map with 'ggplot2'
+> ### Aliases: mUSMap
+> 
+> ### ** Examples
+> 
+> USArrests2 <- USArrests |> tibble::rownames_to_column("state")
+> mUSMap(USArrests2, key="state", fill = "UrbanPop") 
+Mapping API still under development and may change in future releases.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("mWorldMap")
+> ### * mWorldMap
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: mWorldMap
+> ### Title: Make a world map with 'ggplot2'
+> ### Aliases: mWorldMap
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D gdpData <- CIAdata("GDP")      # load some world data
+> ##D 
+> ##D mWorldMap(gdpData, key="country", fill="GDP")
+> ##D 
+> ##D gdpData <- gdpData |> mutate(GDP5 = ntiles(-GDP, 5, format="rank")) 
+> ##D mWorldMap(gdpData, key="country", fill="GDP5")
+> ##D 
+> ##D mWorldMap(gdpData, key="country", plot="frame") +
+> ##D geom_point()
+> ##D 
+> ##D mergedData <- mWorldMap(gdpData, key="country", plot="none")
+> ##D 
+> ##D ggplot(mergedData, aes(x=long, y=lat, group=group, order=order)) +
+> ##D geom_polygon(aes(fill=GDP5), color="gray70", size=.5) + guides(fill=FALSE)  
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("makeColorscheme")
+> ### * makeColorscheme
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: makeColorscheme
+> ### Title: Create a color generating function from a vector of colors
+> ### Aliases: makeColorscheme
+> 
+> ### ** Examples
+> 
+> cs <- makeColorscheme( c('red','white','blue') )
+> cs(10)
+ [1] "#FF0000FF" "#FF0000FF" "#FF0000FF" "#FFFFFFFF" "#FFFFFFFF" "#FFFFFFFF"
+ [7] "#0000FFFF" "#0000FFFF" "#0000FFFF" "#0000FFFF"
+> cs(10, alpha=.5)
+ [1] "#FF000080" "#FF000080" "#FF000080" "#FFFFFF80" "#FFFFFF80" "#FFFFFF80"
+ [7] "#0000FF80" "#0000FF80" "#0000FF80" "#0000FF80"
+> 
+> 
+> 
+> cleanEx()
+> nameEx("mid")
+> ### * mid
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: mid
+> ### Title: midpoints along a sequence
+> ### Aliases: mid
+> 
+> ### ** Examples
+> 
+> mid(1:5)
+[1] 1.5 2.5 3.5 4.5
+> mid((1:5)^2)
+[1]  2.5  6.5 12.5 20.5
+> 
+> 
+> 
+> cleanEx()
+> nameEx("mplot")
+> ### * mplot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: mplot
+> ### Title: Generic plotting
+> ### Aliases: mplot mplot.default mplot.lm mplot.data.frame mplot.summary.lm
+> ###   mplot.TukeyHSD
+> 
+> ### ** Examples
+> 
+> lm( width ~ length * sex, data = KidsFeet) |>
++   mplot(which = 1:3, id.n = 5)
+[[1]]
+`geom_smooth()` using formula = 'y ~ x'
+
+[[2]]
+
+[[3]]
+`geom_smooth()` using formula = 'y ~ x'
+
+> lm( width ~ length * sex, data = KidsFeet) |>
++   mplot(smooth.color = "blue", smooth.size = 1.2, smooth.alpha = 0.3, id.size = 3)
+[[1]]
+`geom_smooth()` using formula = 'y ~ x'
+
+[[2]]
+
+[[3]]
+`geom_smooth()` using formula = 'y ~ x'
+
+[[4]]
+
+> lm(width ~ length * sex, data = KidsFeet) |>
++   mplot(rows = 2:3, which = 7)
+> ## Not run: 
+> ##D mplot( HELPrct )
+> ##D mplot( HELPrct, "histogram" )
+> ## End(Not run)
+> lm(width ~ length * sex, data = KidsFeet) |>
++   summary() |>
++   mplot()
+>   
+> lm(width ~ length * sex, data = KidsFeet) |>
++   summary() |>
++   mplot(rows = c("sex", "length"))
+>   
+> lm(width ~ length * sex, data = KidsFeet) |>
++   summary() |>
++   mplot(rows = TRUE)
+> lm(age ~ substance, data = HELPrct) |>
++   TukeyHSD() |>
++   mplot()
+> lm(age ~ substance, data = HELPrct) |>
++   TukeyHSD() |>
++   mplot(system = "lattice")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ntiles")
+> ### * ntiles
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ntiles
+> ### Title: Create vector based on roughly equally sized groups
+> ### Aliases: ntiles
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++ tally( ~ ntiles(age, 4), data=HELPrct)
++ tally( ~ ntiles(age, 4, format="center"), data=HELPrct)
++ tally( ~ ntiles(age, 4, format="interval"), data=HELPrct)
++ tally( ~ ntiles(age, 4, format="left"), data=HELPrct)
++ tally( ~ ntiles(age, 4, format="right"), data=HELPrct)
++ tally( ~ ntiles(age, 4, format="mean"), data=HELPrct)
++ tally( ~ ntiles(age, 4, format="median"), data=HELPrct)
++ bwplot( i2 ~ ntiles(age, n=5, format="interval"), data=HELPrct)
++ }
+> 
+> 
+> 
+> cleanEx()
+> nameEx("oddsRatio")
+> ### * oddsRatio
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: orrr
+> ### Title: Odds Ratio and Relative Risk for 2 x 2 Contingency Tables
+> ### Aliases: orrr oddsRatio relrisk print.oddsRatio print.relrisk
+> ###   summary.oddsRatio summary.relrisk
+> ### Keywords: stats
+> 
+> ### ** Examples
+> 
+> M1 <- matrix(c(14, 38, 51, 11), nrow = 2)
+> M1
+     [,1] [,2]
+[1,]   14   51
+[2,]   38   11
+> oddsRatio(M1)
+[1] 12.58442
+> 
+> M2 <- matrix(c(18515, 18496, 1427, 1438), nrow = 2)
+> rownames(M2) <- c("Placebo", "Aspirin")
+> colnames(M2) <- c("No", "Yes")
+> M2
+           No  Yes
+Placebo 18515 1427
+Aspirin 18496 1438
+> oddsRatio(M2)
+[1] 0.9913321
+> oddsRatio(M2, verbose = TRUE)
+
+Odds Ratio
+
+Proportions
+	   Prop. 1:	 0.9284 
+	   Prop. 2:	 0.9279 
+	 Rel. Risk:	 0.9994 
+
+Odds
+	    Odds 1:	 12.97 
+	    Odds 2:	 12.86 
+	Odds Ratio:	 0.9913 
+
+95 percent confidence interval:
+	 0.9939 < RR < 1.005 
+	 0.9188 < OR < 1.07 
+NULL
+[1] 0.9913321
+> relrisk(M2, verbose = TRUE)
+
+Odds Ratio
+
+Proportions
+	   Prop. 1:	 0.9284 
+	   Prop. 2:	 0.9279 
+	 Rel. Risk:	 0.9994 
+
+Odds
+	    Odds 1:	 12.97 
+	    Odds 2:	 12.86 
+	Odds Ratio:	 0.9913 
+
+95 percent confidence interval:
+	 0.9939 < RR < 1.005 
+	 0.9188 < OR < 1.07 
+NULL
+[1] 0.9993747
+> if (require(mosaicData)) {
++ relrisk(tally(~ homeless + sex, data = HELPrct) )
++ do(3) * relrisk( tally( ~ homeless + shuffle(sex), data = HELPrct) )
++ }
+         RR
+1 1.1358696
+2 0.8727188
+3 1.1358696
+> 
+> 
+> 
+> cleanEx()
+> nameEx("panel.plotFun")
+> ### * panel.plotFun
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: panel.plotFun
+> ### Title: Panel function for plotting functions
+> ### Aliases: panel.plotFun
+> 
+> ### ** Examples
+> 
+> x <- runif(30,0,2*pi) 
+> d <- data.frame( x = x,  y = sin(x) + rnorm(30,sd=.2) )
+> xyplot( y ~ x, data=d )
+> ladd(panel.plotFun( sin(x) ~ x, col='red' ) )
+> xyplot( y ~ x | rbinom(30,1,.5), data=d )
+> ladd(panel.plotFun( sin(x) ~ x, col='red', lty=2 ) )    # plots sin(x) in each panel
+> 
+> 
+> 
+> cleanEx()
+> nameEx("panel.plotFun1")
+> ### * panel.plotFun1
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: panel.plotFun1
+> ### Title: Panel function for plotting functions
+> ### Aliases: panel.plotFun1
+> 
+> ### ** Examples
+> 
+> x <- runif(30,0,2*pi) 
+> d <- data.frame( x = x,  y = sin(x) + rnorm(30,sd=.2) )
+> xyplot( y ~ x, data=d )
+> ladd(panel.plotFun1( sin, col='red' ) )
+> xyplot( y ~ x | rbinom(30,1,.5), data=d )
+> ladd(panel.plotFun1( sin, col='red', lty=2 ) )    # plots sin(x) in each panel
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pdist")
+> ### * pdist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pdist
+> ### Title: Illustrated probability calculations from distributions
+> ### Aliases: pdist xpgamma xpt xpchisq xpf xpbinom xppois xpgeom xpnbinom
+> ###   xpbeta
+> 
+> ### ** Examples
+> 
+> pdist("norm", -2:2)
+[1] 0.02275013 0.15865525 0.50000000 0.84134475 0.97724987
+> pdist("norm", seq(80,120, by = 10), mean = 100, sd = 10)
+[1] 0.02275013 0.15865525 0.50000000 0.84134475 0.97724987
+> pdist("chisq", 2:4, df = 3)
+[1] 0.4275933 0.6083748 0.7385359
+> pdist("f", 1, df1 = 2, df2 = 10)
+[1] 0.5981224
+> pdist("gamma", 2, shape = 3, rate = 4)
+[1] 0.986246
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotCumfreq")
+> ### * plotCumfreq
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotCumfreq
+> ### Title: Cumulative frequency plots
+> ### Aliases: plotCumfreq plotCumfreq.formula plotCumfreq.default
+> ###   prepanel.cumfreq panel.cumfreq
+> ### Keywords: graphics
+> 
+> ### ** Examples
+> 
+> plotCumfreq(~eruptions, faithful, xlab = 'duration of eruptions')
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotDist")
+> ### * plotDist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotDist
+> ### Title: Plots of Discrete and Continuous Distributions
+> ### Aliases: plotDist
+> ### Keywords: graphics stats
+> 
+> ### ** Examples
+> 
+> plotDist('norm')
+> plotDist('norm', type='h')
+> plotDist('norm', kind='cdf')
+> plotDist('exp',  kind='histogram')
+> plotDist('binom', params=list( 25, .25))       # explicit params
+> plotDist('binom', 25, .25)                     # params inferred
+> plotDist('norm', mean=100, sd=10, kind='cdf')  # params inferred
+> plotDist('binom', 25, .25, xlim=c(-1,26) )     # params inferred
+> plotDist('binom', params=list( 25, .25), kind='cdf')
+> plotDist('beta', params=list( 3, 10), kind='density')
+> plotDist('beta', params=list( 3, 10), kind='cdf')
+> plotDist( "binom", params=list(35,.25), 
++            groups= y < dbinom(qbinom(0.05, 35, .25), 35,.25) )
+> plotDist( "binom", params=list(35,.25), 
++            groups= y < dbinom(qbinom(0.05, 35, .25), 35,.25), 
++            kind='hist')
+> plotDist("norm", mean=10, sd=2, col="blue", type="h")
+> plotDist("norm", mean=12, sd=2, col="red", type="h", under=TRUE)
+> plotDist("binom", size=100, prob=.30) +
++   plotDist("norm", mean=30, sd=sqrt(100 * .3 * .7))
+> plotDist("chisq", df=4, groups = x > 6, type="h")
+> plotDist("f", df1=1, df2 = 99)
+> if (require(mosaicData)) {
++ histogram( ~age|sex, data=HELPrct)
++ m <- mean( ~age|sex, data=HELPrct)
++ s <- sd(~age|sex, data=HELPrct)
++ plotDist( "norm", mean=m[1], sd=s[1], col="red", add=TRUE, packets=1)
++ plotDist( "norm", mean=m[2], sd=s[2], col="blue", under=TRUE, packets=2)
++ }
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotFun")
+> ### * plotFun
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotFun
+> ### Title: Plotting mathematical expressions
+> ### Aliases: plotFun
+> 
+> ### ** Examples
+> 
+> plotFun( a*sin(x^2)~x, xlim=range(-5,5), a=2 )  # setting parameter value
+> plotFun( u^2 ~ u, ulim=c(-4,4) )                # limits in terms of u
+> # Note roles of ylim and y.lim in this example
+> plotFun( y^2 ~ y, ylim=c(-2,20), y.lim=c(-4,4) )    
+> # Combining plot elements to show the solution to an inequality
+> plotFun( x^2 -3 ~ x, xlim=c(-4,4), grid=TRUE )
+> ladd( panel.abline(h=0,v=0,col='gray50') )
+> plotFun( (x^2 -3) * (x^2 > 3) ~ x, type='h', alpha=.1, lwd=4, col='lightblue', add=TRUE )
+> plotFun( sin(x) ~ x, 
++    groups=cut(x, findZeros(sin(x) ~ x, within=10)$x), 
++    col=c('blue','green'), lty=2, lwd=3, xlim=c(-10,10) )
+> plotFun( sin(x) ~ x, 
++    groups=cut(x, findZeros(sin(x) ~ x, within=10)$x), 
++    col=c(1,2), lty=2, lwd=3, xlim=c(-10,10) )
+converting numerical color value into a color using lattice settings
+> ## plotFun( sin(2*pi*x/P)*exp(-k*t)~x+t, k=2, P=.3)
+> f <- rfun( ~ u & v )
+> plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
+> plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200 )
+> if (require(mosaicData)) {
++ # display a linear model using a formula interface
++ model <- lm(wage ~ poly(exper,degree=2), data=CPS85)
++ fit <- makeFun(model)
++ xyplot(wage ~ exper, data=CPS85)
++ plotFun(fit(exper) ~ exper, add=TRUE, lwd=3, col="red")
++ # Can also just give fit since it is a "function of one variable"
++ plotFun(fit, add=TRUE, lwd=2, col='white')
++ }
+> # Attempts to find sensible axis limits by default
+> plotFun( sin(k*x)~x, k=0.01 )
+> # Plotting a linear model with multiple predictors.
+> mod <- lm(length ~ width * sex, data=KidsFeet)
+> fitted.length <- makeFun(mod)
+> xyplot(length ~ width, groups=sex, data=KidsFeet, auto.key=TRUE)
+> plotFun(fitted.length(width, sex="B") ~ width, add=TRUE, col=1)
+converting numerical color value into a color using lattice settings
+> plotFun(fitted.length(width, sex="G") ~ width, add=TRUE, col=2)
+converting numerical color value into a color using lattice settings
+converting numerical color value into a color using lattice settings
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotModel")
+> ### * plotModel
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotModel
+> ### Title: Plot a regression model
+> ### Aliases: plotModel plotModel.default plotModel.parsedModel
+> 
+> ### ** Examples
+> 
+> 
+> require(mosaic)
+> 
+> mod <- lm( mpg ~ factor(cyl), data = mtcars)
+> plotModel(mod)
+> 
+> # SLR
+> mod <- lm( mpg ~ wt, data = mtcars)
+> plotModel(mod, pch = 19)
+> 
+> # parallel slopes
+> mod <- lm( mpg ~ wt + factor(cyl), data=mtcars)
+> plotModel(mod)
+> 
+> ## Not run: 
+> ##D  
+> ##D # multiple categorical vars
+> ##D mod <- lm( mpg ~ wt + factor(cyl) + factor(vs) + factor(am), data = mtcars)
+> ##D plotModel(mod)
+> ##D plotModel(mod, mpg ~ am)
+> ##D 
+> ##D # interaction
+> ##D mod <- lm( mpg ~ wt + factor(cyl) + wt:factor(cyl), data = mtcars)
+> ##D plotModel(mod)
+> ##D 
+> ##D # polynomial terms
+> ##D mod <- lm( mpg ~ wt + I(wt^2), data = mtcars)
+> ##D plotModel(mod)
+> ##D 
+> ##D # GLM
+> ##D mod <- glm(vs ~ wt, data=mtcars, family = 'binomial')
+> ##D plotModel(mod)
+> ##D 
+> ##D # GLM with interaction
+> ##D mod <- glm(vs ~ wt + factor(cyl), data=mtcars, family = 'binomial')
+> ##D plotModel(mod)
+> ##D # 3D model
+> ##D mod <- lm( mpg ~ wt + hp, data = mtcars)
+> ##D plotModel(mod)
+> ##D 
+> ##D # parallel planes
+> ##D mod <- lm( mpg ~ wt + hp + factor(cyl) + factor(vs), data = mtcars)
+> ##D plotModel(mod)
+> ##D 
+> ##D # interaction planes
+> ##D mod <- lm( mpg ~ wt + hp + wt * factor(cyl), data = mtcars)
+> ##D plotModel(mod)
+> ##D plotModel(mod, system="g") + facet_wrap( ~ cyl )
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotPoints")
+> ### * plotPoints
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotPoints
+> ### Title: Scatter plot of points
+> ### Aliases: plotPoints
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++ plotPoints( width ~ length, data=KidsFeet, groups=sex, pch=20)
++ f <- makeFun( lm( width ~ length * sex, data=KidsFeet))
++ plotFun( f(length=length,sex="G")~length, add=TRUE, col="pink")
++ plotFun( f(length=length,sex="B")~length, add=TRUE)
++ }
+converting numerical color value into a color using lattice settings
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pqrdata")
+> ### * pqrdata
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: qdata
+> ### Title: The Data Distribution
+> ### Aliases: qdata cdata pdata rdata ddata
+> ### Keywords: distribution
+> 
+> ### ** Examples
+> 
+> data(penguins, package = "palmerpenguins")
+> qdata(flipper_length_mm ~ species, 0.5, data = penguins)
+    species 50%
+1    Adelie 190
+2 Chinstrap 196
+3    Gentoo 216
+> qdata( ~ flipper_length_mm, p = 0.5, groups = species, data = penguins)
+    species 50%
+1    Adelie 190
+2 Chinstrap 196
+3    Gentoo 216
+> qdata(penguins$flipper_length_mm, p = 0.5)
+50% 
+197 
+> qdata( ~ flipper_length_mm, p = 0.5, data = penguins)
+50% 
+197 
+> qdata( ~ flipper_length_mm, p = 0.5, groups = species, data = penguins)
+    species 50%
+1    Adelie 190
+2 Chinstrap 196
+3    Gentoo 216
+> data(penguins, package = 'palmerpenguins')
+> cdata(penguins$flipper_length_mm, 0.5)
+    lower upper central.p
+25%   190   213       0.5
+> cdata( ~ flipper_length_mm, 0.5, data = penguins)
+    lower upper central.p
+25%   190   213       0.5
+> cdata( ~ flipper_length_mm, 0.5, data = penguins)
+    lower upper central.p
+25%   190   213       0.5
+> cdata( ~ flipper_length_mm | species, data = penguins, p = .5)
+    species lower upper central.p
+1    Adelie   186   195       0.5
+2 Chinstrap   191   201       0.5
+3    Gentoo   212   221       0.5
+> data(penguins, package = 'palmerpenguins')
+> pdata(penguins$flipper_length_mm, 3:6)
+[1] 0 0 0 0
+> pdata( ~ flipper_length_mm, 3:6, data = penguins)
+[1] 0 0 0 0
+> data(penguins, package = 'palmerpenguins')
+> rdata(penguins$species, 10)
+ [1] Chinstrap Gentoo    Adelie    Chinstrap Gentoo    Gentoo    Chinstrap
+ [8] Adelie    Chinstrap Chinstrap
+Levels: Adelie Chinstrap Gentoo
+> rdata( ~ species, n = 10, data = penguins)
+ [1] Gentoo    Chinstrap Adelie    Gentoo    Adelie    Adelie    Gentoo   
+ [8] Gentoo    Chinstrap Adelie   
+Levels: Adelie Chinstrap Gentoo
+> rdata(flipper_length_mm ~ species,  n = 5, data = penguins)
+    species rdata_v1 rdata_v2 rdata_v3 rdata_v4 rdata_v5
+1    Adelie      188      193      198      197      195
+2 Chinstrap      210      195      200      195      196
+3    Gentoo      215      218      223      215      208
+> data(penguins, package = 'palmerpenguins')
+> ddata(penguins$species, 'setosa')
+setosa 
+     0 
+> ddata( ~ species, 'setosa', data = penguins)
+setosa 
+     0 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("project-methods")
+> ### * project-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: project
+> ### Title: Projections
+> ### Aliases: project project,formula-method project,numeric-method
+> ###   project,matrix-method vlength dot
+> 
+> ### ** Examples
+> 
+> x1 <- c(1,0,0); x2 <- c(1,2,3); y1 <- c(3,4,5); y2 <- rnorm(3)
+> # projection onto the 1 vector gives the mean vector
+> mean(y2)            
+[1] -0.4261464
+> project(y2, 1)
+[1] -0.4261464 -0.4261464 -0.4261464
+> # return the length of the vector, rather than the vector itself
+> project(y2, 1, type='length')
+[1] 0.7381072
+> project(y1 ~ x1 + x2) -> pr; pr
+      x1       x2 
+1.230769 1.769231 
+> # recover the projected vector 
+> cbind(x1,x2) %*% pr -> v; v
+         [,1]
+[1,] 3.000000
+[2,] 3.538462
+[3,] 5.307692
+> project( y1 ~ x1 + x2, coefficients=FALSE )
+[1] 3.000000 3.538462 5.307692
+> dot( y1 - v, v ) # left over should be orthogonal to projection, so this should be ~ 0
+[1] 1.199041e-14
+> if (require(mosaicData)) {
++ project(width~length+sex, data=KidsFeet)
++ }
+  length     sexB     sexG 
+0.221025 3.641168 3.408651 
+> vlength(rep(1,4))
+[1] 2
+> if (require(mosaicData)) {
++ m <- lm( length ~ width, data=KidsFeet )
++ # These should be the same
++ vlength( m$effects )  
++ vlength( KidsFeet$length)
++ # So should these
++ vlength( tail(m$effects, -2) )
++ sqrt(sum(resid(m)^2))
++ }
+[1] 6.233426
+> v <- c(1,1,1); w <- c(1,2,3)
+> u <- v / vlength(v)  # make a unit vector
+> # The following should be the same:
+> project(w,v, type="coef") * v 
+[1] 2 2 2
+> project(w,v)
+[1] 2 2 2
+> # The following are equivalent
+> abs(dot( w, u ))
+[1] 3.464102
+> vlength( project( w, u) )
+[1] 3.464102
+> vlength( project( w, v) )
+[1] 3.464102
+> project( w, v, type='length' )
+[1] 3.464102
+> 
+> 
+> 
+> cleanEx()
+> nameEx("prop.test")
+> ### * prop.test
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: prop.test
+> ### Title: Exact and Approximate Tests for Proportions
+> ### Aliases: prop.test
+> ### Keywords: stats
+> 
+> ### ** Examples
+> 
+> # Several ways to get a confidence interval for the proportion of Old Faithful
+> # eruptions lasting more than 3 minutes.
+> prop.test( faithful$eruptions > 3 )
+
+	1-sample proportions test with continuity correction
+
+data:  >  [with success = TRUE]faithful$eruptions  [with success = TRUE]3  [with success = TRUE]
+X-squared = 21.798, df = 1, p-value = 3.029e-06
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.5829473 0.6996958
+sample estimates:
+        p 
+0.6433824 
+
+> prop.test(97,272)
+
+	1-sample proportions test with continuity correction
+
+data:  97 out of 272
+X-squared = 21.798, df = 1, p-value = 3.029e-06
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.3003042 0.4170527
+sample estimates:
+        p 
+0.3566176 
+
+> faithful$long <- faithful$eruptions > 3
+> prop.test( faithful$long )
+
+	1-sample proportions test with continuity correction
+
+data:  $  [with success = TRUE]faithful  [with success = TRUE]long  [with success = TRUE]
+X-squared = 21.798, df = 1, p-value = 3.029e-06
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.5829473 0.6996958
+sample estimates:
+        p 
+0.6433824 
+
+> prop.test( ~long , data = faithful )
+
+	1-sample proportions test with continuity correction
+
+data:  faithful$long  [with success = TRUE]
+X-squared = 21.798, df = 1, p-value = 3.029e-06
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.5829473 0.6996958
+sample estimates:
+        p 
+0.6433824 
+
+> prop.test( homeless ~ sex, data = HELPrct )
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  tally(homeless ~ sex)
+X-squared = 3.8708, df = 1, p-value = 0.04913
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.226451636 -0.002763425
+sample estimates:
+   prop 1    prop 2 
+0.3738318 0.4884393 
+
+> prop.test( ~ homeless | sex, data = HELPrct )
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  tally(homeless ~ sex)
+X-squared = 3.8708, df = 1, p-value = 0.04913
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.226451636 -0.002763425
+sample estimates:
+   prop 1    prop 2 
+0.3738318 0.4884393 
+
+> prop.test( ~ homeless, groups = sex, data = HELPrct )
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  tally(homeless ~ sex)
+X-squared = 3.8708, df = 1, p-value = 0.04913
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.226451636 -0.002763425
+sample estimates:
+   prop 1    prop 2 
+0.3738318 0.4884393 
+
+> prop.test(anysub ~ link, data = HELPrct, na.rm = TRUE)
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  tally(anysub ~ link)
+X-squared = 9.2749, df = 1, p-value = 0.002323
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.29428286 -0.05895097
+sample estimates:
+   prop 1    prop 2 
+0.1567164 0.3333333 
+
+> prop.test(link ~ anysub, data = HELPrct, na.rm = 1)
+Warning: NA is being treated as a category for anysub
+
+	3-sample test for equality of proportions without continuity correction
+
+data:  tally(link ~ anysub)
+X-squared = 19.25, df = 2, p-value = 6.607e-05
+alternative hypothesis: two.sided
+sample estimates:
+   prop 1    prop 2    prop 3 
+0.3750000 0.6174863 0.6979167 
+
+> prop.test(link ~ anysub, data = HELPrct, na.rm = TRUE)
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  tally(link ~ anysub)
+X-squared = 9.2749, df = 1, p-value = 0.002323
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.3991840 -0.0857887
+sample estimates:
+   prop 1    prop 2 
+0.3750000 0.6174863 
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("qdist")
+> ### * qdist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: qdist
+> ### Title: Illustrated quantile calculations from distributions
+> ### Aliases: qdist xqgamma xqt xqchisq xqf xqbinom xqpois xqgeom xqnbinom
+> ###   xqbeta
+> 
+> ### ** Examples
+> 
+> qdist("norm", seq(.1, .9, by = 0.10), 
++       title = "Deciles of a normal distribution", show.legend = FALSE,
++       pattern = "rings")
+[1] -1.2815516 -0.8416212 -0.5244005 -0.2533471  0.0000000  0.2533471  0.5244005
+[8]  0.8416212  1.2815516
+> xqnorm(seq(.2, .8, by = 0.20), mean = 100, sd = 10)
+
+
+If X ~ N(100, 10), then 
+
+	P(X <=  91.58379) = 0.2	P(X <=  97.46653) = 0.4	P(X <= 102.53347) = 0.6	P(X <= 108.41621) = 0.8
+	P(X >   91.58379) = 0.8	P(X >   97.46653) = 0.6	P(X >  102.53347) = 0.4	P(X >  108.41621) = 0.2
+
+
+[1]  91.58379  97.46653 102.53347 108.41621
+> qdist("unif", .5)
+[1] 0.5
+> xqgamma(.5, shape = 3, scale = 4)
+[1] 10.69624
+> xqgamma(.5, shape = 3, scale = 4, color = "black")
+[1] 10.69624
+> xqbeta(.5, shape1 = .9, shape2 = 1.4, dlwd = 1)
+[1] 0.3557401
+> xqchisq(c(.25,.5,.75), df = 3)
+[1] 1.212533 2.365974 4.108345
+> xcbinom(c(0.80, 0.90), size = 1000, prob = 0.40)
+[1] 375 380 420 426
+> # displayed as if continuous
+> xcbinom(c(0.80, 0.90), size = 5000, prob = 0.40)
+[1] 1943 1956 2044 2057
+> xpbinom(c(480, 500, 520), size = 1000, prob = 0.48)
+[1] 0.5127908 0.9027460 0.9948015
+> xpbinom(c(40, 60), size = 100, prob = 0.5)
+[1] 0.02844397 0.98239990
+> xqpois(c(0.25, 0.5, 0.75), lambda = 12)
+[1] 10 12 14
+> xcpois(0.50, lambda = 12)
+[1] 10 14
+> xcpois(0.50, lambda = 12, refinements = list(scale_color_brewer(type = "qual", palette = 5)))
+Scale for colour is already present.
+Adding another scale for colour, which will replace the existing scale.
+[1] 10 14
+> 
+> 
+> 
+> cleanEx()
+> nameEx("rand")
+> ### * rand
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: rand
+> ### Title: Random Regressors
+> ### Aliases: rand
+> ### Keywords: distribution regression
+> 
+> ### ** Examples
+> 
+> rand(2,nrow=4)
+           [,1]       [,2]
+[1,] -0.6264538  0.3295078
+[2,]  0.1836433 -0.8204684
+[3,] -0.8356286  0.4874291
+[4,]  1.5952808  0.7383247
+> rand(2,rdist=rpois, args=list(lambda=3), nrow=4)
+     [,1] [,2]
+[1,]    4    6
+[2,]    8    2
+[3,]    2    4
+[4,]    4    1
+> summary(lm( waiting ~ eruptions + rand(1), faithful))
+
+Call:
+lm(formula = waiting ~ eruptions + rand(1), data = faithful)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-12.3362  -4.4956   0.2522   3.6582  15.9863 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  33.6154     1.1593   29.00   <2e-16 ***
+eruptions    10.6870     0.3163   33.79   <2e-16 ***
+rand(1)       0.4583     0.3694    1.24    0.216    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 5.908 on 269 degrees of freedom
+Multiple R-squared:  0.8125,	Adjusted R-squared:  0.8111 
+F-statistic:   583 on 2 and 269 DF,  p-value: < 2.2e-16
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("read.file")
+> ### * read.file
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: read.file
+> ### Title: Read data files
+> ### Aliases: read.file
+> ### Keywords: util
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D Dome <- read.file("http://www.mosaic-web.org/go/datasets/Dome.csv")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("relm")
+> ### * relm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: relm
+> ### Title: Resample a Linear Model
+> ### Aliases: relm
+> 
+> ### ** Examples
+> 
+> mod <- lm(length ~ width, data = KidsFeet)
+> do(1) * mod 
+  Intercept    width    sigma r.squared        F numdf dendf .row .index
+1  9.817212 1.657624 1.024769 0.4110041 25.81878     1    37    1      1
+> do(3) * relm(mod) 
+  Intercept    width     sigma r.squared        F numdf dendf .row .index
+1 13.701887 1.218997 0.9708399 0.2960024 15.55700     1    37    1      1
+2 12.046343 1.425141 0.9843960 0.3585516 20.68196     1    37    1      2
+3  4.773255 2.232065 0.9828379 0.5790377 50.89385     1    37    1      3
+> # use residual resampling to estimate standard error (very crude because so few replications)
+> Boot <- do(100) * relm(mod)
+> sd(~ width, data = Boot)
+[1] 0.2979594
+> # standard error as produced by summary() for comparison
+> mod |> summary() |> coef() 
+            Estimate Std. Error  t value     Pr(>|t|)
+(Intercept) 9.817212  2.9381078 3.341338 1.915251e-03
+width       1.657624  0.3262257 5.081218 1.097225e-05
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("resample")
+> ### * resample
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: resample
+> ### Title: More Random Samples
+> ### Aliases: resample deal shuffle sample sample.default sample.data.frame
+> ###   sample.matrix sample.factor sample.lm
+> 
+> ### ** Examples
+> 
+> # 100 Bernoulli trials -- no need for replace=TRUE
+> resample(0:1, 100)
+  [1] 0 1 0 0 1 0 0 0 1 1 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 1 0 0 1 1 1 0 1 0 0 1
+ [38] 0 1 1 1 1 0 1 1 1 1 1 0 0 1 0 1 1 0 0 1 1 1 0 0 1 1 1 1 1 1 0 1 1 1 1 0 0
+ [75] 0 1 1 0 0 1 1 1 0 0 0 1 0 1 0 1 0 0 1 1 0 0 0 1 1 0
+> tally(resample(0:1, 100))
+X
+ 0  1 
+53 47 
+> if (require(mosaicData)) {
++ Small <- sample(KidsFeet, 10)
++ resample(Small)
++ tally(~ sex, data=resample(Small))
++ tally(~ sex, data=resample(Small))
++ # fixed marginals for sex
++ tally(~ sex, data=Small)
++ tally(~ sex, data=resample(Small, groups=sex)) 
++ # shuffled can be used to reshuffle some variables within groups
++ # orig.id shows where the values were in original data frame.
++ Small <- mutate(Small, 
++    id1 = paste(sex,1:10, sep=":"),  
++    id2 = paste(sex,1:10, sep=":"))
++ resample(Small, groups=sex, shuffled=c("id1","id2"))
++ }
+         name birthmonth birthyear length width sex biggerfoot domhand orig.id
+11       Mark          9        87   27.5   9.8   B          R       R   7.9.7
+11.1     Mark          9        87   27.5   9.8   B          R       R   7.9.7
+3        Zach         12        87   24.5   9.7   B          R       R   9.7.9
+3.1      Zach         12        87   24.5   9.7   B          R       R   9.7.9
+26       Glen          7        88   27.1   9.4   B          L       R   2.9.9
+3.2      Zach         12        87   24.5   9.7   B          R       R   9.2.2
+17   Caroline         12        87   24.0   8.7   G          R       L  6.10.6
+19        Lee          6        88   26.7   9.0   G          L       L   5.6.6
+17.1 Caroline         12        87   24.0   8.7   G          R       L  6.5.10
+32    Caitlin          7        88   22.5   8.6   G          R       R  10.6.5
+      id1  id2
+11    B:9  B:7
+11.1  B:9  B:7
+3     B:7  B:9
+3.1   B:7  B:9
+26    B:9  B:9
+3.2   B:2  B:2
+17   G:10  G:6
+19    G:6  G:6
+17.1  G:5 G:10
+32    G:6  G:5
+> deal(Cards, 13)    # A Bridge hand
+ [1] "7C"  "5C"  "10H" "QS"  "AC"  "3S"  "8C"  "KD"  "6H"  "QH"  "3H"  "AH" 
+[13] "4S" 
+> shuffle(Cards)
+ [1] "AS"  "8D"  "4H"  "4S"  "2S"  "2C"  "3H"  "2D"  "6H"  "KC"  "QS"  "4D" 
+[13] "JC"  "9H"  "AD"  "8H"  "5C"  "10D" "KD"  "QD"  "6C"  "5S"  "3D"  "7S" 
+[25] "5H"  "5D"  "8S"  "6D"  "9S"  "9C"  "9D"  "10S" "8C"  "KS"  "QC"  "10C"
+[37] "JH"  "3C"  "7H"  "AC"  "AH"  "KH"  "3S"  "4C"  "7D"  "7C"  "JD"  "QH" 
+[49] "2H"  "10H" "JS"  "6S" 
+> model <- lm(width ~length * sex, data = KidsFeet)
+> KidsFeet |> head()
+    name birthmonth birthyear length width sex biggerfoot domhand
+1  David          5        88   24.4   8.4   B          L       R
+2   Lars         10        87   25.4   8.8   B          L       L
+3   Zach         12        87   24.5   9.7   B          R       R
+4   Josh          1        88   25.2   9.8   B          L       R
+5   Lang          2        88   25.1   8.9   B          L       R
+6 Scotty          3        88   25.7   9.7   B          R       R
+> resample(model) |> head()
+     width length sex
+1 9.207857   24.4   B
+2 9.038540   25.4   B
+3 8.847178   24.5   B
+4 9.080201   25.2   B
+5 9.778738   25.1   B
+6 8.659954   25.7   B
+> Boot <- do(500) * lm(width ~ length * sex, data = resample(KidsFeet))
+> df_stats(~ Intercept + length + sexG + length.sexG, data = Boot, sd)
+     response         sd
+1   Intercept 1.37162897
+2      length 0.05360383
+3        sexG 1.97919039
+4 length.sexG 0.07879086
+> head(Boot)
+  Intercept     length      sexG   length.sexG     sigma r.squared         F
+1  4.874777 0.17109531 -2.129476  0.0806045162 0.3827121 0.5250854 12.899156
+2  7.102055 0.08621746 -5.305464  0.1985312953 0.3782025 0.5696210 15.441225
+3  2.038801 0.28288313  2.363220 -0.1004458630 0.3459209 0.5703451 15.486910
+4  4.949191 0.16574638 -3.352038  0.1310970851 0.4039551 0.3549742  6.420464
+5  5.998696 0.12688654 -2.348579  0.0833359053 0.3479019 0.4228542  8.547750
+6  4.562761 0.17883200 -0.141749  0.0002510961 0.4602852 0.1770753  2.510410
+  numdf dendf .row .index
+1     3    35    1      1
+2     3    35    1      2
+3     3    35    1      3
+4     3    35    1      4
+5     3    35    1      5
+6     3    35    1      6
+> summary(coef(model))
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-0.6239 -0.1441  0.1142  0.8642  1.1225  3.8521 
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("rflip")
+> ### * rflip
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: rflip
+> ### Title: Tossing Coins
+> ### Aliases: rflip print.cointoss nflip
+> 
+> ### ** Examples
+> 
+> rflip(10)
+
+Flipping 10 coins [ Prob(Heads) = 0.5 ] ...
+
+T T H H T H H H H T
+
+Number of Heads: 6 [Proportion Heads: 0.6]
+
+> rflip(10, prob = 1/6, quiet = TRUE)
+> rflip(10, prob = 1/6, summarize = TRUE)
+   n heads tails      prob
+1 10     4     6 0.1666667
+> do(5) * rflip(10)
+   n heads tails prop
+1 10     6     4  0.6
+2 10     7     3  0.7
+3 10     4     6  0.4
+4 10     3     7  0.3
+5 10     5     5  0.5
+> as.numeric(rflip(10))
+[1] 3
+> nflip(10)
+[1] 7
+> 
+> 
+> 
+> cleanEx()
+> nameEx("rfun")
+> ### * rfun
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: rfun
+> ### Title: Generate a natural-looking function
+> ### Aliases: rfun rpoly2
+> ### Keywords: random
+> 
+> ### ** Examples
+> 
+> f <- rfun( ~ u & v)
+> plotFun(f(u,v)~u&v,u=range(-5,5),v=range(-5,5))
+> myfun <- rfun(~ u & v, seed=1959)
+> g <- rpoly2( ~ x&y&z, seed=1964)
+> plotFun(g(x,y,z=2)~x&y,xlim=range(-5,5),ylim=range(-5,5))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("rgeo")
+> ### * rgeo
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: rlatlon
+> ### Title: Sample longitude and latitude on a sphere
+> ### Aliases: rlatlon rlonlat rgeo rgeo2
+> ### Keywords: geometry map random
+> 
+> ### ** Examples
+> 
+> rgeo(4)
+         lat        lon
+1 -27.968280 -107.39450
+2 -14.818161  143.42029
+3   8.378206  160.08310
+4  54.727573   57.88721
+> # sample from a region that contains the continental US
+> rgeo(4, latlim = c(25,50), lonlim = c(-65, -125))
+       lat        lon
+1 39.69290  -83.77863
+2 26.34897 -101.95378
+3 29.56136  -78.80951
+4 28.89804  -95.13805
+> rgeo2(4)
+         lat       lon
+1  -6.812800 110.49497
+2 -28.091391  27.92588
+3 -39.581240 169.56061
+4  -7.902929  11.08631
+> 
+> 
+> 
+> cleanEx()
+> nameEx("rspin")
+> ### * rspin
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: rspin
+> ### Title: Simulate spinning a spinner
+> ### Aliases: rspin
+> 
+> ### ** Examples
+> 
+> rspin(20, prob=c(1,2,3), labels=c("Red", "Blue", "Green"))
+  Red Blue Green
+1   2    6    12
+> do(2) * rspin(20, prob=c(1,2,3), labels=c("Red", "Blue", "Green"))
+  Red Blue Green .row .index
+1   2   10     8    1      1
+2   6    6     8    1      2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("set.rseed")
+> ### * set.rseed
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: set.rseed
+> ### Title: Set seed in parallel compatible way
+> ### Aliases: set.rseed
+> 
+> ### ** Examples
+> 
+> # These should give identical results, even if the `parallel' package is loaded.
+> set.rseed(123); do(3) * resample(1:10, 2)
+  V1 V2
+1 10  2
+2  6  5
+3  4  6
+> set.rseed(123); do(3) * resample(1:10, 2)
+  V1 V2
+1 10  2
+2  6  5
+3  4  6
+> 
+> 
+> 
+> cleanEx()
+> nameEx("sp2df")
+> ### * sp2df
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: sp2df
+> ### Title: Transforms a shapefile into a dataframe
+> ### Aliases: sp2df
+> 
+> ### ** Examples
+> 
+> 
+> ## Not run: 
+> ##D if(require(maptools)) {
+> ##D   data(wrld_simpl)
+> ##D   worldmap <- sp2df(wrld_simpl)
+> ##D }
+> ##D 
+> ##D if ( require(ggplot2) && require(maptools) ) {
+> ##D   data(wrld_simpl)
+> ##D   World <- sp2df(wrld_simpl)
+> ##D   World2 <- merge(World, Countries, by.x="NAME", by.y="maptools", all.y=FALSE)
+> ##D   Mdata <- merge(Alcohol, World2, by.x="country", by.y="gapminder", all.y=FALSE)
+> ##D   Mdata <- Mdata[order(Mdata$order),]
+> ##D   qplot( x=long, y=lat, fill=ntiles(alcohol,5),
+> ##D          data=subset(Mdata, year==2008), group = group,
+> ##D                      geom="polygon")
+> ##D }
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("statTally")
+> ### * statTally
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: statTally
+> ### Title: Tally test statistics
+> ### Aliases: statTally
+> ### Keywords: inference
+> 
+> ### ** Examples
+> 
+> # is my spinner fair?
+> x <- c(10, 18, 9, 15)   # counts in four cells
+> rdata <- rmultinom(999, sum(x), prob = rep(.25, 4))
+> statTally(x, rdata, fun = max, binwidth = 1)  # unusual test statistic
+
+Null distribution appears to be asymmetric. (p = 0.00199) 
+
+Test statistic applied to sample data =  18 
+
+Quantiles of test statistic applied to random data: 
+50% 90% 95% 99% 
+ 17  19  20  22  
+
+Of the  1000  samples (1 original +  999  random), 
+	 152 ( 15.2 % ) had test stats = 18 
+	 330 ( 33 % ) had test stats >= 18 
+> statTally(x, rdata, fun = var, shade = "red", binwidth = 2)  # equivalent to chi-squared test
+
+Null distribution appears to be asymmetric. (p = 0.0598) 
+
+Test statistic applied to sample data =  18 
+
+Quantiles of test statistic applied to random data: 
+     50%      90%      95%      99% 
+11.33333 28.66667 34.66667 46.00000  
+
+Of the  1000  samples (1 original +  999  random), 
+	 33 ( 3.3 % ) had test stats = 18 
+	 267 ( 26.7 % ) had test stats >= 18 
+> # Can also be used with test stats that are precomputed.
+> if (require(mosaicData)) {
++ D <- diffmean( age ~ sex, data = HELPrct); D
++ nullDist <- do(999) * diffmean( age ~ shuffle(sex), data = HELPrct)
++ statTally(D, nullDist)
++ statTally(D, nullDist, system = "lattice")
++ }
+
+Null distribution appears to be symmetric. (p =  0.416 ) 
+
+Test statistic applied to sample data =  -0.7841 
+
+Quantiles of test statistic applied to random data: 
+       50%        90%        95%        99% 
+0.01120955 1.05371401 1.36940198 1.92026525  
+
+Of the  1000  samples (1 original +  999  random), 
+	 2 ( 0.2 % ) had test stats = -0.7841 
+	 179 ( 17.9 % ) had test stats <= -0.7841 
+	 166 ( 16.6 % ) had test stats >= 0.8065 
+
+Null distribution appears to be symmetric. (p =  0.416 ) 
+
+Test statistic applied to sample data =  -0.7841 
+
+Quantiles of test statistic applied to random data: 
+       50%        90%        95%        99% 
+0.01120955 1.05371401 1.36940198 1.92026525  
+
+Of the  1000  samples (1 original +  999  random), 
+	 2 ( 0.2 % ) had test stats = -0.7841 
+	 179 ( 17.9 % ) had test stats <= -0.7841 
+	 166 ( 16.6 % ) had test stats >= 0.8065 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("surround")
+> ### * surround
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: surround
+> ### Title: Format strings for pretty output
+> ### Aliases: surround
+> 
+> ### ** Examples
+> 
+> surround(rbinom(10,20,.5), " ", " ", width=4)
+ [1] "  9 " "  9 " " 10 " " 13 " "  8 " " 13 " " 14 " " 11 " " 11 " "  7 "
+> surround(rnorm(10), " ", " ", width=8, digits = 2, nsmall = 2)
+ [1] " -0.82  " "  0.49  " "  0.74  " "  0.58  " " -0.31  " "  1.51  "
+ [7] "  0.39  " " -0.62  " " -2.21  " "  1.12  "
+> 
+> 
+> 
+> cleanEx()
+> nameEx("swap")
+> ### * swap
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: swap
+> ### Title: Swap values among columns of a data frame
+> ### Aliases: swap
+> 
+> ### ** Examples
+> 
+> if (require(tidyr)) {
++   Sleep2 <- sleep |> spread( key=group, val=extra )
++   names(Sleep2) <- c("subject", "drug1", "drug2")
++   swap(Sleep2, drug1 ~ drug2)
++   mean( ~(drug1 - drug2), data=Sleep2)
++   do(3) * mean( ~(drug1 - drug2), data=Sleep2 |> swap(drug1 ~ drug2) ) 
++ } 
+Loading required package: tidyr
+
+Attaching package: ‘tidyr’
+
+The following objects are masked from ‘package:Matrix’:
+
+    expand, pack, unpack
+
+   mean
+1  0.94
+2 -0.50
+3 -0.54
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:tidyr’
+
+> nameEx("themes")
+> ### * themes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: theme.mosaic
+> ### Title: Lattice Theme
+> ### Aliases: theme.mosaic col.mosaic
+> ### Keywords: graphics
+> 
+> ### ** Examples
+> 
+> trellis.par.set(theme=theme.mosaic())
+> show.settings()
+> trellis.par.set(theme=theme.mosaic(bw=TRUE))
+> show.settings()
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ttest")
+> ### * ttest
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: t_test
+> ### Title: Student's t-Test
+> ### Aliases: t_test t.test t_test.formula t_test.default
+> 
+> ### ** Examples
+> 
+>   t.test(HELPrct$age)
+
+	One Sample t-test
+
+data:  HELPrct$age
+t = 98.419, df = 452, p-value < 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 34.94150 36.36534
+sample estimates:
+mean of x 
+ 35.65342 
+
+>   # We can now do this with a formula
+>   t.test(~ age, data = HELPrct)
+
+	One Sample t-test
+
+data:  age
+t = 98.419, df = 452, p-value < 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 34.94150 36.36534
+sample estimates:
+mean of x 
+ 35.65342 
+
+>   # data = can be omitted, but it is better to use it
+>   t.test(~ age, HELPrct)
+
+	One Sample t-test
+
+data:  age
+t = 98.419, df = 452, p-value < 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 34.94150 36.36534
+sample estimates:
+mean of x 
+ 35.65342 
+
+>   # the original 2-sample formula
+>   t.test(age ~ sex, data = HELPrct)
+
+	Welch Two Sample t-test
+
+data:  age by sex
+t = 0.92976, df = 179.74, p-value = 0.3537
+alternative hypothesis: true difference in means between group female and group male is not equal to 0
+95 percent confidence interval:
+ -0.8800365  2.4482932
+sample estimates:
+mean in group female   mean in group male 
+            36.25234             35.46821 
+
+>   # alternative 2-sample formulas
+>   t.test(~ age | sex, data = HELPrct)
+
+	Welch Two Sample t-test
+
+data:  age by sex
+t = 0.92976, df = 179.74, p-value = 0.3537
+alternative hypothesis: true difference in means between group female and group male is not equal to 0
+95 percent confidence interval:
+ -0.8800365  2.4482932
+sample estimates:
+mean in group female   mean in group male 
+            36.25234             35.46821 
+
+>   t.test(~ age, groups = sex, data = HELPrct)
+
+	Welch Two Sample t-test
+
+data:  age by sex
+t = 0.92976, df = 179.74, p-value = 0.3537
+alternative hypothesis: true difference in means between group female and group male is not equal to 0
+95 percent confidence interval:
+ -0.8800365  2.4482932
+sample estimates:
+mean in group female   mean in group male 
+            36.25234             35.46821 
+
+>   # 2-sample t from vectors
+>   with(HELPrct, t.test(age[sex == "male"], age[sex == "female"]))
+
+	Welch Two Sample t-test
+
+data:  age[sex == "male"] and age[sex == "female"]
+t = -0.92976, df = 179.74, p-value = 0.3537
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -2.4482932  0.8800365
+sample estimates:
+mean of x mean of y 
+ 35.46821  36.25234 
+
+>   # just the means
+>   mean(age ~ sex, data = HELPrct)
+  female     male 
+36.25234 35.46821 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("value")
+> ### * value
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: value
+> ### Title: Extract value from an object
+> ### Aliases: value value.integrate value.default
+> 
+> ### ** Examples
+> 
+> integrate(sin, 0, 1) |> value()
+[1] 0.4596977
+> nlm(cos, p = 0) |> value()
+[1] 0
+> uniroot(cos, c(0, 2)) |> value()
+[1] 1.570784
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xchisq.test")
+> ### * xchisq.test
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xchisq.test
+> ### Title: Augmented Chi-squared test
+> ### Aliases: xchisq.test
+> 
+> ### ** Examples
+> 
+> # Physicians' Health Study data
+> phs <- cbind(c(104,189),c(10933,10845)) 
+> rownames(phs) <- c("aspirin","placebo") 
+> colnames(phs) <- c("heart attack","no heart attack") 
+> phs 
+        heart attack no heart attack
+aspirin          104           10933
+placebo          189           10845
+> xchisq.test(phs) 
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  x
+X-squared = 24.429, df = 1, p-value = 7.71e-07
+
+   104.00   10933.00 
+(  146.52) (10890.48)
+[12.05]  [ 0.16] 
+<-3.51>  < 0.41> 
+   
+   189.00   10845.00 
+(  146.48) (10887.52)
+[12.05]  [ 0.16] 
+< 3.51>  <-0.41> 
+   
+key:
+	observed
+	(expected)
+	[contribution to X-squared]
+	<Pearson residual>
+> xchisq.test(sex ~ substance, data = HELPrct)
+
+	Pearson's Chi-squared test
+
+data:  x
+X-squared = 2.0264, df = 2, p-value = 0.3631
+
+   36       41       30   
+( 41.81) ( 35.90) ( 29.29)
+[0.8068] [0.7236] [0.0173]
+<-0.898> < 0.851> < 0.131>
+     
+  141      111       94   
+(135.19) (116.10) ( 94.71)
+[0.2495] [0.2238] [0.0053]
+< 0.500> <-0.473> <-0.073>
+     
+key:
+	observed
+	(expected)
+	[contribution to X-squared]
+	<Pearson residual>
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xhistogram")
+> ### * xhistogram
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xhistogramBreaks
+> ### Title: Augmented histograms
+> ### Aliases: xhistogramBreaks histogram prepanel.xhistogram
+> ###   panel.xhistogram
+> 
+> ### ** Examples
+> 
+> if (require(mosaicData)) {
++ histogram(~age | substance, HELPrct, v=35, fit='normal')
++ histogram(~age, HELPrct, labels=TRUE, type='count')
++ histogram(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
++ histogram(~age, HELPrct, groups=sex, stripes='horizontal')
++ histogram(~racegrp, HELPrct, groups=substance,auto.key=TRUE)
++ xhistogramBreaks(1:10, center=5, width=1)
++ xhistogramBreaks(1:10, center=5, width=2)
++ xhistogramBreaks(0:10, center=15, width=3)
++ xhistogramBreaks(1:100, center=50, width=3)
++ xhistogramBreaks(0:10, center=5, nint=5)
++ }
+[1] -1.25  1.25  3.75  6.25  8.75 11.25
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xpnorm")
+> ### * xpnorm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xpnorm
+> ### Title: Augmented versions of pnorm and qnorm
+> ### Aliases: xpnorm xqnorm xcnorm
+> 
+> ### ** Examples
+> 
+> xpnorm(650, 500, 100)
+
+
+If X ~ N(500, 100), then 
+
+	P(X <= 650) = P(Z <= 1.5) = 0.9332
+	P(X >  650) = P(Z >  1.5) = 0.06681
+
+
+[1] 0.9331928
+> xqnorm(.75, 500, 100)
+
+
+If X ~ N(500, 100), then 
+
+	P(X <= 567.449) = 0.75
+	P(X >  567.449) = 0.25
+
+
+[1] 567.449
+> xpnorm(-3:3, return = "plot", system = "gg") |> 
++   gf_labs(title = "My Plot", x = "") |> 
++   gf_theme(theme_bw())
+
+
+If X ~ N(0, 1), then 
+
+	P(X <= -3) = P(Z <= -3) = 0.00135	P(X <= -2) = P(Z <= -2) = 0.02275	P(X <= -1) = P(Z <= -1) = 0.15866	P(X <=  0) = P(Z <=  0) = 0.50000	P(X <=  1) = P(Z <=  1) = 0.84134	P(X <=  2) = P(Z <=  2) = 0.97725	P(X <=  3) = P(Z <=  3) = 0.99865
+	P(X >  -3) = P(Z >  -3) = 0.99865	P(X >  -2) = P(Z >  -2) = 0.97725	P(X >  -1) = P(Z >  -1) = 0.84134	P(X >   0) = P(Z >   0) = 0.50000	P(X >   1) = P(Z >   1) = 0.15866	P(X >   2) = P(Z >   2) = 0.02275	P(X >   3) = P(Z >   3) = 0.00135
+
+
+> 
+> ## Not run: 
+> ##D if (rstudio_is_available() & require(manipulate)) {
+> ##D   manipulate(xpnorm(score, 500, 100, verbose = verbose),
+> ##D     score = slider(200, 800),
+> ##D 	   verbose = checkbox(TRUE, label = "Verbose Output")
+> ##D   )
+> ##D }
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("xqqmath")
+> ### * xqqmath
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: xqqmath
+> ### Title: Augmented version of 'qqmath'
+> ### Aliases: xqqmath panel.xqqmath
+> 
+> ### ** Examples
+> 
+> x <- rnorm(100)
+> xqqmath( ~ x)                  # with quartile line
+> xqqmath( ~ x, fitline = TRUE)  # with fitted line
+> xqqmath( ~ x, idline = TRUE)   # with y = x
+> x <- rexp(100, rate = 10)
+> xqqmath( ~ x, distribution = qexp)     # with quartile line
+> xqqmath( ~ x, distribution = qexp, slope = 1/10) 
+> xqqmath( ~ x, distribution = qexp, slope = mean(x)) 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("zscore")
+> ### * zscore
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: zscore
+> ### Title: Compute z-scores
+> ### Aliases: zscore
+> 
+> ### ** Examples
+> 
+> data(penguins, package = "palmerpenguins")
+> penguins |> 
++   group_by(species) |> 
++   mutate(zbill_length_mm = zscore(bill_length_mm, na.rm = TRUE)) |> 
++   head()
+# A tibble: 6 × 9
+# Groups:   species [1]
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  <fct>   <fct>              <dbl>         <dbl>             <int>       <int>
+1 Adelie  Torgersen           39.1          18.7               181        3750
+2 Adelie  Torgersen           39.5          17.4               186        3800
+3 Adelie  Torgersen           40.3          18                 195        3250
+4 Adelie  Torgersen           NA            NA                  NA          NA
+5 Adelie  Torgersen           36.7          19.3               193        3450
+6 Adelie  Torgersen           39.3          20.6               190        3650
+# ℹ 3 more variables: sex <fct>, year <int>, zbill_length_mm <dbl>
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  14.916 0.26 15.241 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

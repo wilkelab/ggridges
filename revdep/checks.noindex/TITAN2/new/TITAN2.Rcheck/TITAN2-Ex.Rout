@@ -1,0 +1,695 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "TITAN2"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('TITAN2')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("plot-cps")
+> ### * plot-cps
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot-cps
+> ### Title: Plots probability densities of empirical distributions of
+> ###   bootstrapped change points
+> ### Aliases: plot-cps plot_cps plotCPs
+> 
+> ### ** Examples
+> 
+> 
+> data(glades.titan)
+> plot_cps(glades.titan,
++   taxa.dist = FALSE,
++   xlabel = "Surface Water TP (ug/l)",
++   stacked = TRUE
++ )
+[1] "Summary of Summed Density Functions"
+         uw.env uw.max zw.env zw.max
+Group 1   14.55   1.00  14.55  10.22
+Group 2   28.80   1.34  28.80  11.13
+P&R Taxa  28.80   2.01  28.80  17.14
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot-sumz")
+> ### * plot-sumz
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot-sumz
+> ### Title: Plots the pattern of community change along an environmental
+> ###   gradient
+> ### Aliases: plot-sumz plot_sumz plotSumz
+> ### Keywords: TITAN sum(z)
+> 
+> ### ** Examples
+> 
+> 
+> data(glades.titan)
+> plot_sumz(glades.titan, filter = FALSE)
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot-taxa")
+> ### * plot-taxa
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot-taxa
+> ### Title: Plots taxon-specific change points
+> ### Aliases: plot-taxa plot_taxa plotTaxa
+> 
+> ### ** Examples
+> 
+> 
+> data(glades.titan)
+> plot_taxa(glades.titan, xlabel = "Surface Water TP (ug/l)")
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_sumz_density")
+> ### * plot_sumz_density
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_sumz_density
+> ### Title: Plot community level change
+> ### Aliases: plot_sumz_density
+> 
+> ### ** Examples
+> 
+> 
+> data(glades.titan)
+> 
+> plot_sumz_density(glades.titan)
+> plot_sumz_density(glades.titan, trans = "log10")
+> 
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_taxa_ridges")
+> ### * plot_taxa_ridges
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_taxa_ridges
+> ### Title: Taxon change point ridge plots
+> ### Aliases: plot_taxa_ridges
+> 
+> ### ** Examples
+> 
+> 
+> data(glades.titan)
+> 
+> 
+> # basic usage
+> plot_taxa_ridges(glades.titan)
+→ There are 90 indicator taxa of 90 possible for plotting
+↘ Number of Decreasers = 41 
+↗ Number of Increasers = 49Warning:   Use of the `vline_size` or `size` aesthetic are deprecated, please use `linewidth` instead of `size` and `vline_width` instead of `vline_size`.
+Warning:   Use of the `vline_size` or `size` aesthetic are deprecated, please use `linewidth` instead of `size` and `vline_width` instead of `vline_size`.
+> 
+> 
+> ## Not run: 
+> ##D  reduce R CMD check time
+> ##D 
+> ##D # manipulating the x axis thematic components
+> ##D plot_taxa_ridges(glades.titan, grid = FALSE)
+> ##D plot_taxa_ridges(glades.titan, xaxis = TRUE)
+> ##D 
+> ##D 
+> ##D # applying scale transformations
+> ##D plot_taxa_ridges(glades.titan, trans = "log10", xlim = c(1,150))
+> ##D 
+> ##D 
+> ##D # removing z2
+> ##D plot_taxa_ridges(glades.titan, z2 = FALSE, trans = "sqrt", xlim = c(0, 150))
+> ##D 
+> ##D 
+> ##D # more styling
+> ##D plot_taxa_ridges(glades.titan,
+> ##D   axis.text.x = 12,
+> ##D   axis.text.y = 4,
+> ##D   axis.title.x = 14,
+> ##D   xlabel = expression(paste("Surface water total phosphorus ("*mu*"g/l)"))
+> ##D )
+> ##D 
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("titan")
+> ### * titan
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: titan
+> ### Title: Perform a threshold indicator taxa analysis
+> ### Aliases: titan
+> ### Keywords: IndVal TITAN bootstrap permutation sum(z)
+> 
+> ### ** Examples
+> 
+> 
+> data(glades.env); str(glades.env)
+'data.frame':	126 obs. of  1 variable:
+ $ TP.ugL: num  41.2 41.8 43.6 40.1 43.6 43 43.6 36.5 34.1 56.4 ...
+> data(glades.taxa); str(glades.taxa)
+'data.frame':	126 obs. of  164 variables:
+ $ ABLARHAM: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ ACENTRIA: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ ANOPHELE: num  0 0 0 0 0.802 ...
+ $ APEDELAS: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ APHAOPAC: num  0.382 0.802 1.294 0 0.564 ...
+ $ ARRENSP1: num  0 0 0 0 0 ...
+ $ ATRICHOP: num  0 0 0 0 0 ...
+ $ BEARTRUN: num  0 0 0 0 0 ...
+ $ BELO.IMM: num  0 0 0.222 0.368 0.368 ...
+ $ BELOLUTA: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ BELOTEST: num  0 0.368 0 0 0 ...
+ $ BEROSU.L: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ BEZZSP1 : num  0 0 0 0.564 0 ...
+ $ BEZZSP2 : num  0 0 0.564 0 0 ...
+ $ BEZZSP3 : num  0 0 1.07 0 0 ...
+ $ BRACGRAV: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ BRATUNID: num  0 0 0 1.23 0 ...
+ $ CAECIDOT: num  0 1.23 1.863 0.564 0.802 ...
+ $ CAENDIMI: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CALANOID: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CALLFLOR: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CANDANNA: num  0 0 0 0 0.564 ...
+ $ CELIEPON: num  0 0 0 0 0 ...
+ $ CELIIMIT: num  0 0 0 0.222 0.802 ...
+ $ CELINA.L: num  0.582 0 0.564 0.564 0.954 ...
+ $ CERIODAP: num  0 0 0 0 0 ...
+ $ CERNOTIN: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CHIRSTIG: num  0.582 0 0 1.156 0 ...
+ $ CHMUSSP : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CHYDORID: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CLADOPEL: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CLADOTAN: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ COLLESP1: num  1.22 1.16 0 1.52 1.55 ...
+ $ COLLESP2: num  0.382 1.23 0 1.398 0.954 ...
+ $ COLLESP4: num  0 0 0 0 0 ...
+ $ CORYINGE: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CORYSPD : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CRANGONY: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CURCULIO: num  0 0.564 0 0 0 ...
+ $ CYBIFIMB: num  0 0 0 0 0 ...
+ $ CYCLPOID: num  1.49 1.48 1.76 1.61 2.03 ...
+ $ CYPRBREV: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ CYPROKEE: num  0 0 0.954 0 0.954 ...
+ $ CYTHALOS: num  1.32 0 1.35 1.71 1.88 ...
+ $ DAPHNSP1: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ DASYHELE: num  0 0 2.53 1.29 1.44 ...
+ $ DERAALTU: num  0 1.067 0.222 0.802 1.156 ...
+ $ DERODIGX: num  2.21 2.03 2.18 2.48 3 ...
+ $ DEROFURC: num  1.218 0.564 0 0.564 1.713 ...
+ $ DEROLODE: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ DEROPECT: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ DESMOP.A: num  0.582 0 0 0 0.564 ...
+ $ DESMOP.L: num  0 0 0 0 0 ...
+ $ DICROMOD: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ DICROSIM: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ ECLIPALU: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ ENALCIVI: num  0 0 0.564 0 0 ...
+ $ ENOCHR.L: num  0 0.564 0.802 0.564 0.802 ...
+ $ ENOCOCHR: num  0 0 0 1.156 0.954 ...
+ $ ERYTHSIM: num  0 0.368 0.222 0 0 ...
+ $ EYLAIS  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ FERRISSI: num  0.382 0 0 0 0 ...
+ $ FITTSERT: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ FORCMYIA: num  0 0 0.954 0.802 0.954 ...
+ $ GASTRO1 : num  0 0 0 0 0 ...
+ $ GOELDHOL: num  1.37 1.23 2.13 2.45 2.58 ...
+ $ GOELDNAT: num  0 0 0.564 0 0 ...
+ $ HAEMWALD: num  0.976 0 0.564 1.067 0 ...
+ $ HARPACTI: num  0 0 0.564 0 1.067 ...
+ $ HELOFUSC: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ HELOLARV: num  0.382 0 0 0 0 ...
+ $ HELOTRIS: num  0 0 0 0.222 0 ...
+ $ HYALAZTE: num  0.382 1.999 2.235 1.067 1.23 ...
+ $ HYDBISP2: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ HYDCAN.L: num  0 0 0.802 0 0 ...
+ $ HYDRA   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ HYDROBLO: num  0 0 0.477 0 0 ...
+ $ HYDRPUST: num  0 0 0 0 0.564 ...
+ $ HYDRSP13: num  0 0 0 0 0 ...
+ $ ILYBIU.L: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ ILYOSPIN: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ ISCHNURA: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ KIEFFDUX: num  0 0 0 0 0 ...
+ $ LABRNEOP: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ LACCGENT: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ LAEVPENI: num  0 0.564 0.802 0 0.564 ...
+ $ LAMPYRID: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ LARSBERN: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ LARSDECO: num  0 0.802 2.749 1.067 1.83 ...
+ $ LIBENEED: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ LIMONIA : num  0 0 0 0.564 0 ...
+ $ MACROTHR: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ MANSOSP1: num  0 0 0 0.564 0 ...
+ $ MANSOSP2: num  0 0.564 0.802 0 0 ...
+ $ MESOVELI: num  0 0 0 0.564 0 ...
+ $ MICRDILA: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ MICRVELI: num  0 0 0 0 0 ...
+ $ MOORMICR: num  0 0 0.699 0 0 ...
+ $ NAMALABI: num  0 0 0 0 0 0 0 0 0 0 ...
+  [list output truncated]
+> 
+> # small run to illustrate data structure
+> glades.titan <- titan(glades.env, glades.taxa, minSplt = 5,
++   numPerm = 25, boot = TRUE, nBoot = 2, imax = FALSE,
++   ivTot = FALSE, pur.cut = 0.95, rel.cut = 0.95, ncpus = 2, memory = FALSE
++ )
+ℹ Screening taxa...
+→   100% occurrence detected 1 times (0.6% of taxa),
+→   use of TITAN less than ideal for this data type.
+✔   Taxa frequency screen complete.
+ℹ Partitioning along gradient...
+ℹ Calculating observed IndVal maxima and class values...
+ℹ Calculating IndVals using mean relative abundance...
+ℹ Permuting IndVal scores...
+ℹ Summarizing observed results...
+ℹ Estimating taxa change points using z-score maxima...
+ℹ Bootstrap resampling in parallel using 2 CPUs... no index will be printed to screen.
+✔ Proportion of pure and reliable taxa = 0.7683
+         ienv.cp zenv.cp freq maxgrp IndVal zscore       5%     10%     50%
+ABLARHAM    5.05   17.20   15      1  29.02  11.92  16.0150  16.230  17.950
+ACENTRIA   14.10   14.55    7      1  14.65   5.71  18.9100  19.270  22.150
+ANOPHELE  109.40   36.90   15      2  24.31  10.94  50.7700  54.740  86.500
+APEDELAS   18.35   21.40    5      1   6.54   2.38  14.3225  14.545  16.325
+APHAOPAC   39.55   32.45  104      1  63.48  11.79  31.0850  31.270  32.750
+ARRENSP1   86.95   85.55    9      2  21.97   4.77  39.9125  42.375  62.075
+ATRICHOP   18.60   18.35    5      2   6.58   3.01  17.1975  18.995  33.375
+BEARTRUN    9.15   16.85   66      1  57.92  14.84  30.1000  30.100  30.100
+BELO.IMM   74.85   71.40   29      2  36.15   7.44  14.2100  17.520  44.000
+BELOLUTA  122.10   29.85    9      2   9.87   3.54  30.6875  31.775  40.475
+BELOTEST   34.95   34.95   12      2  23.53   9.39  30.9900  31.080  31.800
+BEROSU.L  122.10   14.10   10      2  11.24   3.43  17.2875  19.225  34.725
+BEZZSP1     4.15    5.70   13      1  23.13   4.55   4.4650   4.530   5.050
+BEZZSP2     5.70   29.85   41      1  46.53  13.59  16.9475  17.045  17.825
+BEZZSP3     7.25   43.60   11      1  12.22   3.28   9.1475  11.045  26.225
+BRACGRAV   14.75   14.55   11      1  12.85   3.68  12.5025  12.655  13.875
+BRATUNID   98.35   28.30   77      1  47.76   7.83  29.9425  30.535  35.275
+CAECIDOT  116.00   32.45   48      2  45.75   9.57  24.7175  25.085  28.025
+CAENDIMI   33.70   31.70   90      1  64.89  13.69  30.6625  30.675  30.775
+CALANOID   29.35   24.70   26      1  22.43   5.50  19.0525  19.555  23.575
+CALLFLOR   98.35   33.00   89      1  53.16   6.78  32.7200  32.990  35.150
+CANDANNA   58.90   57.55   25      2  20.13   2.42  29.6400  31.180  43.500
+CELIEPON   13.65   15.10   14      1  22.03   7.87   5.8675   6.685  13.225
+CELIIMIT   31.70   53.55    7      1   7.29   3.12  30.6300  30.660  30.900
+CELINA.L    4.15   29.10   57      2  39.66   6.74  26.9275  27.055  28.075
+CERIODAP  116.00  109.40   39      2  65.75   7.20  10.2000  10.300  11.100
+CERNOTIN    5.70    9.05   15      1  50.07  16.99   8.5300   8.560   8.800
+CHIRSTIG  109.40   20.10   47      2  41.35   9.30  12.7425  16.635  47.775
+CHMUSSP    12.65   14.75   44      2  30.98   4.49  20.3550  23.860  51.900
+CHYDORID  116.00   86.95    8      2  26.78  10.36 105.0300 105.260 107.100
+CLADOPEL   37.85   36.15   37      1  30.90   8.21  19.4825  20.165  25.625
+CLADOTAN    4.15    7.90   14      1  39.58  14.85   3.6950   3.890   5.450
+COLLESP1   28.10   22.55   49      2  47.92  11.95  23.5450  23.890  26.650
+COLLESP2   36.15   13.65   37      2  31.45   8.45  28.4625  29.075  33.975
+COLLESP4    7.90    7.90    7      1   7.82   1.44  39.8325  40.415  45.075
+CORYINGE    4.15    6.30    8      1  20.40  19.91   8.3725   9.545  18.925
+CORYSPD    10.10   13.15    5      1  14.29   7.13  10.7400  10.780  11.100
+CRANGONY  122.10   51.35   13      2  25.18  10.31  43.3150  43.330  43.450
+CURCULIO   41.50   41.50    8      2  13.16   6.21  39.9950  40.740  46.700
+CYBIFIMB  109.40   85.55    5      2  15.90  12.21  46.8900  50.180  76.500
+CYCLPOID    6.50   25.75   94      2  63.51  12.86  26.9000  27.000  27.800
+CYPRBREV    9.15   14.60   13      1  33.33  15.20   8.6450   8.840  10.400
+CYPROKEE   98.35   27.85   34      2  29.41   8.29  35.5925  39.235  68.375
+CYTHALOS    6.65    9.60  118      2  56.16   4.19   8.8625   8.875   8.975
+DAPHNSP1  122.10   43.60   17      2  29.20  11.31  47.0050  47.210  48.850
+DASYHELE    5.70   12.05   75      1  43.60   4.10  17.7725  20.995  46.775
+DERAALTU   27.85   21.40   87      2  62.80  13.37  21.8100  22.220  25.500
+DERODIGX    6.65   51.35  126      1  51.58   2.71   8.9950  11.340  30.100
+DEROFURC    7.00   21.60   72      2  56.97  12.25  21.6800  21.760  22.400
+DEROLODE  122.10  122.10    9      2  12.13   0.98   7.3125   7.375   7.875
+DEROPECT  122.10  109.40    9      2  24.30   9.38 110.0350 110.670 115.750
+DESMOP.A  122.10   26.80   27      2  30.46  12.98  23.3275  23.455  24.475
+DESMOP.L   32.45   31.70   10      2  10.38   2.36  30.9775  31.055  31.675
+DICROMOD   29.35   33.70   21      1  22.63   6.84  29.7175  29.835  30.775
+DICROSIM   86.95   18.60   37      2  34.77   7.29  15.9875  16.625  21.725
+ECLIPALU  116.00   60.05   18      2  27.59   5.19  78.8150  80.530  94.250
+ENALCIVI    7.25   26.80   70      1  65.08  19.13   9.3575   9.515  10.775
+ENOCHR.L   29.35   36.90   58      2  51.43  15.74  23.4950  23.790  26.150
+ENOCOCHR   29.35   29.35   23      2  23.20   6.27  11.2175  11.435  13.175
+ERYTHSIM   86.95   41.10   27      2  21.07   2.70  42.5650  43.930  54.850
+EYLAIS     33.00   38.70    5      1   6.33   2.11  34.9900  35.380  38.500
+FERRISSI    5.70   31.70   59      1  41.99   6.65  29.6000  29.600  29.600
+FITTSERT    9.60   12.65   18      1  18.01   6.09  11.1075  12.165  20.625
+FORCMYIA  116.00   34.95   15      2  20.58  10.14  33.8725  35.045  44.425
+GASTRO1    74.85   43.60   13      2  27.38  12.82  37.6525  37.855  39.475
+GOELDHOL   33.00   28.30   50      2  59.12  19.11  19.2575  19.965  25.625
+GOELDNAT   90.00   86.95   19      2  30.25   5.22  14.5100  18.120  47.000
+HAEMWALD    8.45    9.60   79      2  68.71  11.75   8.1500   8.200   8.600
+HARPACTI   79.00   18.35   18      1  13.67   2.16   8.7475  12.445  42.025
+HELOFUSC  122.10   79.00    5      2   5.53   2.86  25.7550  26.010  28.050
+HELOLARV   62.80   15.80   10      2  12.20   4.45  32.6275  34.605  50.425
+HELOTRIS  122.10   58.90   22      2  21.63   4.07   9.2550   9.510  11.550
+HYALAZTE   55.85   52.40  125      1  55.73   6.94  33.6100  34.520  41.800
+HYDBISP2   39.55   40.10   42      1  48.58  16.81  32.2250  32.500  34.700
+HYDCAN.L   83.95   18.60   15      2  10.16   1.65  29.2625  30.425  39.725
+HYDRA      98.35   81.75    5      2  12.96  19.81  47.2300  49.260  65.500
+HYDROBLO  109.40   21.40   19      2  15.65   2.59  25.2000  30.300  71.100
+HYDRPUST  116.00   17.70    9      2  11.54   4.77  26.0300  30.660  67.700
+HYDRSP13    7.80  122.10   14      2  12.46   2.24  36.7275  41.005  75.225
+ILYBIU.L   86.95   86.95   59      2  45.31   3.04  81.2025  81.505  83.925
+ILYOSPIN   98.35   15.35   12      1  12.62   3.39  22.6825  26.565  57.625
+ISCHNURA    5.05   14.55    8      1  21.05  17.46   4.3675   4.585   6.325
+KIEFFDUX   12.35    7.90   26      2  23.85   3.65  16.4375  18.275  32.975
+LABRNEOP   13.15   14.60   14      1  22.16   7.54  15.4925  16.235  22.175
+LACCGENT   98.35   36.90   18      1  11.92   1.21  44.3800  47.560  73.000
+LAEVPENI  122.10   39.55   94      1  45.08   1.89   8.8075  10.065  20.125
+LAMPYRID   90.00   60.80    5      2  11.95   5.30 111.7300 112.060 114.700
+LARSBERN    4.15    7.25    5      1  11.78  38.78   6.3050   9.110  31.550
+LARSDECO  122.10   56.15   90      1  43.73   1.42   8.6725  10.495  25.075
+LIBENEED    7.00    7.00   28      2  24.56   1.93 118.2050 118.410 120.050
+LIMONIA    74.85   15.35   20      2  15.26   3.06  70.9800  71.760  78.000
+MACROTHR   85.55   85.55   32      2  88.72  20.19  60.0925  60.535  64.075
+MANSOSP1   36.15   40.10    9      2  10.74   4.98  44.0975  44.595  48.575
+MANSOSP2   36.15   17.20    7      2   8.86   4.32  15.9225  16.495  21.075
+MESOVELI   10.10   28.80   16      2  12.40   3.47  11.1775  12.655  24.475
+MICRDILA   30.35   32.45   58      1  39.42   7.34  29.3875  29.425  29.725
+MICRVELI   24.70   23.55    6      2   8.70   3.84  21.4000  21.400  21.400
+MOORMICR   48.60   48.60    9      1   9.78   3.40  51.3500  51.350  51.350
+NAMALABI   86.95   85.55   40      2  53.36   7.24  72.6525  73.905  83.925
+NANOALTE    4.15    6.65    6      1  25.37  34.54   6.3450   6.390   6.750
+NEMATODA  122.10  122.10  115      1  59.64   2.16  12.2175  14.735  34.875
+NILOTHAU    5.05    5.70   10      1  66.81  21.34   4.6625   4.925   7.025
+NOCTUSP1   28.10   26.80    5      2   7.58   4.01  27.0575  27.315  29.375
+ODONTOMY   98.35   14.55   24      1  17.62   4.30  90.7400  91.480  97.400
+OECETSP   109.40    9.15   16      1  15.73   5.71   8.8625   8.875   8.975
+OECETSPE    7.25   10.70   22      1  33.01  16.21  14.3750  15.150  21.350
+OSTRASP5  122.10   90.00   20      2  69.77  15.96  33.4175  36.735  63.275
+OXYETHIR    5.70   18.35   22      1  41.15  20.84   9.3050   9.610  12.050
+PACHLONG   30.35   30.35   17      2  16.91   4.29  29.7550  29.910  31.150
+PALAPALU   29.35   31.70   83      1  73.11  18.62  19.1275  19.705  24.325
+PARACALA    4.15   12.05   12      1  25.83  12.11   4.3675   4.585   6.325
+PARAKSPC    5.70   12.35   35      1  75.83  24.16  12.5750  12.800  14.600
+PARAMERI  122.10   71.40   16      2  24.41   4.36  27.9550  31.560  60.400
+PARAPONY    7.25   14.10   11      1  29.73  16.09   7.7500   7.950   9.550
+PARASPB     5.70    9.40   21      1  64.68  24.53   8.6775   8.855  10.275
+PELOFEMO   23.55   21.85   73      2  51.08   8.07  22.5350  22.570  22.850
+PHAEEXST   21.60   25.75   38      2  36.46   8.88  24.5875  24.825  26.725
+PHAEMINO  122.10   39.55    7      2   9.62   5.17  42.5275  45.805  72.025
+PHAENO.L   40.10   29.85   12      2  15.02   7.35  40.1225  40.145  40.325
+PHYSCUBE    7.65   31.70   67      1  56.51  11.81  29.7425  29.885  31.025
+PHYSELLA   33.70   36.15   24      2  35.82  11.60  30.2400  30.880  36.000
+PLANDURY   30.90   38.70   19      2  22.50   8.07  30.4400  30.780  33.500
+PLANSP1     5.05   14.60   69      1  49.26  10.66  12.3500  12.350  12.350
+PLANTRIV  122.10  116.00   11      2  25.91  15.71  30.1250  34.750  71.750
+POLYGYRA    4.15   41.50   12      2  11.08   1.77  38.5075  38.615  39.475
+POLYHALT    9.15   16.25   14      1  31.11  15.99   8.4425   8.785  11.525
+POLYILLI   68.50   79.00   14      1  12.50   1.30  16.5750  18.550  34.350
+POLYPSPA   14.75   21.40   21      1  39.62  18.33  19.1475  19.495  22.275
+POLYTRIG   10.10   10.10   68      2  60.42  11.75  15.0875  15.575  19.475
+POLYTRIT   86.95   71.40   27      2  33.01   6.44  65.9375  66.225  68.525
+POMAPALU   41.10   40.10   12      2  14.41   5.53  36.3800  38.160  52.400
+PRISAEQU    5.05   65.65  103      1  51.29   2.03  12.5400  14.980  34.500
+PRISLEID    6.65    7.00  123      2  54.70   2.53  10.7725  12.445  25.825
+PROCFALL   86.95   15.35   65      2  37.67   3.80  18.7375  22.125  49.225
+PROCLAD     5.70    5.70    8      1  55.02  27.06   7.7225   7.795   8.375
+PSEUDCOL   85.55   15.35   30      2  18.46   2.21  31.2900  34.480  60.000
+PSEUDOCH   12.35   18.60   28      2  23.45   7.03  13.4200  13.690  15.850
+PSEUDOSI  109.40   90.00   37      2  61.33   6.51  13.4975  18.545  58.925
+PSYCHODA   57.55   57.55    8      2  19.42   8.17  44.0975  44.745  49.925
+PYRALSP1   41.50   39.55    5      2   7.67   4.11  22.8425  23.185  25.925
+SCIRTES    98.35  109.40   38      2  86.55  13.25  70.7750  73.050  91.250
+SIMYRA    116.00   86.95    7      2  26.83  25.35  72.2600  74.320  90.800
+SPONGILL    8.20   18.35   13      1  20.41   9.17   8.5000   8.500   8.500
+STAPHYLI    9.05    9.05    5      2   4.76   0.44  31.0100  31.370  34.250
+SUPHISEL  116.00   28.30    7      2  11.11   5.86  38.7700  42.940  76.300
+TANYLIMN   29.10   28.30   18      1  18.56   5.88  12.3750  13.200  19.800
+TANYPCAR   83.95   29.35   12      2  10.73   2.96  21.4100  21.420  21.500
+TANYSPF    41.50   31.70   17      2  25.16  10.07  32.4275  32.905  36.725
+TANYSPG     4.15   51.35   85      1  46.92   5.95  29.7550  29.910  31.150
+TANYSPJ    32.45   41.10   17      2  25.51  10.55  32.8725  33.045  34.425
+TANYSPR    13.65   15.35   46      1  85.32  27.15  15.8250  16.550  22.350
+TANYSPT     7.65    7.40    5      1  20.25  38.77   7.2925   7.335   7.675
+TELEBYER   43.60   41.10   10      2  16.43   7.93  25.3125  26.275  33.975
+TRICHORX   21.60   15.10   11      1  19.00  10.84  21.8475  22.095  24.075
+TROPBLAT   43.60   38.70    7      2  11.88   7.42  44.0400  44.480  48.000
+TROPIS.L  109.40   18.60   16      2  21.33   7.07  31.1725  31.695  35.875
+TROPLATE   20.10   16.85    5      2   6.25   2.70  21.1700  22.240  30.800
+TUBIFSP1   27.85   25.75   21      2  25.99   9.46  24.4600  24.570  25.450
+TUBIFSP2    7.65   12.05   13      2  10.57   1.80  13.6050  13.610  13.650
+TURBELLA  122.10  122.10   47      2  54.92   5.96  45.0400  48.880  79.600
+UNIONICO    5.70    7.90    5      1  22.56  15.40   6.5350   6.570   6.850
+URANOTAE   57.55   32.45   25      2  38.46  15.52  54.2600  54.420  55.700
+VERTOVAT  116.00   79.00   31      2  44.14   9.05  51.3500  51.350  51.350
+ZAVRMARM   83.95   33.00    6      2   5.60   1.73  36.4700  36.790  39.350
+             90%      95% purity reliability    z.median filter
+ABLARHAM  19.670  19.8850    1.0         1.0  16.1439707      1
+ACENTRIA  25.030  25.3900    1.0         1.0   7.7149278      1
+ANOPHELE 118.260 122.2300    1.0         1.0  12.4698909      2
+APEDELAS  18.105  18.3275    1.0         1.0   5.3778022      1
+APHAOPAC  34.230  34.4150    1.0         1.0  12.2317095      1
+ARRENSP1  81.775  84.2375    1.0         0.5   3.1272010      0
+ATRICHOP  47.755  49.5525    1.0         0.0   2.7873343      0
+BEARTRUN  30.100  30.1000    1.0         1.0  19.2199270      1
+BELO.IMM  70.480  73.7900    1.0         1.0   8.1637950      2
+BELOLUTA  49.175  50.2625    1.0         1.0   5.6327861      2
+BELOTEST  32.520  32.6100    1.0         1.0   8.8333417      2
+BEROSU.L  50.225  52.1625    0.5         1.0   3.9098567      0
+BEZZSP1    5.570   5.6350    1.0         0.5   5.6622592      0
+BEZZSP2   18.605  18.7025    1.0         1.0  17.7983884      1
+BEZZSP3   41.405  43.3025    1.0         1.0   7.8279232      1
+BRACGRAV  15.095  15.2475    1.0         1.0   4.0516825      1
+BRATUNID  40.015  40.6075    1.0         1.0  10.5841158      1
+CAECIDOT  30.965  31.3325    1.0         1.0   9.9530271      2
+CAENDIMI  30.875  30.8875    1.0         1.0  12.6980685      1
+CALANOID  27.595  28.0975    1.0         1.0   6.2380500      1
+CALLFLOR  37.310  37.5800    1.0         1.0   8.4048558      1
+CANDANNA  55.820  57.3600    1.0         1.0   4.7836752      2
+CELIEPON  19.765  20.5825    1.0         1.0   9.3886705      1
+CELIIMIT  31.140  31.1700    0.0         1.0   4.2480890      0
+CELINA.L  29.095  29.2225    1.0         1.0   9.6707214      2
+CERIODAP  11.900  12.0000    0.0         1.0   8.8167003      0
+CERNOTIN   9.040   9.0700    1.0         1.0  20.5579699      1
+CHIRSTIG  78.915  82.8075    1.0         1.0   9.8689333      2
+CHMUSSP   79.940  83.4450    1.0         1.0   6.1006747      2
+CHYDORID 108.940 109.1700    1.0         1.0  38.9681780      2
+CLADOPEL  31.085  31.7675    1.0         1.0   8.5678276      1
+CLADOTAN   7.010   7.2050    1.0         1.0  31.0091670      1
+COLLESP1  29.410  29.7550    1.0         1.0  16.3441418      2
+COLLESP2  38.875  39.4875    1.0         1.0   8.6635054      2
+COLLESP4  49.735  50.3175    0.5         0.5   1.1027701      0
+CORYINGE  28.305  29.4775    1.0         1.0  19.1922740      1
+CORYSPD   11.420  11.4600    1.0         1.0  22.3244258      1
+CRANGONY  43.570  43.5850    1.0         1.0  16.5879591      2
+CURCULIO  52.660  53.4050    1.0         1.0   6.1071230      2
+CYBIFIMB 102.820 106.1100    1.0         1.0 124.1692989      2
+CYCLPOID  28.600  28.7000    1.0         1.0  13.0554480      2
+CYPRBREV  11.960  12.1550    1.0         1.0  15.9655432      1
+CYPROKEE  97.515 101.1575    1.0         1.0   9.7825514      2
+CYTHALOS   9.075   9.0875    1.0         1.0   5.0874443      2
+DAPHNSP1  50.490  50.6950    1.0         1.0  14.3546669      2
+DASYHELE  72.555  75.7775    1.0         1.0   9.4581920      1
+DERAALTU  28.780  29.1900    1.0         1.0  15.6184101      2
+DERODIGX  48.860  51.2050    0.5         1.0   3.3258922      0
+DEROFURC  23.040  23.1200    1.0         1.0   9.4319490      2
+DEROLODE   8.375   8.4375    0.0         1.0   8.1650392      0
+DEROPECT 120.830 121.4650    1.0         1.0  49.8818365      2
+DESMOP.A  25.495  25.6225    1.0         1.0  12.6961244      2
+DESMOP.L  32.295  32.3725    1.0         1.0   4.1393760      2
+DICROMOD  31.715  31.8325    1.0         1.0  11.0637869      1
+DICROSIM  26.825  27.4625    1.0         1.0   8.0566398      2
+ECLIPALU 107.970 109.6850    0.5         0.5   5.5675149      0
+ENALCIVI  12.035  12.1925    1.0         1.0  15.1921462      1
+ENOCHR.L  28.510  28.8050    1.0         1.0  13.4232663      2
+ENOCOCHR  14.915  15.1325    1.0         1.0   6.7411560      2
+ERYTHSIM  65.770  67.1350    0.5         0.5   2.9878449      0
+EYLAIS    41.620  42.0100    1.0         1.0   3.9293154      1
+FERRISSI  29.600  29.6000    1.0         1.0   8.5909423      1
+FITTSERT  29.085  30.1425    1.0         1.0   6.3761602      1
+FORCMYIA  53.805  54.9775    1.0         1.0  13.3244742      2
+GASTRO1   41.095  41.2975    1.0         1.0  12.3744224      2
+GOELDHOL  31.285  31.9925    1.0         1.0  19.6555934      2
+GOELDNAT  75.880  79.4900    1.0         1.0   7.9739741      2
+HAEMWALD   9.000   9.0500    1.0         1.0  11.7474784      2
+HARPACTI  71.605  75.3025    1.0         0.0   2.4013432      0
+HELOFUSC  30.090  30.3450    0.5         0.0   1.9070195      0
+HELOLARV  66.245  68.2225    1.0         1.0   9.2587086      2
+HELOTRIS  13.590  13.8450    0.0         0.5   1.9767390      0
+HYALAZTE  49.080  49.9900    1.0         1.0   9.9194808      1
+HYDBISP2  36.900  37.1750    1.0         1.0  17.7188042      1
+HYDCAN.L  49.025  50.1875    0.0         0.5   2.8442807      0
+HYDRA     81.740  83.7700    1.0         1.0  14.7725283      2
+HYDROBLO 111.900 117.0000    1.0         0.5   3.6314041      0
+HYDRPUST 104.740 109.3700    1.0         1.0   5.8857666      2
+HYDRSP13 109.445 113.7225    1.0         1.0  26.8113295      2
+ILYBIU.L  86.345  86.6475    1.0         1.0   5.7087909      2
+ILYOSPIN  88.685  92.5675    0.5         1.0   5.9334799      0
+ISCHNURA   8.065   8.2825    1.0         1.0  17.2410292      1
+KIEFFDUX  47.675  49.5125    0.5         1.0   4.4913052      0
+LABRNEOP  28.115  28.8575    1.0         1.0   5.8003260      1
+LACCGENT  98.440 101.6200    0.0         0.5   4.3507769      0
+LAEVPENI  30.185  31.4425    1.0         1.0   4.6325534      1
+LAMPYRID 117.340 117.6700    1.0         1.0  16.2121170      2
+LARSBERN  53.990  56.7950    0.5         0.5   8.6860787      0
+LARSDECO  39.655  41.4775    0.5         0.5   3.9999986      0
+LIBENEED 121.690 121.8950    1.0         1.0   7.4238087      2
+LIMONIA   84.240  85.0200    1.0         0.5   9.0130647      0
+MACROTHR  67.615  68.0575    1.0         1.0  17.8285528      2
+MANSOSP1  52.555  53.0525    1.0         1.0   5.4014910      2
+MANSOSP2  25.655  26.2275    1.0         0.5   4.8571110      0
+MESOVELI  36.295  37.7725    1.0         1.0   6.3567259      2
+MICRDILA  30.025  30.0625    1.0         1.0   7.9528175      1
+MICRVELI  21.400  21.4000    1.0         1.0   4.5284187      2
+MOORMICR  51.350  51.3500    1.0         0.5   3.0485471      0
+NAMALABI  93.945  95.1975    1.0         1.0  11.4361127      2
+NANOALTE   7.110   7.1550    1.0         1.0  38.5403239      1
+NEMATODA  55.015  57.5325    0.5         1.0   3.5681212      0
+NILOTHAU   9.125   9.3875    1.0         1.0  21.1753647      1
+NOCTUSP1  31.435  31.6925    1.0         0.0   2.8468171      0
+ODONTOMY 103.320 104.0600    0.0         1.0  10.7994400      0
+OECETSP    9.075   9.0875    1.0         1.0   6.1890762      1
+OECETSPE  27.550  28.3250    1.0         1.0  14.1114542      1
+OSTRASP5  89.815  93.1325    1.0         1.0  16.4107788      2
+OXYETHIR  14.490  14.7950    1.0         1.0  24.7546871      1
+PACHLONG  32.390  32.5450    1.0         1.0   4.0450594      2
+PALAPALU  28.945  29.5225    1.0         1.0  20.3856766      1
+PARACALA   8.065   8.2825    1.0         1.0  18.8721175      1
+PARAKSPC  16.400  16.6250    1.0         1.0  26.5472431      1
+PARAMERI  89.240  92.8450    1.0         0.5   5.0469223      0
+PARAPONY  11.150  11.3500    1.0         1.0  18.2960939      1
+PARASPB   11.695  11.8725    1.0         1.0  23.3807992      1
+PELOFEMO  23.130  23.1650    1.0         1.0   9.0364323      2
+PHAEEXST  28.625  28.8625    1.0         1.0  11.3057226      2
+PHAEMINO  98.245 101.5225    1.0         0.5   5.2105423      0
+PHAENO.L  40.505  40.5275    1.0         1.0   9.2131517      2
+PHYSCUBE  32.165  32.3075    1.0         1.0  13.8845309      1
+PHYSELLA  41.120  41.7600    1.0         1.0  12.8825372      2
+PLANDURY  36.220  36.5600    1.0         1.0  10.3424507      2
+PLANSP1   12.350  12.3500    1.0         1.0  12.1431890      1
+PLANTRIV 108.750 113.3750    1.0         1.0  13.4306972      2
+POLYGYRA  40.335  40.4425    1.0         1.0   7.5826273      2
+POLYHALT  14.265  14.6075    1.0         1.0  29.9216780      1
+POLYILLI  50.150  52.1250    0.5         1.0   4.1410216      0
+POLYPSPA  25.055  25.4025    1.0         1.0  17.8724050      1
+POLYTRIG  23.375  23.8625    1.0         1.0  10.3456032      2
+POLYTRIT  70.825  71.1125    1.0         1.0   6.5528017      2
+POMAPALU  66.640  68.4200    0.5         1.0   6.8963184      0
+PRISAEQU  54.020  56.4600    1.0         1.0   4.2586270      1
+PRISLEID  39.205  40.8775    1.0         1.0   3.7227632      2
+PROCFALL  76.325  79.7125    1.0         1.0   2.9428784      2
+PROCLAD    8.955   9.0275    1.0         1.0  19.4908547      1
+PSEUDCOL  85.520  88.7100    0.5         0.5   2.5797002      0
+PSEUDOCH  18.010  18.2800    1.0         1.0   4.0404522      2
+PSEUDOSI  99.305 104.3525    0.5         1.0  11.3224378      0
+PSYCHODA  55.105  55.7525    1.0         1.0   7.7461343      2
+PYRALSP1  28.665  29.0075    1.0         0.0   0.2229239      0
+SCIRTES  109.450 111.7250    1.0         1.0  14.7389045      2
+SIMYRA   107.280 109.3400    1.0         1.0  32.0843748      2
+SPONGILL   8.500   8.5000    1.0         1.0  12.5341442      1
+STAPHYLI  37.130  37.4900    0.5         0.5   1.4551432      0
+SUPHISEL 109.660 113.8300    1.0         1.0   7.3163523      2
+TANYLIMN  26.400  27.2250    1.0         1.0  11.1514380      1
+TANYPCAR  21.580  21.5900    1.0         1.0   4.1308263      2
+TANYSPF   40.545  41.0225    1.0         1.0   6.7387445      2
+TANYSPG   32.390  32.5450    1.0         1.0   8.2100763      1
+TANYSPJ   35.805  35.9775    1.0         1.0  10.4993885      2
+TANYSPR   28.150  28.8750    1.0         1.0  26.5904786      1
+TANYSPT    8.015   8.0575    1.0         1.0  21.3878872      1
+TELEBYER  41.675  42.6375    1.0         1.0   4.0002691      2
+TRICHORX  26.055  26.3025    1.0         1.0  12.9476998      1
+TROPBLAT  51.520  51.9600    1.0         1.0   5.6323033      2
+TROPIS.L  40.055  40.5775    1.0         1.0  10.1819290      2
+TROPLATE  39.360  40.4300    1.0         0.0   2.2500708      0
+TUBIFSP1  26.330  26.4400    1.0         1.0   8.4997570      2
+TUBIFSP2  13.690  13.6950    1.0         0.5   2.9987268      0
+TURBELLA 110.320 114.1600    1.0         1.0   7.7538046      2
+UNIONICO   7.130   7.1650    1.0         1.0  18.2251621      1
+URANOTAE  56.980  57.1400    1.0         1.0  15.7339302      2
+VERTOVAT  51.350  51.3500    1.0         1.0  12.4158514      2
+ZAVRMARM  41.910  42.2300    1.0         0.0   2.0530020      0
+          cp    0.05   0.10   0.50    0.90     0.95
+sumz-  15.35 12.3750 12.700 15.300  17.900  18.2250
+sumz+  31.70 28.6025 32.855 66.875 100.895 105.1475
+fsumz- 15.35 12.3750 12.700 15.300  17.900  18.2250
+fsumz+ 31.70 34.0650 38.030 69.750 101.470 105.4350
+> str(glades.titan, give.attr = FALSE)
+List of 13
+ $ sppmax     : num [1:164, 1:16] 5.05 14.1 109.4 18.35 39.55 ...
+ $ sumz.cp    : num [1:4, 1:6] 15.4 31.7 15.4 31.7 12.4 ...
+ $ env        : num [1:126, 1] 41.2 41.8 43.6 40.1 43.6 43 43.6 36.5 34.1 56.4 ...
+ $ taxa       : num [1:126, 1:164] 0 0 0 0 0 0 0 0 0 0 ...
+ $ envcls     : num [1:117] 3.5 4.8 5.3 6.1 6.5 6.5 6.5 6.8 7.2 7.3 ...
+ $ srtEnv     : num [1:126] 2.5 3.3 3.5 3.5 3.5 4.8 5.3 6.1 6.5 6.5 ...
+ $ ivzScores  : num [1:656, 1:117] 1 2 2 2 2 2 2 1 2 2 ...
+ $ ivz        : num [1:117, 1:2] 108 106 188 118 177 ...
+ $ ivz.f      : num [1:117, 1:2] 100.8 97.3 172.5 109.9 169.8 ...
+ $ maxSumz    : num [1:2, 1:2] 12.1 18.6 24.4 109.4
+ $ maxFsumz   : num [1:2, 1:2] 12.1 18.6 30.1 109.4
+ $ metricArray: num [1:164, 1:4, 1:2] 1 1 2 1 1 2 2 1 2 2 ...
+ $ arguments  : Named num [1:10] 5 25 1 2 0 0 0.95 0.95 2 0
+> 
+> 
+> # typical run
+> if (FALSE) {
++ glades.titan <- titan(glades.env, glades.taxa, minSplt = 5,
++   numPerm = 250, boot = TRUE, nBoot = 100, imax = FALSE,
++   ivTot = FALSE, pur.cut = 0.95, rel.cut = 0.95, ncpus = 1, memory = FALSE
++ )
++ }
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  2.959 0.117 4.129 0.001 0.001 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

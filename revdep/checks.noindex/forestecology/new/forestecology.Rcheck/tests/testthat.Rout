@@ -1,0 +1,45 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(forestecology)
+> 
+> test_check("forestecology")
+
+Attaching package: 'dplyr'
+
+The following object is masked from 'package:testthat':
+
+    matches
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+blockCV 3.1.3
+This function is deprecated! Please use 'cv_spatial' instead.
+[ FAIL 0 | WARN 3 | SKIP 0 | PASS 19 ]
+
+[ FAIL 0 | WARN 3 | SKIP 0 | PASS 19 ]
+> 
+> proc.time()
+   user  system elapsed 
+  1.241   0.075   1.318 

@@ -1,0 +1,17 @@
+* installing *source* package ‘scRNAseqApp’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+No methods found in package ‘utils’ for request: ‘packageVersion’ when loading ‘scRNAseqApp’
+Creating a generic function for ‘lapply’ from package ‘base’ in package ‘scRNAseqApp’
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+No methods found in package ‘utils’ for request: ‘packageVersion’ when loading ‘scRNAseqApp’
+** testing if installed package can be loaded from final location
+No methods found in package ‘utils’ for request: ‘packageVersion’ when loading ‘scRNAseqApp’
+** testing if installed package keeps a record of temporary installation path
+* DONE (scRNAseqApp)

@@ -1,0 +1,1050 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "specr"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('specr')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("example_data")
+> ### * example_data
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: example_data
+> ### Title: Example data set
+> ### Aliases: example_data
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data(example_data)
+> head(example_data)
+# A tibble: 6 × 15
+  group1 group2 group3     x1      x2      x3     x4     c1      c2     c3
+  <chr>  <chr>  <chr>   <dbl>   <dbl>   <dbl>  <dbl>  <dbl>   <dbl>  <dbl>
+1 middle female C       1.17  -0.363  -0.999  -0.293  0.736  0.171   0.244
+2 middle male   B       0.765  0.0349  0.129  -0.155 -0.720  0.0165 -0.771
+3 old    female A      -2.33  -0.998  -1.11   -1.27   0.104 -2.90   -6.95 
+4 old    female B      -0.507 -0.970  -0.0867 -0.978  1.79  -0.138  -0.431
+5 old    male   A      -0.999  0.546   0.901   2.57  -0.245  2.02    2.83 
+6 middle male   A      -0.177 -1.37    0.0947 -2.53   0.315 -0.688  -1.33 
+# ℹ 5 more variables: c4 <dbl>, y1 <dbl>, y2 <dbl>, y3 <dbl>, y4 <dbl>
+> 
+> 
+> 
+> cleanEx()
+> nameEx("icc_specs")
+> ### * icc_specs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: icc_specs
+> ### Title: Compute intraclass correlation coefficient
+> ### Aliases: icc_specs
+> 
+> ### ** Examples
+> 
+> # Step 1: Run spec curve analysis
+> results <- run_specs(df = example_data,
++                      y = c("y1", "y2"),
++                      x = c("x1", "x2"),
++                      model = c("lm"))
+Warning: `run_specs()` was deprecated in specr 1.0.0.
+ℹ Please use `specr()` instead.
+Warning: `setup_specs()` was deprecated in specr 1.0.0.
+ℹ Please use `setup()` instead.
+ℹ The deprecated feature was likely used in the specr package.
+  Please report the issue at <https://github.com/masurp/specr/issues>.
+> 
+> # Step 2: Estimate a multilevel model without predictors
+> model <- lme4::lmer(estimate ~ 1 + (1|x)  + (1|y), data = results)
+> 
+> # Step 3: Estimate intra-class correlation
+> icc_specs(model)
+       grp         vcov          icc      percent
+1        x 2.078321e-09 8.647959e-09 8.647959e-07
+2        y 1.971133e-01 8.201945e-01 8.201945e+01
+3 Residual 4.321178e-02 1.798055e-01 1.798055e+01
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot.specr.object")
+> ### * plot.specr.object
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.specr.object
+> ### Title: Plot specification curve and analytic choices
+> ### Aliases: plot.specr.object
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Specification Curve analysis ----
+> ##D # Setup specifications
+> ##D specs <- setup(data = example_data,
+> ##D    y = c("y1", "y2"),
+> ##D    x = c("x1", "x2"),
+> ##D    model = "lm",
+> ##D    controls = c("c1", "c2"),
+> ##D    subsets = list(group1 = unique(example_data$group1),
+> ##D                   group2 = unique(example_data$group2)))
+> ##D 
+> ##D # Run analysis
+> ##D results <- specr(specs)
+> ##D 
+> ##D # Resulting data frame with estimates
+> ##D as_tibble(results)  # This will be used for plotting
+> ##D 
+> ##D 
+> ##D # Visualizations ---
+> ##D # Plot results in various ways
+> ##D plot(results)                            # default
+> ##D plot(results, choices = c("x", "y"))     # specific choices
+> ##D plot(results, ci = FALSE, ribbon = TRUE) # exclude CI and add ribbon instead
+> ##D plot(results, type = "curve")
+> ##D plot(results, type = "choices")
+> ##D plot(results, type = "samplesizes")
+> ##D plot(results, type = "boxplot")
+> ##D 
+> ##D 
+> ##D # Grouped plot
+> ##D plot(results, group = controls)
+> ##D 
+> ##D # Alternative and specific visualizations ----
+> ##D # Other variables in the resulting data set can be plotted too
+> ##D plot(results,
+> ##D      type = "curve",
+> ##D      var = fit_r.squared,   # extract "r-square" instead of "estimate"
+> ##D      ci = FALSE)
+> ##D 
+> ##D # Such a plot can also be extended (e.g., by again adding the estimates with
+> ##D # confidence intervals)
+> ##D library(ggplot2)
+> ##D plot(results, type = "curve", var = fit_r.squared) +
+> ##D   geom_point(aes(y = estimate), shape = 5) +
+> ##D   labs(x = "specifications", y = "r-squared | estimate")
+> ##D 
+> ##D # We can also investigate how much variance is explained by each analytical choice
+> ##D plot(results, type = "variance")
+> ##D 
+> ##D # By providing a specific formula in `lme4::lmer()`-style, we can extract specific choices
+> ##D # and also include interactions between chocies
+> ##D plot(results,
+> ##D      type = "variance",
+> ##D      formula = "estimate ~ 1 + (1|x) + (1|y) + (1|group1) + (1|x:y)")
+> ##D 
+> ##D ## Combining several plots ----
+> ##D # `specr` also exports the function `plot_grid()` from the package `cowplot`, which
+> ##D # can be used to combine plots meaningfully
+> ##D a <- plot(results, "curve")
+> ##D b <- plot(results, "choices", choices = c("x", "y", "controls"))
+> ##D c <- plot(results, "samplesizes")
+> ##D plot_grid(a, b, c,
+> ##D           align = "v",
+> ##D           axis = "rbl",
+> ##D           rel_heights = c(2, 3, 1),
+> ##D           ncol = 1)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot.specr.setup")
+> ### * plot.specr.setup
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.specr.setup
+> ### Title: Plot visualization of the specification setup
+> ### Aliases: plot.specr.setup
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D specs <- setup(data = example_data,
+> ##D    x = c("x1", "x2", "x3"),
+> ##D    y = c("y1", "y2"),
+> ##D    model = c("lm", "glm"),
+> ##D    controls = "c1",
+> ##D    subsets = list(group2 = unique(example_data$group2)))
+> ##D 
+> ##D plot(specs)
+> ##D plot(specs, circular = TRUE)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_choices")
+> ### * plot_choices
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_choices
+> ### Title: Plot how analytical choices affect results
+> ### Aliases: plot_choices
+> 
+> ### ** Examples
+> 
+> # Run specification curve analysis
+> results <- run_specs(df = example_data,
++                      y = c("y1", "y2"),
++                      x = c("x1", "x2"),
++                      model = c("lm"),
++                      controls = c("c1", "c2"),
++                      subsets = list(group1 = unique(example_data$group1),
++                                     group2 = unique(example_data$group2)))
+> 
+> # Plot simple table of choices
+> plot_choices(results)
+Warning: `plot_choices()` was deprecated in specr 1.0.0.
+ℹ Please use `plot.specr.object()` instead.
+> 
+> # Plot only specific choices
+> plot_choices(results,
++              choices = c("x", "y", "controls"))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_curve")
+> ### * plot_curve
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_curve
+> ### Title: Plot ranked specification curve
+> ### Aliases: plot_curve
+> 
+> ### ** Examples
+> 
+> # load additional library
+> library(ggplot2) # for further customization of the plots
+> 
+> # Run specification curve analysis
+> results <- run_specs(df = example_data,
++                      y = c("y1", "y2"),
++                      x = c("x1", "x2"),
++                      model = c("lm"),
++                      controls = c("c1", "c2"),
++                      subsets = list(group1 = unique(example_data$group1),
++                                     group2 = unique(example_data$group2)))
+> 
+> # Plot simple specification curve
+> plot_curve(results)
+Warning: `plot_curve()` was deprecated in specr 1.0.0.
+ℹ Please use `plot.specr.object()` instead.
+> 
+> # Ribbon instead of CIs and customize further
+> plot_curve(results, ci = FALSE, ribbon = TRUE) +
++   geom_hline(yintercept = 0) +
++   geom_hline(yintercept = median(results$estimate),
++              linetype = "dashed") +
++   theme_linedraw()
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("plot_decisiontree")
+> ### * plot_decisiontree
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_decisiontree
+> ### Title: Plot decision tree
+> ### Aliases: plot_decisiontree
+> 
+> ### ** Examples
+> 
+> results <- run_specs(df = example_data,
++                     y = c("y1", "y2"),
++                     x = c("x1", "x2"),
++                     model = c("lm"),
++                     controls = c("c1", "c2"))
+> 
+> # Basic, non-labelled decisions tree
+> plot_decisiontree(results)
+Warning: `plot_decisiontree()` was deprecated in specr 1.0.0.
+ℹ Please use `plot.specr.setup()` instead.
+> 
+> # Labelled decisions tree
+> plot_decisiontree(results, label = TRUE)
+> 
+> # Add legend
+> plot_decisiontree(results, label = TRUE, legend = TRUE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_samplesizes")
+> ### * plot_samplesizes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_samplesizes
+> ### Title: Plot sample sizes
+> ### Aliases: plot_samplesizes
+> 
+> ### ** Examples
+> 
+> # load additional library
+> library(ggplot2) # for further customization of the plots
+> 
+> # run specification curve analysis
+> results <- run_specs(df = example_data,
++                      y = c("y1", "y2"),
++                      x = c("x1", "x2"),
++                      model = c("lm"),
++                      controls = c("c1", "c2"),
++                      subsets = list(group1 = unique(example_data$group1),
++                                     group2 = unique(example_data$group2)))
+> # plot ranked bar chart of sample sizes
+> plot_samplesizes(results)
+Warning: `plot_samplesizes()` was deprecated in specr 1.0.0.
+ℹ Please use `plot.specr.object()` instead.
+> 
+> # add a horizontal line for the median sample size
+> plot_samplesizes(results) +
++   geom_hline(yintercept = median(results$fit_nobs),
++              color = "darkgrey",
++              linetype = "dashed") +
++   theme_linedraw()
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("plot_specs")
+> ### * plot_specs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_specs
+> ### Title: Plot specification curve and analytical choices
+> ### Aliases: plot_specs
+> 
+> ### ** Examples
+> 
+> # load additional library
+> library(ggplot2) # for further customization of the plots
+> 
+> # run spec analysis
+> results <- run_specs(example_data,
++                      y = c("y1", "y2"),
++                      x = c("x1", "x2"),
++                      model = "lm",
++                      controls = c("c1", "c2"),
++                      subset = list(group1 = unique(example_data$group1)))
+> 
+> # plot results directly
+> plot_specs(results)
+Warning: `plot_specs()` was deprecated in specr 1.0.0.
+ℹ Please use `plot.specr.object()` instead.
+> 
+> # Customize each part and then combine
+> p1 <- plot_curve(results) +
++   geom_hline(yintercept = 0, linetype = "dashed", color = "grey") +
++   ylim(-3, 12) +
++   labs(x = "", y = "regression coefficient")
+> 
+> p2 <- plot_choices(results) +
++   labs(x = "specifications (ranked)")
+> 
+> plot_specs(plot_a = p1,    # arguments must be called directly!
++            plot_b = p2,
++            rel_height = c(2, 2))
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("plot_summary")
+> ### * plot_summary
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_summary
+> ### Title: Create box plots for given analytical choices
+> ### Aliases: plot_summary
+> 
+> ### ** Examples
+> 
+> # run spec analysis
+> results <- run_specs(example_data,
++                      y = c("y1", "y2"),
++                      x = c("x1", "x2"),
++                      model = "lm",
++                      controls = c("c1", "c2"),
++                      subset = list(group1 = unique(example_data$group1)))
+> 
+> # plot boxplot comparing specific choices
+> plot_summary(results, choices = c("subsets", "controls", "y"))
+Warning: `plot_summary()` was deprecated in specr 1.0.0.
+ℹ Please use `plot.specr.object()` instead.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_variance")
+> ### * plot_variance
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_variance
+> ### Title: Plot variance decomposition
+> ### Aliases: plot_variance
+> 
+> ### ** Examples
+> 
+> # Step 1: Run spec curve analysis
+> results <- run_specs(df = example_data,
++                      y = c("y1", "y2"),
++                      x = c("x1", "x2"),
++                      model = c("lm"))
+> 
+> # Step 2: Estimate multilevel model
+> library(lme4, quietly = TRUE)
+> model <- lmer(estimate ~ 1 + (1|x)  + (1|y), data = results)
+> 
+> # Step 3: Plot model
+> plot_variance(model)
+Warning: `plot_variance()` was deprecated in specr 1.0.0.
+ℹ Please use `plot.specr.object()` instead.
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:lme4’, ‘package:Matrix’
+
+> nameEx("run_specs")
+> ### * run_specs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: run_specs
+> ### Title: Estimate all specifications
+> ### Aliases: run_specs
+> 
+> ### ** Examples
+> 
+> # run specification curve analysis
+> results <- run_specs(df = example_data,
++                      y = c("y1", "y2"),
++                      x = c("x1", "x2"),
++                      model = c("lm"),
++                      controls = c("c1", "c2"),
++                      subsets = list(group1 = unique(example_data$group1),
++                                     group2 = unique(example_data$group2)))
+> 
+> # Check results frame
+> results
+# A tibble: 192 × 23
+   x     y     model controls estimate std.error statistic  p.value conf.low
+   <chr> <chr> <chr> <chr>       <dbl>     <dbl>     <dbl>    <dbl>    <dbl>
+ 1 x1    y1    lm    c1 + c2    0.580     0.0698      8.30 2.69e-15   0.443 
+ 2 x2    y1    lm    c1 + c2    0.173     0.0559      3.10 2.12e- 3   0.0632
+ 3 x1    y2    lm    c1 + c2   -0.232     0.0698     -3.32 9.94e- 4  -0.369 
+ 4 x2    y2    lm    c1 + c2    0.0872    0.0522      1.67 9.58e- 2  -0.0155
+ 5 x1    y1    lm    c1         0.599     0.0679      8.81 7.26e-17   0.465 
+ 6 x2    y1    lm    c1         0.204     0.0538      3.79 1.78e- 4   0.0981
+ 7 x1    y2    lm    c1        -0.387     0.0765     -5.05 7.25e- 7  -0.537 
+ 8 x2    y2    lm    c1        -0.0693    0.0576     -1.20 2.30e- 1  -0.183 
+ 9 x1    y1    lm    c2         0.596     0.0678      8.79 8.65e-17   0.463 
+10 x2    y1    lm    c2         0.203     0.0525      3.87 1.29e- 4   0.100 
+# ℹ 182 more rows
+# ℹ 14 more variables: conf.high <dbl>, fit_r.squared <dbl>,
+#   fit_adj.r.squared <dbl>, fit_sigma <dbl>, fit_statistic <dbl>,
+#   fit_p.value <dbl>, fit_df <dbl>, fit_logLik <dbl>, fit_AIC <dbl>,
+#   fit_BIC <dbl>, fit_deviance <dbl>, fit_df.residual <int>, fit_nobs <int>,
+#   subsets <chr>
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("setup")
+> ### * setup
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: setup
+> ### Title: Specifying analytical decisions in a specification setup
+> ### Aliases: setup
+> 
+> ### ** Examples
+> 
+> ## Example 1 ----
+> # Setting up typical specifications
+> specs <- setup(data = example_data,
++    x = c("x1", "x2"),
++    y = c("y1", "y2"),
++    model = "lm",
++    controls = c("c1", "c2", "c3"),
++    subsets = list(group1 = c("young", "middle", "old"),
++                   group2 = c("female", "male")),
++    simplify = TRUE)
+> 
+> # Check specifications
+> summary(specs, rows = 18)
+Setup for the Specification Curve Analysis
+-------------------------------------------
+Class:                      specr.setup -- version: 1.0.0 
+Number of specifications:   240 
+
+Specifications:
+
+  Independent variable:     x1, x2 
+  Dependent variable:       y1, y2 
+  Models:                   lm 
+  Covariates:               no covariates, c1, c2, c3, all covariates 
+  Subsets analyses:         young & female, middle & female, old & female, female, young & male, middle & male, old & male, male, young, middle, old, all 
+
+Function used to extract parameters:
+
+  function (x) 
+broom::tidy(x, conf.int = TRUE)
+<environment: 0x132a6e8d8>
+
+
+Head of specifications table (first 18 rows):
+
+# A tibble: 18 × 8
+   x     y     model controls      subsets         group1 group2 formula     
+   <chr> <chr> <chr> <chr>         <chr>           <fct>  <fct>  <glue>      
+ 1 x1    y1    lm    no covariates young & female  young  female y1 ~ x1 + 1 
+ 2 x1    y1    lm    no covariates middle & female middle female y1 ~ x1 + 1 
+ 3 x1    y1    lm    no covariates old & female    old    female y1 ~ x1 + 1 
+ 4 x1    y1    lm    no covariates female          <NA>   female y1 ~ x1 + 1 
+ 5 x1    y1    lm    no covariates young & male    young  male   y1 ~ x1 + 1 
+ 6 x1    y1    lm    no covariates middle & male   middle male   y1 ~ x1 + 1 
+ 7 x1    y1    lm    no covariates old & male      old    male   y1 ~ x1 + 1 
+ 8 x1    y1    lm    no covariates male            <NA>   male   y1 ~ x1 + 1 
+ 9 x1    y1    lm    no covariates young           young  <NA>   y1 ~ x1 + 1 
+10 x1    y1    lm    no covariates middle          middle <NA>   y1 ~ x1 + 1 
+11 x1    y1    lm    no covariates old             old    <NA>   y1 ~ x1 + 1 
+12 x1    y1    lm    no covariates all             <NA>   <NA>   y1 ~ x1 + 1 
+13 x1    y1    lm    c1            young & female  young  female y1 ~ x1 + c1
+14 x1    y1    lm    c1            middle & female middle female y1 ~ x1 + c1
+15 x1    y1    lm    c1            old & female    old    female y1 ~ x1 + c1
+16 x1    y1    lm    c1            female          <NA>   female y1 ~ x1 + c1
+17 x1    y1    lm    c1            young & male    young  male   y1 ~ x1 + c1
+18 x1    y1    lm    c1            middle & male   middle male   y1 ~ x1 + c1
+> 
+> 
+> ## Example 2 ----
+> # Setting up specifications for multilevel models
+> specs <- setup(data = example_data,
++    x = c("x1", "x2"),
++    y = c("y1", "y2"),
++    model = c("lmer"),                                   # multilevel model
++    subsets = list(group1 = c("young", "old"),           # only young and old!
++                   group2 = unique(example_data$group2)),# alternative specification
++    controls = c("c1", "c2"),
++    add_to_formula = "(1|group2)")                       # random effect in all models
+> 
+> # Check specifications
+> summary(specs)
+Setup for the Specification Curve Analysis
+-------------------------------------------
+Class:                      specr.setup -- version: 1.0.0 
+Number of specifications:   144 
+
+Specifications:
+
+  Independent variable:     x1, x2 
+  Dependent variable:       y1, y2 
+  Models:                   lmer 
+  Covariates:               no covariates, c1, c2, c1 + c2 
+  Subsets analyses:         young & female, old & female, female, young & male, old & male, male, young, old, all 
+
+Function used to extract parameters:
+
+  function (x) 
+broom::tidy(x, conf.int = TRUE)
+<environment: 0x121879d88>
+
+
+Head of specifications table (first 6 rows):
+
+# A tibble: 6 × 8
+  x     y     model controls      subsets        group1 group2 formula          
+  <chr> <chr> <chr> <chr>         <chr>          <fct>  <fct>  <glue>           
+1 x1    y1    lmer  no covariates young & female young  female y1 ~ x1 + 1 + (1…
+2 x1    y1    lmer  no covariates old & female   old    female y1 ~ x1 + 1 + (1…
+3 x1    y1    lmer  no covariates female         <NA>   female y1 ~ x1 + 1 + (1…
+4 x1    y1    lmer  no covariates young & male   young  male   y1 ~ x1 + 1 + (1…
+5 x1    y1    lmer  no covariates old & male     old    male   y1 ~ x1 + 1 + (1…
+6 x1    y1    lmer  no covariates male           <NA>   male   y1 ~ x1 + 1 + (1…
+> 
+> 
+> ## Example 3 ----
+> # Setting up specifications with a different parameter extract functions
+> 
+> # Create custom extract function to extract different parameter and model
+> tidy_99 <- function(x) {
++   fit <- broom::tidy(x,
++      conf.int = TRUE,
++      conf.level = .99)         # different alpha error rate
++   fit$full_model = list(x)     # include entire model fit object as list
++   return(fit)
++ }
+> 
+> # Setup specs
+> specs <- setup(data = example_data,
++    x = c("x1", "x2"),
++    y = c("y1", "y2"),
++    model = "lm",
++    fun1 = tidy_99,             # pass new function to setup
++    add_to_formula = "c1 + c2") # set of covariates in all models
+> 
+> # Check specifications
+> summary(specs)
+Setup for the Specification Curve Analysis
+-------------------------------------------
+Class:                      specr.setup -- version: 1.0.0 
+Number of specifications:   4 
+
+Specifications:
+
+  Independent variable:     x1, x2 
+  Dependent variable:       y1, y2 
+  Models:                   lm 
+  Covariates:               no covariates 
+  Subsets analyses:         all 
+
+Function used to extract parameters:
+
+  function (x) 
+{
+    fit <- broom::tidy(x, conf.int = TRUE, conf.level = 0.99)
+    fit$full_model = list(x)
+    return(fit)
+}
+
+
+Head of specifications table (first 6 rows):
+
+# A tibble: 4 × 6
+  x     y     model controls      subsets formula              
+  <chr> <chr> <chr> <chr>         <chr>   <glue>               
+1 x1    y1    lm    no covariates all     y1 ~ x1 + 1 + c1 + c2
+2 x1    y2    lm    no covariates all     y2 ~ x1 + 1 + c1 + c2
+3 x2    y1    lm    no covariates all     y1 ~ x2 + 1 + c1 + c2
+4 x2    y2    lm    no covariates all     y2 ~ x2 + 1 + c1 + c2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("setup_specs")
+> ### * setup_specs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: setup_specs
+> ### Title: Set up specifications
+> ### Aliases: setup_specs
+> ### Keywords: internal
+> 
+> ### ** Examples
+> 
+> setup_specs(x = c("x1", "x2"),
++             y = "y2",
++             model = "lm",
++             controls = c("c1", "c2"))
+# A tibble: 8 × 4
+  x     y     model controls     
+  <chr> <chr> <chr> <chr>        
+1 x1    y2    lm    c1 + c2      
+2 x2    y2    lm    c1 + c2      
+3 x1    y2    lm    c1           
+4 x2    y2    lm    c1           
+5 x1    y2    lm    c2           
+6 x2    y2    lm    c2           
+7 x1    y2    lm    no covariates
+8 x2    y2    lm    no covariates
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("specr")
+> ### * specr
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: specr
+> ### Title: Fit models across all specifications
+> ### Aliases: specr
+> 
+> ### ** Examples
+> 
+> # Example 1 ----
+> # Setup up typical specifications
+> specs <- setup(data = example_data,
++    y = c("y1", "y2"),
++    x = c("x1", "x2"),
++    model = "lm",
++    controls = c("c1", "c2"),
++    subsets = list(group1 = unique(example_data$group1)))
+> 
+> # Run analysis (not parallelized)
+> results <- specr(specs)
+> 
+> # Summary of the results
+> summary(results)
+Results of the specification curve analysis
+-------------------
+Technical details:
+
+  Class:                          specr.object -- version: 1.0.0 
+  Cores used:                     1 
+  Duration of fitting process:    0.272 sec elapsed 
+  Number of specifications:       64 
+
+Descriptive summary of the specification curve:
+
+ median  mad   min  max   q25  q75
+   0.13 0.41 -0.39 0.66 -0.14 0.39
+
+Descriptive summary of sample sizes: 
+
+ median min  max
+  338.5 323 1000
+
+Head of the specification results (first 6 rows): 
+
+# A tibble: 6 × 25
+  x     y     model controls subsets group1 formula estimate std.error statistic
+  <chr> <chr> <chr> <chr>    <chr>   <fct>  <glue>     <dbl>     <dbl>     <dbl>
+1 x1    y1    lm    no cova… middle  middle y1 ~ x…     0.61      0.07      9.28
+2 x1    y1    lm    no cova… old     old    y1 ~ x…     0.66      0.06     10.4 
+3 x1    y1    lm    no cova… young   young  y1 ~ x…     0.57      0.06     10.2 
+4 x1    y1    lm    no cova… all     <NA>   y1 ~ x…     0.62      0.04     16.4 
+5 x1    y1    lm    c1       middle  middle y1 ~ x…     0.6       0.07      8.81
+6 x1    y1    lm    c1       old     old    y1 ~ x…     0.64      0.06      9.81
+# ℹ 15 more variables: p.value <dbl>, conf.low <dbl>, conf.high <dbl>,
+#   fit_r.squared <dbl>, fit_adj.r.squared <dbl>, fit_sigma <dbl>,
+#   fit_statistic <dbl>, fit_p.value <dbl>, fit_df <dbl>, fit_logLik <dbl>,
+#   fit_AIC <dbl>, fit_BIC <dbl>, fit_deviance <dbl>, fit_df.residual <dbl>,
+#   fit_nobs <dbl>
+> 
+> 
+> # Example 2 ----
+> # Working without S3 classes
+> specs2 <- setup(data = example_data,
++     y = c("y1", "y2"),
++     x = c("x1", "x2"),
++     model = "lm",
++     controls = "c1")
+> 
+> # Working with tibbles
+> specs_tibble <- as_tibble(specs2)      # extract tibble from setup
+> results2 <- specr(specs_tibble,
++                   data = example_data) # need to provide data!
+> 
+> # Results (tibble instead of S3 class)
+> head(results2)
+# A tibble: 6 × 26
+  x     y     model controls      subsets formula  model_function term  estimate
+  <chr> <chr> <chr> <chr>         <chr>   <glue>   <list>         <chr>    <dbl>
+1 x1    y1    lm    no covariates all     y1 ~ x1… <fn>           x1       0.620
+2 x1    y1    lm    c1            all     y1 ~ x1… <fn>           x1       0.603
+3 x1    y2    lm    no covariates all     y2 ~ x1… <fn>           x1      -0.328
+4 x1    y2    lm    c1            all     y2 ~ x1… <fn>           x1      -0.339
+5 x2    y1    lm    no covariates all     y1 ~ x2… <fn>           x2       0.272
+6 x2    y1    lm    c1            all     y1 ~ x2… <fn>           x2       0.249
+# ℹ 17 more variables: std.error <dbl>, statistic <dbl>, p.value <dbl>,
+#   conf.low <dbl>, conf.high <dbl>, fit_r.squared <dbl>,
+#   fit_adj.r.squared <dbl>, fit_sigma <dbl>, fit_statistic <dbl>,
+#   fit_p.value <dbl>, fit_df <dbl>, fit_logLik <dbl>, fit_AIC <dbl>,
+#   fit_BIC <dbl>, fit_deviance <dbl>, fit_df.residual <int>, fit_nobs <int>
+> 
+> 
+> 
+> cleanEx()
+> nameEx("summarise_specs")
+> ### * summarise_specs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: summarise_specs
+> ### Title: Summarise specifications
+> ### Aliases: summarise_specs
+> 
+> ### ** Examples
+> 
+> # Run specification curve analysis
+> results <- run_specs(df = example_data,
++                      y = c("y1", "y2"),
++                      x = c("x1", "x2"),
++                      model = c("lm"),
++                      controls = c("c1", "c2"),
++                      subsets = list(group1 = unique(example_data$group1),
++                                     group2 = unique(example_data$group2)))
+> 
+> # overall summary
+> summarise_specs(results)
+Warning: `summarise_specs()` was deprecated in specr 1.0.0.
+ℹ Please use `summary.specr.object()` instead.
+# A tibble: 1 × 7
+  median   mad    min   max    q25   q75   obs
+   <dbl> <dbl>  <dbl> <dbl>  <dbl> <dbl> <dbl>
+1  0.129 0.452 -0.490 0.678 -0.161 0.440   250
+> 
+> # Summary of specific analytical choices
+> summarise_specs(results,    # data frame
++                 x, y)       # analytical choices
+# A tibble: 4 × 9
+# Groups:   x [2]
+  x     y       median    mad    min    max     q25     q75   obs
+  <chr> <chr>    <dbl>  <dbl>  <dbl>  <dbl>   <dbl>   <dbl> <dbl>
+1 x1    y1     0.605   0.0446  0.446  0.678  0.589   0.638    250
+2 x1    y2    -0.272   0.0905 -0.490 -0.124 -0.314  -0.207    250
+3 x2    y1     0.229   0.0651  0.107  0.438  0.193   0.276    250
+4 x2    y2    -0.00536 0.115  -0.204  0.184 -0.0784  0.0731   250
+> 
+> # Summary of other parameters across several analytical choices
+> summarise_specs(results,
++                 subsets, controls,
++                 var = p.value,
++                 stats = list(median = median,
++                              min = min,
++                              max = max))
+# A tibble: 48 × 6
+# Groups:   subsets [12]
+   subsets                           controls      median      min     max   obs
+   <chr>                             <chr>          <dbl>    <dbl>   <dbl> <dbl>
+ 1 all                               c1          1.40e-14 4.13e-49 1.02e-3  1000
+ 2 all                               c1 + c2     2.32e- 8 2.08e-46 7.27e-2  1000
+ 3 all                               c2          4.76e- 8 7.41e-51 9.24e-2  1000
+ 4 all                               no covaria… 1.91e-14 8.09e-54 9.07e-4  1000
+ 5 group1 = middle                   c1          8.92e- 5 7.26e-17 2.30e-1   331
+ 6 group1 = middle                   c1 + c2     1.56e- 3 2.69e-15 9.58e-2   331
+ 7 group1 = middle                   c2          5.67e- 4 8.65e-17 1.52e-1   331
+ 8 group1 = middle                   no covaria… 5.05e- 6 2.35e-18 2.14e-1   331
+ 9 group1 = middle & group2 = female c1          7.73e- 2 3.24e- 8 3.48e-1   168
+10 group1 = middle & group2 = female c1 + c2     4.10e- 2 6.64e- 8 2.05e-1   168
+# ℹ 38 more rows
+> 
+> # Unnamed vector instead of named list passed to `stats`
+> summarise_specs(results,
++                 controls,
++                 stats = c(mean = mean,
++                           median = median))
+# A tibble: 4 × 4
+  controls       mean median   obs
+  <chr>         <dbl>  <dbl> <dbl>
+1 c1            0.101  0.101   250
+2 c1 + c2       0.166  0.122   250
+3 c2            0.177  0.138   250
+4 no covariates 0.115  0.102   250
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("summary.specr.object")
+> ### * summary.specr.object
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: summary.specr.object
+> ### Title: Summarizing the Specification Curve Analysis
+> ### Aliases: summary.specr.object
+> 
+> ### ** Examples
+> 
+> # Setup up specifications (returns object of class "specr.setup")
+> specs <- setup(data = example_data,
++    y = c("y1", "y2"),
++    x = c("x1", "x2"),
++    model = "lm",
++    controls = c("c1", "c2"),
++    subsets = list(group1 = unique(example_data$group1)))
+> 
+> # Run analysis (returns object of class "specr.object")
+> results <- specr(specs)
+> 
+> # Default summary of the "specr.object"
+> summary(results)
+Results of the specification curve analysis
+-------------------
+Technical details:
+
+  Class:                          specr.object -- version: 1.0.0 
+  Cores used:                     1 
+  Duration of fitting process:    0.27 sec elapsed 
+  Number of specifications:       64 
+
+Descriptive summary of the specification curve:
+
+ median  mad   min  max   q25  q75
+   0.13 0.41 -0.39 0.66 -0.14 0.39
+
+Descriptive summary of sample sizes: 
+
+ median min  max
+  338.5 323 1000
+
+Head of the specification results (first 6 rows): 
+
+# A tibble: 6 × 25
+  x     y     model controls subsets group1 formula estimate std.error statistic
+  <chr> <chr> <chr> <chr>    <chr>   <fct>  <glue>     <dbl>     <dbl>     <dbl>
+1 x1    y1    lm    no cova… middle  middle y1 ~ x…     0.61      0.07      9.28
+2 x1    y1    lm    no cova… old     old    y1 ~ x…     0.66      0.06     10.4 
+3 x1    y1    lm    no cova… young   young  y1 ~ x…     0.57      0.06     10.2 
+4 x1    y1    lm    no cova… all     <NA>   y1 ~ x…     0.62      0.04     16.4 
+5 x1    y1    lm    c1       middle  middle y1 ~ x…     0.6       0.07      8.81
+6 x1    y1    lm    c1       old     old    y1 ~ x…     0.64      0.06      9.81
+# ℹ 15 more variables: p.value <dbl>, conf.low <dbl>, conf.high <dbl>,
+#   fit_r.squared <dbl>, fit_adj.r.squared <dbl>, fit_sigma <dbl>,
+#   fit_statistic <dbl>, fit_p.value <dbl>, fit_df <dbl>, fit_logLik <dbl>,
+#   fit_AIC <dbl>, fit_BIC <dbl>, fit_deviance <dbl>, fit_df.residual <dbl>,
+#   fit_nobs <dbl>
+> 
+> # Summarize the specification curve descriptively
+> summary(results, type = "curve")
+# A tibble: 1 × 7
+  median   mad    min   max    q25   q75   obs
+   <dbl> <dbl>  <dbl> <dbl>  <dbl> <dbl> <dbl>
+1  0.126 0.412 -0.387 0.662 -0.139 0.395  338.
+> 
+> # Grouping for certain analytical decisions
+> summary(results,
++        type = "curve",
++        group = c("x", "y"))
+# A tibble: 4 × 9
+# Groups:   x [2]
+  x     y      median    mad    min     max     q25     q75   obs
+  <chr> <chr>   <dbl>  <dbl>  <dbl>   <dbl>   <dbl>   <dbl> <dbl>
+1 x1    y1     0.601  0.0388  0.541  0.662   0.577   0.623   338.
+2 x1    y2    -0.258  0.0784 -0.387 -0.178  -0.314  -0.211   338.
+3 x2    y1     0.232  0.0573  0.159  0.346   0.200   0.283   338.
+4 x2    y2    -0.0211 0.115  -0.127  0.0917 -0.0882  0.0572  338.
+> 
+> # Using customized functions
+> summary(results,
++         type = "curve",
++        group = c("x", "group1"),
++        stats = list(median = median,
++                     min = min,
++                     max = max))
+# A tibble: 8 × 6
+# Groups:   x [2]
+  x     group1 median     min   max   obs
+  <chr> <fct>   <dbl>   <dbl> <dbl> <dbl>
+1 x1    middle  0.178 -0.387  0.613   331
+2 x1    old     0.221 -0.304  0.662   323
+3 x1    young   0.182 -0.310  0.567   346
+4 x1    <NA>    0.195 -0.339  0.620  1000
+5 x2    middle  0.130 -0.0693 0.228   331
+6 x2    old     0.204 -0.0836 0.346   323
+7 x2    young   0.101 -0.127  0.202   346
+8 x2    <NA>    0.144 -0.107  0.272  1000
+> 
+> 
+> 
+> cleanEx()
+> nameEx("summary.specr.setup")
+> ### * summary.specr.setup
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: summary.specr.setup
+> ### Title: Summarizing the Specifications Setup
+> ### Aliases: summary.specr.setup
+> 
+> ### ** Examples
+> 
+> # Setup specifications
+> specs <- setup(data = example_data,
++   x = c("x1", "x2"),
++   y = c("y1", "y2"),
++   model = c("lm", "glm"),
++   controls = c("c1", "c2", "c3"),
++   subsets = list(group3 = unique(example_data$group3)))
+> 
+> # Summarize specifications
+> summary(specs)
+Setup for the Specification Curve Analysis
+-------------------------------------------
+Class:                      specr.setup -- version: 1.0.0 
+Number of specifications:   256 
+
+Specifications:
+
+  Independent variable:     x1, x2 
+  Dependent variable:       y1, y2 
+  Models:                   lm, glm 
+  Covariates:               no covariates, c1, c2, c3, c1 + c2, c1 + c3, c2 + c3, c1 + c2 + c3 
+  Subsets analyses:         C, B, A, all 
+
+Function used to extract parameters:
+
+  function (x) 
+broom::tidy(x, conf.int = TRUE)
+<environment: 0x1109ab770>
+
+
+Head of specifications table (first 6 rows):
+
+# A tibble: 6 × 7
+  x     y     model controls      subsets group3 formula     
+  <chr> <chr> <chr> <chr>         <chr>   <fct>  <glue>      
+1 x1    y1    lm    no covariates C       C      y1 ~ x1 + 1 
+2 x1    y1    lm    no covariates B       B      y1 ~ x1 + 1 
+3 x1    y1    lm    no covariates A       A      y1 ~ x1 + 1 
+4 x1    y1    lm    no covariates all     <NA>   y1 ~ x1 + 1 
+5 x1    y1    lm    c1            C       C      y1 ~ x1 + c1
+6 x1    y1    lm    c1            B       B      y1 ~ x1 + c1
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  9.963 0.126 10.125 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

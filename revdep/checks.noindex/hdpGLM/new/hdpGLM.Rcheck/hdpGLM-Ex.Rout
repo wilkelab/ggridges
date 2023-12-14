@@ -1,0 +1,5902 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "hdpGLM"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('hdpGLM')
+
+## ===============================================================
+## Hierarchial Dirichlet Process Generalized Linear Model (hdpGLM)
+## ===============================================================
+
+Author: Diogo Ferrari
+Usage : https://github.com/DiogoFerrari/hdpGLM
+
+
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("hdpGLM")
+> ### * hdpGLM
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: hdpGLM
+> ### Title: Fit Hierarchical Dirichlet Process GLM
+> ### Aliases: hdpGLM
+> 
+> ### ** Examples
+> 
+> 
+> 
+> ## Note: this example is for illustration. You can run the example
+> ## manually with increased number of iterations to see the actual
+> ## results, as well as the data size (n)
+> 
+> set.seed(10)
+> n = 300
+> data = tibble::tibble(x1 = rnorm(n, -3),
++                       x2 = rnorm(n,  3),
++                       z  = sample(1:3, n, replace=TRUE),
++                       y  =I(z==1) * (3 + 4*x1 - x2 + rnorm(n)) +
++                           I(z==2) * (3 + 2*x1 + x2 + rnorm(n)) +
++                           I(z==3) * (3 - 4*x1 - x2 + rnorm(n)) 
++                       ) 
+> 
+> 
+> mcmc    = list(burn.in = 0,  n.iter = 20)
+> samples = hdpGLM(y~ x1 + x2, data=data, mcmc=mcmc, family='gaussian',
++                  n.display=30, K=50)
+
+
+Preparing for estimation ...
+
+
+
+Estimation in progress ...
+
+[========                                                               ] 10 %[===========                                                            ] 15 %[===============                                                        ] 20 %[==================                                                     ] 25 %[======================                                                 ] 30 %[=========================                                              ] 35 %[=============================                                          ] 40 %[================================                                       ] 45 %[====================================                                   ] 50 %[=======================================                                ] 55 %[===========================================                            ] 60 %[==============================================                         ] 65 %[==================================================                     ] 70 %[=====================================================                  ] 75 %[=========================================================              ] 80 %[============================================================           ] 85 %[================================================================       ] 90 %[===================================================================    ] 95 %[=======================================================================] 100 %[=======================================================================] 100 %> 
+> summary(samples)
+ 
+-------------------------------- 
+dpGLM model object
+
+Maximum number of clusters activated during the estimation: 7
+Number of MCMC iterations: 20
+burn-in: 0
+-------------------------------- 
+
+Summary statistics of clusters with data points
+
+--------------------------------
+Coefficients for cluster 1 (cluster label 1)
+
+              Post.Mean Post.Median HPD.lower HPD.upper
+1 (Intercept) 2.6186470    2.788780 1.4915915  3.411479
+2          x1 2.0031830    2.047074 1.2854579  2.192036
+3          x2 1.0804425    1.074716 0.8061879  1.398172
+4       sigma 0.9662621    0.946454 0.8187803  1.201651
+
+--------------------------------
+Coefficients for cluster 2 (cluster label 2)
+
+               Post.Mean Post.Median  HPD.lower HPD.upper
+1 (Intercept)  3.4164836    3.491561  0.1929092  4.545936
+2          x1 -3.8546982   -3.924547 -4.1091255 -2.504030
+3          x2 -0.9639251   -1.072734 -1.3911950  1.597516
+4       sigma  1.0808798    1.028380  0.8352036  1.850468
+
+--------------------------------
+Coefficients for cluster 3 (cluster label 3)
+
+              Post.Mean Post.Median  HPD.lower  HPD.upper
+1 (Intercept)  2.511278    2.358269  1.4263435  3.2962476
+2          x1  3.610481    3.754351  0.4065272  4.0137426
+3          x2 -1.205971   -1.063207 -3.9759510 -0.6300267
+4       sigma  1.085310    1.041716  0.8778983  1.5321617
+
+--------------------------------
+> plot(samples)
+
+
+Generating plot...
+
+> plot(samples, separate=TRUE)
+
+
+Generating plot...
+
+> 
+> ## compare with GLM
+> ## lm(y~ x1 + x2, data=data,  family='gaussian')
+> 
+>  
+> 
+> 
+> 
+> cleanEx()
+> nameEx("hdpGLM_simParameters")
+> ### * hdpGLM_simParameters
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: hdpGLM_simParameters
+> ### Title: Simulate the parameters of the model
+> ### Aliases: hdpGLM_simParameters
+> 
+> ### ** Examples
+> 
+> pars = hdpGLM_simParameters(nCov=2, K=2, nCovj=3, J=20,
++           same.clusters.across.contexts=FALSE, context.dependent.cluster=0) 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot.dpGLM")
+> ### * plot.dpGLM
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.dpGLM
+> ### Title: Default plot for class dpGLM
+> ### Aliases: plot.dpGLM
+> 
+> ### ** Examples
+> 
+> # Note: this example is just for illustration. MCMC iterations are very reduced
+> set.seed(10)
+> n = 20
+> data = tibble::tibble(x1 = rnorm(n, -3),
++                                    x2 = rnorm(n,  3),
++                                    z  = sample(1:3, n, replace=TRUE),
++                                    y  =I(z==1) * (3 + 4*x1 - x2 + rnorm(n)) +
++                                        I(z==2) * (3 + 2*x1 + x2 + rnorm(n)) +
++                                        I(z==3) * (3 - 4*x1 - x2 + rnorm(n)) ,
++                                    ) 
+> 
+> ## estimation
+> mcmc    = list(burn.in=1, n.iter=50)
+> samples = hdpGLM(y ~ x1 + x2,  data=data, mcmc=mcmc, n.display=1)
+
+
+Preparing for estimation ...
+
+
+
+Estimation in progress ...
+
+
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 1
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 1
+Current Number of Active Clusters     : 1
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+   1.0000e+00
+   1.0000e+02
+
+[===                                                                    ] 3 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 2
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 7
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    5.0000
+   15.0000   20.0000   25.0000   10.0000   20.0000
+
+[=====                                                                  ] 5 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 3
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 7
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    8.0000
+   10.0000   15.0000   50.0000   10.0000
+
+[======                                                                 ] 7 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 4
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    8.0000
+   10.0000   15.0000   50.0000   10.0000   15.0000
+
+[=======                                                                ] 9 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 5
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   15.0000   50.0000   20.0000
+
+[=========                                                              ] 11 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 6
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    8.0000
+   15.0000   15.0000   50.0000   15.0000
+
+[==========                                                             ] 13 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 7
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    3.0000    5.0000    8.0000
+   10.0000   45.0000   20.0000   20.0000
+
+[===========                                                            ] 15 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 8
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    3.0000    4.0000    5.0000    8.0000
+   50.0000   10.0000   10.0000   20.0000
+
+[=============                                                          ] 17 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 9
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    3.0000    5.0000    6.0000    8.0000
+   45.0000   15.0000   10.0000   20.0000
+
+[==============                                                         ] 19 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 10
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 4
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    3.0000    4.0000    5.0000    8.0000
+   45.0000   10.0000   20.0000   25.0000
+
+[================                                                       ] 21 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 11
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    3.0000    5.0000    8.0000
+   40.0000   20.0000   25.0000
+
+[=================                                                      ] 23 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 12
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    3.0000    5.0000    7.0000    8.0000
+   50.0000   20.0000   10.0000   10.0000
+
+[==================                                                     ] 25 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 13
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    3.0000    4.0000    5.0000    8.0000
+   10.0000   45.0000   15.0000   15.0000   10.0000
+
+[====================                                                   ] 27 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 14
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    3.0000    5.0000
+   20.0000   45.0000   20.0000
+
+[=====================                                                  ] 29 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 15
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    3.0000    5.0000    8.0000
+   10.0000   50.0000   25.0000   10.0000
+
+[======================                                                 ] 31 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 16
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    5.0000
+   25.0000   10.0000   50.0000   10.0000
+
+[========================                                               ] 33 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 17
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 4
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    5.0000
+   25.0000   10.0000   50.0000   15.0000
+
+[=========================                                              ] 35 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 18
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 4
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    5.0000
+   25.0000   15.0000   50.0000   10.0000
+
+[===========================                                            ] 37 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 19
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    3.0000    5.0000
+   25.0000   50.0000   15.0000
+
+[============================                                           ] 39 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 20
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 4
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    3.0000    5.0000
+   25.0000   50.0000   20.0000
+
+[=============================                                          ] 41 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 21
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 4
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    5.0000
+   25.0000   10.0000   50.0000   15.0000
+
+[===============================                                        ] 43 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 22
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 4
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    5.0000
+   25.0000   10.0000   50.0000   15.0000
+
+[================================                                       ] 45 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 23
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 4
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    5.0000
+   20.0000   15.0000   50.0000   15.0000
+
+[=================================                                      ] 47 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 24
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    5.0000
+   10.0000   15.0000   50.0000   10.0000   15.0000
+
+[===================================                                    ] 49 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 25
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000    5.0000
+   15.0000   50.0000   15.0000   15.0000
+
+[====================================                                   ] 50 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 26
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000    5.0000
+   15.0000   50.0000   20.0000   10.0000
+
+[======================================                                 ] 52 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 27
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000    5.0000
+   15.0000   45.0000   20.0000   15.0000
+
+[=======================================                                ] 54 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 28
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    5.0000
+   15.0000   15.0000   30.0000   20.0000   15.0000
+
+[========================================                               ] 56 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 29
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    5.0000
+   15.0000   10.0000   35.0000   20.0000   20.0000
+
+[==========================================                             ] 58 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 30
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000    5.0000
+   10.0000   45.0000   20.0000   20.0000
+
+[===========================================                            ] 60 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 31
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    5.0000
+   15.0000   15.0000   35.0000   20.0000   15.0000
+
+[============================================                           ] 62 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 32
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   25.0000   35.0000   15.0000
+
+[==============================================                         ] 64 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 33
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 7
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    8.0000
+   15.0000   15.0000   35.0000   15.0000   10.0000
+
+[===============================================                        ] 66 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 34
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 7
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    5.0000
+   20.0000   20.0000   25.0000   20.0000   10.0000
+
+[=================================================                      ] 68 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 35
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 8
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   20.0000   30.0000   15.0000
+
+[==================================================                     ] 70 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 36
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 7
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    5.0000
+   20.0000   15.0000   30.0000   15.0000   10.0000
+
+[===================================================                    ] 72 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 37
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    5.0000
+   20.0000   10.0000   30.0000   20.0000   20.0000
+
+[=====================================================                  ] 74 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 38
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000    5.0000
+   20.0000   15.0000   30.0000   20.0000   10.0000
+
+[======================================================                 ] 76 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 39
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    3.0000    4.0000    5.0000    7.0000
+   20.0000   30.0000   20.0000   15.0000   10.0000
+
+[=======================================================                ] 78 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 40
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000    5.0000
+   15.0000   45.0000   25.0000   10.0000
+
+[=========================================================              ] 80 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 41
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000    5.0000    6.0000
+   10.0000   35.0000   20.0000   15.0000   15.0000
+
+[==========================================================             ] 82 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 42
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000    5.0000
+   15.0000   50.0000   20.0000   10.0000
+
+[============================================================           ] 84 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 43
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 7
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000    5.0000    8.0000
+   10.0000   45.0000   15.0000   10.0000   10.0000
+
+[=============================================================          ] 86 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 44
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 7
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000    5.0000
+   15.0000   45.0000   15.0000   10.0000
+
+[==============================================================         ] 88 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 45
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 4
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000
+   20.0000   50.0000   25.0000
+
+[================================================================       ] 90 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 46
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 6
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000
+   15.0000   50.0000   20.0000
+
+[=================================================================      ] 92 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 47
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 4
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000
+   25.0000   50.0000   20.0000
+
+[==================================================================     ] 94 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 48
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 3
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000
+   25.0000   50.0000   25.0000
+
+[====================================================================   ] 96 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 49
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   25.0000   40.0000   20.0000
+
+[=====================================================================  ] 98 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 50
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000
+   20.0000   50.0000   20.0000
+
+[=======================================================================] 100 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC samples: 50
+
+Iteration: 51
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K): 100
+Maximum Number of Clusters Activated  : 8
+Current Number of Active Clusters     : 5
+
+Percentage of data classified in each cluster k at current iteraction (displaying only clusters with more than 5% of the data)
+    2.0000    3.0000    4.0000    6.0000
+   15.0000   50.0000   20.0000   10.0000
+
+[=======================================================================] 100 %> 
+> plot(samples)
+
+
+Generating plot...
+
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_hdpglm")
+> ### * plot_hdpglm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_hdpglm
+> ### Title: Plot posterior distributions
+> ### Aliases: plot_hdpglm
+> 
+> ### ** Examples
+> 
+> 
+> library(magrittr)
+> # Note: this example is just for illustration. MCMC iterations are very reduced
+> set.seed(10)
+> n = 20
+> data.context1 = tibble::tibble(x1 = rnorm(n, -3),
++                                    x2 = rnorm(n,  3),
++                                    z  = sample(1:3, n, replace=TRUE),
++                                    y  =I(z==1) * (3 + 4*x1 - x2 + rnorm(n)) +
++                                        I(z==2) * (3 + 2*x1 + x2 + rnorm(n)) +
++                                        I(z==3) * (3 - 4*x1 - x2 + rnorm(n)) ,
++                                    w = 20
++                                    ) 
+> data.context2 = tibble::tibble(x1 = rnorm(n, -3),
++                                    x2 = rnorm(n,  3),
++                                    z  = sample(1:2, n, replace=TRUE),
++                                    y  =I(z==1) * (1 + 3*x1 - 2*x2 + rnorm(n)) +
++                                        I(z==2) * (1 - 2*x1 +   x2 + rnorm(n)),
++                                    w = 10
++                                    ) 
+> data = data.context1 %>%
++     dplyr::bind_rows(data.context2)
+> 
+> ## estimation
+> mcmc    = list(burn.in=1, n.iter=50)
+> samples = hdpGLM(y ~ x1 + x2, y ~ w, data=data, mcmc=mcmc, n.display=1)
+
+
+Preparing for estimation ...
+
+
+
+Estimation in progress ...
+
+
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 1
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 1
+Maximum Number of Clusters Active in the Current Iteration : 1
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+   1.0000e+00
+   1.0000e+02
+
+Clusters in Context 2
+    1.0000
+   95.0000
+
+[===                                                                    ] 3 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 2
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 2
+Maximum Number of Clusters Active in the Current Iteration : 2
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000
+   25.0000   75.0000
+
+Clusters in Context 2
+    1.0000    3.0000    4.0000
+   10.0000   55.0000   35.0000
+
+[=====                                                                  ] 5 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 3
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 4
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    5.0000
+   15.0000   10.0000   40.0000   35.0000
+
+Clusters in Context 2
+    1.0000    2.0000    3.0000    4.0000    7.0000
+   10.0000   30.0000   30.0000   10.0000   15.0000
+
+[======                                                                 ] 7 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 4
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 6
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    4.0000    5.0000    7.0000
+   10.0000   35.0000   10.0000   35.0000
+
+Clusters in Context 2
+    3.0000    4.0000    5.0000    7.0000
+   35.0000   15.0000   20.0000   15.0000
+
+[=======                                                                ] 9 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 5
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 8
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    5.0000    6.0000
+   10.0000   35.0000   10.0000   10.0000   20.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[=========                                                              ] 11 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 6
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 9
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    3.0000    5.0000    6.0000    7.0000    8.0000
+   15.0000   10.0000   10.0000   15.0000   10.0000   25.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[==========                                                             ] 13 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 7
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    3.0000    4.0000    5.0000    6.0000   11.0000
+   20.0000   10.0000   15.0000   15.0000   20.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[===========                                                            ] 15 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 8
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    4.0000    5.0000    6.0000
+   15.0000   10.0000   15.0000   25.0000   25.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[=============                                                          ] 17 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 9
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    4.0000    5.0000    6.0000
+   10.0000   20.0000   10.0000   40.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[==============                                                         ] 19 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 10
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 9
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    4.0000    5.0000    6.0000
+   15.0000   15.0000   10.0000   35.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[================                                                       ] 21 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 11
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    4.0000    6.0000    7.0000   10.0000
+   15.0000   15.0000   35.0000   10.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   50.0000
+
+[=================                                                      ] 23 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 12
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    4.0000    6.0000    7.0000    9.0000
+   15.0000   40.0000   15.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   50.0000
+
+[==================                                                     ] 25 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 13
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    4.0000    6.0000    7.0000
+   10.0000   15.0000   45.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   50.0000
+
+[====================                                                   ] 27 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 14
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    6.0000    7.0000
+   10.0000   10.0000   15.0000   40.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   45.0000   45.0000
+
+[=====================                                                  ] 29 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 15
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    6.0000
+   20.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[======================                                                 ] 31 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 16
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    4.0000    6.0000
+   20.0000   15.0000   50.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[========================                                               ] 33 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 17
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    5.0000    6.0000
+   10.0000   10.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   40.0000
+
+[=========================                                              ] 35 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 18
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   10.0000   20.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   40.0000
+
+[===========================                                            ] 37 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 19
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000    7.0000
+   10.0000   15.0000   10.0000   45.0000   10.0000
+
+Clusters in Context 2
+    1.0000    3.0000    6.0000    7.0000
+   10.0000   50.0000   10.0000   30.0000
+
+[============================                                           ] 39 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 20
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    5.0000    6.0000
+   15.0000   10.0000   15.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   35.0000
+
+[=============================                                          ] 41 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 21
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    4.0000    6.0000
+   20.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   45.0000   40.0000
+
+[===============================                                        ] 43 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 22
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    6.0000
+   20.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   40.0000
+
+[================================                                       ] 45 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 23
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   25.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   15.0000   50.0000   35.0000
+
+[=================================                                      ] 47 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 24
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000    6.0000
+   20.0000   10.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   15.0000   50.0000   35.0000
+
+[===================================                                    ] 49 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 25
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   25.0000   40.0000   25.0000
+
+[====================================                                   ] 50 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 26
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   25.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   35.0000   45.0000   15.0000
+
+[======================================                                 ] 52 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 27
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   25.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   45.0000
+
+[=======================================                                ] 54 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 28
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    6.0000
+   20.0000   15.0000   10.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[========================================                               ] 56 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 29
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   20.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[==========================================                             ] 58 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 30
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   15.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[===========================================                            ] 60 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 31
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[============================================                           ] 62 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 32
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   20.0000   20.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==============================================                         ] 64 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 33
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   15.0000   20.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[===============================================                        ] 66 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 34
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   20.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   45.0000
+
+[=================================================                      ] 68 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 35
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   25.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==================================================                     ] 70 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 36
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   25.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[===================================================                    ] 72 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 37
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   20.0000   25.0000   45.0000
+
+Clusters in Context 2
+    1.0000    2.0000    3.0000
+   40.0000   10.0000   50.0000
+
+[=====================================================                  ] 74 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 38
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    5.0000    6.0000
+   20.0000   30.0000   10.0000   40.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[======================================================                 ] 76 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 39
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   20.0000   10.0000   25.0000   40.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=======================================================                ] 78 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 40
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000    6.0000
+   10.0000   20.0000   15.0000   15.0000   30.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[=========================================================              ] 80 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 41
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   45.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==========================================================             ] 82 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 42
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000    6.0000
+   15.0000   35.0000   20.0000   15.0000   10.0000
+
+Clusters in Context 2
+    1.0000    2.0000    3.0000
+   45.0000   10.0000   45.0000
+
+[============================================================           ] 84 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 43
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   40.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=============================================================          ] 86 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 44
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   45.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==============================================================         ] 88 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 45
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   50.0000   20.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[================================================================       ] 90 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 46
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   50.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   45.0000
+
+[=================================================================      ] 92 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 47
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   50.0000   20.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==================================================================     ] 94 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 48
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   50.0000   25.0000   10.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[====================================================================   ] 96 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 49
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000
+   25.0000   50.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=====================================================================  ] 98 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 50
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000
+   20.0000   50.0000   25.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=======================================================================] 100 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 51
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000
+   25.0000   50.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[=======================================================================] 100 %> 
+> plot_hdpglm(samples)
+
+
+Plot being generated ...
+
+
+
+Generating plots ...
+
+Warning: The `<scale>` argument of `guides()` cannot be `FALSE`. Use "none" instead as
+of ggplot2 3.3.4.
+ℹ The deprecated feature was likely used in the hdpGLM package.
+  Please report the issue at <https://github.com/DiogoFerrari/hdpGLM/issues>.
+> plot_hdpglm(samples, ncol.taus=2, ncol.betas=2, X='x1')
+
+
+Plot being generated ...
+
+
+
+Generating plots ...
+
+> plot_hdpglm(samples, ncol.taus=2, ncol.betas=2, X='x1', ncol.w=2, nrow.w=1,
++             pred.pexp.beta=TRUE,smooth.line=TRUE )
+
+
+Plot being generated ...
+
+
+
+Generating plots ...
+
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:magrittr’
+
+> nameEx("plot_pexp_beta")
+> ### * plot_pexp_beta
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_pexp_beta
+> ### Title: Plot beta posterior expectation
+> ### Aliases: plot_pexp_beta
+> 
+> ### ** Examples
+> 
+> 
+> library(magrittr)
+> set.seed(66)
+> 
+> # Note: this example is just for illustration. MCMC iterations are very reduced
+> set.seed(10)
+> n = 20
+> data.context1 = tibble::tibble(x1 = rnorm(n, -3),
++                                    x2 = rnorm(n,  3),
++                                    z  = sample(1:3, n, replace=TRUE),
++                                    y  =I(z==1) * (3 + 4*x1 - x2 + rnorm(n)) +
++                                        I(z==2) * (3 + 2*x1 + x2 + rnorm(n)) +
++                                        I(z==3) * (3 - 4*x1 - x2 + rnorm(n)) ,
++                                    w = 20
++                                    ) 
+> data.context2 = tibble::tibble(x1 = rnorm(n, -3),
++                                    x2 = rnorm(n,  3),
++                                    z  = sample(1:2, n, replace=TRUE),
++                                    y  =I(z==1) * (1 + 3*x1 - 2*x2 + rnorm(n)) +
++                                        I(z==2) * (1 - 2*x1 +   x2 + rnorm(n)),
++                                    w = 10
++                                    ) 
+> data = data.context1 %>%
++     dplyr::bind_rows(data.context2)
+> 
+> ## estimation
+> mcmc    = list(burn.in=1, n.iter=50)
+> samples = hdpGLM(y ~ x1 + x2, y ~ w, data=data, mcmc=mcmc, n.display=1)
+
+
+Preparing for estimation ...
+
+
+
+Estimation in progress ...
+
+
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 1
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 1
+Maximum Number of Clusters Active in the Current Iteration : 1
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+   1.0000e+00
+   1.0000e+02
+
+Clusters in Context 2
+    1.0000
+   95.0000
+
+[===                                                                    ] 3 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 2
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 2
+Maximum Number of Clusters Active in the Current Iteration : 2
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000
+   25.0000   75.0000
+
+Clusters in Context 2
+    1.0000    3.0000    4.0000
+   10.0000   55.0000   35.0000
+
+[=====                                                                  ] 5 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 3
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 4
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    5.0000
+   15.0000   10.0000   40.0000   35.0000
+
+Clusters in Context 2
+    1.0000    2.0000    3.0000    4.0000    7.0000
+   10.0000   30.0000   30.0000   10.0000   15.0000
+
+[======                                                                 ] 7 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 4
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 6
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    4.0000    5.0000    7.0000
+   10.0000   35.0000   10.0000   35.0000
+
+Clusters in Context 2
+    3.0000    4.0000    5.0000    7.0000
+   35.0000   15.0000   20.0000   15.0000
+
+[=======                                                                ] 9 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 5
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 8
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    5.0000    6.0000
+   10.0000   35.0000   10.0000   10.0000   20.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[=========                                                              ] 11 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 6
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 9
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    3.0000    5.0000    6.0000    7.0000    8.0000
+   15.0000   10.0000   10.0000   15.0000   10.0000   25.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[==========                                                             ] 13 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 7
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    3.0000    4.0000    5.0000    6.0000   11.0000
+   20.0000   10.0000   15.0000   15.0000   20.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[===========                                                            ] 15 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 8
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    4.0000    5.0000    6.0000
+   15.0000   10.0000   15.0000   25.0000   25.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[=============                                                          ] 17 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 9
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    4.0000    5.0000    6.0000
+   10.0000   20.0000   10.0000   40.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[==============                                                         ] 19 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 10
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 9
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    4.0000    5.0000    6.0000
+   15.0000   15.0000   10.0000   35.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[================                                                       ] 21 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 11
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    4.0000    6.0000    7.0000   10.0000
+   15.0000   15.0000   35.0000   10.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   50.0000
+
+[=================                                                      ] 23 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 12
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    4.0000    6.0000    7.0000    9.0000
+   15.0000   40.0000   15.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   50.0000
+
+[==================                                                     ] 25 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 13
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    4.0000    6.0000    7.0000
+   10.0000   15.0000   45.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   50.0000
+
+[====================                                                   ] 27 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 14
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    6.0000    7.0000
+   10.0000   10.0000   15.0000   40.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   45.0000   45.0000
+
+[=====================                                                  ] 29 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 15
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    6.0000
+   20.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[======================                                                 ] 31 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 16
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    4.0000    6.0000
+   20.0000   15.0000   50.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[========================                                               ] 33 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 17
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    5.0000    6.0000
+   10.0000   10.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   40.0000
+
+[=========================                                              ] 35 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 18
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   10.0000   20.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   40.0000
+
+[===========================                                            ] 37 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 19
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000    7.0000
+   10.0000   15.0000   10.0000   45.0000   10.0000
+
+Clusters in Context 2
+    1.0000    3.0000    6.0000    7.0000
+   10.0000   50.0000   10.0000   30.0000
+
+[============================                                           ] 39 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 20
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    5.0000    6.0000
+   15.0000   10.0000   15.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   35.0000
+
+[=============================                                          ] 41 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 21
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    4.0000    6.0000
+   20.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   45.0000   40.0000
+
+[===============================                                        ] 43 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 22
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    6.0000
+   20.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   40.0000
+
+[================================                                       ] 45 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 23
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   25.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   15.0000   50.0000   35.0000
+
+[=================================                                      ] 47 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 24
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000    6.0000
+   20.0000   10.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   15.0000   50.0000   35.0000
+
+[===================================                                    ] 49 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 25
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   25.0000   40.0000   25.0000
+
+[====================================                                   ] 50 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 26
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   25.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   35.0000   45.0000   15.0000
+
+[======================================                                 ] 52 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 27
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   25.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   45.0000
+
+[=======================================                                ] 54 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 28
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    6.0000
+   20.0000   15.0000   10.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[========================================                               ] 56 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 29
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   20.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[==========================================                             ] 58 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 30
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   15.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[===========================================                            ] 60 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 31
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[============================================                           ] 62 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 32
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   20.0000   20.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==============================================                         ] 64 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 33
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   15.0000   20.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[===============================================                        ] 66 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 34
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   20.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   45.0000
+
+[=================================================                      ] 68 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 35
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   25.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==================================================                     ] 70 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 36
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   25.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[===================================================                    ] 72 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 37
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   20.0000   25.0000   45.0000
+
+Clusters in Context 2
+    1.0000    2.0000    3.0000
+   40.0000   10.0000   50.0000
+
+[=====================================================                  ] 74 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 38
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    5.0000    6.0000
+   20.0000   30.0000   10.0000   40.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[======================================================                 ] 76 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 39
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   20.0000   10.0000   25.0000   40.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=======================================================                ] 78 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 40
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000    6.0000
+   10.0000   20.0000   15.0000   15.0000   30.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[=========================================================              ] 80 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 41
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   45.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==========================================================             ] 82 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 42
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000    6.0000
+   15.0000   35.0000   20.0000   15.0000   10.0000
+
+Clusters in Context 2
+    1.0000    2.0000    3.0000
+   45.0000   10.0000   45.0000
+
+[============================================================           ] 84 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 43
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   40.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=============================================================          ] 86 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 44
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   45.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==============================================================         ] 88 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 45
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   50.0000   20.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[================================================================       ] 90 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 46
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   50.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   45.0000
+
+[=================================================================      ] 92 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 47
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   50.0000   20.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==================================================================     ] 94 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 48
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   50.0000   25.0000   10.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[====================================================================   ] 96 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 49
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000
+   25.0000   50.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=====================================================================  ] 98 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 50
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000
+   20.0000   50.0000   25.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=======================================================================] 100 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 51
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000
+   25.0000   50.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[=======================================================================] 100 %> 
+> plot_pexp_beta(samples)
+
+
+Generating plots ...
+
+> plot_pexp_beta(samples, X='x1', ncol.w=2, nrow.w=1)
+
+
+Generating plots ...
+
+> plot_pexp_beta(samples, X='x1', ncol.beta=2)
+
+
+Generating plots ...
+
+> plot_pexp_beta(samples, pred.pexp.beta=TRUE, W="w", X=c("x1", "x2"))
+
+
+Generating plots ...
+
+> plot_pexp_beta(samples, W='w', smooth.line=TRUE, pred.pexp.beta=TRUE, ncol.beta=2)
+
+
+Generating plots ...
+
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:magrittr’
+
+> nameEx("plot_tau")
+> ### * plot_tau
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_tau
+> ### Title: Plot tau
+> ### Aliases: plot_tau
+> 
+> ### ** Examples
+> 
+> 
+> library(magrittr)
+> set.seed(66)
+> 
+> # Note: this example is just for illustration. MCMC iterations are very reduced
+> set.seed(10)
+> n = 20
+> data.context1 = tibble::tibble(x1 = rnorm(n, -3),
++                                    x2 = rnorm(n,  3),
++                                    z  = sample(1:3, n, replace=TRUE),
++                                    y  =I(z==1) * (3 + 4*x1 - x2 + rnorm(n)) +
++                                        I(z==2) * (3 + 2*x1 + x2 + rnorm(n)) +
++                                        I(z==3) * (3 - 4*x1 - x2 + rnorm(n)) ,
++                                    w = 20
++                                    ) 
+> data.context2 = tibble::tibble(x1 = rnorm(n, -3),
++                                    x2 = rnorm(n,  3),
++                                    z  = sample(1:2, n, replace=TRUE),
++                                    y  =I(z==1) * (1 + 3*x1 - 2*x2 + rnorm(n)) +
++                                        I(z==2) * (1 - 2*x1 +   x2 + rnorm(n)),
++                                    w = 10
++                                    ) 
+> data = data.context1 %>%
++     dplyr::bind_rows(data.context2)
+> 
+> ## estimation
+> mcmc    = list(burn.in=1, n.iter=50)
+> samples = hdpGLM(y ~ x1 + x2, y ~ w, data=data, mcmc=mcmc, n.display=1)
+
+
+Preparing for estimation ...
+
+
+
+Estimation in progress ...
+
+
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 1
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 1
+Maximum Number of Clusters Active in the Current Iteration : 1
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+   1.0000e+00
+   1.0000e+02
+
+Clusters in Context 2
+    1.0000
+   95.0000
+
+[===                                                                    ] 3 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 2
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 2
+Maximum Number of Clusters Active in the Current Iteration : 2
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000
+   25.0000   75.0000
+
+Clusters in Context 2
+    1.0000    3.0000    4.0000
+   10.0000   55.0000   35.0000
+
+[=====                                                                  ] 5 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 3
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 4
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    5.0000
+   15.0000   10.0000   40.0000   35.0000
+
+Clusters in Context 2
+    1.0000    2.0000    3.0000    4.0000    7.0000
+   10.0000   30.0000   30.0000   10.0000   15.0000
+
+[======                                                                 ] 7 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 4
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 6
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    4.0000    5.0000    7.0000
+   10.0000   35.0000   10.0000   35.0000
+
+Clusters in Context 2
+    3.0000    4.0000    5.0000    7.0000
+   35.0000   15.0000   20.0000   15.0000
+
+[=======                                                                ] 9 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 5
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 8
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    5.0000    6.0000
+   10.0000   35.0000   10.0000   10.0000   20.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[=========                                                              ] 11 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 6
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 9
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    3.0000    5.0000    6.0000    7.0000    8.0000
+   15.0000   10.0000   10.0000   15.0000   10.0000   25.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[==========                                                             ] 13 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 7
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    3.0000    4.0000    5.0000    6.0000   11.0000
+   20.0000   10.0000   15.0000   15.0000   20.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[===========                                                            ] 15 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 8
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    4.0000    5.0000    6.0000
+   15.0000   10.0000   15.0000   25.0000   25.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[=============                                                          ] 17 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 9
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    4.0000    5.0000    6.0000
+   10.0000   20.0000   10.0000   40.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[==============                                                         ] 19 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 10
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 9
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    2.0000    4.0000    5.0000    6.0000
+   15.0000   15.0000   10.0000   35.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   40.0000
+
+[================                                                       ] 21 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 11
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    4.0000    6.0000    7.0000   10.0000
+   15.0000   15.0000   35.0000   10.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   50.0000
+
+[=================                                                      ] 23 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 12
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    4.0000    6.0000    7.0000    9.0000
+   15.0000   40.0000   15.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   50.0000
+
+[==================                                                     ] 25 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 13
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    4.0000    6.0000    7.0000
+   10.0000   15.0000   45.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   50.0000
+
+[====================                                                   ] 27 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 14
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 8
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    6.0000    7.0000
+   10.0000   10.0000   15.0000   40.0000   10.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   45.0000   45.0000
+
+[=====================                                                  ] 29 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 15
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    6.0000
+   20.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[======================                                                 ] 31 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 16
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    4.0000    6.0000
+   20.0000   15.0000   50.0000
+
+Clusters in Context 2
+    3.0000    7.0000
+   50.0000   45.0000
+
+[========================                                               ] 33 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 17
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    5.0000    6.0000
+   10.0000   10.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   40.0000
+
+[=========================                                              ] 35 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 18
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   10.0000   20.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   40.0000
+
+[===========================                                            ] 37 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 19
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000    7.0000
+   10.0000   15.0000   10.0000   45.0000   10.0000
+
+Clusters in Context 2
+    1.0000    3.0000    6.0000    7.0000
+   10.0000   50.0000   10.0000   30.0000
+
+[============================                                           ] 39 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 20
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    5.0000    6.0000
+   15.0000   10.0000   15.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   35.0000
+
+[=============================                                          ] 41 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 21
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    4.0000    6.0000
+   20.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   45.0000   40.0000
+
+[===============================                                        ] 43 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 22
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    6.0000
+   20.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   10.0000   50.0000   40.0000
+
+[================================                                       ] 45 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 23
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   25.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   15.0000   50.0000   35.0000
+
+[=================================                                      ] 47 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 24
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000    6.0000
+   20.0000   10.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   15.0000   50.0000   35.0000
+
+[===================================                                    ] 49 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 25
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   25.0000   40.0000   25.0000
+
+[====================================                                   ] 50 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 26
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   25.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000    7.0000
+   35.0000   45.0000   15.0000
+
+[======================================                                 ] 52 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 27
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   25.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   45.0000
+
+[=======================================                                ] 54 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 28
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    4.0000    6.0000
+   20.0000   15.0000   10.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[========================================                               ] 56 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 29
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   20.0000   10.0000   10.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[==========================================                             ] 58 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 30
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   15.0000   10.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[===========================================                            ] 60 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 31
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   15.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[============================================                           ] 62 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 32
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   20.0000   20.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==============================================                         ] 64 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 33
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   15.0000   20.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[===============================================                        ] 66 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 34
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   20.0000   50.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   45.0000
+
+[=================================================                      ] 68 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 35
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   25.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==================================================                     ] 70 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 36
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   25.0000   25.0000   45.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[===================================================                    ] 72 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 37
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    6.0000
+   20.0000   25.0000   45.0000
+
+Clusters in Context 2
+    1.0000    2.0000    3.0000
+   40.0000   10.0000   50.0000
+
+[=====================================================                  ] 74 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 38
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    3.0000    5.0000    6.0000
+   20.0000   30.0000   10.0000   40.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[======================================================                 ] 76 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 39
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    6.0000
+   20.0000   10.0000   25.0000   40.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=======================================================                ] 78 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 40
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 7
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000    6.0000
+   10.0000   20.0000   15.0000   15.0000   30.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[=========================================================              ] 80 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 41
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 5
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   45.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==========================================================             ] 82 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 42
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000    6.0000
+   15.0000   35.0000   20.0000   15.0000   10.0000
+
+Clusters in Context 2
+    1.0000    2.0000    3.0000
+   45.0000   10.0000   45.0000
+
+[============================================================           ] 84 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 43
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   40.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=============================================================          ] 86 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 44
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 6
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   45.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==============================================================         ] 88 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 45
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   50.0000   20.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[================================================================       ] 90 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 46
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   50.0000   20.0000   15.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   45.0000
+
+[=================================================================      ] 92 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 47
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   10.0000   50.0000   20.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[==================================================================     ] 94 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 48
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000    4.0000
+   15.0000   50.0000   25.0000   10.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[====================================================================   ] 96 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 49
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000
+   25.0000   50.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=====================================================================  ] 98 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 50
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000
+   20.0000   50.0000   25.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   50.0000   50.0000
+
+[=======================================================================] 100 %
+
+-----------------------------------------------------
+MCMC in progress ....
+
+Family of the distribution of the outcome variable of the mixture components: gaussian
+
+Burn-in: 1
+Number of MCMC Iterations : 50
+
+Iteration: 51
+
+Acceptance Rate for beta         : 1
+Average Acceptance Rate for beta : 1
+
+Maximum Number of Clusters Allowed (K)                      : 100
+Maximum Number of Clusters Activated Among All Contexts     : 9
+Maximum Number of Clusters Active in the Current Iteration : 4
+
+(displaying only clusters with more than 5% of the data)
+Clusters in Context 1
+    1.0000    2.0000    3.0000
+   25.0000   50.0000   20.0000
+
+Clusters in Context 2
+    1.0000    3.0000
+   45.0000   50.0000
+
+[=======================================================================] 100 %> 
+> 
+> plot_tau(samples)
+> plot_tau(samples, ncol=2)
+> plot_tau(samples, X='x1', W='w')
+> plot_tau(samples, show.all.taus=TRUE, show.all.betas=TRUE, ncol=2)
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+
+detaching ‘package:magrittr’
+
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  7.452 0.193 7.824 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

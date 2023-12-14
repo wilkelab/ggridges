@@ -1,0 +1,92 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "ec50estimator"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('ec50estimator')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("estimate_EC50")
+> ### * estimate_EC50
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: estimate_EC50
+> ### Title: Estimate Efective dose (EC50) for multi isolate data set
+> ### Aliases: estimate_EC50
+> 
+> ### ** Examples
+> 
+> # Load data
+> data(multi_isolate)
+> 
+> df_ec50 = estimate_EC50(growth~dose,
++                         data =multi_isolate,
++                         isolate_col = "isolate",
++                         strata_col =  c("field","fungicida"),
++                         interval = "delta",
++                         fct = drc::LL.3())
+> head(df_ec50)
+  ID   field   fungicida    Estimate   Std..Error       Lower       Upper
+1  1 Organic Fungicide A 0.006072082 0.0005740341 0.004902813 0.007241351
+2  3 Organic Fungicide A 0.003776957 0.0002432571 0.003281459 0.004272456
+3  5 Organic Fungicide A 0.006122508 0.0004575060 0.005190599 0.007054418
+4  7 Organic Fungicide A 0.006532201 0.0005278730 0.005456959 0.007607443
+5  9 Organic Fungicide A 0.005115267 0.0004672111 0.004163589 0.006066945
+6 11 Organic Fungicide A 0.005044116 0.0005000569 0.004025533 0.006062698
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("multi_isolate")
+> ### * multi_isolate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: multi_isolate
+> ### Title: Multi isolate dataset
+> ### Aliases: multi_isolate
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data(multi_isolate)
+> ## maybe str(multi_isolate) ; plot(multi_isolate) ...
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  1.514 0.067 1.587 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

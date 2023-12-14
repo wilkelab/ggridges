@@ -1,0 +1,334 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "RADstackshelpR"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('RADstackshelpR')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("optimize_bigM")
+> ### * optimize_bigM
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: optimize_bigM
+> ### Title: Optimize the M parameter during denovo stacks assembly
+> ### Aliases: optimize_bigM
+> 
+> ### ** Examples
+> 
+> optimize_bigM(M1=system.file("extdata","bigM1.vcf.gz",package="RADstackshelpR",mustWork=TRUE))
+$snp
+   var snps
+1   M1   55
+2   M1   19
+3   M1   76
+4   M1   68
+5   M1   82
+6   M1   54
+7   M1   62
+8   M1   78
+9   M1   58
+10  M1    6
+11  M1   36
+12  M1   55
+13  M1   60
+14  M1   43
+15  M1   24
+16  M1   66
+17  M1   71
+18  M1    4
+19  M1   83
+
+$loci
+   var poly.loci
+1   M1        55
+2   M1        19
+3   M1        76
+4   M1        68
+5   M1        82
+6   M1        54
+7   M1        62
+8   M1        78
+9   M1        58
+10  M1         6
+11  M1        36
+12  M1        55
+13  M1        60
+14  M1        43
+15  M1        24
+16  M1        66
+17  M1        71
+18  M1         4
+19  M1        83
+
+$snp.R80
+  var snps.80
+1  M1      28
+
+$loci.R80
+  var poly.loci.80
+1  M1           28
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("optimize_m")
+> ### * optimize_m
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: optimize_m
+> ### Title: Optimize the m parameter during denovo stacks assembly
+> ### Aliases: optimize_m
+> 
+> ### ** Examples
+> 
+> optimize_m(m3=system.file("extdata","m3.vcf.gz",package="RADstackshelpR",mustWork=TRUE))
+$depth
+                              m              dep
+908108_H_diadema_Gatokae     m3 11.8653846153846
+908150_H_dinops_Guadalcanal  m3 6.77777777777778
+908151_H_diadema_Guadalcanal m3 60.8823529411765
+908152_H_diadema_Guadalcanal m3         31.28125
+908153a_H_dinops_Guadalcanal m3 138.835616438356
+908154_H_dinops_Guadalcanal  m3 11.9322033898305
+908155_H_dinops_Guadalcanal  m3 22.4920634920635
+908156_H_diadema_Guadalcanal m3 82.5072463768116
+908208_H_diadema_Guadalcanal m3 18.5254237288136
+KVO150_H_diadema_Isabel      m3             4.75
+KVO168_H_diadema_Isabel      m3 9.92682926829268
+KVO169_H_diadema_Isabel      m3 14.6734693877551
+KVO170_H_diadema_Isabel      m3 20.3728813559322
+KVO171_H_diadema_Isabel      m3 8.63414634146342
+KVO172_H_diadema_Isabel      m3             6.95
+KVO242_H_dinops_Isabel       m3 29.0461538461538
+KVO243_H_dinops_Isabel       m3 37.5507246376812
+KVO244_H_dinops_Isabel       m3 72.2857142857143
+KVO245_H_dinops_Isabel       m3 80.5070422535211
+
+$snp
+   var snps
+1   m3   52
+2   m3   18
+3   m3   68
+4   m3   64
+5   m3   73
+6   m3   59
+7   m3   63
+8   m3   69
+9   m3   59
+10  m3    8
+11  m3   41
+12  m3   49
+13  m3   59
+14  m3   41
+15  m3   20
+16  m3   65
+17  m3   69
+18  m3    7
+19  m3   71
+
+$loci
+   var poly.loci
+1   m3        52
+2   m3        18
+3   m3        68
+4   m3        64
+5   m3        73
+6   m3        59
+7   m3        63
+8   m3        69
+9   m3        59
+10  m3         8
+11  m3        41
+12  m3        49
+13  m3        59
+14  m3        41
+15  m3        20
+16  m3        65
+17  m3        69
+18  m3         7
+19  m3        71
+
+$snp.R80
+  var snps.80
+1  m3      28
+
+$loci.R80
+  var poly.loci.80
+1  m3           28
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("optimize_n")
+> ### * optimize_n
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: optimize_n
+> ### Title: Optimize the n parameter during denovo stacks assembly
+> ### Aliases: optimize_n
+> 
+> ### ** Examples
+> 
+> optimize_n(nequalsM =
++ system.file("extdata","nequalsm.vcf.gz",package="RADstackshelpR",mustWork=TRUE))
+$snp
+   var snps
+1  n=M   32
+2  n=M    8
+3  n=M   40
+4  n=M   40
+5  n=M   39
+6  n=M   29
+7  n=M   32
+8  n=M   39
+9  n=M   31
+10 n=M    4
+11 n=M   18
+12 n=M   33
+13 n=M   38
+14 n=M   22
+15 n=M    9
+16 n=M   34
+17 n=M   38
+18 n=M    1
+19 n=M   41
+
+$loci
+   var poly.loci
+1  n=M        32
+2  n=M         8
+3  n=M        40
+4  n=M        40
+5  n=M        39
+6  n=M        29
+7  n=M        32
+8  n=M        39
+9  n=M        31
+10 n=M         4
+11 n=M        18
+12 n=M        33
+13 n=M        38
+14 n=M        22
+15 n=M         9
+16 n=M        34
+17 n=M        38
+18 n=M         1
+19 n=M        41
+
+$snp.R80
+  var snps.80
+1 n=M      17
+
+$loci.R80
+  var poly.loci.80
+1 n=M           17
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vis_depth")
+> ### * vis_depth
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vis_depth
+> ### Title: Visualize the effect of varying the m parameter on the mean
+> ###   depth of each sample
+> ### Aliases: vis_depth
+> 
+> ### ** Examples
+> 
+> vis_depth(output =
++ readRDS(system.file("extdata","optimize.m.output.RDS",package="RADstackshelpR",mustWork=TRUE)))
+[1] "Visualize how different values of m affect average depth in each sample"
+Picking joint bandwidth of 11.9
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vis_loci")
+> ### * vis_loci
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vis_loci
+> ### Title: Visualize the effect of varying a stacks parameter on the number
+> ###   of polymorphic loci retained
+> ### Aliases: vis_loci
+> 
+> ### ** Examples
+> 
+> vis_loci(output =
++ readRDS(system.file("extdata","optimize.m.output.RDS",package="RADstackshelpR",mustWork=TRUE)),
++          stacks_param = "m")
+Visualize how different values of m affect number of polymorphic loci retained.
+Density plot shows the distribution of the number of loci retained in each sample,
+while the asterisk denotes the total number of loci retained at an 80% completeness cutoff. The optimal value is denoted by red color. 
+Picking joint bandwidth of 8.81
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vis_snps")
+> ### * vis_snps
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vis_snps
+> ### Title: Visualize the effect of varying a stacks parameter on the number
+> ###   of SNPs retained
+> ### Aliases: vis_snps
+> 
+> ### ** Examples
+> 
+> vis_snps(output=
++ readRDS(system.file("extdata","optimize.m.output.RDS",package="RADstackshelpR",mustWork=TRUE)),
++          stacks_param = "m")
+Visualize how different values of m affect number of SNPs retained.
+Density plot shows the distribution of the number of SNPs retained in each sample,
+while the asterisk denotes the total number of SNPs retained at an 80% completeness cutoff. 
+Picking joint bandwidth of 8.81
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  1.793 0.09 2.15 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

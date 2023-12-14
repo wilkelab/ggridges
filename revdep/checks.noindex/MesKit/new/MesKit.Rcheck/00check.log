@@ -1,0 +1,112 @@
+* using log directory ‘/Users/clauswilke/github/ggridges/revdep/checks.noindex/MesKit/new/MesKit.Rcheck’
+* using R version 4.3.1 (2023-06-16)
+* using platform: aarch64-apple-darwin20 (64-bit)
+* R was compiled by
+    Apple clang version 14.0.0 (clang-1400.0.29.202)
+    GNU Fortran (GCC) 12.2.0
+* running under: macOS Ventura 13.6
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘MesKit/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MesKit’ version ‘1.12.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘MesKit’ can be installed ... WARNING
+Found the following significant warnings:
+  Warning: replacing previous import ‘ape::degree’ by ‘circlize::degree’ when loading ‘MesKit’
+  Warning: replacing previous import ‘ape::where’ by ‘dplyr::where’ when loading ‘MesKit’
+See ‘/Users/clauswilke/github/ggridges/revdep/checks.noindex/MesKit/new/MesKit.Rcheck/00install.out’ for details.
+* checking installed package size ... NOTE
+  installed size is  8.7Mb
+  sub-directories of 1Mb or more:
+    doc       2.7Mb
+    extdata   4.9Mb
+* checking package directory ... OK
+* checking ‘build’ directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... NOTE
+File
+  LICENSE
+is not mentioned in the DESCRIPTION file.
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+calJSI : processJSI: no visible binding for global variable ‘CCF’
+cna2gene: no visible global function definition for ‘genes’
+cna2gene: no visible binding for global variable ‘org.Hs.eg.db’
+cna2gene: no visible binding for global variable ‘seqnames’
+cna2gene: no visible binding for global variable ‘Chromosome’
+cna2gene: no visible binding for global variable ‘Hugo_Symbol’
+cna2gene: no visible binding for global variable ‘Start_Position’
+cna2gene: no visible binding for global variable ‘End_Position’
+cna2gene: no visible binding for global variable ‘i.End_Position’
+cna2gene: no visible binding for global variable ‘i.Start_Position’
+cna2gene: no visible binding for global variable ‘Patient_ID’
+cna2gene: no visible binding for global variable ‘Tumor_Sample_Barcode’
+cna2gene: no visible binding for global variable ‘seg_id’
+cna2gene: no visible binding for global variable ‘overlap_width’
+copyNumberFilter: no visible binding for global variable ‘Patient_ID’
+drawVAFCombine: no visible binding for global variable ‘V’
+drawVAFCombineVline: no visible binding for global variable ‘V’
+fitSignatures : processFitSig: no visible binding for global variable
+  ‘Branch’
+fitSignatures : processFitSig: no visible binding for global variable
+  ‘Original’
+fitSignatures : processFitSig: no visible binding for global variable
+  ‘Reconstructed’
+mutCluster : processVafcluster_sample: no visible binding for global
+  variable ‘cluster’
+plotCNA: no visible binding for global variable ‘Cytoband’
+plotCNA: no visible binding for global variable ‘Cytoband_pos’
+plotCNA: no visible binding for global variable ‘gene_id’
+plotCNA: no visible binding for global variable ‘gene_pos’
+plotCNA: no visible binding for global variable ‘Hugo_Symbol’
+plotTree: no visible binding for global variable ‘is.match’
+plotTree: no visible binding for global variable ‘x’
+plotTree: no visible binding for global variable ‘y’
+plotTree: no visible binding for global variable ‘xend’
+plotTree: no visible binding for global variable ‘yend’
+Undefined global functions or variables:
+  Branch CCF Chromosome Cytoband Cytoband_pos End_Position Hugo_Symbol
+  Original Patient_ID Reconstructed Start_Position Tumor_Sample_Barcode
+  V cluster gene_id gene_pos genes i.End_Position i.Start_Position
+  is.match org.Hs.eg.db overlap_width seg_id seqnames x xend y yend
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘MesKit.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 1 WARNING, 3 NOTEs

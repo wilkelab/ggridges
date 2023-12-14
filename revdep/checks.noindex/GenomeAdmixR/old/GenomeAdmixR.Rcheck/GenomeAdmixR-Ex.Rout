@@ -1,0 +1,408 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "GenomeAdmixR"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('GenomeAdmixR')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("calculate_allele_frequencies")
+> ### * calculate_allele_frequencies
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: calculate_allele_frequencies
+> ### Title: Calculate allele frequencies
+> ### Aliases: calculate_allele_frequencies
+> 
+> ### ** Examples
+> 
+> number_founders = 20
+> wildpop =  simulate_admixture(
++    module = ancestry_module(number_of_founders = 20, morgan = 1),
++    pop_size = 1000,
++    total_runtime = 10,
++    num_threads = 1)
+> 
+> freq_output <- calculate_allele_frequencies(wildpop,
++                                             progress_bar = TRUE)
+> 
+> require(ggplot2)
+Loading required package: ggplot2
+> ggplot(freq_output, aes(x=location, y = frequency,
++                         col = as.factor(ancestor))) +
++   geom_line()
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("calculate_fst")
+> ### * calculate_fst
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: calculate_fst
+> ### Title: Calculate FST
+> ### Aliases: calculate_fst
+> 
+> ### ** Examples
+> 
+> two_populations <- simulate_admixture(
++                         module = ancestry_module(),
++                        migration = migration_settings(migration_rate = 0.01,
++                                            population_size = c(100, 100)))
+> 
+> FST <- calculate_fst(pop1 = two_populations$population_1,
++                      pop2 = two_populations$population_2,
++                      sampled_individuals = 10,
++                      number_of_markers = 100,
++                      random_markers = TRUE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("calculate_ld")
+> ### * calculate_ld
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: calculate_ld
+> ### Title: Calculate linkage disequilibrium statistics This function
+> ###   calculates two matrices, once containing all pairwise linkage
+> ###   disequilibrium (ld) values, and one matrix containing all pairwise r
+> ###   statistics
+> ### Aliases: calculate_ld
+> 
+> ### ** Examples
+> 
+> wildpop =  simulate_admixture(
++    module = ancestry_module(number_of_founders = 10, morgan = 1),
++    pop_size = 1000,
++    total_runtime = 10)
+> 
+> ld_results <- calculate_ld(pop = wildpop,
++                            markers = 10)
+> 
+> plot(ld_results$ld_matrix~ld_results$dist_matrix,
++      pch = 16,
++      xlab="Distance between markers",
++      ylab = "Linkage Disequilibrium")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("calculate_marker_frequency")
+> ### * calculate_marker_frequency
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: calculate_marker_frequency
+> ### Title: Calculate allele frequencies at a specific marker location
+> ### Aliases: calculate_marker_frequency
+> 
+> ### ** Examples
+> 
+> wildpop =  simulate_admixture(
++    module = ancestry_module(number_of_founders = 20, morgan = 1),
++    pop_size = 1000,
++    total_runtime = 10)
+> 
+> avg_frequencies <- calculate_marker_frequency(pop = wildpop,
++                                               location = 0.5)
+> 
+> frequencies <-
++    calculate_marker_frequency(pop = wildpop,
++                               location = seq(0.4, 0.5, by = 0.01))
+> require(ggplot2)
+Loading required package: ggplot2
+> ggplot(frequencies, aes(x = location, y = frequency, col = ancestor)) +
++   geom_step()
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("dgrp2.3R.5k.data")
+> ### * dgrp2.3R.5k.data
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dgrp2.3R.5k.data
+> ### Title: A subset of sequencing data from the Drosophila Genetics
+> ###   Reference Panel
+> ### Aliases: dgrp2.3R.5k.data
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data("dgrp2.3R.5k.data")
+> simulate_admixture(
++        module = sequence_module(molecular_data = dgrp2.3R.5k.data),
++        pop_size = 100,
++        total_runtime = 10)
+$population
+[1] "Population with 100 individuals"
+
+$frequencies
+$frequencies$ancestor
+character(0)
+
+
+$initial_frequency
+$initial_frequency$ancestor
+character(0)
+
+
+$final_frequency
+$final_frequency$ancestor
+character(0)
+
+
+attr(,"class")
+[1] "genomadmixr_simulation"
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_chromosome")
+> ### * plot_chromosome
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_chromosome
+> ### Title: plots a chromosome
+> ### Aliases: plot_chromosome
+> 
+> ### ** Examples
+> 
+> wildpop =  simulate_admixture(
++    module = ancestry_module(number_of_founders = 10, morgan = 1),
++    pop_size = 1000,
++    total_runtime = 10)
+> 
+> isofemale <- create_iso_female(
++                  module = ancestry_module(input_population = wildpop,
++                                           morgan = 1),
++                  n = 1,
++                  inbreeding_pop_size = 100,
++                  run_time = 10)
+> 
+> plot_chromosome(chrom = isofemale[[1]]$chromosome1)
+> # and a detail of the chromosome:
+> plot_chromosome(chrom = isofemale[[1]]$chromosome1,
++                 xmin = 0.4,
++                 xmax = 0.6)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_difference_frequencies")
+> ### * plot_difference_frequencies
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_difference_frequencies
+> ### Title: Plot the change in frequency between the start and end of a
+> ###   simulation
+> ### Aliases: plot_difference_frequencies
+> 
+> ### ** Examples
+> 
+> s <- 0.1
+> select_matrix <- matrix(nrow = 1, ncol = 5)
+> select_matrix[1, ] <- c(0.25, 1.0, 1 + 0.5 * s, 1 + s, 0)
+> 
+> markers <- seq(from = 0.2, to = 0.3, length.out = 100)
+> 
+> selected_pop <- simulate_admixture(
++                     module = ancestry_module(number_of_founders = 10,
++                                              morgan = 1,
++                                              markers = markers),
++                     pop_size = 1000,
++                     total_runtime = 11,
++                     select_matrix = select_matrix)
+Found a selection matrix, performing simulation including selection
+> require(ggplot2)
+Loading required package: ggplot2
+> plot_difference_frequencies(results = selected_pop,
++                             picked_ancestor = "ALL")
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("plot_frequencies")
+> ### * plot_frequencies
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_frequencies
+> ### Title: Plot the frequencies of all ancestors along the genome.
+> ### Aliases: plot_frequencies
+> 
+> ### ** Examples
+> 
+> pop <- simulate_admixture(
++              module = ancestry_module(number_of_founders = 4),
++              pop_size = 1000,
++              total_runtime = 11)
+> require(ggplot2)
+Loading required package: ggplot2
+> plot_frequencies(result = pop)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("plot_joyplot_frequencies")
+> ### * plot_joyplot_frequencies
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_joyplot_frequencies
+> ### Title: make a joy plot of the distribution of allele frequencies within
+> ###   a region
+> ### Aliases: plot_joyplot_frequencies
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_over_time")
+> ### * plot_over_time
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_over_time
+> ### Title: Plot the frequencies of all ancestors over time
+> ### Aliases: plot_over_time
+> 
+> ### ** Examples
+> 
+> pop <- simulate_admixture(
++            module = ancestry_module(number_of_founders = 10,
++                                     markers = 0.5),
++            pop_size = 1000,
++            total_runtime = 11)
+> require(ggplot2)
+Loading required package: ggplot2
+> plot_over_time(frequencies = pop$frequencies,
++                focal_location = 0.5)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("plot_start_end")
+> ### * plot_start_end
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_start_end
+> ### Title: Plot both the starting frequencies and the final frequencies in
+> ###   one plot
+> ### Aliases: plot_start_end
+> 
+> ### ** Examples
+> 
+> markers <- seq(from = 0.2, to = 0.3, length.out = 100)
+> 
+> pop <- simulate_admixture(
++             module = ancestry_module(number_of_founders = 3,
++                                      morgan = 1,
++                                      markers = markers),
++            pop_size = 1000,
++            total_runtime = 11)
+> require(ggplot2)
+Loading required package: ggplot2
+> plot_start_end(pop,
++                picked_ancestor = "ALL")
+> plot_start_end(pop,
++                picked_ancestor = 1)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("simulate_admixture")
+> ### * simulate_admixture
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: simulate_admixture
+> ### Title: Individual based simulation of the breakdown of contiguous
+> ###   ancestry blocks.
+> ### Aliases: simulate_admixture
+> 
+> ### ** Examples
+> 
+> # local ancestry simulation
+> two_populations <- simulate_admixture(
++                          module = ancestry_module(number_of_founders = 3,
++                                                   morgan = 0.8),
++                          migration = migration_settings(
++                                          migration_rate = 0.01,
++                                          population_size = c(100, 100)),
++                          total_runtime = 10)
+>  # sequence simulation
+>  data(dgrp2.3R.5k.data)
+> 
+> sequence_population <-
++       simulate_admixture(
++                   module = sequence_module(molecular_data = dgrp2.3R.5k.data,
++                            recombination_rate = 0.2,
++                            mutation_rate = 1e-5),
++                   pop_size = 1000,
++                   total_runtime = 10)
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  2.954 0.132 3.184 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

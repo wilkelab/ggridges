@@ -1,0 +1,1525 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "ggcyto"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('ggcyto')
+Loading required package: ggplot2
+Loading required package: flowCore
+Loading required package: ncdfFlow
+Loading required package: BH
+Loading required package: flowWorkspace
+Warning: package ‘flowWorkspace’ was built under R version 4.3.2
+As part of improvements to flowWorkspace, some behavior of
+GatingSet objects has changed. For details, please read the section
+titled "The cytoframe and cytoset classes" in the package vignette:
+
+  vignette("flowWorkspace-Introduction", "flowWorkspace")
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("as.ggplot")
+> ### * as.ggplot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: as.ggplot
+> ### Title: It fortifies the data, fills some default settings and returns a
+> ###   regular ggplot object.
+> ### Aliases: as.ggplot
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fs <- GvHD[1:3]
+> #construct the `ggcyto` object (inherits from `ggplot` class)
+> p <- ggcyto(fs, aes(x = `FSC-H`)) + geom_histogram() 
+> class(p) # a ggcyto object
+[1] "ggcyto_flowSet"
+attr(,"package")
+[1] "ggcyto"
+> p$data # data has not been fortified
+A flowSet with 3 experiments.
+
+An object of class 'AnnotatedDataFrame'
+  rowNames: s5a01 s5a02 s5a03
+  varLabels: Patient Visit ... name (5 total)
+  varMetadata: labelDescription
+
+column names(8): FSC-H SSC-H ... FL4-H Time
+
+> p1 <- as.ggplot(p) # convert it to a ggplot object explictily 
+> class(p1) 
+[1] "gg"     "ggplot"
+> p1$data # data is fortified
+       .rownames Patient Visit Days Grade  name FSC-H
+    1:     s5a01       5     1   -6     3 s5a01   371
+    2:     s5a01       5     1   -6     3 s5a01   190
+    3:     s5a01       5     1   -6     3 s5a01   141
+    4:     s5a01       5     1   -6     3 s5a01   167
+    5:     s5a01       5     1   -6     3 s5a01   128
+   ---                                               
+10256:     s5a03       5     3    6     3 s5a03   231
+10257:     s5a03       5     3    6     3 s5a03   197
+10258:     s5a03       5     3    6     3 s5a03    76
+10259:     s5a03       5     3    6     3 s5a03   346
+10260:     s5a03       5     3    6     3 s5a03   367
+> 
+> 
+> 
+> cleanEx()
+> nameEx("autoplot")
+> ### * autoplot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: autoplot.flowSet
+> ### Title: Plot cytometry data in one or two dimension with the ggcyto
+> ###   package.
+> ### Aliases: autoplot.flowSet autoplot autoplot.ncdfFlowList
+> ###   autoplot.cytoset autoplot.cytoframe autoplot.flowFrame
+> ###   autoplot.GatingSetList autoplot.GatingSet autoplot.GatingHierarchy
+> 
+> ### ** Examples
+> 
+> library(flowCore)
+> data(GvHD)
+> fs <- GvHD[subset(pData(GvHD), Patient %in%5:7 & Visit %in% c(5:6))[["name"]]]
+> 
+> #1d- density plot
+> autoplot(fs, x = "SSC-H")
+> 
+> #1d- density plot on all channels
+> autoplot(fs[[1]])
+Warning: The `<scale>` argument of `guides()` cannot be `FALSE`. Use "none" instead as
+of ggplot2 3.3.4.
+ℹ The deprecated feature was likely used in the ggcyto package.
+  Please report the issue to the authors.
+> 
+> #2d plot: default geom_hex plot
+> autoplot(fs, x = 'FSC-H', y ='SSC-H')
+> 
+> #autplot for GatingSet
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> autoplot(gs, "CD3+")
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> #display axis values in transformed scale
+> autoplot(gs, "CD3+", axis_inverse_trans = FALSE)
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> 
+> #autplot for GatingHierarchy
+> gh <- gs[[1]]
+> autoplot(gh) # by default the strip.text shows the parent population
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> 
+> #To display the gate name
+> #autoplot(gh , strip.text = "gate")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("axis_x_inverse_trans")
+> ### * axis_x_inverse_trans
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: axis_x_inverse_trans
+> ### Title: Display ggcyto axis labels using their raw values (as stored in
+> ###   the data structure)
+> ### Aliases: axis_x_inverse_trans axis_y_inverse_trans
+> 
+> ### ** Examples
+> 
+>  dataDir <- system.file("extdata",package="flowWorkspaceData")
+>  gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+>  p <- ggcyto(gs, aes(x = CD4, y = CD8), subset = "CD3+") + geom_hex(bins = 64)
+>  p <- p + geom_gate("CD4") + geom_stats() #plot CD4 gate and it is stats
+>  p
+>  p + axis_x_inverse_trans() #inverse transform the x axis into raw scale
+> 
+> 
+> 
+> cleanEx()
+> nameEx("compute_stats")
+> ### * compute_stats
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: compute_stats
+> ### Title: compute the statistics of the cell population defined by gates
+> ### Aliases: compute_stats
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fs <- GvHD[1:4]
+> rect.g <- rectangleGate(list("FSC-H" =  c(300,500), "SSC-H" = c(50,200)), filterId = "P1")
+> rect.gates <- sapply(sampleNames(fs), function(sn)rect.g)
+> compute_stats(fs, rect.gates)
+   .rownames FSC-H SSC-H value Patient Visit Days Grade  name
+1:     s5a01   400   125 17.5%       5     1   -6     3 s5a01
+2:     s5a02   400   125 16.0%       5     2    0     3 s5a02
+3:     s5a03   400   125 33.2%       5     3    6     3 s5a03
+4:     s5a04   400   125 37.1%       5     4   12     3 s5a04
+> compute_stats(fs, rect.gates, type = c("gate_name", "percent"))
+   .rownames FSC-H SSC-H     value Patient Visit Days Grade  name
+1:     s5a01   400   125 P1\n17.5%       5     1   -6     3 s5a01
+2:     s5a02   400   125 P1\n16.0%       5     2    0     3 s5a02
+3:     s5a03   400   125 P1\n33.2%       5     3    6     3 s5a03
+4:     s5a04   400   125 P1\n37.1%       5     4   12     3 s5a04
+> 
+> 
+> 
+> cleanEx()
+> nameEx("faust_gating_plot")
+> ### * faust_gating_plot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: faust_gating_plot
+> ### Title: plot faust gating schemes
+> ### Aliases: faust_gating_plot
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D gs=load_gs("~/Downloads/ics")
+> ##D 
+> ##D end_node = "/S/LV/L/CD4+/CD3+/CD8-/TNF+/CD107a-/IL4-/IFNg+/IL2+/CD154-/IL17a-"
+> ##D start_node = "/S/LV/L"
+> ##D gh=gs[[1]]
+> ##D p = faust_gating_plot(gh, start_node, end_node, bins=128)
+> ##D plot(ggcyto_arrange(p, nrow=1))
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("flowCore_asinht_trans")
+> ### * flowCore_asinht_trans
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: flowCore_asinht_trans
+> ### Title: Inverse hyperbolic sine transformation(flowCore version).
+> ### Aliases: flowCore_asinht_trans
+> 
+> ### ** Examples
+> 
+> trans.obj <- flowCore_asinht_trans(equal.space = TRUE)
+> data <- 1:1e3
+> brks.func <- trans.obj[["breaks"]]
+> brks <- brks.func(data)
+> brks # fasinh space displayed at raw data scale
+[1]    0.1752012    4.4662292   21.3394069   89.6333627  366.5469144
+[6] 1489.4788258
+> 
+> #transform it to verify it is equal-spaced at transformed scale
+> trans.func <- trans.obj[["transform"]]
+> brks.trans <- trans.func(brks)
+> brks.trans
+[1] 1.0 2.4 3.8 5.2 6.6 8.0
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fortify.ellipsoidGate")
+> ### * fortify.ellipsoidGate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fortify.ellipsoidGate
+> ### Title: Convert a ellipsoidGate to a data.table useful for ggplot
+> ### Aliases: fortify.ellipsoidGate
+> 
+> ### ** Examples
+> 
+> ## Defining the gate
+> cov <- matrix(c(6879, 3612, 3612, 5215), ncol=2,
++               dimnames=list(c("FSC-H", "SSC-H"), c("FSC-H", "SSC-H")))
+> mean <- c("FSC-H"=430, "SSC-H"=175)
+> eg <- ellipsoidGate(filterId= "myEllipsoidGate", .gate=cov, mean=mean)
+> fortify(eg)
+       FSC-H    SSC-H
+ 1: 512.9397 218.5497
+ 2: 512.2588 225.5586
+ 3: 510.2272 231.7374
+ 4: 506.8782 236.9845
+ 5: 502.2669 241.2138
+ 6: 496.4690 244.3559
+ 7: 489.5797 246.3592
+ 8: 481.7121 247.1908
+ 9: 472.9953 246.8370
+10: 463.5726 245.3036
+11: 453.5986 242.6159
+12: 443.2372 238.8179
+13: 432.6583 233.9720
+14: 422.0359 228.1578
+15: 411.5442 221.4708
+16: 401.3555 214.0207
+17: 391.6372 205.9298
+18: 382.5488 197.3311
+19: 374.2395 188.3658
+20: 366.8459 179.1810
+21: 360.4892 169.9275
+22: 355.2739 160.7573
+23: 351.2856 151.8210
+24: 348.5897 143.2652
+25: 347.2307 135.2306
+26: 347.2307 127.8490
+27: 348.5897 121.2416
+28: 351.2856 115.5169
+29: 355.2739 110.7689
+30: 360.4892 107.0756
+31: 366.8459 104.4976
+32: 374.2395 103.0772
+33: 382.5488 102.8378
+34: 391.6372 103.7834
+35: 401.3555 105.8983
+36: 411.5442 109.1478
+37: 422.0359 113.4787
+38: 432.6583 118.8197
+39: 443.2372 125.0832
+40: 453.5986 132.1663
+41: 463.5726 139.9527
+42: 472.9953 148.3147
+43: 481.7121 157.1148
+44: 489.5797 166.2086
+45: 496.4690 175.4467
+46: 502.2669 184.6775
+47: 506.8782 193.7494
+48: 510.2272 202.5134
+49: 512.2588 210.8257
+50: 512.9397 218.5497
+51: 512.9397 218.5497
+       FSC-H    SSC-H
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fortify.filterList")
+> ### * fortify.filterList
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fortify.filterList
+> ### Title: Convert a filterList to a data.table useful for ggplot
+> ### Aliases: fortify.filterList
+> 
+> ### ** Examples
+> 
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> gates <- gs_pop_get_gate(gs, "CD4")
+> gates <- as(gates, "filterList") #must convert list to filterList in order for the method to dispatch properly
+> fortify(gates)
+    <B710-A>   <R780-A>               .rownames
+ 1: 3538.131 1113.31621 CytoTrol_CytoTrol_1.fcs
+ 2: 3533.929 1246.81847 CytoTrol_CytoTrol_1.fcs
+ 3: 3521.393 1377.38539 CytoTrol_CytoTrol_1.fcs
+ 4: 3500.728 1502.87309 CytoTrol_CytoTrol_1.fcs
+ 5: 3472.273 1621.22105 CytoTrol_CytoTrol_1.fcs
+ 6: 3436.497 1730.48601 CytoTrol_CytoTrol_1.fcs
+ 7: 3393.986 1828.87383 CytoTrol_CytoTrol_1.fcs
+ 8: 3345.438 1914.76899 CytoTrol_CytoTrol_1.fcs
+ 9: 3291.651 1986.76110 CytoTrol_CytoTrol_1.fcs
+10: 3233.507 2043.66804 CytoTrol_CytoTrol_1.fcs
+11: 3171.962 2084.55541 CytoTrol_CytoTrol_1.fcs
+12: 3108.026 2108.75183 CytoTrol_CytoTrol_1.fcs
+13: 3042.749 2115.86001 CytoTrol_CytoTrol_1.fcs
+14: 2977.202 2105.76322 CytoTrol_CytoTrol_1.fcs
+15: 2912.462 2078.62725 CytoTrol_CytoTrol_1.fcs
+16: 2849.592 2034.89769 CytoTrol_CytoTrol_1.fcs
+17: 2789.625 1975.29255 CytoTrol_CytoTrol_1.fcs
+18: 2733.544 1900.79057 CytoTrol_CytoTrol_1.fcs
+19: 2682.271 1812.61505 CytoTrol_CytoTrol_1.fcs
+20: 2636.648 1712.21385 CytoTrol_CytoTrol_1.fcs
+21: 2597.424 1601.23554 CytoTrol_CytoTrol_1.fcs
+22: 2565.242 1481.50238 CytoTrol_CytoTrol_1.fcs
+23: 2540.632 1354.98040 CytoTrol_CytoTrol_1.fcs
+24: 2523.997 1223.74707 CytoTrol_CytoTrol_1.fcs
+25: 2515.611 1089.95725 CytoTrol_CytoTrol_1.fcs
+26: 2515.611  955.80776 CytoTrol_CytoTrol_1.fcs
+27: 2523.997  823.50133 CytoTrol_CytoTrol_1.fcs
+28: 2540.632  695.21042 CytoTrol_CytoTrol_1.fcs
+29: 2565.242  573.04159 CytoTrol_CytoTrol_1.fcs
+30: 2597.424  459.00082 CytoTrol_CytoTrol_1.fcs
+31: 2636.648  354.96067 CytoTrol_CytoTrol_1.fcs
+32: 2682.271  262.62947 CytoTrol_CytoTrol_1.fcs
+33: 2733.544  183.52331 CytoTrol_CytoTrol_1.fcs
+34: 2789.625  118.94109 CytoTrol_CytoTrol_1.fcs
+35: 2849.592   69.94327 CytoTrol_CytoTrol_1.fcs
+36: 2912.462   37.33437 CytoTrol_CytoTrol_1.fcs
+37: 2977.202   21.64985 CytoTrol_CytoTrol_1.fcs
+38: 3042.749   23.14723 CytoTrol_CytoTrol_1.fcs
+39: 3108.026   41.80193 CytoTrol_CytoTrol_1.fcs
+40: 3171.962   77.30765 CytoTrol_CytoTrol_1.fcs
+41: 3233.507  129.08138 CytoTrol_CytoTrol_1.fcs
+42: 3291.651  196.27299 CytoTrol_CytoTrol_1.fcs
+43: 3345.438  277.77920 CytoTrol_CytoTrol_1.fcs
+44: 3393.986  372.26168 CytoTrol_CytoTrol_1.fcs
+45: 3436.497  478.16904 CytoTrol_CytoTrol_1.fcs
+46: 3472.273  593.76227 CytoTrol_CytoTrol_1.fcs
+47: 3500.728  717.14334 CytoTrol_CytoTrol_1.fcs
+48: 3521.393  846.28634 CytoTrol_CytoTrol_1.fcs
+49: 3533.929  979.07073 CytoTrol_CytoTrol_1.fcs
+50: 3538.131 1113.31621 CytoTrol_CytoTrol_1.fcs
+51: 3538.131 1113.31621 CytoTrol_CytoTrol_1.fcs
+    <B710-A>   <R780-A>               .rownames
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fortify.flowSet")
+> ### * fortify.flowSet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fortify.cytoframe
+> ### Title: Convert a flowFrame/flowSet/GatingSet to a ggplot-compatible
+> ###   data.table
+> ### Aliases: fortify.cytoframe fortify.flowFrame fortify.flowSet fortify
+> ###   fortify.cytoset fortify.ncdfFlowList fortify.GatingSetList
+> ###   fortify.GatingSet
+> 
+> ### ** Examples
+> 
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> 
+> attr(gs, "subset") <- "CD4" #must attach subset information to GatingSet object before foritfying it
+> fortify(gs)
+                     .rownames                    name     FSC-A  FSC-H
+    1: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 140733.05 133376
+    2: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 134347.02 125651
+    3: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 101553.95  96602
+    4: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs  87721.18  79682
+    5: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 112648.49 106622
+   ---                                                                 
+34028: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs  91501.85  86287
+34029: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 104606.81  97939
+34030: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 117452.62 111203
+34031: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 104229.41 100303
+34032: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 110641.73 106703
+          FSC-W    SSC-A <B710-A> <R660-A>  <R780-A> <V450-A>  <V545-A>
+    1: 69150.98 91113.96 3106.004 3302.719 2073.3540 2996.536 1795.1975
+    2: 70071.60 70116.48 3128.845 1834.073 1607.8027 2507.708 1727.7843
+    3: 68895.48 44620.80 2902.931 2458.440  482.8756 2700.848 1561.6256
+    4: 72147.98 66181.08 2928.725 1382.240 1510.5111 2500.461 1501.8810
+    5: 69240.23 49759.08 2832.599 1277.941  714.8516 2482.187  517.0981
+   ---                                                                 
+34028: 69496.75 68497.80 2984.366 2149.552  334.4934 2733.177 1588.8068
+34029: 69997.77 40012.56 2821.356 2043.574 1554.6113 2629.725 1590.2513
+34030: 69219.13 42007.56 3104.546 2757.161  782.6583 2763.769 1641.5566
+34031: 68101.44 40349.40 2920.189 2309.451 1579.1660 2657.493 1711.2170
+34032: 67955.13 39222.12 2959.566 2247.059  364.4596 2603.507 1021.9473
+       <G560-A> <G780-A>    Time
+    1: 2397.642 2860.906   0.002
+    2: 2194.188 1001.111   0.007
+    3: 2759.033 3263.364   0.015
+    4: 2223.328 1044.804   0.020
+    5: 2173.669 1665.517   0.021
+   ---                          
+34028: 2481.661 2454.105 295.269
+34029: 2342.940 2705.288 295.275
+34030: 2504.883 2348.783 295.317
+34031: 2271.206 1825.845 295.329
+34032: 2160.773 2825.193 295.380
+> 
+> fs <- gs_pop_get_data(gs, "CD8")
+> fortify(fs)#fs is a flowSet/ncdfFlowSet
+                     .rownames                    name     FSC-A  FSC-H
+    1: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 127717.88 119616
+    2: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs  84330.34  77826
+    3: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 113783.64 107160
+    4: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 103148.27  97894
+    5: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 110324.17 106074
+   ---                                                                 
+14560: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 102727.06  94475
+14561: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs  83445.57  75251
+14562: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 100791.84  94089
+14563: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 130091.12 122710
+14564: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs  95898.64  88870
+          FSC-W    SSC-A  <B710-A> <R660-A> <R780-A> <V450-A> <V545-A> <G560-A>
+    1: 69974.92 76954.91 1296.8107 1931.995 3769.838 2749.284 1660.914 2883.802
+    2: 71013.20 66052.55 1465.2563 1523.407 3702.229 2657.550 1612.924 2800.220
+    3: 69586.83 62380.92  702.0428 1987.221 3515.332 2662.169 1504.550 2636.746
+    4: 69053.52 47501.16 1390.0245 1483.048 3615.137 2466.290 1489.376 1574.406
+    5: 68161.90 34369.44  873.0049 2161.021 3541.025 2420.300 1641.068 2183.459
+   ---                                                                         
+14560: 71260.34 65382.24 1230.4995 1108.483 3658.750 2514.224 1823.440 1003.388
+14561: 72672.64 87513.72  803.3681 1025.842 3718.617 2378.552 1611.274 1642.994
+14562: 70204.73 76909.55 1565.2583 2149.152 3852.465 2640.989 1611.140 2159.423
+14563: 69478.05 44694.72 1382.2026 1212.209 3426.707 2435.800 1783.091 1653.393
+14564: 70719.18 58815.12  864.5154 1592.644 3717.394 2332.334 1551.008 1315.681
+       <G780-A>         Time
+    1: 3480.662   0.00700000
+    2: 3415.069   0.01500000
+    3: 2711.044   0.04800000
+    4: 2576.902   0.06699999
+    5: 3235.186   0.06800000
+   ---                      
+14560: 3320.624 295.16098022
+14561: 1203.638 295.27697754
+14562: 3430.178 295.28399658
+14563: 1511.588 295.29098511
+14564: 2399.039 295.30499268
+> 
+> fr <- fs[[1]]
+> fortify(fr)#fr is a flowFrame
+                     .rownames                    name     FSC-A  FSC-H
+    1: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 127717.88 119616
+    2: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs  84330.34  77826
+    3: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 113783.64 107160
+    4: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 103148.27  97894
+    5: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 110324.17 106074
+   ---                                                                 
+14560: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 102727.06  94475
+14561: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs  83445.57  75251
+14562: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 100791.84  94089
+14563: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs 130091.12 122710
+14564: CytoTrol_CytoTrol_1.fcs CytoTrol_CytoTrol_1.fcs  95898.64  88870
+          FSC-W    SSC-A  <B710-A> <R660-A> <R780-A> <V450-A> <V545-A> <G560-A>
+    1: 69974.92 76954.91 1296.8107 1931.995 3769.838 2749.284 1660.914 2883.802
+    2: 71013.20 66052.55 1465.2563 1523.407 3702.229 2657.550 1612.924 2800.220
+    3: 69586.83 62380.92  702.0428 1987.221 3515.332 2662.169 1504.550 2636.746
+    4: 69053.52 47501.16 1390.0245 1483.048 3615.137 2466.290 1489.376 1574.406
+    5: 68161.90 34369.44  873.0049 2161.021 3541.025 2420.300 1641.068 2183.459
+   ---                                                                         
+14560: 71260.34 65382.24 1230.4995 1108.483 3658.750 2514.224 1823.440 1003.388
+14561: 72672.64 87513.72  803.3681 1025.842 3718.617 2378.552 1611.274 1642.994
+14562: 70204.73 76909.55 1565.2583 2149.152 3852.465 2640.989 1611.140 2159.423
+14563: 69478.05 44694.72 1382.2026 1212.209 3426.707 2435.800 1783.091 1653.393
+14564: 70719.18 58815.12  864.5154 1592.644 3717.394 2332.334 1551.008 1315.681
+       <G780-A>         Time
+    1: 3480.662   0.00700000
+    2: 3415.069   0.01500000
+    3: 2711.044   0.04800000
+    4: 2576.902   0.06699999
+    5: 3235.186   0.06800000
+   ---                      
+14560: 3320.624 295.16098022
+14561: 1203.638 295.27697754
+14562: 3430.178 295.28399658
+14563: 1511.588 295.29098511
+14564: 2399.039 295.30499268
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fortify.multiRangeGate")
+> ### * fortify.multiRangeGate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fortify.multiRangeGate
+> ### Title: Convert a multiRangeGate to a data.table useful for ggplot
+> ### Aliases: fortify.multiRangeGate
+> 
+> ### ** Examples
+> 
+> mrq = multiRangeGate(ranges = list(min=c(100, 350), max=c(250, 400)))
+> fortify(mrq)
+   Time
+1:  100
+2:  250
+3:  350
+4:  400
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fortify.polygonGate")
+> ### * fortify.polygonGate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fortify.polygonGate
+> ### Title: Convert a polygonGate to a data.table useful for ggplot
+> ### Aliases: fortify.polygonGate
+> 
+> ### ** Examples
+> 
+> sqrcut <- matrix(c(300,300,600,600,50,300,300,50),ncol=2,nrow=4)
+> colnames(sqrcut) <- c("FSC-H","SSC-H")
+> pg <- polygonGate(filterId="nonDebris", .gate= sqrcut)
+> fortify(pg) 
+   FSC-H SSC-H
+1:   300    50
+2:   300   300
+3:   600   300
+4:   600    50
+5:   300    50
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fortify.rectangleGate")
+> ### * fortify.rectangleGate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fortify.rectangleGate
+> ### Title: Convert a rectangleGate to a data.table useful for ggplot
+> ### Aliases: fortify.rectangleGate
+> 
+> ### ** Examples
+> 
+> #2d rectangleGate
+> rect.g <- rectangleGate(list("FSC-H" =  c(300,500), "SSC-H" = c(50,200)))
+> fortify(rect.g)
+   FSC-H SSC-H
+1:   300    50
+2:   500    50
+3:   500   200
+4:   300   200
+5:   300    50
+> #1d gate
+> rg <- rectangleGate(list("FSC-H" =  c(300,500)))
+> fortify(rg)
+   FSC-H
+1:   300
+2:   500
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fortify_fs")
+> ### * fortify_fs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fortify_fs
+> ### Title: Fortify a model into flowSet object
+> ### Aliases: fortify_fs fortify_fs.flowSet fortify_fs.default
+> ###   fortify_fs.flowFrame fortify_fs.cytoframe fortify_fs.GatingSetList
+> ###   fortify_fs.GatingSet
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fr <- GvHD[[1]]
+> fortify_fs(fr)
+A flowSet with 1 experiments.
+
+column names(8): FSC-H SSC-H ... FL4-H Time
+
+> 
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> attr(gs, "subset") <- "CD4"
+> fortify_fs(gs)
+A cytoset with 1 samples.
+
+  column names:
+    FSC-A, FSC-H, FSC-W, SSC-A, <B710-A>, <R660-A>, <R780-A>, <V450-A>, <V545-A>, <G560-A>, <G780-A>, Time
+
+cytoset has been subsetted and can be realized through 'realize_view()'.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gate_null")
+> ### * gate_null
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gate_null
+> ### Title: clear all the geom_gate() layer previously added
+> ### Aliases: gate_null
+> 
+> ### ** Examples
+> 
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> #autoplot display pop stats by default
+> p <- autoplot(gs, "CD4")
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> #it is easy to remove the default gate
+> p <- p + gate_null()
+> #and add a new one
+> p <- p + geom_gate("CD8")
+> p
+> 
+> 
+> 
+> cleanEx()
+> nameEx("geom_gate")
+> ### * geom_gate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: geom_gate
+> ### Title: Add a gate layer to a ggcyto plot.
+> ### Aliases: geom_gate geom_gate.default geom_gate.list geom_gate.filter
+> ###   geom_gate.filterList geom_gate.quadGate geom_gate.character
+> ###   geom_gate.filters geom_gate.filtersList geom_gate.logical
+> ###   geom_gate.logicalFilterResult
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fs <- GvHD[subset(pData(GvHD), Patient %in%5:7 & Visit %in% c(5:6))[["name"]]]
+> p <- ggcyto(fs, aes(x = `FSC-H`, y =  `SSC-H`))
+> p <- p + geom_hex(bins = 128)
+> rect.g <- rectangleGate(list("FSC-H" =  c(300,500), "SSC-H" = c(50,200)))
+> #constuctor for a list of filters
+> rect.gates <- sapply(sampleNames(fs), function(sn)rect.g)
+> p + geom_gate(rect.gates)
+> 
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> p <- ggcyto(gs, aes(x = CD4, y = CD8), subset = "CD3+") + geom_hex(bins = 64)
+> # add gate layer by gate name
+> p + geom_gate("CD4")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("geom_hvline")
+> ### * geom_hvline
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: geom_hvline
+> ### Title: Vertical or horizontal line.
+> ### Aliases: geom_hvline
+> 
+> ### ** Examples
+> 
+> 
+> 
+> p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+> # vline
+> p + geom_hvline(data = data.frame(wt= 3))
+Warning: Using the `size` aesthetic with geom_segment was deprecated in ggplot2 3.4.0.
+ℹ Please use the `linewidth` aesthetic instead.
+> # hline
+> p + geom_hvline(data = data.frame(mpg= 20))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("geom_overlay")
+> ### * geom_overlay
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: geom_overlay
+> ### Title: Overlay a population on an existing ggcyto plot analogous to
+> ###   backgating.
+> ### Aliases: geom_overlay geom_overlay.default geom_overlay.character
+> ###   geom_overlay.ncdfFlowList geom_overlay.flowSet geom_overlay.flowFrame
+> 
+> ### ** Examples
+> 
+> library(ggcyto)
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> p <- autoplot(gs, "CD3+")
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> 
+> # add a flowSet as the overlay
+> fs <- gs_pop_get_data(gs, "DPT")
+> p + geom_overlay(data = fs, size = 0.3, alpha = 0.7)
+> 
+> # add overlay layer by gate name
+> p + geom_overlay(data = "DNT", size = 0.3, alpha = 0.7)
+> 
+> #add overlay for 1d densityplot
+> p <- ggcyto(gs, aes(x = CD4), subset = "CD3+") + geom_density(aes(y = ..count..))
+> p + geom_overlay("DNT", aes(y = ..count..), fill = "red")
+Warning: The dot-dot notation (`..count..`) was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(count)` instead.
+ℹ The deprecated feature was likely used in the ggcyto package.
+  Please report the issue to the authors.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("geom_stats")
+> ### * geom_stats
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: geom_stats
+> ### Title: Add a popluation statistics layer to a ggcyto plot.
+> ### Aliases: geom_stats
+> 
+> ### ** Examples
+> 
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> p <- ggcyto(gs, aes(x = CD4, y = CD8), subset = "CD3+") + geom_hex(bins = 64)
+> p
+> # add gate and stats layer
+> p + geom_gate("CD4") + geom_stats()
+> 
+> # display gate name
+> p + geom_gate(c("CD4", "CD8")) + geom_stats(type = "gate_name")
+> # display gate name and percent
+> p + geom_gate(c("CD4", "CD8")) + geom_stats(type = c("gate_name", "percent"))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("getFlowFrame")
+> ### * getFlowFrame
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: getFlowFrame
+> ### Title: extract flowFrame data structure from the given R object
+> ### Aliases: getFlowFrame getFlowFrame.flowSet getFlowFrame.ncdfFlowList
+> ###   getFlowFrame.GatingSetList getFlowFrame.GatingSet
+> ###   getFlowFrame.GatingHierarchy
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fs <- GvHD[1:2]
+> getFlowFrame(fs)# fs is a flowSet
+flowFrame object 's5a01'
+with 3420 cells and 8 observables:
+      name              desc     range  minRange  maxRange
+$P1  FSC-H        FSC-Height      1024         0      1023
+$P2  SSC-H        SSC-Height      1024         0      1023
+$P3  FL1-H         CD15 FITC      1024         1     10000
+$P4  FL2-H           CD45 PE      1024         1     10000
+$P5  FL3-H        CD14 PerCP      1024         1     10000
+$P6  FL2-A                NA      1024         0      1023
+$P7  FL4-H          CD33 APC      1024         1     10000
+$P8   Time Time (51.20 sec.)      1024         0      1023
+170 keywords are stored in the 'description' slot
+> 
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> getFlowFrame(gs)# gs is a GatingSet
+cytoframe object 'CytoTrol_CytoTrol_1.fcs'
+with 119531 cells and 12 observables:
+         name         desc     range  minRange  maxRange
+$P1     FSC-A           NA 262142.00     0.000 262142.00
+$P2     FSC-H           NA 262142.00     0.000 262142.00
+$P3     FSC-W           NA 262142.00     0.000 262142.00
+$P4     SSC-A           NA 262142.00     0.000 262142.00
+$P5  <B710-A>  CD4 PcpCy55   4096.79   426.312   4096.79
+...       ...          ...       ...       ...       ...
+$P8  <V450-A>     CD3 V450  4097.781  -903.512  4097.781
+$P9  <V545-A>  HLA-DR V500  4097.264   213.443  4097.264
+$P10 <G560-A>      CCR7 PE  4097.404   110.234  4097.404
+$P11 <G780-A> CD45RA PECy7  4096.723   448.912  4096.723
+$P12     Time           NA   294.392     0.002   294.392
+198 keywords are stored in the 'description' slot
+row names(0):
+cytoframe has been subsetted and can be realized through 'realize_view()'.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ggcyto")
+> ### * ggcyto
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ggcyto-class
+> ### Title: Plot cytometry data using the ggcyto API
+> ### Aliases: ggcyto-class ggcyto_flowSet-class ggcyto_GatingSet-class
+> ###   ggcyto_GatingLayout-class ggcyto ggcyto.default ggcyto.flowSet
+> ###   ggcyto.GatingHierarchy ggcyto.GatingSet ggcyto.GatingSetList
+> 
+> ### ** Examples
+> 
+> 
+> data(GvHD)
+> fs <- GvHD[1:3]
+> #construct the `ggcyto` object (inherits from `ggplot` class)
+> p <- ggcyto(fs, aes(x = `FSC-H`)) 
+> p + geom_histogram() 
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+> 
+> # display density/area
+> p + geom_density()
+> p + geom_area(stat = "density") 
+> 
+> # 2d scatter plot
+> p <- ggcyto(fs, aes(x = `FSC-H`, y =  `SSC-H`))
+> p + geom_hex(bins = 128)
+> # do it programatically through aes_string and variables
+> col1 <- "`FSC-H`" #note that the dimension names with special characters needs to be quoted by backticks
+> col2 <- "`SSC-H`"
+> ggcyto(fs, aes_string(col1,col2)) + geom_hex()
+Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
+ℹ Please use tidy evaluation idioms with `aes()`.
+ℹ See also `vignette("ggplot2-in-packages")` for more information.
+> 
+> ## More flowSet examples
+> fs <- GvHD[subset(pData(GvHD), Patient %in%5:7 & Visit %in% c(5:6))[["name"]]]
+> # 1d histogram/densityplot
+> p <- ggcyto(fs, aes(x = `FSC-H`)) 
+> #facet_wrap(~name)` is used automatically
+> p1 <- p + geom_histogram() 
+> p1
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+> #overwriting the default faceeting
+> p1 + facet_grid(Patient~Visit)
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+> 
+> #display density
+> p + geom_density()
+> 
+> #you can use ggridges package to display stacked density plot
+> require(ggridges)
+Loading required package: ggridges
+> #stack by fcs file ('name')
+> p + geom_density_ridges(aes(y = name)) + facet_null() #facet_null is used to remove the default facet_wrap (by 'name' column)
+Picking joint bandwidth of 16.4
+> #or to stack by Visit and facet by patient
+> p + geom_density_ridges(aes(y = Visit)) + facet_grid(~Patient)
+Picking joint bandwidth of 29.2
+Picking joint bandwidth of 12.1
+Picking joint bandwidth of 7.74
+> 
+> # 2d scatter/dot plot
+> p <- ggcyto(fs, aes(x = `FSC-H`, y =  `SSC-H`))
+> p <- p + geom_hex(bins = 128)
+> p
+> 
+> ## GatingSet
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> # 2d plot 
+> ggcyto(gs, aes(x = CD4, y = CD8), subset = "CD3+") + geom_hex(bins = 64)
+> 
+> # 1d plot
+> ggcyto(gs, aes(x = CD4), subset = "CD3+")  + geom_density()
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggridges’
+
+> nameEx("ggcyto_add")
+> ### * ggcyto_add
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ggcyto_add
+> ### Title: overloaded '+' method for ggcyto
+> ### Aliases: ggcyto_add +.ggcyto_flowSet + +,ggcyto_flowSet-method
+> ###   +.ggcyto_GatingSet +,ggcyto_GatingSet-method +.ggcyto_GatingLayout
+> ###   +,ggcyto_GatingLayout-method +.ggcyto_ncdfFlowList
+> ###   +,ggcyto_GatingLayout,ANY-method +,ggcyto_GatingSet,ANY-method
+> ###   +,ggcyto_flowSet,ANY-method
+> 
+> ### ** Examples
+> 
+> 
+> ## flowSet
+> data(GvHD)
+> fs <- GvHD[subset(pData(GvHD), Patient %in%5:7 & Visit %in% c(5:6))[["name"]]]
+> p <- ggcyto(fs, aes(x = `FSC-H`, y =  `SSC-H`)) + geom_hex(bins = 128)
+> #add rectangleGate layer (2d)
+> rect.g <- rectangleGate(list("FSC-H" =  c(300,500), "SSC-H" = c(50,200)))
+> rect.gates <- sapply(sampleNames(fs), function(sn)rect.g)
+> p + geom_gate(rect.gates) + geom_stats()
+> 
+> ## GatingSet
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> p <- ggcyto(gs, aes(x = CD4, y = CD8), subset = "CD3+") + geom_hex(bins = 64)
+> p <- p + geom_gate("CD4") + geom_stats() #plot CD4 gate and it is stats
+> p
+> p + axis_x_inverse_trans() #inverse transform the x axis into raw scale
+> 
+> ## GatingLayout
+> #autplot for GatingSet
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> gh <- gs[[1]]
+> p <- autoplot(gh)
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> class(p)
+[1] "ggcyto_GatingLayout"
+attr(,"package")
+[1] "ggcyto"
+> # customize the font size of strip text for each ggcyo plots contained in GatingLayout object
+> p + theme(strip.text = element_text(size = 14))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ggcyto_arrange")
+> ### * ggcyto_arrange
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ggcyto_arrange
+> ### Title: Arrange a list of ggplot objects into gtable
+> ### Aliases: ggcyto_arrange
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # get ggcyto_GatingLayout object from first sample
+> ##D res <- autoplot(gs[[1]], nodes, bins = 64)
+> ##D class(res)
+> ##D # arrange it as one-row gtable object 
+> ##D gt <- ggcyto_arrange(res, nrow = 1)
+> ##D gt
+> ##D # do the same to the second sample
+> ##D gt2 <- ggcyto_arrange(autoplot(gs[[2]], nodes, bins = 64), nrow = 1)
+> ##D # combine the two and print it on the sampe page
+> ##D gt3 <- gridExtra::gtable_rbind(gt, gt2)
+> ##D plot(gt3)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ggcyto_par_default")
+> ### * ggcyto_par_default
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ggcyto_par_default
+> ### Title: Return The default ggcyto settings
+> ### Aliases: ggcyto_par_default
+> 
+> ### ** Examples
+> 
+> ggcyto_par_default()
+$limits
+[1] "data"
+
+$facet
+<ggproto object: Class FacetWrap, Facet, gg>
+    compute_layout: function
+    draw_back: function
+    draw_front: function
+    draw_labels: function
+    draw_panels: function
+    finish_data: function
+    init_scales: function
+    map_data: function
+    params: list
+    setup_data: function
+    setup_params: function
+    shrink: TRUE
+    train_scales: function
+    vars: function
+    super:  <ggproto object: Class FacetWrap, Facet, gg>
+
+$hex_fill
+<ScaleContinuous>
+ Range:  
+ Limits:    0 --    1
+
+$lab
+$labels
+[1] "both"
+
+attr(,"class")
+[1] "labs_cyto"
+
+attr(,"class")
+[1] "ggcyto_par"
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ggcyto_par_set")
+> ### * ggcyto_par_set
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ggcyto_par_set
+> ### Title: Set some default parameters for ggcyto
+> ### Aliases: ggcyto_par_set
+> 
+> ### ** Examples
+> 
+> library(ggcyto)
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> 
+> p <- ggcyto(gs, aes(x = CD4, y = CD8), subset = "CD3+") 
+> # 2d plot 
+> p <- p + geom_hex(bins = 64)
+> p
+> 
+> #use instrument range by overwritting the default limits settings
+> p + ggcyto_par_set(limits = "instrument")
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> 
+> #manually set limits
+> myPars <- ggcyto_par_set(limits = list(x = c(0,3.2e3), y = c(-10, 3.5e3)))
+>  p  + myPars# or xlim(0,3.2e3) + ylim(-10, 3.5e3) 
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("is.ggcyto")
+> ### * is.ggcyto
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: is.ggcyto
+> ### Title: Reports whether x is a ggcyto object
+> ### Aliases: is.ggcyto
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fs <- GvHD[1:2]
+> p <- ggcyto(fs, aes(x = `FSC-H`))
+> is.ggcyto(p)
+[1] TRUE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("is.ggcyto_flowSet")
+> ### * is.ggcyto_flowSet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: is.ggcyto_flowSet
+> ### Title: Reports whether x is a ggcyto_flowSet object
+> ### Aliases: is.ggcyto_flowSet
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fs <- GvHD[1:2]
+> p <- ggcyto(fs, aes(x = `FSC-H`))
+> is.ggcyto_flowSet(p)
+[1] TRUE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("is.ggcyto_par")
+> ### * is.ggcyto_par
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: is.ggcyto_par
+> ### Title: Reports whether x is a ggcyto_par object
+> ### Aliases: is.ggcyto_par
+> 
+> ### ** Examples
+> 
+> myPar <- ggcyto_par_set(limits = "instrument")
+> is.ggcyto_par(myPar)
+[1] TRUE
+> 
+> 
+> 
+> graphics::par(get("par.postscript", pos = 'CheckExEnv'))
+> cleanEx()
+> nameEx("labs_cyto")
+> ### * labs_cyto
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: labs_cyto
+> ### Title: Change axis labels and legend titles
+> ### Aliases: labs_cyto
+> 
+> ### ** Examples
+> 
+> 
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> 
+> # default is "both"
+> p <- ggcyto(gs, aes(x = CD4, y = CD8), subset = "CD3+") + geom_hex(bins = 64)
+> p
+> 
+> #use marker name as x,y labs
+> p + labs_cyto("marker")
+> 
+> #use channel name as x,y labs
+> p + labs_cyto("channel")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("marginalFilter")
+> ### * marginalFilter
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: marginalFilter
+> ### Title: Generate a marginal gate.
+> ### Aliases: marginalFilter
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fs <- GvHD[1]
+> chnls <- c("FSC-H", "SSC-H")
+> #before removign marginal events
+> summary(fs[, chnls])
+$s5a01
+            FSC-H     SSC-H
+Min.      59.0000    6.0000
+1st Qu.  115.0000   82.0000
+Median   197.0000  145.5000
+Mean     245.2456  202.8588
+3rd Qu.  338.0000  237.0000
+Max.    1023.0000 1023.0000
+
+> 
+> # create merginal filter
+> g <- marginalFilter(fs, chnls)
+> g
+boundaryFilter 'defaultBoundaryFilter' operating on channels:
+ FSC-H (tolerance=2.22e-16, boundary=both)
+ SSC-H (tolerance=2.22e-16, boundary=both)
+> 
+> #after remove marginal events
+> fs.clean <- Subset(fs, g)
+> summary(fs.clean[, chnls])
+$s5a01
+           FSC-H     SSC-H
+Min.     59.0000    6.0000
+1st Qu. 114.0000   80.0000
+Median  193.0000  142.0000
+Mean    236.7293  185.7215
+3rd Qu. 331.0000  228.0000
+Max.    943.0000 1009.0000
+
+> 
+> #pass the function directly to ggcyto
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> # with marginal events
+> ggcyto(gs, aes(x = CD4, y = CD8), subset = "CD3+") + geom_hex(bins = 64)
+> 
+> # using marginalFilter to remove these events
+> ggcyto(gs, aes(x = CD4, y = CD8), subset = "CD3+", filter = marginalFilter) + geom_hex(bins = 64)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("merge.quad.gates")
+> ### * merge.quad.gates
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: merge.quad.gates
+> ### Title: extend the original flowWorkspace:::.mergeGates function to
+> ###   restore quadGate when applicable
+> ### Aliases: merge.quad.gates
+> 
+> ### ** Examples
+> 
+> library(flowWorkspace)
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(file.path(dataDir, "gs_manual"))
+> #get the GatingHierarchy object
+> gh <- gs[[1]]
+> pops <- gs_pop_get_children(gh, "CD4")
+> grps  <- ggcyto:::merge.quad.gates(gh, pops)
+> length(grps) # pops are grouped into two
+[1] 2
+> grps[[1]] # each group is annotaed with quadGate information
+$popIds
+$popIds$quad.gate
+Quadrant gate 'defaultQuadGate' with dimensions:
+  <R660-A>: 1892.233
+  <V545-A>: 1968.89
+
+$popIds$quad.pattern
+[1] "-+" "++" "+-" "--"
+
+$popIds$pop.name
+[1] "/not debris/singlets/CD3+/CD4/38- DR+"
+[2] "/not debris/singlets/CD3+/CD4/38+ DR+"
+[3] "/not debris/singlets/CD3+/CD4/38+ DR-"
+[4] "/not debris/singlets/CD3+/CD4/38- DR-"
+
+
+$parentId
+[1] "CD4"
+
+> 
+> ggcyto:::merge.quad.gates(gh, gs_pop_get_children(gh, "CD3+")) # cd3 subsets are not coercible to quadgate thus return as they are
+$`/not debris/singlets/CD3+/CD4`
+$`/not debris/singlets/CD3+/CD4`$popIds
+[1] "/not debris/singlets/CD3+/CD4" "/not debris/singlets/CD3+/CD8"
+[3] "/not debris/singlets/CD3+/DNT" "/not debris/singlets/CD3+/DPT"
+
+$`/not debris/singlets/CD3+/CD4`$parentId
+[1] "CD3+"
+
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("replace_data")
+> ### * replace_data
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: replace_data
+> ### Title: replace current cytometry data
+> ### Aliases: replace_data %+% %+%,ggcyto_GatingLayout-method
+> ###   %+%,ggcyto_GatingLayout,ANY-method %+%,ggcyto-method
+> 
+> ### ** Examples
+> 
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_bcell_auto",full = TRUE))
+> gs1 <- gs[1]
+> gs2 <- gs[2]
+> 
+> #construct the ggcyto object for gs1
+> p <- ggcyto(gs1, aes(cd24, cd38)) + geom_hex(bins = 128)
+> p <- p + geom_gate("Transitional") #add gate
+> #customize the stats layer
+> p <- p + geom_stats(type = "count", size = 6,  color = "white", fill = "black", adjust = 0.3)
+> #customize the layer
+> p <- p + labs_cyto("channel")
+> #customize the axis limits
+> p <- p + ggcyto_par_set(limits = "instrument")
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> #add another population as the overlay dots
+> p <- p + geom_overlay("IgD-CD27-", col = "black", size = 1.2, alpha = 0.4)
+> #hide the legend
+> p <- p + guides(fill=FALSE)
+> p
+> 
+> #replace the data with gs2 and see the same visual effect
+> p %+% gs2
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("scale_x_flowCore_fasinh")
+> ### * scale_x_flowCore_fasinh
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: scale_x_flowCore_fasinh
+> ### Title: Add a flowCore inverse hyperbolic sine scale to the x or y axes
+> ###   of a ggcyto plot.
+> ### Aliases: scale_x_flowCore_fasinh scale_y_flowCore_fasinh
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fr <- GvHD[[1]]
+> p <- ggcyto(fr, aes(x = `FL1-H`)) + geom_density()
+> #display at raw scale
+> p 
+> #display at transformed scale
+> p + scale_x_flowCore_fasinh(a = 2)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("scale_x_logicle")
+> ### * scale_x_logicle
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: scale_x_logicle
+> ### Title: Add a logicle scale to the x or y axes of a ggcyto plot.
+> ### Aliases: scale_x_logicle scale_y_logicle
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fr <- GvHD[[1]]
+> p <- ggcyto(fr, aes(x = `FL1-H`)) + geom_density()
+> #display at raw scale
+> p 
+> #display at transformed scale
+> p + scale_x_logicle(t = 1e4)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("scales_flowjo_biexp")
+> ### * scales_flowjo_biexp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: scales_flowjo_biexp
+> ### Title: Add a flowJo biexponential scale to the x or y axes of a ggcyto
+> ###   plot.
+> ### Aliases: scales_flowjo_biexp scale_x_flowjo_biexp scale_y_flowjo_biexp
+> ###   scale_x_flowJo_biexp scale_y_flowJo_biexp
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fr <- GvHD[[1]]
+> p <- ggcyto(fr, aes(x = `FL1-H`)) + geom_density()
+> #display at raw scale
+> p 
+> #display at transformed scale
+> p + scale_x_flowjo_biexp(maxValue = 1e4, widthBasis = 0)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("scales_flowjo_fasinh")
+> ### * scales_flowjo_fasinh
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: scales_flowjo_fasinh
+> ### Title: Add a flowJo inverse hyperbolic sine scale to the x or y axes of
+> ###   a ggcyto plot.
+> ### Aliases: scales_flowjo_fasinh scale_x_flowjo_fasinh
+> ###   scale_y_flowjo_fasinh scale_x_flowJo_fasinh scale_y_flowJo_fasinh
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fr <- GvHD[[1]]
+> p <- ggcyto(fr, aes(x = `FL1-H`)) + geom_density()
+> #display at raw scale
+> p 
+> #display at transformed scale
+> p + scale_x_flowjo_fasinh(t = 1e4)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("stat_position")
+> ### * stat_position
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: stat_position
+> ### Title: Compute the positions of the population statistics based on the
+> ###   geometic gate centroid for a ggcyto plot.
+> ### Aliases: stat_position stat_position.filter stat_position.filterList
+> ###   stat_position.list
+> 
+> ### ** Examples
+> 
+> data(GvHD)
+> fs <- GvHD[1:4]
+> rect.g <- rectangleGate(list("FSC-H" =  c(300,500), "SSC-H" = c(50,200)))
+> rect.gates <- sapply(sampleNames(fs), function(sn)rect.g)
+> stat_position(rect.gates)
+   FSC-H SSC-H .rownames
+1:   400   125     s5a01
+2:   400   125     s5a02
+3:   400   125     s5a03
+4:   400   125     s5a04
+> 
+> 
+> 
+> cleanEx()
+> nameEx("stats_null")
+> ### * stats_null
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: stats_null
+> ### Title: clear all the geom_stats() layer previously added
+> ### Aliases: stats_null
+> 
+> ### ** Examples
+> 
+> dataDir <- system.file("extdata",package="flowWorkspaceData")
+> gs <- load_gs(list.files(dataDir, pattern = "gs_manual",full = TRUE))
+> #autoplot display pop stats by default
+> p <- autoplot(gs, "CD4")
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+> #it is easy to remove the default stats
+> p <- p + stats_null()
+> #and add a new one
+> p <- p + geom_stats(type = "count")
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  32.716 0.802 33.949 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

@@ -1,0 +1,302 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "spotifyr"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('spotifyr')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("get_category_playlists")
+> ### * get_category_playlists
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_category_playlists
+> ### Title: Get a list of Spotify playlists tagged with a particular
+> ###   category
+> ### Aliases: get_category_playlists
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D get_category_playlists('party', country = 'BR')
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_featured_playlists")
+> ### * get_featured_playlists
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_featured_playlists
+> ### Title: Get list of Spotify featured playlists
+> ### Aliases: get_featured_playlists
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D 
+> ##D ## Get Flemish-Dutch playlists from Belgium:
+> ##D 
+> ##D get_featured_playlists(
+> ##D    country = 'BE',
+> ##D    locale = "nl_BE" )
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_genre_artists")
+> ### * get_genre_artists
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_genre_artists
+> ### Title: Search for Artists by Genre
+> ### Aliases: get_genre_artists
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D get_genre_artists('wonky')
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_label_artists")
+> ### * get_label_artists
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_label_artists
+> ### Title: Search for artists by label
+> ### Aliases: get_label_artists
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D get_label_artists('brainfeeder')
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_new_releases")
+> ### * get_new_releases
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_new_releases
+> ### Title: Get new releases
+> ### Aliases: get_new_releases
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D ## Get new Swedish music
+> ##D get_new_releases(country = 'SE', limit = 5)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_playlist_audio_features")
+> ### * get_playlist_audio_features
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_playlist_audio_features
+> ### Title: Get Features and Popularity of Playlists on Spotify
+> ### Aliases: get_playlist_audio_features
+> ### Keywords: audio features playlists track
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D playlist_username <- 'spotify'
+> ##D playlist_uris <- c('37i9dQZF1E9T1oFsQFg98K', '37i9dQZF1CyQNOI21QVf3p')
+> ##D playlist_audio_features <- get_playlist_audio_features(playlist_username, playlist_uris)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_recommendations")
+> ### * get_recommendations
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_recommendations
+> ### Title: Create a playlist-style listening experience based on seed
+> ###   artists, tracks and genres.
+> ### Aliases: get_recommendations
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D get_recommendations(market = 'SE', seed_genres = 'rock')
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_recommendations_all")
+> ### * get_recommendations_all
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_recommendations_all
+> ### Title: Get recommendations for unlimited vector of track IDs
+> ### Aliases: get_recommendations_all
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D get_recommendations_all(
+> ##D    track_ids = c("5VIpLopHgolKcSSj7JPCMA", "3QRGYDFFUVb4qneE4DX1gR")
+> ##D    )
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_spotify_access_token")
+> ### * get_spotify_access_token
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_spotify_access_token
+> ### Title: Get Spotify Access Token
+> ### Aliases: get_spotify_access_token
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D token <- get_spotify_access_token()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_spotify_authorization_code")
+> ### * get_spotify_authorization_code
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_spotify_authorization_code
+> ### Title: Get Spotify Authorization Code
+> ### Aliases: get_spotify_authorization_code
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D authorization <- get_spotify_authorization_code()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("scopes")
+> ### * scopes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: scopes
+> ### Title: Valid Authorization Scopes
+> ### Aliases: scopes
+> 
+> ### ** Examples
+> 
+> scopes()
+ [1] "ugc-image-upload"            "user-read-playback-state"   
+ [3] "user-modify-playback-state"  "user-read-currently-playing"
+ [5] "app-remote-control"          "streaming"                  
+ [7] "playlist-read-private"       "playlist-read-collaborative"
+ [9] "playlist-modify-private"     "playlist-modify-public"     
+[11] "user-follow-modify"          "user-follow-read"           
+[13] "user-read-playback-position" "user-top-read"              
+[15] "user-read-recently-played"   "user-library-modify"        
+[17] "user-library-read"           "user-read-email"            
+[19] "user-read-private"           "user-soa-link"              
+[21] "user-soa-unlink"             "user-manage-entitlements"   
+[23] "user-manage-partner"         "user-create-partner"        
+> 
+> 
+> 
+> cleanEx()
+> nameEx("search_spotify")
+> ### * search_spotify
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: search_spotify
+> ### Title: Search for an Item
+> ### Aliases: search_spotify
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D search_spotify('radiohead', 'artist')
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("tidy")
+> ### * tidy
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: tidy
+> ### Title: Tidy a Playlist
+> ### Aliases: tidy tidy.playlist print.playlist
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D fall <- get_playlist("4GSV6uJzlbtTCPJhnVU1o8")
+> ##D tidy(fall)
+> ##D 
+> ##D print(fall)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.513 0.033 0.735 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

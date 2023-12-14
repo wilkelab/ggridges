@@ -1,0 +1,235 @@
+* using log directory ‘/Users/clauswilke/github/ggridges/revdep/checks.noindex/dittoSeq/new/dittoSeq.Rcheck’
+* using R version 4.3.1 (2023-06-16)
+* using platform: aarch64-apple-darwin20 (64-bit)
+* R was compiled by
+    Apple clang version 14.0.0 (clang-1400.0.29.202)
+    GNU Fortran (GCC) 12.2.0
+* running under: macOS Ventura 13.6
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘dittoSeq/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘dittoSeq’ version ‘1.14.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... NOTE
+Packages suggested but not available for checking:
+  'bluster', 'scater', 'scran'
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘dittoSeq’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking ‘build’ directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... OK
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... NOTE
+Package unavailable to check Rd xrefs: ‘slingshot’
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... OK
+* checking LazyData ... OK
+* checking data for ASCII and uncompressed saves ... OK
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... ERROR
+Running examples in ‘dittoSeq-Ex.R’ failed
+The error most likely occurred in:
+
+> ### Name: dittoHeatmap
+> ### Title: Outputs a heatmap of given genes
+> ### Aliases: dittoHeatmap
+> 
+> ### ** Examples
+> 
+> example(importDittoBulk, echo = FALSE)
+Warning: package ‘SingleCellExperiment’ was built under R version 4.3.2
+Loading required package: SummarizedExperiment
+Warning: package ‘SummarizedExperiment’ was built under R version 4.3.2
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+Warning: package ‘S4Vectors’ was built under R version 4.3.2
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning: package ‘GenomeInfoDb’ was built under R version 4.3.2
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+> scRNA <- setBulk(myRNA, FALSE)
+> 
+> # We now have two SCEs for our example purposes:
+>   # 'myRNA' will be treated as a bulk RNAseq dataset
+>   # 'scRNA' will be treated as a single-cell RNAseq dataset
+> 
+> # Pick a set of genes
+> genes <- getGenes(myRNA)[1:30]
+> 
+> # Make a heatmap with cells/samples annotated by their clusters
+> dittoHeatmap(myRNA, genes,
++     annot.by = "clustering")
+> 
+> # For single-cell data, you will typically have more cells than can be
+> # clustered quickly. Thus, cell clustering is turned off by default for
+> # single-cell data.
+> dittoHeatmap(scRNA, genes,
++     annot.by = "clustering")
+> 
+> # Using the 'order.by' input:
+> #   Ordering by a useful metadata or gene is often helpful.
+> #   For single-cell data, order.by defaults to the first element given to
+> #     annot.by.
+> #   For bulk data, order.by must be set separately.
+> dittoHeatmap(myRNA, genes,
++     annot.by = "clustering",
++     order.by = "clustering",
++     cluster_cols = FALSE)
+> # 'order.by' can be multiple metadata/genes, or a vector of indexes directly 
+> dittoHeatmap(scRNA, genes,
++     annot.by = "clustering",
++     order.by = c("clustering", "timepoint"))
+> dittoHeatmap(scRNA, genes,
++     annot.by = "clustering",
++     order.by = ncol(scRNA):1)
+> 
+> # When there are many cells, showing names becomes less useful.
+> #   Names can be turned off with the 'show_colnames' parameter.
+> dittoHeatmap(scRNA, genes,
++     annot.by = "groups",
++     show_colnames = FALSE)
+> 
+> # When theree are many many cells & genes, rasterization can be super useful
+> # as well.
+> #   Rasterization, or flattening of the distinct color objects to a matrix of
+> #   pixels, is the default for large heatmaps in the ComplexHeatmap package,
+> #   and you can have the heatmap rendered with this package (rather than the
+> #   pheatmap package) by setting 'complex = TRUE'.
+> #   Our data here is too small to hit that defaulting switch, so lets give
+> #   the direct input, 'use_raster' as well:
+> if (requireNamespace("ComplexHeatmap")) { # Checks if you have the package.
++     dittoHeatmap(scRNA, genes, annot.by = "groups", show_colnames = FALSE,
++         complex = TRUE,
++         use_raster = TRUE)
++ }
+Loading required namespace: ComplexHeatmap
+'magick' package is suggested to install to give better rasterization.
+
+Set `ht_opt$message = FALSE` to turn off this message.
+Warning in grSoftVersion() :
+  unable to load shared object '/Library/Frameworks/R.framework/Resources/modules//R_X11.so':
+  dlopen(/Library/Frameworks/R.framework/Resources/modules//R_X11.so, 0x0006): Library not loaded: /opt/X11/lib/libSM.6.dylib
+  Referenced from: <B3716E5A-BF4D-3CA3-B8EB-89643DB72A04> /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/modules/R_X11.so
+  Reason: tried: '/opt/X11/lib/libSM.6.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/opt/X11/lib/libSM.6.dylib' (no such file), '/opt/X11/lib/libSM.6.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libSM.6.dylib' (no such file), '/Library/Java/JavaVirtualMachines/jdk-11.0.18+10/Contents/Home/lib/server/libSM.6.dylib' (no such file)
+Warning in cairoVersion() :
+  unable to load shared object '/Library/Frameworks/R.framework/Resources/library/grDevices/libs//cairo.so':
+  dlopen(/Library/Frameworks/R.framework/Resources/library/grDevices/libs//cairo.so, 0x0006): Library not loaded: /opt/X11/lib/libXrender.1.dylib
+  Referenced from: <52C9ABC5-C730-30ED-BC04-27F1B9C71044> /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library/grDevices/libs/cairo.so
+  Reason: tried: '/opt/X11/lib/libXrender.1.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/opt/X11/lib/libXrender.1.dylib' (no such file), '/opt/X11/lib/libXrender.1.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libXrender.1.dylib' (no such file), '/Library/Java/JavaVirtualMachines/jdk-11.0.18+10/Contents/Home/lib/server/libXrender.1.dylib' (no such file)
+Warning in (function (filename = "Rplot%03d.png", width = 480, height = 480,  :
+  failed to load cairo DLL
+Error in getFromNamespace(device_info[3], ns = device_info[2])(temp_image) : 
+  unable to open /var/folders/l4/yqkcxkkj07jccl06ptwvsnfh0000gn/T//RtmpsfoxJ2/.heatmap_body_846b848a76c3afd8199b0903d87e964b_1_1bdb27a3aa167.png
+Calls: <Anonymous> ... draw_heatmap_body -> draw_heatmap_body -> .local -> <Anonymous>
+Execution halted
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... OK
+  Running ‘testthat.R’
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘dittoSeq.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 1 ERROR, 2 NOTEs

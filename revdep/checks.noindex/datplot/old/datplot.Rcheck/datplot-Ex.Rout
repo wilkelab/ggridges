@@ -1,0 +1,148 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "datplot"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('datplot')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("datsteps")
+> ### * datsteps
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: datsteps
+> ### Title: Create 'steps' of dates for each object in a data.frame
+> ### Aliases: datsteps
+> 
+> ### ** Examples
+> 
+> data("Inscr_Bithynia")
+> DAT_df <- Inscr_Bithynia[, c("ID", "Location", "DAT_min", "DAT_max")]
+> DAT_df_steps <- datsteps(DAT_df, stepsize = 25)
+Using 'weight'-calculation (see https://doi.org/10.1017/aap.2021.8).
+Warning in datsteps(DAT_df, stepsize = 25) :
+  1554 rows with NA-values in the dating columns will be omitted.
+DAT_min and DAT_max at Index: 57, 68, 120, 173, 187, 238, 299, 300, 311, 312, 588, 590, 599, 679, 794, 798, 799, 828, 831, 833, 834, 837, 841, 878, 879, 908, 909, 914, 915, 931, 932, 933, 937, 938, 941, 942, 997, 1051, 1064, 1067, 1130, 1307, 1308, 1310, 1322, 1323, 1324 have the same value! Is this correct? If unsure, check your data for possible errors.
+Warning in create.sub.objects(DAT_list, stepsize, calc, cumulative) :
+  stepsize is larger than the range of the closest dated object at Index = 6, 12, 13, 17, 18, 19, 20, 21, 38, 39, 40, 43, 44, 57, 67, 68, 69, 70, 72, 75, 98, 101, 102, 106, 107, 112, 113, 114, 120, 122, 123, 129, 136, 137, 138, 142, 143, 146, 148, 149, 150, 168, 170, 172, 173, 175, 177, 178, 179, 180, 181, 182, 186, 187, 189, 190, 195, 203, 204, 205, 206, 207, 208, 209, 210, 212, 214, 215, 216, 217, 218, 234, 238, 240, 241, 242, 245, 261, 262, 292, 293, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 543, 546, 547, 548, 549, 581, 582, 583, 584, 585, 586, 588, 590, 591, 592, 593, 594, 595, 596, 597, 599, 602, 606, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 827, 828, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 866, 867, 870, [... truncated]
+> plot(density(DAT_df_steps$DAT_step))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get.histogramscale")
+> ### * get.histogramscale
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get.histogramscale
+> ### Title: Scaling Factor for Combined Histogram Plots
+> ### Aliases: get.histogramscale
+> 
+> ### ** Examples
+> 
+> data("Inscr_Bithynia")
+> DAT_df <- Inscr_Bithynia[, c("ID", "Location", "DAT_min", "DAT_max")]
+> DAT_df_steps <- datsteps(DAT_df, stepsize = 25)
+Using 'weight'-calculation (see https://doi.org/10.1017/aap.2021.8).
+Warning in datsteps(DAT_df, stepsize = 25) :
+  1554 rows with NA-values in the dating columns will be omitted.
+DAT_min and DAT_max at Index: 57, 68, 120, 173, 187, 238, 299, 300, 311, 312, 588, 590, 599, 679, 794, 798, 799, 828, 831, 833, 834, 837, 841, 878, 879, 908, 909, 914, 915, 931, 932, 933, 937, 938, 941, 942, 997, 1051, 1064, 1067, 1130, 1307, 1308, 1310, 1322, 1323, 1324 have the same value! Is this correct? If unsure, check your data for possible errors.
+Warning in create.sub.objects(DAT_list, stepsize, calc, cumulative) :
+  stepsize is larger than the range of the closest dated object at Index = 6, 12, 13, 17, 18, 19, 20, 21, 38, 39, 40, 43, 44, 57, 67, 68, 69, 70, 72, 75, 98, 101, 102, 106, 107, 112, 113, 114, 120, 122, 123, 129, 136, 137, 138, 142, 143, 146, 148, 149, 150, 168, 170, 172, 173, 175, 177, 178, 179, 180, 181, 182, 186, 187, 189, 190, 195, 203, 204, 205, 206, 207, 208, 209, 210, 212, 214, 215, 216, 217, 218, 234, 238, 240, 241, 242, 245, 261, 262, 292, 293, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 543, 546, 547, 548, 549, 581, 582, 583, 584, 585, 586, 588, 590, 591, 592, 593, 594, 595, 596, 597, 599, 602, 606, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 827, 828, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 866, 867, 870, [... truncated]
+> get.histogramscale(DAT_df_steps)
+[1] 298000
+> 
+> get.histogramscale(DAT_df_steps$DAT_step, binwidth = 20)
+[1] 238400
+> get.histogramscale(500, binwidth = 20)
+[1] 10000
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get.step.sequence")
+> ### * get.step.sequence
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get.step.sequence
+> ### Title: Calculate the sequence of dating steps
+> ### Aliases: get.step.sequence
+> 
+> ### ** Examples
+> 
+> min_year <- -494
+> max_year <- -334
+> sequence <- get.step.sequence(datmin = min_year, datmax = max_year, stepsize = 25)
+> sequence
+[1] -494 -467 -442 -417 -392 -367 -334
+> 
+> min_year <- 1
+> max_year <- 100
+> sequence <- get.step.sequence(datmin = min_year, datmax = max_year, stepsize = 25)
+> sequence
+[1]   1  21  41  60  80 100
+> 
+> 
+> 
+> cleanEx()
+> nameEx("scaleweight")
+> ### * scaleweight
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: scaleweight
+> ### Title: Scales the content of a column
+> ### Aliases: scaleweight
+> 
+> ### ** Examples
+> 
+> data("Inscr_Bithynia")
+> DAT_df <- Inscr_Bithynia[, c("ID", "Location", "DAT_min", "DAT_max")]
+> DAT_df_steps <- datsteps(DAT_df, stepsize = 25)
+Using 'weight'-calculation (see https://doi.org/10.1017/aap.2021.8).
+Warning in datsteps(DAT_df, stepsize = 25) :
+  1554 rows with NA-values in the dating columns will be omitted.
+DAT_min and DAT_max at Index: 57, 68, 120, 173, 187, 238, 299, 300, 311, 312, 588, 590, 599, 679, 794, 798, 799, 828, 831, 833, 834, 837, 841, 878, 879, 908, 909, 914, 915, 931, 932, 933, 937, 938, 941, 942, 997, 1051, 1064, 1067, 1130, 1307, 1308, 1310, 1322, 1323, 1324 have the same value! Is this correct? If unsure, check your data for possible errors.
+Warning in create.sub.objects(DAT_list, stepsize, calc, cumulative) :
+  stepsize is larger than the range of the closest dated object at Index = 6, 12, 13, 17, 18, 19, 20, 21, 38, 39, 40, 43, 44, 57, 67, 68, 69, 70, 72, 75, 98, 101, 102, 106, 107, 112, 113, 114, 120, 122, 123, 129, 136, 137, 138, 142, 143, 146, 148, 149, 150, 168, 170, 172, 173, 175, 177, 178, 179, 180, 181, 182, 186, 187, 189, 190, 195, 203, 204, 205, 206, 207, 208, 209, 210, 212, 214, 215, 216, 217, 218, 234, 238, 240, 241, 242, 245, 261, 262, 292, 293, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 543, 546, 547, 548, 549, 581, 582, 583, 584, 585, 586, 588, 590, 591, 592, 593, 594, 595, 596, 597, 599, 602, 606, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 827, 828, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 866, 867, 870, [... truncated]
+> DAT_df_scaled <- scaleweight(DAT_df_steps, var = 2, val = 5)
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.236 0.01 0.247 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

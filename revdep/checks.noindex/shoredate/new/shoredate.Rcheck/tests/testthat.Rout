@@ -1,0 +1,114 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # This file is part of the standard setup for testthat.
+> # It is recommended that you do not modify it.
+> #
+> # Where should you do additional test configuration?
+> # Learn more about the roles of various files in:
+> # * https://r-pkgs.org/tests.html
+> # * https://testthat.r-lib.org/reference/test_package.html#special-files
+> 
+> library(testthat)
+> library(shoredate)
+> 
+> test_check("shoredate")
+[ FAIL 0 | WARN 0 | SKIP 84 | PASS 0 ]
+
+══ Skipped tests (84) ══════════════════════════════════════════════════════════
+• On CRAN (83): 'test-create_isobases.R:2:3', 'test-displacement_plot.R:2:3',
+  'test-displacement_plot.R:8:3', 'test-displacement_plot.R:16:3',
+  'test-displacement_plot.R:24:3', 'test-displacement_plot.R:32:3',
+  'test-interpolate_curve.R:2:3', 'test-interpolate_curve.R:9:3',
+  'test-interpolate_curve.R:18:3', 'test-interpolate_curve.R:25:3',
+  'test-interpolate_curve.R:35:3', 'test-print.R:9:3', 'test-print.R:23:3',
+  'test-print.R:39:3', 'test-print.R:52:3', 'test-print.R:93:3',
+  'test-print.R:110:3', 'test-print.R:135:3', 'test-shoredate_hdr.R:2:3',
+  'test-shoredate_plot.R:2:3', 'test-shoredate_plot.R:17:3',
+  'test-shoredate_plot.R:32:3', 'test-shoredate_plot.R:45:3',
+  'test-shoredate_plot.R:64:3', 'test-shoredate_plot.R:70:3',
+  'test-shoredate_plot.R:80:3', 'test-shoredate_plot.R:89:3',
+  'test-shoredate_plot.R:95:3', 'test-shoredate_plot.R:101:3',
+  'test-shoredate_plot.R:107:3', 'test-shoredate_plot.R:113:3',
+  'test-shoredate_plot.R:119:3', 'test-shoredate_plot.R:125:3',
+  'test-shoredate_plot.R:131:3', 'test-shoredate_plot.R:137:3',
+  'test-shoredate_plot.R:143:3', 'test-shoredate_plot.R:150:3',
+  'test-shoredate_plot.R:160:3', 'test-shoredate_sumplot.R:10:3',
+  'test-shoredate_sumplot.R:17:3', 'test-shoreline_date.R:2:3',
+  'test-shoreline_date.R:9:3', 'test-shoreline_date.R:18:3',
+  'test-shoreline_date.R:25:3', 'test-shoreline_date.R:32:3',
+  'test-shoreline_date.R:39:3', 'test-shoreline_date.R:46:3',
+  'test-shoreline_date.R:55:3', 'test-shoreline_date.R:62:3',
+  'test-shoreline_date.R:69:3', 'test-shoreline_date.R:76:3',
+  'test-shoreline_date.R:83:3', 'test-shoreline_date.R:90:3',
+  'test-shoreline_date.R:98:3', 'test-shoreline_date.R:106:3',
+  'test-shoreline_date.R:118:3', 'test-shoreline_date.R:126:3',
+  'test-shoreline_date.R:134:3', 'test-sum_shoredates.R:7:3',
+  'test-sum_shoredates.R:16:3', 'test-sum_shoredates.R:24:3',
+  'test-sum_shoredates.R:32:3', 'test-sum_shoredates.R:41:3',
+  'test-sum_shoredates.R:51:3', 'test-sum_shoredates.R:59:3',
+  'test-target_plot.R:2:3', 'test-target_plot.R:15:3',
+  'test-target_plot.R:24:3', 'test-target_plot.R:34:3',
+  'test-target_plot.R:48:3', 'test-target_plot.R:66:3',
+  'test-target_plot.R:87:3', 'test-target_plot.R:102:3',
+  'test-target_plot.R:110:3', 'test-target_plot.R:122:3',
+  'test-target_plot.R:130:3', 'test-target_plot.R:138:3',
+  'test-target_plot.R:145:3', 'test-target_plot.R:153:3',
+  'test-target_plot.R:161:3', 'test-target_plot.R:181:3',
+  'test-target_plot.R:198:5', 'test-target_plot.R:210:3'
+• Skipped due to R CMD check failure on GitHub (1): 'test-target_plot.R:190:3'
+
+[ FAIL 0 | WARN 0 | SKIP 84 | PASS 0 ]
+Deleting unused snapshots:
+• displacement_plot/bare-displacement-plot.svg
+• displacement_plot/greyscale-plot-no-curve.svg
+• displacement_plot/greyscale-plot.svg
+• displacement_plot/plot-renamed-interpolated-curve.svg
+• displacement_plot/plot-with-interpolated-curve.svg
+• shoredate_plot/graphical-parameters.svg
+• shoredate_plot/plot-in-greyscale.svg
+• shoredate_plot/plot-with-a-single-date.svg
+• shoredate_plot/plot-with-a-summed-directions.svg
+• shoredate_plot/plot-with-all-elements-of-title.svg
+• shoredate_plot/plot-with-isobase-directions.svg
+• shoredate_plot/plot-with-model-parameters-isobase-directions.svg
+• shoredate_plot/plot-with-model-parameters.svg
+• shoredate_plot/plot-with-multiplot.svg
+• shoredate_plot/plot-with-name-isobase-directions.svg
+• shoredate_plot/plot-with-name-model-parameters.svg
+• shoredate_plot/plot-with-name.svg
+• shoredate_plot/plot-with-no-distance-model.svg
+• shoredate_plot/plot-without-hdr.svg
+• shoredate_plot/plot-without-probability.svg
+• shoredate_sumplot/plot-of-sum-of-multiple-dates.svg
+• target_plot/exclude-basemap.svg
+• target_plot/exclude-isobases.svg
+• target_plot/graphical-parameters.svg
+• target_plot/greyscale.svg
+• target_plot/multicolumn-target.svg
+• target_plot/no-targets.svg
+• target_plot/only-basemap.svg
+• target_plot/only-isobases.svg
+• target_plot/only-targets.svg
+• target_plot/reprojected-basemap.svg
+• target_plot/reprojected-isobases.svg
+• target_plot/reprojected-targets.svg
+• target_plot/target-point.svg
+> 
+> proc.time()
+   user  system elapsed 
+ 10.446   1.082  11.562 

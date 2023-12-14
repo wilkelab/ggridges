@@ -1,0 +1,2148 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "rexposome"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('rexposome')
+Loading required package: Biobase
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘rexposome’
+
+The following object is masked from ‘package:BiocGenerics’:
+
+    plotPCA
+
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("classification-methods")
+> ### * classification-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: classification
+> ### Title: Method to get the classification of the samples from an
+> ###   ExposomeClust.
+> ### Aliases: classification
+> 
+> ### ** Examples
+> 
+> data("eclust")
+> tt <- classification(expo_c)
+> table(tt)
+tt
+  1   2   3 
+918 199  83 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("clustering-methods")
+> ### * clustering-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: clustering
+> ### Title: Method to perform clustering on the samples of an ExposomeSet
+> ### Aliases: clustering
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> 
+> # EXAMPLE 1: Clustering with mclust
+> library(mclust)
+Package 'mclust' version 6.0.1
+Type 'citation("mclust")' for citing this R package in publications.
+> c <- clustering(expo[12:32, ], method = Mclust, G = 2)
+Warning in clustering(expo[12:32, ], method = Mclust, G = 2) :
+  Non continuous exposures will be discarded.
+> table(classification(c))  # This works since the result of Mclust has an accessor
+
+  1   2 
+734 466 
+>                    # $classification
+> 
+> # EXAMPLE 2: Cluseting with flexmix
+> library(flexmix)
+Loading required package: lattice
+> # First we carete a function to apply flexmix to the ExposomeSet
+> flexmix_clust <- function(data, ...) {
++   data <- as.matrix(data)
++   flexmix(formula = data~1, ...)
++ }
+> 
+> # Then if we apply the method to the ExposomeSet it will crash:
+> # c <- clustering(expo[12:32, ], method = flexmix_clust, k = 2, model = FLXMCmvnorm())
+> # Because the method does not know how to obtain the classification for the result
+> # since flexmix has not an accessor called $classiciation
+> 
+> # We create a function to get the classification
+> flexmix_clas <- function(model, ...) {
++   return(clusters(model))
++ }
+> 
+> # We put it to the ExposomeClust
+> c <- clustering(expo[12:32, ], method = flexmix_clust, cmethod = flexmix_clas,
++     k = 2, model = FLXMCmvnorm())
+Warning in clustering(expo[12:32, ], method = flexmix_clust, cmethod = flexmix_clas,  :
+  Non continuous exposures will be discarded.
+> classification(c) # This works because the ExposomeClust has a way to get
+ SIMSAB401  SIMSAB402  SIMSAB403  SIMSAB404  SIMSAB405  SIMSAB406  SIMSAB407 
+         2          2          2          2          2          2          2 
+ SIMSAB408  SIMSAB409  SIMSAB410  SIMSAB411  SIMSAB412  SIMSAB413  SIMSAB414 
+         2          1          1          2          2          1          1 
+ SIMSAB415  SIMSAB416  SIMSAB417  SIMSAB418  SIMSAB419  SIMSAB420  SIMSAB421 
+         1          2          2          1          1          2          2 
+ SIMSAB422  SIMSAB423  SIMSAB424  SIMSAB425  SIMSAB426  SIMSAB427  SIMSAB428 
+         1          1          2          1          2          1          1 
+ SIMSAB429  SIMSAB430  SIMSAB431  SIMSAB432  SIMSAB433  SIMSAB434  SIMSAB435 
+         2          2          2          2          1          1          1 
+ SIMSAB436  SIMSAB437  SIMSAB438  SIMSAB439  SIMSAB440  SIMSAB441  SIMSAB442 
+         2          1          2          2          2          1          1 
+ SIMSAB443  SIMSAB444  SIMSAB445  SIMSAB446  SIMSAB447  SIMSAB448  SIMSAB449 
+         1          2          1          2          2          1          2 
+ SIMSAB450  SIMSAB451  SIMSAB452  SIMSAB453  SIMSAB454  SIMSAB455  SIMSAB456 
+         1          1          1          1          1          2          2 
+ SIMSAB457  SIMSAB458  SIMSAB459  SIMSAB460  SIMSAB461  SIMSAB462  SIMSAB463 
+         1          2          1          1          2          2          2 
+ SIMSAB464  SIMSAB465  SIMSAB466  SIMSAB467  SIMSAB468  SIMSAB469  SIMSAB470 
+         1          1          1          2          2          1          2 
+ SIMSAB471  SIMSAB472  SIMSAB473  SIMSAB474  SIMSAB475  SIMSAB476  SIMSAB477 
+         1          1          1          1          2          1          2 
+ SIMSAB478  SIMSAB479  SIMSAB480  SIMSAB481  SIMSAB482  SIMSAB483  SIMSAB484 
+         1          1          1          1          1          2          2 
+ SIMSAB485  SIMSAB486  SIMSAB487  SIMSAB488  SIMSAB489  SIMSAB490  SIMSAB491 
+         1          1          2          1          2          2          1 
+ SIMSAB492  SIMSAB493  SIMSAB494  SIMSAB495  SIMSAB496  SIMSAB497  SIMSAB498 
+         1          2          1          2          2          1          1 
+ SIMSAB499  SIMSAB500  SIMSAB501  SIMSAB502  SIMSAB503  SIMSAB504  SIMSAB505 
+         2          2          1          1          2          1          2 
+ SIMSAB506  SIMSAB507  SIMSAB508  SIMSAB509  SIMSAB510  SIMSAB511  SIMSAB512 
+         2          2          2          1          1          1          2 
+ SIMSAB513  SIMSAB514  SIMSAB515  SIMSAB516  SIMSAB517  SIMSAB518  SIMSAB519 
+         1          2          2          1          2          2          2 
+ SIMSAB520  SIMSAB521  SIMSAB522  SIMSAB523  SIMSAB524  SIMSAB525  SIMSAB526 
+         2          1          1          1          1          2          1 
+ SIMSAB527  SIMSAB528  SIMSAB529  SIMSAB530  SIMSAB531  SIMSAB532  SIMSAB533 
+         2          1          2          1          1          1          1 
+ SIMSAB534  SIMSAB535  SIMSAB536  SIMSAB537  SIMSAB538  SIMSAB539  SIMSAB540 
+         2          2          2          2          1          1          1 
+ SIMSAB541  SIMSAB542  SIMSAB543  SIMSAB544  SIMSAB545  SIMSAB546  SIMSAB547 
+         2          1          2          1          1          2          1 
+ SIMSAB548  SIMSAB549  SIMSAB550  SIMSAB551  SIMSAB552  SIMSAB553  SIMSAB554 
+         1          1          1          1          1          2          1 
+ SIMSAB555  SIMSAB556  SIMSAB557  SIMSAB558  SIMSAB559  SIMSAB560  SIMSAB561 
+         2          1          2          2          2          2          1 
+ SIMSAB562  SIMSAB563  SIMSAB564  SIMSAB565  SIMSAB566  SIMSAB567  SIMSAB568 
+         1          2          1          1          1          1          1 
+ SIMSAB569  SIMSAB570  SIMSAB571  SIMSAB572  SIMSAB573  SIMSAB574  SIMSAB575 
+         2          1          2          2          2          2          2 
+ SIMSAB576  SIMSAB577  SIMSAB578  SIMSAB579  SIMSAB580  SIMSAB581  SIMSAB582 
+         1          2          1          2          2          1          2 
+ SIMSAB583  SIMSAB584  SIMSAB585  SIMSAB586  SIMSAB587  SIMSAB588  SIMSAB589 
+         1          2          2          2          2          2          2 
+ SIMSAB590  SIMSAB591  SIMSAB592  SIMSAB593  SIMSAB594  SIMSAB595  SIMSAB596 
+         1          2          2          1          2          1          2 
+ SIMSAB597  SIMSAB598  SIMSAB599  SIMSAB600  SIMSAB601  SIMSAB602  SIMSAB603 
+         1          1          1          2          1          2          2 
+ SIMSAB604  SIMSAB605  SIMSAB606  SIMSAB607  SIMSAB608  SIMSAB609  SIMSAB610 
+         2          2          1          1          2          1          1 
+ SIMSAB611  SIMSAB612  SIMSAB613  SIMSAB614  SIMSAB615  SIMSAB616  SIMSAB617 
+         2          1          2          2          2          1          1 
+ SIMSAB618  SIMSAB619  SIMSAB620  SIMSAB621  SIMSAB622  SIMSAB623  SIMSAB624 
+         2          1          2          2          2          1          1 
+ SIMSAB625  SIMSAB626  SIMSAB627  SIMSAB628  SIMSAB629  SIMSAB630  SIMSAB631 
+         1          1          2          1          1          1          1 
+ SIMSAB632  SIMSAB633  SIMSAB634  SIMSAB635  SIMSAB636  SIMSAB637  SIMSAB638 
+         2          2          2          1          2          1          1 
+ SIMSAB639  SIMSAB640  SIMSAB641  SIMSAB642  SIMSAB643  SIMSAB644  SIMSAB645 
+         2          1          1          2          1          1          1 
+ SIMSAB646  SIMSAB647  SIMSAB648  SIMSAB649  SIMSAB650  SIMSAB651  SIMSAB652 
+         2          2          1          2          2          2          1 
+ SIMSAB653  SIMSAB654  SIMSAB655  SIMSAB656  SIMSAB657  SIMSAB658  SIMSAB659 
+         1          1          1          1          1          1          1 
+ SIMSAB660  SIMSAB661  SIMSAB662  SIMSAB663  SIMSAB664  SIMSAB665  SIMSAB666 
+         2          1          2          1          1          1          2 
+ SIMSAB667  SIMSAB668  SIMSAB669  SIMSAB670  SIMSAB671  SIMSAB672  SIMSAB673 
+         1          2          1          1          1          1          2 
+ SIMSAB674  SIMSAB675  SIMSAB676  SIMSAB677  SIMSAB678  SIMSAB679  SIMSAB680 
+         2          2          1          2          1          2          1 
+ SIMSAB681  SIMSAB682  SIMSAB683  SIMSAB684  SIMSAB685  SIMSAB686  SIMSAB687 
+         2          2          2          2          1          2          1 
+ SIMSAB688  SIMSAB689  SIMSAB690  SIMSAB691  SIMSAB692  SIMSAB693  SIMSAB694 
+         2          1          2          2          2          2          2 
+ SIMSAB695  SIMSAB696  SIMSAB697  SIMSAB698  SIMSAB699  SIMSAB700  SIMSAB701 
+         1          1          1          2          1          2          1 
+ SIMSAB702  SIMSAB703  SIMSAB704  SIMSAB705  SIMSAB706  SIMSAB707  SIMSAB708 
+         2          1          2          2          2          1          1 
+ SIMSAB709  SIMSAB710  SIMSAB711  SIMSAB712  SIMSAB713  SIMSAB714  SIMSAB715 
+         1          2          1          1          1          2          2 
+ SIMSAB716  SIMSAB717  SIMSAB718  SIMSAB719  SIMSAB720  SIMSAB721  SIMSAB722 
+         2          1          2          1          2          2          1 
+ SIMSAB723  SIMSAB724  SIMSAB725  SIMSAB726  SIMSAB727  SIMSAB728  SIMSAB729 
+         2          1          1          1          2          1          2 
+ SIMSAB730  SIMSAB731  SIMSAB732  SIMSAB733  SIMSAB734  SIMSAB735  SIMSAB736 
+         1          1          1          1          1          1          2 
+ SIMSAB737  SIMSAB738  SIMSAB739  SIMSAB740  SIMSAB741  SIMSAB742  SIMSAB743 
+         1          2          1          2          1          2          2 
+ SIMSAB744  SIMSAB745  SIMSAB746  SIMSAB747  SIMSAB748  SIMSAB749  SIMSAB750 
+         2          1          2          2          1          1          1 
+ SIMSAB751  SIMSAB752  SIMSAB753  SIMSAB754  SIMSAB755  SIMSAB756  SIMSAB757 
+         2          1          1          2          1          2          1 
+ SIMSAB758  SIMSAB759  SIMSAB760  SIMSAB761  SIMSAB762  SIMSAB763  SIMSAB764 
+         2          1          1          1          1          1          2 
+ SIMSAB765  SIMSAB766  SIMSAB767  SIMSAB768  SIMSAB769  SIMSAB770  SIMSAB771 
+         2          2          2          2          1          1          2 
+ SIMSAB772  SIMSAB773  SIMSAB774  SIMSAB775  SIMSAB776  SIMSAB777  SIMSAB778 
+         2          1          1          1          1          1          1 
+ SIMSAB779  SIMSAB780  SIMSAB781  SIMSAB782  SIMSAB783  SIMSAB784  SIMSAB785 
+         2          1          2          2          2          1          1 
+ SIMSAB786  SIMSAB787  SIMSAB788  SIMSAB789  SIMSAB790  SIMSAB791  SIMSAB792 
+         2          1          1          1          2          2          2 
+ SIMSAB793  SIMSAB794  SIMSAB795  SIMSAB796  SIMSAB797  SIMSAB798  SIMSAB799 
+         1          1          2          2          2          2          2 
+ SIMSAB800  SIMSAB801  SIMSAB802  SIMSAB803  SIMSAB804  SIMSAB805  SIMSAB806 
+         1          1          1          1          2          2          1 
+ SIMSAB807  SIMSAB808  SIMSAB809  SIMSAB810  SIMSAB811  SIMSAB812  SIMSAB813 
+         1          2          2          1          1          1          1 
+ SIMSAB814  SIMSAB815  SIMSAB816  SIMSAB817  SIMSAB818  SIMSAB819  SIMSAB820 
+         2          2          1          2          1          2          1 
+ SIMSAB821  SIMSAB822  SIMSAB823  SIMSAB824  SIMSAB825  SIMSAB826  SIMSAB827 
+         1          1          2          1          2          1          2 
+ SIMSAB828  SIMSAB829  SIMSAB830  SIMSAB831  SIMSAB832  SIMSAB833  SIMSAB834 
+         2          1          1          2          1          2          1 
+ SIMSAB835  SIMSAB836  SIMSAB837  SIMSAB838  SIMSAB839  SIMSAB840  SIMSAB841 
+         1          2          2          1          1          1          2 
+ SIMSAB842  SIMSAB843  SIMSAB844  SIMSAB845  SIMSAB846  SIMSAB847  SIMSAB848 
+         2          2          1          2          2          1          1 
+ SIMSAB849  SIMSAB850  SIMSAB851  SIMSAB852  SIMSAB853  SIMSAB854  SIMSAB855 
+         2          1          1          2          2          2          2 
+ SIMSAB856  SIMSAB857  SIMSAB858  SIMSAB859  SIMSAB860  SIMSAB861  SIMSAB862 
+         1          2          1          1          1          1          2 
+ SIMSAB863  SIMSAB864  SIMSAB865  SIMSAB866  SIMSAB867  SIMSAB868  SIMSAB869 
+         2          1          2          2          2          1          1 
+ SIMSAB870  SIMSAB871  SIMSAB872  SIMSAB873  SIMSAB874  SIMSAB875  SIMSAB876 
+         2          2          2          2          2          2          1 
+ SIMSAB877  SIMSAB878  SIMSAB879  SIMSAB880  SIMSAB881  SIMSAB882  SIMSAB883 
+         1          2          1          1          2          1          2 
+ SIMSAB884  SIMSAB885  SIMSAB886  SIMSAB887  SIMSAB888  SIMSAB889  SIMSAB890 
+         1          2          1          1          1          1          2 
+ SIMSAB891  SIMSAB892  SIMSAB893  SIMSAB894  SIMSAB895  SIMSAB896  SIMSAB897 
+         1          1          2          1          2          2          1 
+ SIMSAB898  SIMSAB899  SIMSAB900  SIMSAB901  SIMSAB902  SIMSAB903  SIMSAB904 
+         1          1          2          2          1          2          2 
+ SIMSAB905  SIMSAB906  SIMSAB907  SIMSAB908  SIMSAB909  SIMSAB910  SIMSAB911 
+         2          2          1          1          2          2          1 
+ SIMSAB912  SIMSAB913  SIMSAB914  SIMSAB915  SIMSAB916  SIMSAB917  SIMSAB918 
+         1          2          1          2          1          2          2 
+ SIMSAB919  SIMSAB920  SIMSAB921  SIMSAB922  SIMSAB923  SIMSAB924  SIMSAB925 
+         2          1          1          1          2          2          2 
+ SIMSAB926  SIMSAB927  SIMSAB928  SIMSAB929  SIMSAB930  SIMSAB931  SIMSAB932 
+         1          1          2          1          1          1          2 
+ SIMSAB933  SIMSAB934  SIMSAB935  SIMSAB936  SIMSAB937  SIMSAB938  SIMSAB939 
+         1          2          1          1          1          1          1 
+ SIMSAB940  SIMSAB941  SIMSAB942  SIMSAB943  SIMSAB944  SIMSAB945  SIMSAB946 
+         1          2          2          2          1          1          1 
+ SIMSAB947  SIMSAB948  SIMSAB949  SIMSAB950  SIMSAB951  SIMSAB952  SIMSAB953 
+         1          2          1          2          2          2          1 
+ SIMSAB954  SIMSAB955  SIMSAB956  SIMSAB957  SIMSAB958  SIMSAB959  SIMSAB960 
+         1          2          2          1          2          2          2 
+ SIMSAB961  SIMSAB962  SIMSAB963  SIMSAB964  SIMSAB965  SIMSAB966  SIMSAB967 
+         1          2          1          2          2          1          2 
+ SIMSAB968  SIMSAB969  SIMSAB970  SIMSAB971  SIMSAB972  SIMSAB973  SIMSAB974 
+         1          1          1          2          1          1          2 
+ SIMSAB975  SIMSAB976  SIMSAB977  SIMSAB978  SIMSAB979  SIMSAB980  SIMSAB981 
+         2          2          1          1          2          2          1 
+ SIMSAB982  SIMSAB983  SIMSAB984  SIMSAB985  SIMSAB986  SIMSAB987  SIMSAB988 
+         1          1          2          2          2          1          2 
+ SIMSAB989  SIMSAB990  SIMSAB991  SIMSAB992  SIMSAB993  SIMSAB994  SIMSAB995 
+         1          1          2          2          1          1          2 
+ SIMSAB996  SIMSAB997  SIMSAB998  SIMSAB999 SIMSAB1000 SIMSAB1001 SIMSAB1002 
+         1          1          2          2          2          1          2 
+SIMSAB1003 SIMSAB1004 SIMSAB1005 SIMSAB1006 SIMSAB1007 SIMSAB1008 SIMSAB1009 
+         2          2          1          1          2          2          2 
+SIMSAB1010 SIMSAB1011 SIMSAB1012 SIMSAB1013 SIMSAB1014 SIMSAB1015 SIMSAB1016 
+         1          1          2          1          2          1          2 
+SIMSAB1017 SIMSAB1018 SIMSAB1019 SIMSAB1020 SIMSAB1021 SIMSAB1022 SIMSAB1023 
+         1          2          2          2          1          2          2 
+SIMSAB1024 SIMSAB1025 SIMSAB1026 SIMSAB1027 SIMSAB1028 SIMSAB1029 SIMSAB1030 
+         2          1          2          2          2          2          1 
+SIMSAB1031 SIMSAB1032 SIMSAB1033 SIMSAB1034 SIMSAB1035 SIMSAB1036 SIMSAB1037 
+         2          2          1          2          2          2          1 
+SIMSAB1038 SIMSAB1039 SIMSAB1040 SIMSAB1041 SIMSAB1042 SIMSAB1043 SIMSAB1044 
+         2          2          2          1          2          2          2 
+SIMSAB1045 SIMSAB1046 SIMSAB1047 SIMSAB1048 SIMSAB1049 SIMSAB1050 SIMSAB1051 
+         2          2          1          2          1          2          1 
+SIMSAB1052 SIMSAB1053 SIMSAB1054 SIMSAB1055 SIMSAB1056 SIMSAB1057 SIMSAB1058 
+         2          1          2          2          2          2          1 
+SIMSAB1059 SIMSAB1060 SIMSAB1061 SIMSAB1062 SIMSAB1063 SIMSAB1064 SIMSAB1065 
+         1          2          2          2          1          2          2 
+SIMSAB1066 SIMSAB1067 SIMSAB1068 SIMSAB1069 SIMSAB1070 SIMSAB1071 SIMSAB1072 
+         2          2          2          2          1          2          1 
+SIMSAB1073 SIMSAB1074 SIMSAB1075 SIMSAB1076 SIMSAB1077 SIMSAB1078 SIMSAB1079 
+         2          2          1          1          2          2          2 
+SIMSAB1080 SIMSAB1081 SIMSAB1082 SIMSAB1083 SIMSAB1084 SIMSAB1085 SIMSAB1086 
+         1          1          2          1          1          2          2 
+SIMSAB1087 SIMSAB1088 SIMSAB1089 SIMSAB1090 SIMSAB1091 SIMSAB1092 SIMSAB1093 
+         2          1          1          2          1          1          1 
+SIMSAB1094 SIMSAB1095 SIMSAB1096 SIMSAB1097 SIMSAB1098 SIMSAB1099 SIMSAB1100 
+         1          1          1          1          2          1          2 
+SIMSAB1101 SIMSAB1102 SIMSAB1103 SIMSAB1104 SIMSAB1105 SIMSAB1106 SIMSAB1107 
+         2          1          1          2          1          1          1 
+SIMSAB1108 SIMSAB1109 SIMSAB1110 SIMSAB1111 SIMSAB1112 SIMSAB1113 SIMSAB1114 
+         2          2          2          2          2          1          1 
+SIMSAB1115 SIMSAB1116 SIMSAB1117 SIMSAB1118 SIMSAB1119 SIMSAB1120 SIMSAB1121 
+         1          2          2          1          2          2          1 
+SIMSAB1122 SIMSAB1123 SIMSAB1124 SIMSAB1125 SIMSAB1126 SIMSAB1127 SIMSAB1128 
+         2          1          1          1          2          1          1 
+SIMSAB1129 SIMSAB1130 SIMSAB1131 SIMSAB1132 SIMSAB1133 SIMSAB1134 SIMSAB1135 
+         1          2          1          1          1          2          1 
+SIMSAB1136 SIMSAB1137 SIMSAB1138 SIMSAB1139 SIMSAB1140 SIMSAB1141 SIMSAB1142 
+         2          1          1          2          1          2          1 
+SIMSAB1143 SIMSAB1144 SIMSAB1145 SIMSAB1146 SIMSAB1147 SIMSAB1148 SIMSAB1149 
+         1          1          1          1          1          2          2 
+SIMSAB1150 SIMSAB1151 SIMSAB1152 SIMSAB1153 SIMSAB1154 SIMSAB1155 SIMSAB1156 
+         1          2          1          2          1          2          2 
+SIMSAB1157 SIMSAB1158 SIMSAB1159 SIMSAB1160 SIMSAB1161 SIMSAB1162 SIMSAB1163 
+         1          2          1          1          1          1          1 
+SIMSAB1164 SIMSAB1165 SIMSAB1166 SIMSAB1167 SIMSAB1168 SIMSAB1169 SIMSAB1170 
+         1          1          1          1          1          2          1 
+SIMSAB1171 SIMSAB1172 SIMSAB1173 SIMSAB1174 SIMSAB1175 SIMSAB1176 SIMSAB1177 
+         2          1          2          2          2          2          1 
+SIMSAB1178 SIMSAB1179 SIMSAB1180 SIMSAB1181 SIMSAB1182 SIMSAB1183 SIMSAB1184 
+         1          1          1          2          2          1          2 
+SIMSAB1185 SIMSAB1186 SIMSAB1187 SIMSAB1188 SIMSAB1189 SIMSAB1190 SIMSAB1191 
+         1          2          2          1          2          1          2 
+SIMSAB1192 SIMSAB1193 SIMSAB1194 SIMSAB1195 SIMSAB1196 SIMSAB1197 SIMSAB1198 
+         2          2          1          2          2          1          1 
+SIMSAB1199 SIMSAB1200 SIMSAB1201 SIMSAB1202 SIMSAB1203 SIMSAB1204 SIMSAB1205 
+         2          1          2          1          2          2          2 
+SIMSAB1206 SIMSAB1207 SIMSAB1208 SIMSAB1209 SIMSAB1210 SIMSAB1211 SIMSAB1212 
+         1          1          2          1          2          2          2 
+SIMSAB1213 SIMSAB1214 SIMSAB1215 SIMSAB1216 SIMSAB1217 SIMSAB1218 SIMSAB1219 
+         1          1          2          1          2          2          1 
+SIMSAB1220 SIMSAB1221 SIMSAB1222 SIMSAB1223 SIMSAB1224 SIMSAB1225 SIMSAB1226 
+         2          2          1          2          1          1          2 
+SIMSAB1227 SIMSAB1228 SIMSAB1229 SIMSAB1230 SIMSAB1231 SIMSAB1232 SIMSAB1233 
+         2          1          1          1          1          1          2 
+SIMSAB1234 SIMSAB1235 SIMSAB1236 SIMSAB1237 SIMSAB1238 SIMSAB1239 SIMSAB1240 
+         1          1          1          2          2          1          1 
+SIMSAB1241 SIMSAB1242 SIMSAB1243 SIMSAB1244 SIMSAB1245 SIMSAB1246 SIMSAB1247 
+         1          2          2          2          1          1          2 
+SIMSAB1248 SIMSAB1249 SIMSAB1250 SIMSAB1251 SIMSAB1252 SIMSAB1253 SIMSAB1254 
+         2          1          2          2          1          2          2 
+SIMSAB1255 SIMSAB1256 SIMSAB1257 SIMSAB1258 SIMSAB1259 SIMSAB1260 SIMSAB1261 
+         2          1          2          2          2          2          1 
+SIMSAB1262 SIMSAB1263 SIMSAB1264 SIMSAB1265 SIMSAB1266 SIMSAB1267 SIMSAB1268 
+         1          1          1          2          1          2          1 
+SIMSAB1269 SIMSAB1270 SIMSAB1271 SIMSAB1272 SIMSAB1273 SIMSAB1274 SIMSAB1275 
+         2          2          2          2          2          2          1 
+SIMSAB1276 SIMSAB1277 SIMSAB1278 SIMSAB1279 SIMSAB1280 SIMSAB1281 SIMSAB1282 
+         1          1          2          1          2          1          2 
+SIMSAB1283 SIMSAB1284 SIMSAB1285 SIMSAB1286 SIMSAB1287 SIMSAB1288 SIMSAB1289 
+         2          2          2          2          1          2          1 
+SIMSAB1290 SIMSAB1291 SIMSAB1292 SIMSAB1293 SIMSAB1294 SIMSAB1295 SIMSAB1296 
+         1          1          1          1          1          1          1 
+SIMSAB1297 SIMSAB1298 SIMSAB1299 SIMSAB1300 SIMSAB1301 SIMSAB1302 SIMSAB1303 
+         1          2          1          2          1          2          2 
+SIMSAB1304 SIMSAB1305 SIMSAB1306 SIMSAB1307 SIMSAB1308 SIMSAB1309 SIMSAB1310 
+         1          1          2          1          1          1          2 
+SIMSAB1311 SIMSAB1312 SIMSAB1313 SIMSAB1314 SIMSAB1315 SIMSAB1316 SIMSAB1317 
+         1          2          2          1          1          2          1 
+SIMSAB1318 SIMSAB1319 SIMSAB1320 SIMSAB1321 SIMSAB1322 SIMSAB1323 SIMSAB1324 
+         1          2          2          2          2          2          1 
+SIMSAB1325 SIMSAB1326 SIMSAB1327 SIMSAB1328 SIMSAB1329 SIMSAB1330 SIMSAB1331 
+         1          1          2          2          1          2          2 
+SIMSAB1332 SIMSAB1333 SIMSAB1334 SIMSAB1335 SIMSAB1336 SIMSAB1337 SIMSAB1338 
+         2          2          2          2          2          2          2 
+SIMSAB1339 SIMSAB1340 SIMSAB1341 SIMSAB1342 SIMSAB1343 SIMSAB1344 SIMSAB1345 
+         1          1          2          2          1          1          1 
+SIMSAB1346 SIMSAB1347 SIMSAB1348 SIMSAB1349 SIMSAB1350 SIMSAB1351 SIMSAB1352 
+         1          1          1          2          2          1          1 
+SIMSAB1353 SIMSAB1354 SIMSAB1355 SIMSAB1356 SIMSAB1357 SIMSAB1358 SIMSAB1359 
+         1          2          2          1          2          2          1 
+SIMSAB1360 SIMSAB1361 SIMSAB1362 SIMSAB1363 SIMSAB1364 SIMSAB1365 SIMSAB1366 
+         2          1          2          2          2          2          2 
+SIMSAB1367 SIMSAB1368 SIMSAB1369 SIMSAB1370 SIMSAB1371 SIMSAB1372 SIMSAB1373 
+         2          2          2          1          2          1          2 
+SIMSAB1374 SIMSAB1375 SIMSAB1376 SIMSAB1377 SIMSAB1378 SIMSAB1379 SIMSAB1380 
+         1          2          2          1          2          1          2 
+SIMSAB1381 SIMSAB1382 SIMSAB1383 SIMSAB1384 SIMSAB1385 SIMSAB1386 SIMSAB1387 
+         1          2          1          1          1          2          1 
+SIMSAB1388 SIMSAB1389 SIMSAB1390 SIMSAB1391 SIMSAB1392 SIMSAB1393 SIMSAB1394 
+         1          1          1          2          1          1          1 
+SIMSAB1395 SIMSAB1396 SIMSAB1397 SIMSAB1398 SIMSAB1399 SIMSAB1400 SIMSAB1401 
+         2          2          1          1          2          2          1 
+SIMSAB1402 SIMSAB1403 SIMSAB1404 SIMSAB1405 SIMSAB1406 SIMSAB1407 SIMSAB1408 
+         2          1          1          1          2          1          1 
+SIMSAB1409 SIMSAB1410 SIMSAB1411 SIMSAB1412 SIMSAB1413 SIMSAB1414 SIMSAB1415 
+         1          2          1          2          1          1          1 
+SIMSAB1416 SIMSAB1417 SIMSAB1418 SIMSAB1419 SIMSAB1420 SIMSAB1421 SIMSAB1422 
+         2          1          2          2          1          1          2 
+SIMSAB1423 SIMSAB1424 SIMSAB1425 SIMSAB1426 SIMSAB1427 SIMSAB1428 SIMSAB1429 
+         1          2          2          1          2          2          2 
+SIMSAB1430 SIMSAB1431 SIMSAB1432 SIMSAB1433 SIMSAB1434 SIMSAB1435 SIMSAB1436 
+         1          2          1          2          2          2          2 
+SIMSAB1437 SIMSAB1438 SIMSAB1439 SIMSAB1440 SIMSAB1441 SIMSAB1442 SIMSAB1443 
+         2          1          2          1          2          1          1 
+SIMSAB1444 SIMSAB1445 SIMSAB1446 SIMSAB1447 SIMSAB1448 SIMSAB1449 SIMSAB1450 
+         1          1          2          2          2          1          2 
+SIMSAB1451 SIMSAB1452 SIMSAB1453 SIMSAB1454 SIMSAB1455 SIMSAB1456 SIMSAB1457 
+         2          2          1          2          2          1          1 
+SIMSAB1458 SIMSAB1459 SIMSAB1460 SIMSAB1461 SIMSAB1462 SIMSAB1463 SIMSAB1464 
+         2          1          2          2          1          2          2 
+SIMSAB1465 SIMSAB1466 SIMSAB1467 SIMSAB1468 SIMSAB1469 SIMSAB1470 SIMSAB1471 
+         2          2          2          1          1          2          2 
+SIMSAB1472 SIMSAB1473 SIMSAB1474 SIMSAB1475 SIMSAB1476 SIMSAB1477 SIMSAB1478 
+         1          1          2          1          2          1          1 
+SIMSAB1479 SIMSAB1480 SIMSAB1481 SIMSAB1482 SIMSAB1483 SIMSAB1484 SIMSAB1485 
+         2          1          1          1          2          1          1 
+SIMSAB1486 SIMSAB1487 SIMSAB1488 SIMSAB1489 SIMSAB1490 SIMSAB1491 SIMSAB1492 
+         1          1          1          2          1          2          1 
+SIMSAB1493 SIMSAB1494 SIMSAB1495 SIMSAB1496 SIMSAB1497 SIMSAB1498 SIMSAB1499 
+         2          2          1          1          1          2          1 
+SIMSAB1500 SIMSAB1501 SIMSAB1502 SIMSAB1503 SIMSAB1504 SIMSAB1505 SIMSAB1506 
+         2          1          1          2          2          1          2 
+SIMSAB1507 SIMSAB1508 SIMSAB1509 SIMSAB1510 SIMSAB1511 SIMSAB1512 SIMSAB1513 
+         2          2          1          2          1          1          2 
+SIMSAB1514 SIMSAB1515 SIMSAB1516 SIMSAB1517 SIMSAB1518 SIMSAB1519 SIMSAB1520 
+         1          1          2          2          2          2          1 
+SIMSAB1521 SIMSAB1522 SIMSAB1523 SIMSAB1524 SIMSAB1525 SIMSAB1526 SIMSAB1527 
+         2          1          2          2          2          1          1 
+SIMSAB1528 SIMSAB1529 SIMSAB1530 SIMSAB1531 SIMSAB1532 SIMSAB1533 SIMSAB1534 
+         1          1          1          2          1          1          2 
+SIMSAB1535 SIMSAB1536 SIMSAB1537 SIMSAB1538 SIMSAB1539 SIMSAB1540 SIMSAB1541 
+         1          2          1          2          1          2          1 
+SIMSAB1542 SIMSAB1543 SIMSAB1544 SIMSAB1545 SIMSAB1546 SIMSAB1547 SIMSAB1548 
+         1          1          1          1          1          2          2 
+SIMSAB1549 SIMSAB1550 SIMSAB1551 SIMSAB1552 SIMSAB1553 SIMSAB1554 SIMSAB1555 
+         2          1          2          2          2          2          2 
+SIMSAB1556 SIMSAB1557 SIMSAB1558 SIMSAB1559 SIMSAB1560 SIMSAB1561 SIMSAB1562 
+         1          2          1          1          2          2          1 
+SIMSAB1563 SIMSAB1564 SIMSAB1565 SIMSAB1566 SIMSAB1567 SIMSAB1568 SIMSAB1569 
+         2          1          2          1          2          2          2 
+SIMSAB1570 SIMSAB1571 SIMSAB1572 SIMSAB1573 SIMSAB1574 SIMSAB1575 SIMSAB1576 
+         2          2          1          2          2          2          2 
+SIMSAB1577 SIMSAB1578 SIMSAB1579 SIMSAB1580 SIMSAB1581 SIMSAB1582 SIMSAB1583 
+         2          1          2          1          1          1          2 
+SIMSAB1584 SIMSAB1585 SIMSAB1586 SIMSAB1587 SIMSAB1588 SIMSAB1589 SIMSAB1590 
+         2          2          1          1          1          1          2 
+SIMSAB1591 SIMSAB1592 SIMSAB1593 SIMSAB1594 SIMSAB1595 SIMSAB1596 SIMSAB1597 
+         2          1          2          2          2          2          2 
+SIMSAB1598 SIMSAB1599 SIMSAB1600 
+         1          1          2 
+>                   # the classification
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:flexmix’, ‘package:lattice’, ‘package:mclust’
+
+> nameEx("correlation-methods")
+> ### * correlation-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: correlation
+> ### Title: Creation of an ExposomeCorr from an ExposomeSet.
+> ### Aliases: correlation
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> expo.c <- correlation(expo)
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+> expo.c
+Object of class 'Exposome Correlation' (storageMode: environment)
+ . assayData: 104 x 104 exposure-correlations
+    . element names: corr 
+    . exposures: ldde_lip, ..., home_pesticides 
+ . featureData: 104 exposures 7 explanations
+    . exposures: ldde_lip, ..., home_pesticides 
+    . descriptions: Family, ..., .fct 
+> expo.c.table <- extract(expo.c)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ex_imp")
+> ### * ex_imp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ex_imp
+> ### Title: 'imExposomeSet' for testing purpouses
+> ### Aliases: ex_imp
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data("ex_imp")
+> ex_imp
+Object of class 'imExposomeSet'
+ . exposures description:
+    . categorical:  4 
+    . continuous:  43 
+ . #imputations: 6 (raw detected) 
+ . assayData: 47 exposures 109 individuals
+ . phenoData: 109 individuals 12 phenotypes
+ . featureData: 47 exposures 2 explanations
+> 
+> 
+> 
+> cleanEx()
+> nameEx("expo")
+> ### * expo
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: expo
+> ### Title: 'ExposomeSet' for testing purpouses
+> ### Aliases: expo
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> dim(expo)
+exposures   samples phenotyes 
+      104      1200         4 
+> exposureNames(expo)
+  [1] "ldde_lip"          "lddt_lip"          "lhcb_lip"         
+  [4] "lbhch_lip"         "lpcb118_lip"       "lpcb153_lip"      
+  [7] "lpcb180_lip"       "lpcb138_lip"       "lbde17_lip"       
+ [10] "lbde28_lip"        "lbde71_lip"        "lbde47_lip"       
+ [13] "lbde66_lip"        "lbde100_lip"       "lbde99_lip"       
+ [16] "lbde85_lip"        "lbde154_lip"       "lbde153_lip"      
+ [19] "lbde138_lip"       "lbde183_lip"       "lbde190_lip"      
+ [22] "lbde209_lip"       "logcbPFHxS"        "logcbPFOA"        
+ [25] "logcbPFOS"         "logcbPFNA"         "logmPFHxS"        
+ [28] "logmPFOA"          "logmPFOS"          "logmPFNA"         
+ [31] "loghg"             "logpb"             "lcrCo_T1"         
+ [34] "lcrNi_T1"          "lcrCu_T1"          "lcrZn_T1"         
+ [37] "lcrAs_T1"          "lcrSe_T1"          "lcrMo_T1"         
+ [40] "lcrCd_T1"          "lcrSb_T1"          "lcrCs_T1"         
+ [43] "lcrTl_T1"          "lcrPb_T1"          "lcrCo_T3"         
+ [46] "lcrNi_T3"          "lcrCu_T3"          "lcrZn_T3"         
+ [49] "lcrAs_T3"          "lcrSe_T3"          "lcrMo_T3"         
+ [52] "lcrCd_T3"          "lcrSb_T3"          "lcrCs_T3"         
+ [55] "lcrTl_T3"          "lcrPb_T3"          "lcrMEHP_av"       
+ [58] "lcrMEHHP_av"       "lcr_5cxMEP_v"      "lcr_5cxMEPP_av"   
+ [61] "lcr_2cxMMHP_av"    "lcrMiBP_av"        "lcrMnBP_av"       
+ [64] "lcr_7OHMMe_v"      "lcr_7OHMMeOP_av"   "lcrMEOHP_av"      
+ [67] "lcrbpa_av"         "l_24_dcp_T3"       "l_25_dcp_T3"      
+ [70] "lb_pb_T3"          "le_pb_T3"          "lm_pb_T3"         
+ [73] "lp_pb_T3"          "lbp_3_T3"          "ltcs_T3"          
+ [76] "lTHM_preg"         "lTHM_T1"           "lTHM_T2"          
+ [79] "lTHM_T3"           "lCHCL3_preg"       "lCHCL3_T1"        
+ [82] "lCHCL3_T2"         "lCHCL3_T3"         "lBROM_preg"       
+ [85] "lBROM_T1"          "lBROM_T2"          "lBROM_T3"         
+ [88] "lcotinine"         "NO2_T1"            "NO2_T2"           
+ [91] "NO2_T3"            "NO2_preg"          "Ben_T1"           
+ [94] "Ben_T2"            "Ben_T3"            "Ben_preg"         
+ [97] "NDVI100"           "NDVI250"           "NDVI500"          
+[100] "gascooking"        "ETS"               "cleaning_products"
+[103] "home_pesticides"   "garden_pesticides"
+> familyNames(expo)
+ [1] "Organochlorines"        "PBDEs"                  "PFAS"                  
+ [4] "Metals"                 "Phthalates "            "Phenols"               
+ [7] "Water DBPs"             "Cotinine"               "Ambient air pollutants"
+[10] "Built environment"      "Green spaces"           "Indoor air"            
+> sampleNames(expo)
+   [1] "SIMSAB401"  "SIMSAB402"  "SIMSAB403"  "SIMSAB404"  "SIMSAB405" 
+   [6] "SIMSAB406"  "SIMSAB407"  "SIMSAB408"  "SIMSAB409"  "SIMSAB410" 
+  [11] "SIMSAB411"  "SIMSAB412"  "SIMSAB413"  "SIMSAB414"  "SIMSAB415" 
+  [16] "SIMSAB416"  "SIMSAB417"  "SIMSAB418"  "SIMSAB419"  "SIMSAB420" 
+  [21] "SIMSAB421"  "SIMSAB422"  "SIMSAB423"  "SIMSAB424"  "SIMSAB425" 
+  [26] "SIMSAB426"  "SIMSAB427"  "SIMSAB428"  "SIMSAB429"  "SIMSAB430" 
+  [31] "SIMSAB431"  "SIMSAB432"  "SIMSAB433"  "SIMSAB434"  "SIMSAB435" 
+  [36] "SIMSAB436"  "SIMSAB437"  "SIMSAB438"  "SIMSAB439"  "SIMSAB440" 
+  [41] "SIMSAB441"  "SIMSAB442"  "SIMSAB443"  "SIMSAB444"  "SIMSAB445" 
+  [46] "SIMSAB446"  "SIMSAB447"  "SIMSAB448"  "SIMSAB449"  "SIMSAB450" 
+  [51] "SIMSAB451"  "SIMSAB452"  "SIMSAB453"  "SIMSAB454"  "SIMSAB455" 
+  [56] "SIMSAB456"  "SIMSAB457"  "SIMSAB458"  "SIMSAB459"  "SIMSAB460" 
+  [61] "SIMSAB461"  "SIMSAB462"  "SIMSAB463"  "SIMSAB464"  "SIMSAB465" 
+  [66] "SIMSAB466"  "SIMSAB467"  "SIMSAB468"  "SIMSAB469"  "SIMSAB470" 
+  [71] "SIMSAB471"  "SIMSAB472"  "SIMSAB473"  "SIMSAB474"  "SIMSAB475" 
+  [76] "SIMSAB476"  "SIMSAB477"  "SIMSAB478"  "SIMSAB479"  "SIMSAB480" 
+  [81] "SIMSAB481"  "SIMSAB482"  "SIMSAB483"  "SIMSAB484"  "SIMSAB485" 
+  [86] "SIMSAB486"  "SIMSAB487"  "SIMSAB488"  "SIMSAB489"  "SIMSAB490" 
+  [91] "SIMSAB491"  "SIMSAB492"  "SIMSAB493"  "SIMSAB494"  "SIMSAB495" 
+  [96] "SIMSAB496"  "SIMSAB497"  "SIMSAB498"  "SIMSAB499"  "SIMSAB500" 
+ [101] "SIMSAB501"  "SIMSAB502"  "SIMSAB503"  "SIMSAB504"  "SIMSAB505" 
+ [106] "SIMSAB506"  "SIMSAB507"  "SIMSAB508"  "SIMSAB509"  "SIMSAB510" 
+ [111] "SIMSAB511"  "SIMSAB512"  "SIMSAB513"  "SIMSAB514"  "SIMSAB515" 
+ [116] "SIMSAB516"  "SIMSAB517"  "SIMSAB518"  "SIMSAB519"  "SIMSAB520" 
+ [121] "SIMSAB521"  "SIMSAB522"  "SIMSAB523"  "SIMSAB524"  "SIMSAB525" 
+ [126] "SIMSAB526"  "SIMSAB527"  "SIMSAB528"  "SIMSAB529"  "SIMSAB530" 
+ [131] "SIMSAB531"  "SIMSAB532"  "SIMSAB533"  "SIMSAB534"  "SIMSAB535" 
+ [136] "SIMSAB536"  "SIMSAB537"  "SIMSAB538"  "SIMSAB539"  "SIMSAB540" 
+ [141] "SIMSAB541"  "SIMSAB542"  "SIMSAB543"  "SIMSAB544"  "SIMSAB545" 
+ [146] "SIMSAB546"  "SIMSAB547"  "SIMSAB548"  "SIMSAB549"  "SIMSAB550" 
+ [151] "SIMSAB551"  "SIMSAB552"  "SIMSAB553"  "SIMSAB554"  "SIMSAB555" 
+ [156] "SIMSAB556"  "SIMSAB557"  "SIMSAB558"  "SIMSAB559"  "SIMSAB560" 
+ [161] "SIMSAB561"  "SIMSAB562"  "SIMSAB563"  "SIMSAB564"  "SIMSAB565" 
+ [166] "SIMSAB566"  "SIMSAB567"  "SIMSAB568"  "SIMSAB569"  "SIMSAB570" 
+ [171] "SIMSAB571"  "SIMSAB572"  "SIMSAB573"  "SIMSAB574"  "SIMSAB575" 
+ [176] "SIMSAB576"  "SIMSAB577"  "SIMSAB578"  "SIMSAB579"  "SIMSAB580" 
+ [181] "SIMSAB581"  "SIMSAB582"  "SIMSAB583"  "SIMSAB584"  "SIMSAB585" 
+ [186] "SIMSAB586"  "SIMSAB587"  "SIMSAB588"  "SIMSAB589"  "SIMSAB590" 
+ [191] "SIMSAB591"  "SIMSAB592"  "SIMSAB593"  "SIMSAB594"  "SIMSAB595" 
+ [196] "SIMSAB596"  "SIMSAB597"  "SIMSAB598"  "SIMSAB599"  "SIMSAB600" 
+ [201] "SIMSAB601"  "SIMSAB602"  "SIMSAB603"  "SIMSAB604"  "SIMSAB605" 
+ [206] "SIMSAB606"  "SIMSAB607"  "SIMSAB608"  "SIMSAB609"  "SIMSAB610" 
+ [211] "SIMSAB611"  "SIMSAB612"  "SIMSAB613"  "SIMSAB614"  "SIMSAB615" 
+ [216] "SIMSAB616"  "SIMSAB617"  "SIMSAB618"  "SIMSAB619"  "SIMSAB620" 
+ [221] "SIMSAB621"  "SIMSAB622"  "SIMSAB623"  "SIMSAB624"  "SIMSAB625" 
+ [226] "SIMSAB626"  "SIMSAB627"  "SIMSAB628"  "SIMSAB629"  "SIMSAB630" 
+ [231] "SIMSAB631"  "SIMSAB632"  "SIMSAB633"  "SIMSAB634"  "SIMSAB635" 
+ [236] "SIMSAB636"  "SIMSAB637"  "SIMSAB638"  "SIMSAB639"  "SIMSAB640" 
+ [241] "SIMSAB641"  "SIMSAB642"  "SIMSAB643"  "SIMSAB644"  "SIMSAB645" 
+ [246] "SIMSAB646"  "SIMSAB647"  "SIMSAB648"  "SIMSAB649"  "SIMSAB650" 
+ [251] "SIMSAB651"  "SIMSAB652"  "SIMSAB653"  "SIMSAB654"  "SIMSAB655" 
+ [256] "SIMSAB656"  "SIMSAB657"  "SIMSAB658"  "SIMSAB659"  "SIMSAB660" 
+ [261] "SIMSAB661"  "SIMSAB662"  "SIMSAB663"  "SIMSAB664"  "SIMSAB665" 
+ [266] "SIMSAB666"  "SIMSAB667"  "SIMSAB668"  "SIMSAB669"  "SIMSAB670" 
+ [271] "SIMSAB671"  "SIMSAB672"  "SIMSAB673"  "SIMSAB674"  "SIMSAB675" 
+ [276] "SIMSAB676"  "SIMSAB677"  "SIMSAB678"  "SIMSAB679"  "SIMSAB680" 
+ [281] "SIMSAB681"  "SIMSAB682"  "SIMSAB683"  "SIMSAB684"  "SIMSAB685" 
+ [286] "SIMSAB686"  "SIMSAB687"  "SIMSAB688"  "SIMSAB689"  "SIMSAB690" 
+ [291] "SIMSAB691"  "SIMSAB692"  "SIMSAB693"  "SIMSAB694"  "SIMSAB695" 
+ [296] "SIMSAB696"  "SIMSAB697"  "SIMSAB698"  "SIMSAB699"  "SIMSAB700" 
+ [301] "SIMSAB701"  "SIMSAB702"  "SIMSAB703"  "SIMSAB704"  "SIMSAB705" 
+ [306] "SIMSAB706"  "SIMSAB707"  "SIMSAB708"  "SIMSAB709"  "SIMSAB710" 
+ [311] "SIMSAB711"  "SIMSAB712"  "SIMSAB713"  "SIMSAB714"  "SIMSAB715" 
+ [316] "SIMSAB716"  "SIMSAB717"  "SIMSAB718"  "SIMSAB719"  "SIMSAB720" 
+ [321] "SIMSAB721"  "SIMSAB722"  "SIMSAB723"  "SIMSAB724"  "SIMSAB725" 
+ [326] "SIMSAB726"  "SIMSAB727"  "SIMSAB728"  "SIMSAB729"  "SIMSAB730" 
+ [331] "SIMSAB731"  "SIMSAB732"  "SIMSAB733"  "SIMSAB734"  "SIMSAB735" 
+ [336] "SIMSAB736"  "SIMSAB737"  "SIMSAB738"  "SIMSAB739"  "SIMSAB740" 
+ [341] "SIMSAB741"  "SIMSAB742"  "SIMSAB743"  "SIMSAB744"  "SIMSAB745" 
+ [346] "SIMSAB746"  "SIMSAB747"  "SIMSAB748"  "SIMSAB749"  "SIMSAB750" 
+ [351] "SIMSAB751"  "SIMSAB752"  "SIMSAB753"  "SIMSAB754"  "SIMSAB755" 
+ [356] "SIMSAB756"  "SIMSAB757"  "SIMSAB758"  "SIMSAB759"  "SIMSAB760" 
+ [361] "SIMSAB761"  "SIMSAB762"  "SIMSAB763"  "SIMSAB764"  "SIMSAB765" 
+ [366] "SIMSAB766"  "SIMSAB767"  "SIMSAB768"  "SIMSAB769"  "SIMSAB770" 
+ [371] "SIMSAB771"  "SIMSAB772"  "SIMSAB773"  "SIMSAB774"  "SIMSAB775" 
+ [376] "SIMSAB776"  "SIMSAB777"  "SIMSAB778"  "SIMSAB779"  "SIMSAB780" 
+ [381] "SIMSAB781"  "SIMSAB782"  "SIMSAB783"  "SIMSAB784"  "SIMSAB785" 
+ [386] "SIMSAB786"  "SIMSAB787"  "SIMSAB788"  "SIMSAB789"  "SIMSAB790" 
+ [391] "SIMSAB791"  "SIMSAB792"  "SIMSAB793"  "SIMSAB794"  "SIMSAB795" 
+ [396] "SIMSAB796"  "SIMSAB797"  "SIMSAB798"  "SIMSAB799"  "SIMSAB800" 
+ [401] "SIMSAB801"  "SIMSAB802"  "SIMSAB803"  "SIMSAB804"  "SIMSAB805" 
+ [406] "SIMSAB806"  "SIMSAB807"  "SIMSAB808"  "SIMSAB809"  "SIMSAB810" 
+ [411] "SIMSAB811"  "SIMSAB812"  "SIMSAB813"  "SIMSAB814"  "SIMSAB815" 
+ [416] "SIMSAB816"  "SIMSAB817"  "SIMSAB818"  "SIMSAB819"  "SIMSAB820" 
+ [421] "SIMSAB821"  "SIMSAB822"  "SIMSAB823"  "SIMSAB824"  "SIMSAB825" 
+ [426] "SIMSAB826"  "SIMSAB827"  "SIMSAB828"  "SIMSAB829"  "SIMSAB830" 
+ [431] "SIMSAB831"  "SIMSAB832"  "SIMSAB833"  "SIMSAB834"  "SIMSAB835" 
+ [436] "SIMSAB836"  "SIMSAB837"  "SIMSAB838"  "SIMSAB839"  "SIMSAB840" 
+ [441] "SIMSAB841"  "SIMSAB842"  "SIMSAB843"  "SIMSAB844"  "SIMSAB845" 
+ [446] "SIMSAB846"  "SIMSAB847"  "SIMSAB848"  "SIMSAB849"  "SIMSAB850" 
+ [451] "SIMSAB851"  "SIMSAB852"  "SIMSAB853"  "SIMSAB854"  "SIMSAB855" 
+ [456] "SIMSAB856"  "SIMSAB857"  "SIMSAB858"  "SIMSAB859"  "SIMSAB860" 
+ [461] "SIMSAB861"  "SIMSAB862"  "SIMSAB863"  "SIMSAB864"  "SIMSAB865" 
+ [466] "SIMSAB866"  "SIMSAB867"  "SIMSAB868"  "SIMSAB869"  "SIMSAB870" 
+ [471] "SIMSAB871"  "SIMSAB872"  "SIMSAB873"  "SIMSAB874"  "SIMSAB875" 
+ [476] "SIMSAB876"  "SIMSAB877"  "SIMSAB878"  "SIMSAB879"  "SIMSAB880" 
+ [481] "SIMSAB881"  "SIMSAB882"  "SIMSAB883"  "SIMSAB884"  "SIMSAB885" 
+ [486] "SIMSAB886"  "SIMSAB887"  "SIMSAB888"  "SIMSAB889"  "SIMSAB890" 
+ [491] "SIMSAB891"  "SIMSAB892"  "SIMSAB893"  "SIMSAB894"  "SIMSAB895" 
+ [496] "SIMSAB896"  "SIMSAB897"  "SIMSAB898"  "SIMSAB899"  "SIMSAB900" 
+ [501] "SIMSAB901"  "SIMSAB902"  "SIMSAB903"  "SIMSAB904"  "SIMSAB905" 
+ [506] "SIMSAB906"  "SIMSAB907"  "SIMSAB908"  "SIMSAB909"  "SIMSAB910" 
+ [511] "SIMSAB911"  "SIMSAB912"  "SIMSAB913"  "SIMSAB914"  "SIMSAB915" 
+ [516] "SIMSAB916"  "SIMSAB917"  "SIMSAB918"  "SIMSAB919"  "SIMSAB920" 
+ [521] "SIMSAB921"  "SIMSAB922"  "SIMSAB923"  "SIMSAB924"  "SIMSAB925" 
+ [526] "SIMSAB926"  "SIMSAB927"  "SIMSAB928"  "SIMSAB929"  "SIMSAB930" 
+ [531] "SIMSAB931"  "SIMSAB932"  "SIMSAB933"  "SIMSAB934"  "SIMSAB935" 
+ [536] "SIMSAB936"  "SIMSAB937"  "SIMSAB938"  "SIMSAB939"  "SIMSAB940" 
+ [541] "SIMSAB941"  "SIMSAB942"  "SIMSAB943"  "SIMSAB944"  "SIMSAB945" 
+ [546] "SIMSAB946"  "SIMSAB947"  "SIMSAB948"  "SIMSAB949"  "SIMSAB950" 
+ [551] "SIMSAB951"  "SIMSAB952"  "SIMSAB953"  "SIMSAB954"  "SIMSAB955" 
+ [556] "SIMSAB956"  "SIMSAB957"  "SIMSAB958"  "SIMSAB959"  "SIMSAB960" 
+ [561] "SIMSAB961"  "SIMSAB962"  "SIMSAB963"  "SIMSAB964"  "SIMSAB965" 
+ [566] "SIMSAB966"  "SIMSAB967"  "SIMSAB968"  "SIMSAB969"  "SIMSAB970" 
+ [571] "SIMSAB971"  "SIMSAB972"  "SIMSAB973"  "SIMSAB974"  "SIMSAB975" 
+ [576] "SIMSAB976"  "SIMSAB977"  "SIMSAB978"  "SIMSAB979"  "SIMSAB980" 
+ [581] "SIMSAB981"  "SIMSAB982"  "SIMSAB983"  "SIMSAB984"  "SIMSAB985" 
+ [586] "SIMSAB986"  "SIMSAB987"  "SIMSAB988"  "SIMSAB989"  "SIMSAB990" 
+ [591] "SIMSAB991"  "SIMSAB992"  "SIMSAB993"  "SIMSAB994"  "SIMSAB995" 
+ [596] "SIMSAB996"  "SIMSAB997"  "SIMSAB998"  "SIMSAB999"  "SIMSAB1000"
+ [601] "SIMSAB1001" "SIMSAB1002" "SIMSAB1003" "SIMSAB1004" "SIMSAB1005"
+ [606] "SIMSAB1006" "SIMSAB1007" "SIMSAB1008" "SIMSAB1009" "SIMSAB1010"
+ [611] "SIMSAB1011" "SIMSAB1012" "SIMSAB1013" "SIMSAB1014" "SIMSAB1015"
+ [616] "SIMSAB1016" "SIMSAB1017" "SIMSAB1018" "SIMSAB1019" "SIMSAB1020"
+ [621] "SIMSAB1021" "SIMSAB1022" "SIMSAB1023" "SIMSAB1024" "SIMSAB1025"
+ [626] "SIMSAB1026" "SIMSAB1027" "SIMSAB1028" "SIMSAB1029" "SIMSAB1030"
+ [631] "SIMSAB1031" "SIMSAB1032" "SIMSAB1033" "SIMSAB1034" "SIMSAB1035"
+ [636] "SIMSAB1036" "SIMSAB1037" "SIMSAB1038" "SIMSAB1039" "SIMSAB1040"
+ [641] "SIMSAB1041" "SIMSAB1042" "SIMSAB1043" "SIMSAB1044" "SIMSAB1045"
+ [646] "SIMSAB1046" "SIMSAB1047" "SIMSAB1048" "SIMSAB1049" "SIMSAB1050"
+ [651] "SIMSAB1051" "SIMSAB1052" "SIMSAB1053" "SIMSAB1054" "SIMSAB1055"
+ [656] "SIMSAB1056" "SIMSAB1057" "SIMSAB1058" "SIMSAB1059" "SIMSAB1060"
+ [661] "SIMSAB1061" "SIMSAB1062" "SIMSAB1063" "SIMSAB1064" "SIMSAB1065"
+ [666] "SIMSAB1066" "SIMSAB1067" "SIMSAB1068" "SIMSAB1069" "SIMSAB1070"
+ [671] "SIMSAB1071" "SIMSAB1072" "SIMSAB1073" "SIMSAB1074" "SIMSAB1075"
+ [676] "SIMSAB1076" "SIMSAB1077" "SIMSAB1078" "SIMSAB1079" "SIMSAB1080"
+ [681] "SIMSAB1081" "SIMSAB1082" "SIMSAB1083" "SIMSAB1084" "SIMSAB1085"
+ [686] "SIMSAB1086" "SIMSAB1087" "SIMSAB1088" "SIMSAB1089" "SIMSAB1090"
+ [691] "SIMSAB1091" "SIMSAB1092" "SIMSAB1093" "SIMSAB1094" "SIMSAB1095"
+ [696] "SIMSAB1096" "SIMSAB1097" "SIMSAB1098" "SIMSAB1099" "SIMSAB1100"
+ [701] "SIMSAB1101" "SIMSAB1102" "SIMSAB1103" "SIMSAB1104" "SIMSAB1105"
+ [706] "SIMSAB1106" "SIMSAB1107" "SIMSAB1108" "SIMSAB1109" "SIMSAB1110"
+ [711] "SIMSAB1111" "SIMSAB1112" "SIMSAB1113" "SIMSAB1114" "SIMSAB1115"
+ [716] "SIMSAB1116" "SIMSAB1117" "SIMSAB1118" "SIMSAB1119" "SIMSAB1120"
+ [721] "SIMSAB1121" "SIMSAB1122" "SIMSAB1123" "SIMSAB1124" "SIMSAB1125"
+ [726] "SIMSAB1126" "SIMSAB1127" "SIMSAB1128" "SIMSAB1129" "SIMSAB1130"
+ [731] "SIMSAB1131" "SIMSAB1132" "SIMSAB1133" "SIMSAB1134" "SIMSAB1135"
+ [736] "SIMSAB1136" "SIMSAB1137" "SIMSAB1138" "SIMSAB1139" "SIMSAB1140"
+ [741] "SIMSAB1141" "SIMSAB1142" "SIMSAB1143" "SIMSAB1144" "SIMSAB1145"
+ [746] "SIMSAB1146" "SIMSAB1147" "SIMSAB1148" "SIMSAB1149" "SIMSAB1150"
+ [751] "SIMSAB1151" "SIMSAB1152" "SIMSAB1153" "SIMSAB1154" "SIMSAB1155"
+ [756] "SIMSAB1156" "SIMSAB1157" "SIMSAB1158" "SIMSAB1159" "SIMSAB1160"
+ [761] "SIMSAB1161" "SIMSAB1162" "SIMSAB1163" "SIMSAB1164" "SIMSAB1165"
+ [766] "SIMSAB1166" "SIMSAB1167" "SIMSAB1168" "SIMSAB1169" "SIMSAB1170"
+ [771] "SIMSAB1171" "SIMSAB1172" "SIMSAB1173" "SIMSAB1174" "SIMSAB1175"
+ [776] "SIMSAB1176" "SIMSAB1177" "SIMSAB1178" "SIMSAB1179" "SIMSAB1180"
+ [781] "SIMSAB1181" "SIMSAB1182" "SIMSAB1183" "SIMSAB1184" "SIMSAB1185"
+ [786] "SIMSAB1186" "SIMSAB1187" "SIMSAB1188" "SIMSAB1189" "SIMSAB1190"
+ [791] "SIMSAB1191" "SIMSAB1192" "SIMSAB1193" "SIMSAB1194" "SIMSAB1195"
+ [796] "SIMSAB1196" "SIMSAB1197" "SIMSAB1198" "SIMSAB1199" "SIMSAB1200"
+ [801] "SIMSAB1201" "SIMSAB1202" "SIMSAB1203" "SIMSAB1204" "SIMSAB1205"
+ [806] "SIMSAB1206" "SIMSAB1207" "SIMSAB1208" "SIMSAB1209" "SIMSAB1210"
+ [811] "SIMSAB1211" "SIMSAB1212" "SIMSAB1213" "SIMSAB1214" "SIMSAB1215"
+ [816] "SIMSAB1216" "SIMSAB1217" "SIMSAB1218" "SIMSAB1219" "SIMSAB1220"
+ [821] "SIMSAB1221" "SIMSAB1222" "SIMSAB1223" "SIMSAB1224" "SIMSAB1225"
+ [826] "SIMSAB1226" "SIMSAB1227" "SIMSAB1228" "SIMSAB1229" "SIMSAB1230"
+ [831] "SIMSAB1231" "SIMSAB1232" "SIMSAB1233" "SIMSAB1234" "SIMSAB1235"
+ [836] "SIMSAB1236" "SIMSAB1237" "SIMSAB1238" "SIMSAB1239" "SIMSAB1240"
+ [841] "SIMSAB1241" "SIMSAB1242" "SIMSAB1243" "SIMSAB1244" "SIMSAB1245"
+ [846] "SIMSAB1246" "SIMSAB1247" "SIMSAB1248" "SIMSAB1249" "SIMSAB1250"
+ [851] "SIMSAB1251" "SIMSAB1252" "SIMSAB1253" "SIMSAB1254" "SIMSAB1255"
+ [856] "SIMSAB1256" "SIMSAB1257" "SIMSAB1258" "SIMSAB1259" "SIMSAB1260"
+ [861] "SIMSAB1261" "SIMSAB1262" "SIMSAB1263" "SIMSAB1264" "SIMSAB1265"
+ [866] "SIMSAB1266" "SIMSAB1267" "SIMSAB1268" "SIMSAB1269" "SIMSAB1270"
+ [871] "SIMSAB1271" "SIMSAB1272" "SIMSAB1273" "SIMSAB1274" "SIMSAB1275"
+ [876] "SIMSAB1276" "SIMSAB1277" "SIMSAB1278" "SIMSAB1279" "SIMSAB1280"
+ [881] "SIMSAB1281" "SIMSAB1282" "SIMSAB1283" "SIMSAB1284" "SIMSAB1285"
+ [886] "SIMSAB1286" "SIMSAB1287" "SIMSAB1288" "SIMSAB1289" "SIMSAB1290"
+ [891] "SIMSAB1291" "SIMSAB1292" "SIMSAB1293" "SIMSAB1294" "SIMSAB1295"
+ [896] "SIMSAB1296" "SIMSAB1297" "SIMSAB1298" "SIMSAB1299" "SIMSAB1300"
+ [901] "SIMSAB1301" "SIMSAB1302" "SIMSAB1303" "SIMSAB1304" "SIMSAB1305"
+ [906] "SIMSAB1306" "SIMSAB1307" "SIMSAB1308" "SIMSAB1309" "SIMSAB1310"
+ [911] "SIMSAB1311" "SIMSAB1312" "SIMSAB1313" "SIMSAB1314" "SIMSAB1315"
+ [916] "SIMSAB1316" "SIMSAB1317" "SIMSAB1318" "SIMSAB1319" "SIMSAB1320"
+ [921] "SIMSAB1321" "SIMSAB1322" "SIMSAB1323" "SIMSAB1324" "SIMSAB1325"
+ [926] "SIMSAB1326" "SIMSAB1327" "SIMSAB1328" "SIMSAB1329" "SIMSAB1330"
+ [931] "SIMSAB1331" "SIMSAB1332" "SIMSAB1333" "SIMSAB1334" "SIMSAB1335"
+ [936] "SIMSAB1336" "SIMSAB1337" "SIMSAB1338" "SIMSAB1339" "SIMSAB1340"
+ [941] "SIMSAB1341" "SIMSAB1342" "SIMSAB1343" "SIMSAB1344" "SIMSAB1345"
+ [946] "SIMSAB1346" "SIMSAB1347" "SIMSAB1348" "SIMSAB1349" "SIMSAB1350"
+ [951] "SIMSAB1351" "SIMSAB1352" "SIMSAB1353" "SIMSAB1354" "SIMSAB1355"
+ [956] "SIMSAB1356" "SIMSAB1357" "SIMSAB1358" "SIMSAB1359" "SIMSAB1360"
+ [961] "SIMSAB1361" "SIMSAB1362" "SIMSAB1363" "SIMSAB1364" "SIMSAB1365"
+ [966] "SIMSAB1366" "SIMSAB1367" "SIMSAB1368" "SIMSAB1369" "SIMSAB1370"
+ [971] "SIMSAB1371" "SIMSAB1372" "SIMSAB1373" "SIMSAB1374" "SIMSAB1375"
+ [976] "SIMSAB1376" "SIMSAB1377" "SIMSAB1378" "SIMSAB1379" "SIMSAB1380"
+ [981] "SIMSAB1381" "SIMSAB1382" "SIMSAB1383" "SIMSAB1384" "SIMSAB1385"
+ [986] "SIMSAB1386" "SIMSAB1387" "SIMSAB1388" "SIMSAB1389" "SIMSAB1390"
+ [991] "SIMSAB1391" "SIMSAB1392" "SIMSAB1393" "SIMSAB1394" "SIMSAB1395"
+ [996] "SIMSAB1396" "SIMSAB1397" "SIMSAB1398" "SIMSAB1399" "SIMSAB1400"
+[1001] "SIMSAB1401" "SIMSAB1402" "SIMSAB1403" "SIMSAB1404" "SIMSAB1405"
+[1006] "SIMSAB1406" "SIMSAB1407" "SIMSAB1408" "SIMSAB1409" "SIMSAB1410"
+[1011] "SIMSAB1411" "SIMSAB1412" "SIMSAB1413" "SIMSAB1414" "SIMSAB1415"
+[1016] "SIMSAB1416" "SIMSAB1417" "SIMSAB1418" "SIMSAB1419" "SIMSAB1420"
+[1021] "SIMSAB1421" "SIMSAB1422" "SIMSAB1423" "SIMSAB1424" "SIMSAB1425"
+[1026] "SIMSAB1426" "SIMSAB1427" "SIMSAB1428" "SIMSAB1429" "SIMSAB1430"
+[1031] "SIMSAB1431" "SIMSAB1432" "SIMSAB1433" "SIMSAB1434" "SIMSAB1435"
+[1036] "SIMSAB1436" "SIMSAB1437" "SIMSAB1438" "SIMSAB1439" "SIMSAB1440"
+[1041] "SIMSAB1441" "SIMSAB1442" "SIMSAB1443" "SIMSAB1444" "SIMSAB1445"
+[1046] "SIMSAB1446" "SIMSAB1447" "SIMSAB1448" "SIMSAB1449" "SIMSAB1450"
+[1051] "SIMSAB1451" "SIMSAB1452" "SIMSAB1453" "SIMSAB1454" "SIMSAB1455"
+[1056] "SIMSAB1456" "SIMSAB1457" "SIMSAB1458" "SIMSAB1459" "SIMSAB1460"
+[1061] "SIMSAB1461" "SIMSAB1462" "SIMSAB1463" "SIMSAB1464" "SIMSAB1465"
+[1066] "SIMSAB1466" "SIMSAB1467" "SIMSAB1468" "SIMSAB1469" "SIMSAB1470"
+[1071] "SIMSAB1471" "SIMSAB1472" "SIMSAB1473" "SIMSAB1474" "SIMSAB1475"
+[1076] "SIMSAB1476" "SIMSAB1477" "SIMSAB1478" "SIMSAB1479" "SIMSAB1480"
+[1081] "SIMSAB1481" "SIMSAB1482" "SIMSAB1483" "SIMSAB1484" "SIMSAB1485"
+[1086] "SIMSAB1486" "SIMSAB1487" "SIMSAB1488" "SIMSAB1489" "SIMSAB1490"
+[1091] "SIMSAB1491" "SIMSAB1492" "SIMSAB1493" "SIMSAB1494" "SIMSAB1495"
+[1096] "SIMSAB1496" "SIMSAB1497" "SIMSAB1498" "SIMSAB1499" "SIMSAB1500"
+[1101] "SIMSAB1501" "SIMSAB1502" "SIMSAB1503" "SIMSAB1504" "SIMSAB1505"
+[1106] "SIMSAB1506" "SIMSAB1507" "SIMSAB1508" "SIMSAB1509" "SIMSAB1510"
+[1111] "SIMSAB1511" "SIMSAB1512" "SIMSAB1513" "SIMSAB1514" "SIMSAB1515"
+[1116] "SIMSAB1516" "SIMSAB1517" "SIMSAB1518" "SIMSAB1519" "SIMSAB1520"
+[1121] "SIMSAB1521" "SIMSAB1522" "SIMSAB1523" "SIMSAB1524" "SIMSAB1525"
+[1126] "SIMSAB1526" "SIMSAB1527" "SIMSAB1528" "SIMSAB1529" "SIMSAB1530"
+[1131] "SIMSAB1531" "SIMSAB1532" "SIMSAB1533" "SIMSAB1534" "SIMSAB1535"
+[1136] "SIMSAB1536" "SIMSAB1537" "SIMSAB1538" "SIMSAB1539" "SIMSAB1540"
+[1141] "SIMSAB1541" "SIMSAB1542" "SIMSAB1543" "SIMSAB1544" "SIMSAB1545"
+[1146] "SIMSAB1546" "SIMSAB1547" "SIMSAB1548" "SIMSAB1549" "SIMSAB1550"
+[1151] "SIMSAB1551" "SIMSAB1552" "SIMSAB1553" "SIMSAB1554" "SIMSAB1555"
+[1156] "SIMSAB1556" "SIMSAB1557" "SIMSAB1558" "SIMSAB1559" "SIMSAB1560"
+[1161] "SIMSAB1561" "SIMSAB1562" "SIMSAB1563" "SIMSAB1564" "SIMSAB1565"
+[1166] "SIMSAB1566" "SIMSAB1567" "SIMSAB1568" "SIMSAB1569" "SIMSAB1570"
+[1171] "SIMSAB1571" "SIMSAB1572" "SIMSAB1573" "SIMSAB1574" "SIMSAB1575"
+[1176] "SIMSAB1576" "SIMSAB1577" "SIMSAB1578" "SIMSAB1579" "SIMSAB1580"
+[1181] "SIMSAB1581" "SIMSAB1582" "SIMSAB1583" "SIMSAB1584" "SIMSAB1585"
+[1186] "SIMSAB1586" "SIMSAB1587" "SIMSAB1588" "SIMSAB1589" "SIMSAB1590"
+[1191] "SIMSAB1591" "SIMSAB1592" "SIMSAB1593" "SIMSAB1594" "SIMSAB1595"
+[1196] "SIMSAB1596" "SIMSAB1597" "SIMSAB1598" "SIMSAB1599" "SIMSAB1600"
+> phenotypeNames(expo)
+[1] "asthma" "BMI"    "sex"    "age"   
+> 
+> 
+> 
+> cleanEx()
+> nameEx("expo_c")
+> ### * expo_c
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: expo_c
+> ### Title: 'ExposomeClust' for testing purpouses
+> ### Aliases: expo_c
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data("eclust")
+> dim(expo_c)
+exposures   samples phenotyes 
+       99      1200         5 
+> table(classification(expo_c))
+
+  1   2   3 
+918 199  83 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("expos-methods")
+> ### * expos-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: expos
+> ### Title: Returns the exposures matrix of an ExposomeSet.
+> ### Aliases: expos
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> expos(expo)[1:3, 1:3]
+          ldde_lip lddt_lip lhcb_lip
+SIMSAB401 2.466516       NA 1.686681
+SIMSAB402 1.935413       NA 2.013425
+SIMSAB403 1.703686       NA 1.566913
+> 
+> 
+> 
+> cleanEx()
+> nameEx("exposureNames-methods")
+> ### * exposureNames-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: exposureNames
+> ### Title: Getter to obtain the exposures's names of an ExposomeSet or
+> ###   ExposomePCA
+> ### Aliases: exposureNames
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> exposureNames(expo)
+  [1] "ldde_lip"          "lddt_lip"          "lhcb_lip"         
+  [4] "lbhch_lip"         "lpcb118_lip"       "lpcb153_lip"      
+  [7] "lpcb180_lip"       "lpcb138_lip"       "lbde17_lip"       
+ [10] "lbde28_lip"        "lbde71_lip"        "lbde47_lip"       
+ [13] "lbde66_lip"        "lbde100_lip"       "lbde99_lip"       
+ [16] "lbde85_lip"        "lbde154_lip"       "lbde153_lip"      
+ [19] "lbde138_lip"       "lbde183_lip"       "lbde190_lip"      
+ [22] "lbde209_lip"       "logcbPFHxS"        "logcbPFOA"        
+ [25] "logcbPFOS"         "logcbPFNA"         "logmPFHxS"        
+ [28] "logmPFOA"          "logmPFOS"          "logmPFNA"         
+ [31] "loghg"             "logpb"             "lcrCo_T1"         
+ [34] "lcrNi_T1"          "lcrCu_T1"          "lcrZn_T1"         
+ [37] "lcrAs_T1"          "lcrSe_T1"          "lcrMo_T1"         
+ [40] "lcrCd_T1"          "lcrSb_T1"          "lcrCs_T1"         
+ [43] "lcrTl_T1"          "lcrPb_T1"          "lcrCo_T3"         
+ [46] "lcrNi_T3"          "lcrCu_T3"          "lcrZn_T3"         
+ [49] "lcrAs_T3"          "lcrSe_T3"          "lcrMo_T3"         
+ [52] "lcrCd_T3"          "lcrSb_T3"          "lcrCs_T3"         
+ [55] "lcrTl_T3"          "lcrPb_T3"          "lcrMEHP_av"       
+ [58] "lcrMEHHP_av"       "lcr_5cxMEP_v"      "lcr_5cxMEPP_av"   
+ [61] "lcr_2cxMMHP_av"    "lcrMiBP_av"        "lcrMnBP_av"       
+ [64] "lcr_7OHMMe_v"      "lcr_7OHMMeOP_av"   "lcrMEOHP_av"      
+ [67] "lcrbpa_av"         "l_24_dcp_T3"       "l_25_dcp_T3"      
+ [70] "lb_pb_T3"          "le_pb_T3"          "lm_pb_T3"         
+ [73] "lp_pb_T3"          "lbp_3_T3"          "ltcs_T3"          
+ [76] "lTHM_preg"         "lTHM_T1"           "lTHM_T2"          
+ [79] "lTHM_T3"           "lCHCL3_preg"       "lCHCL3_T1"        
+ [82] "lCHCL3_T2"         "lCHCL3_T3"         "lBROM_preg"       
+ [85] "lBROM_T1"          "lBROM_T2"          "lBROM_T3"         
+ [88] "lcotinine"         "NO2_T1"            "NO2_T2"           
+ [91] "NO2_T3"            "NO2_preg"          "Ben_T1"           
+ [94] "Ben_T2"            "Ben_T3"            "Ben_preg"         
+ [97] "NDVI100"           "NDVI250"           "NDVI500"          
+[100] "gascooking"        "ETS"               "cleaning_products"
+[103] "home_pesticides"   "garden_pesticides"
+> 
+> 
+> 
+> cleanEx()
+> nameEx("exwas-methods")
+> ### * exwas-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: exwas
+> ### Title: Testing the association between an exposure and a phenotype of
+> ###   an ExposomeSet
+> ### Aliases: exwas
+> 
+> ### ** Examples
+> 
+> data(exposome)
+> w1 <- exwas(expo[1:5, ], asthma~1, family = "binomial")
+Warning in exwas(expo[1:5, ], asthma ~ 1, family = "binomial") :
+  Data from 'asthma~lddt_lip+1' was reduced from 1200 to 1185
+> w2 <- exwas(expo[1:5, ], asthma~sex+age, family = "binomial")
+Warning in exwas(expo[1:5, ], asthma ~ sex + age, family = "binomial") :
+  Data from 'asthma~lddt_lip+sex + age' was reduced from 1200 to 1185
+> w3 <- exwas(expo[1:5, ], asthma~age, family = "binomial", filter = sex=="boy")
+Warning in exwas(expo[1:5, ], asthma ~ age, family = "binomial", filter = sex ==  :
+  Data from 'asthma~lddt_lip+age' was reduced from 593 to 585
+> 
+> 
+> 
+> cleanEx()
+> nameEx("familyNames-methods")
+> ### * familyNames-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: familyNames
+> ### Title: Getter to obtain the exposures's names of an ExposomeSet.
+> ### Aliases: familyNames
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> # Get families
+> familyNames(expo)
+ [1] "Organochlorines"        "PBDEs"                  "PFAS"                  
+ [4] "Metals"                 "Phthalates "            "Phenols"               
+ [7] "Water DBPs"             "Cotinine"               "Ambient air pollutants"
+[10] "Built environment"      "Green spaces"           "Indoor air"            
+> # Get the family of each exposure
+> familyNames(expo, by.exposure = TRUE)
+                ldde_lip                 lddt_lip                 lhcb_lip 
+       "Organochlorines"        "Organochlorines"        "Organochlorines" 
+               lbhch_lip              lpcb118_lip              lpcb153_lip 
+       "Organochlorines"        "Organochlorines"        "Organochlorines" 
+             lpcb180_lip              lpcb138_lip               lbde17_lip 
+       "Organochlorines"        "Organochlorines"                  "PBDEs" 
+              lbde28_lip               lbde71_lip               lbde47_lip 
+                 "PBDEs"                  "PBDEs"                  "PBDEs" 
+              lbde66_lip              lbde100_lip               lbde99_lip 
+                 "PBDEs"                  "PBDEs"                  "PBDEs" 
+              lbde85_lip              lbde154_lip              lbde153_lip 
+                 "PBDEs"                  "PBDEs"                  "PBDEs" 
+             lbde138_lip              lbde183_lip              lbde190_lip 
+                 "PBDEs"                  "PBDEs"                  "PBDEs" 
+             lbde209_lip               logcbPFHxS                logcbPFOA 
+                 "PBDEs"                   "PFAS"                   "PFAS" 
+               logcbPFOS                logcbPFNA                logmPFHxS 
+                  "PFAS"                   "PFAS"                   "PFAS" 
+                logmPFOA                 logmPFOS                 logmPFNA 
+                  "PFAS"                   "PFAS"                   "PFAS" 
+                   loghg                    logpb                 lcrCo_T1 
+                "Metals"                 "Metals"                 "Metals" 
+                lcrNi_T1                 lcrCu_T1                 lcrZn_T1 
+                "Metals"                 "Metals"                 "Metals" 
+                lcrAs_T1                 lcrSe_T1                 lcrMo_T1 
+                "Metals"                 "Metals"                 "Metals" 
+                lcrCd_T1                 lcrSb_T1                 lcrCs_T1 
+                "Metals"                 "Metals"                 "Metals" 
+                lcrTl_T1                 lcrPb_T1                 lcrCo_T3 
+                "Metals"                 "Metals"                 "Metals" 
+                lcrNi_T3                 lcrCu_T3                 lcrZn_T3 
+                "Metals"                 "Metals"                 "Metals" 
+                lcrAs_T3                 lcrSe_T3                 lcrMo_T3 
+                "Metals"                 "Metals"                 "Metals" 
+                lcrCd_T3                 lcrSb_T3                 lcrCs_T3 
+                "Metals"                 "Metals"                 "Metals" 
+                lcrTl_T3                 lcrPb_T3               lcrMEHP_av 
+                "Metals"                 "Metals"            "Phthalates " 
+             lcrMEHHP_av             lcr_5cxMEP_v           lcr_5cxMEPP_av 
+           "Phthalates "            "Phthalates "            "Phthalates " 
+          lcr_2cxMMHP_av               lcrMiBP_av               lcrMnBP_av 
+           "Phthalates "            "Phthalates "            "Phthalates " 
+            lcr_7OHMMe_v          lcr_7OHMMeOP_av              lcrMEOHP_av 
+           "Phthalates "            "Phthalates "            "Phthalates " 
+               lcrbpa_av              l_24_dcp_T3              l_25_dcp_T3 
+               "Phenols"                "Phenols"                "Phenols" 
+                lb_pb_T3                 le_pb_T3                 lm_pb_T3 
+               "Phenols"                "Phenols"                "Phenols" 
+                lp_pb_T3                 lbp_3_T3                  ltcs_T3 
+               "Phenols"                "Phenols"                "Phenols" 
+               lTHM_preg                  lTHM_T1                  lTHM_T2 
+            "Water DBPs"             "Water DBPs"             "Water DBPs" 
+                 lTHM_T3              lCHCL3_preg                lCHCL3_T1 
+            "Water DBPs"             "Water DBPs"             "Water DBPs" 
+               lCHCL3_T2                lCHCL3_T3               lBROM_preg 
+            "Water DBPs"             "Water DBPs"             "Water DBPs" 
+                lBROM_T1                 lBROM_T2                 lBROM_T3 
+            "Water DBPs"             "Water DBPs"             "Water DBPs" 
+               lcotinine                   NO2_T1                   NO2_T2 
+              "Cotinine" "Ambient air pollutants" "Ambient air pollutants" 
+                  NO2_T3                 NO2_preg                   Ben_T1 
+"Ambient air pollutants" "Ambient air pollutants" "Ambient air pollutants" 
+                  Ben_T2                   Ben_T3                 Ben_preg 
+"Ambient air pollutants" "Ambient air pollutants" "Ambient air pollutants" 
+                 NDVI100                  NDVI250                  NDVI500 
+     "Built environment"           "Green spaces"           "Green spaces" 
+              gascooking                      ETS        cleaning_products 
+            "Indoor air"             "Indoor air"             "Indoor air" 
+         home_pesticides        garden_pesticides 
+            "Indoor air"             "Indoor air" 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("highAndLow-methods")
+> ### * highAndLow-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: highAndLow
+> ### Title: Function to convert continuous exposures to categorical
+> ###   exposures
+> ### Aliases: highAndLow
+> 
+> ### ** Examples
+> 
+> # No drop
+> data("exposome")
+> exp.hl <- highAndLow(expo, intervals = "standard", select = "ldde_lip")
+Warning in highAndLow(expo, intervals = "standard", select = "ldde_lip") :
+  Non continuous exposures will be keept but not transformed
+> dim(exp.hl)
+exposures   samples phenotyes 
+      105      1200         4 
+> # exposures   samples phenotyes
+> #       105      1200         4
+> dim(expo)
+exposures   samples phenotyes 
+      104      1200         4 
+> # exposures   samples phenotyes
+> #       104      1200         4
+> # exps.hl has 107 exposures: the original 104 plus the new
+> #         3 factored exposures
+> 
+> # Drop
+> exp.hl <- highAndLow(expo, intervals = "standard",
++     select = "ldde_lip", drop = TRUE)
+Warning in highAndLow(expo, intervals = "standard", select = "ldde_lip",  :
+  Non continuous exposures will be keept but not transformed
+> dim(exp.hl)
+exposures   samples phenotyes 
+      104      1200         4 
+> # exposures   samples phenotyes
+> #       104      1200         4
+> dim(expo)
+exposures   samples phenotyes 
+      104      1200         4 
+> # exposures   samples phenotyes
+> #       104      1200         4
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ilod-methods")
+> ### * ilod-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ilod
+> ### Title: Function to impute under-LOD values from an ExposomeSet
+> ### Aliases: ilod
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D #Being x an ExposomeSet
+> ##D x <- ilod(x)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("imputation-methods")
+> ### * imputation-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: imputation
+> ### Title: Function to impute missing values from an ExposomeSet
+> ### Aliases: imputation
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D #Being x an ExposomeSet
+> ##D x <- imputation(x)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("imputeLOD")
+> ### * imputeLOD
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: imputeLOD
+> ### Title: Function to impute values under limit of detection
+> ### Aliases: imputeLOD
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D inma.imp <- imputeLOD(x = raw, lod = lod, description = desc,
+> ##D      pNA = pNA, pLOD = pLOD, log = log, seed = seed)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("invExWAS-methods")
+> ### * invExWAS-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: invExWAS
+> ### Title: Testing the association between an exposure and a phenotype of
+> ###   an ExposomeSet (modelling the exposures as response)
+> ### Aliases: invExWAS
+> 
+> ### ** Examples
+> 
+> data(exposome)
+> w1 <- invExWAS(expo, ~BMI)
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  15 rows removed when evaluating 'lddt_lip'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  2 rows removed when evaluating 'lpcb180_lip'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'lpcb138_lip'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'lbde17_lip'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'lbde28_lip'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  10 rows removed when evaluating 'lcrCo_T1'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  3 rows removed when evaluating 'lcrAs_T1'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  10 rows removed when evaluating 'lcrCo_T3'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  2 rows removed when evaluating 'NDVI100'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  2 rows removed when evaluating 'NDVI250'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  2 rows removed when evaluating 'NDVI500'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'gascooking'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'ETS'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  6 rows removed when evaluating 'cleaning_products'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'home_pesticides'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'garden_pesticides'
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+> w2 <- invExWAS(expo, ~BMI + sex)
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  15 rows removed when evaluating 'lddt_lip'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  2 rows removed when evaluating 'lpcb180_lip'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'lpcb138_lip'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'lbde17_lip'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'lbde28_lip'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  10 rows removed when evaluating 'lcrCo_T1'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  3 rows removed when evaluating 'lcrAs_T1'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  10 rows removed when evaluating 'lcrCo_T3'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  2 rows removed when evaluating 'NDVI100'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  2 rows removed when evaluating 'NDVI250'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  2 rows removed when evaluating 'NDVI500'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'gascooking'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'ETS'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  6 rows removed when evaluating 'cleaning_products'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'home_pesticides'
+Warning in doTryCatch(return(expr), name, parentenv, handler) :
+  1 rows removed when evaluating 'garden_pesticides'
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+> plotExwas(w1, w2)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("loadExposome")
+> ### * loadExposome
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: loadExposome
+> ### Title: Creation of an ExposomeSet from 'data.frames'
+> ### Aliases: loadExposome
+> 
+> ### ** Examples
+> 
+> path <- file.path(path.package("rexposome"), "extdata")
+> description <- file.path(path, "description.csv")
+> phenotype <- file.path(path, "phenotypes.csv")
+> exposures <- file.path(path, "exposures.csv")
+> dd <- read.csv(description, header=TRUE)
+> ee <- read.csv(exposures, header=TRUE)
+> pp <- read.csv(phenotype, header=TRUE)
+> rownames(dd) <- dd[, 2]
+> dd <- dd[ , -2]
+> rownames(ee) <- ee[ , 1]
+> ee <- ee[ , -1]
+> rownames(pp) <- pp[ , 1]
+> pp <- pp[ , -1]
+> exp <- loadExposome(
++ exposures = ee,
++ description = dd,
++ phenotype = pp,
++ description.famCol = "Family"
++ )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("loadExposome_plain")
+> ### * loadExposome_plain
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: loadExposome_plain
+> ### Title: Creation of an ExposomeSet from single 'data.frame'
+> ### Aliases: loadExposome_plain
+> 
+> ### ** Examples
+> 
+> path <- file.path(path.package("rexposome"), "extdata")
+> phenotype <- file.path(path, "phenotypes.csv")
+> exposures <- file.path(path, "exposures.csv")
+> ee <- read.csv(exposures, header=TRUE)
+> pp <- read.csv(phenotype, header=TRUE)
+> # Create fake dataset with exposures and phenotypes combined
+> data <- cbind(ee, pp)
+> 
+> loadExposome_plain <- function(data, data_id = "idnum",
++ pheno_cols = c("rhinitis", "wheezing", "sex", "age", "cbmi", "blood_pre", "whistling_chest","flu"))
++ 
++ 
++ 
++ 
++ cleanEx()
+> nameEx("loadImputed")
+> ### * loadImputed
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: loadImputed
+> ### Title: Creation of an imExposomeSet from 'data.frames'
+> ### Aliases: loadImputed
+> 
+> ### ** Examples
+> 
+> data("me") # me is an imputed matrix of exposure and phenotyes
+> path <- file.path(path.package("rexposome"), "extdata")
+> description <- file.path(path, "description.csv")
+> dd <- read.csv(description, header=TRUE, stringsAsFactors=FALSE)
+> dd <- dd[dd$Exposure %in% colnames(me), ]
+> ex_imp <- loadImputed(data = me, description = dd,
++ description.famCol = "Family",
++ description.expCol = "Exposure")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("me")
+> ### * me
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: me
+> ### Title: 'data.frame' for testing purpouses
+> ### Aliases: me
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data("me")
+> dim(me)
+[1] 654  57
+> colnames(me)
+ [1] ".imp"            ".id"             "DDE"             "DDT"            
+ [5] "HCB"             "bHCH"            "PCB118"          "PCB153"         
+ [9] "PCB180"          "PCB138"          "BPA"             "THM"            
+[13] "CHCl3"           "BTHM"            "Cotinine"        "Gas"            
+[17] "ETS"             "H_pesticides"    "G_pesticides"    "Benzene"        
+[21] "PM25CU"          "PM25FE"          "PM25K"           "PM25Ni"         
+[25] "PM25S"           "PM25Sl"          "PM25V"           "PM25Zn"         
+[29] "PM10Cu"          "PM10Fe"          "PM10K"           "PM10Ni"         
+[33] "PM10S"           "PM10SI"          "PM10V"           "PM10Zn"         
+[37] "NO2"             "NO"              "NOx"             "PM25"           
+[41] "PM10"            "PMcoarse"        "AbsPM25"         "Dens"           
+[45] "Conn"            "Green"           "Noise_d"         "Noise_n"        
+[49] "Temp"            "whistling_chest" "flu"             "rhinitis"       
+[53] "wheezing"        "sex"             "age"             "cbmi"           
+[57] "blood_pre"      
+> 
+> 
+> 
+> cleanEx()
+> nameEx("mexwas-methods")
+> ### * mexwas-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: mexwas
+> ### Title: Testing the association between an exposure and a phenotype of
+> ###   an ExposomeSet using a multivariate aproach.
+> ### Aliases: mexwas
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> wt <- mexwas(expo[3:7, 1:100], phenotype = "asthma", family = "binomial")
+Warning in mexwas(expo[3:7, 1:100], phenotype = "asthma", family = "binomial") :
+  Categorical exposures will be droped and not used in the analysis.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ndim-methods")
+> ### * ndim-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ndim
+> ### Title: Number of principal components in an ExposomePCA.
+> ### Aliases: ndim
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> epca <- pca(expo[3:7, 1:100])
+> ndim(epca)
+[1] 5
+> 
+> 
+> 
+> cleanEx()
+> nameEx("normalityTest-methods")
+> ### * normalityTest-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: normalityTest
+> ### Title: It creates a 'data.frame' of boolean indicating if the exposures
+> ###   follows a normal distribution or not.
+> ### Aliases: normalityTest
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> normalityTest(expo)
+                       exposure normality     p.value
+lhcb_lip               lhcb_lip     FALSE 0.003009382
+logmPFOS               logmPFOS     FALSE 0.006614275
+logcbPFOS             logcbPFOS     FALSE 0.014231690
+lcrCs_T1               lcrCs_T1     FALSE 0.014821863
+lcrAs_T1               lcrAs_T1     FALSE 0.036899016
+logcbPFOA             logcbPFOA     FALSE 0.040936589
+lcr_7OHMMeOP_av lcr_7OHMMeOP_av      TRUE 0.066835825
+lcrMEHHP_av         lcrMEHHP_av      TRUE 0.087193744
+lbhch_lip             lbhch_lip      TRUE 0.097976905
+logcbPFNA             logcbPFNA      TRUE 0.136816234
+lbp_3_T3               lbp_3_T3      TRUE 0.148760751
+lcrCu_T1               lcrCu_T1      TRUE 0.162371441
+lm_pb_T3               lm_pb_T3      TRUE 0.167619645
+lcotinine             lcotinine      TRUE 0.168219741
+logmPFOA               logmPFOA      TRUE 0.204013437
+lBROM_T3               lBROM_T3      TRUE 0.205225148
+lcrCd_T3               lcrCd_T3      TRUE 0.205903482
+NDVI100                 NDVI100      TRUE 0.208956674
+lcrNi_T3               lcrNi_T3      TRUE 0.211503205
+lcrTl_T1               lcrTl_T1      TRUE 0.213217767
+lbde85_lip           lbde85_lip      TRUE 0.229464650
+lbde154_lip         lbde154_lip      TRUE 0.230114058
+lcrMiBP_av           lcrMiBP_av      TRUE 0.259288837
+lcrMEOHP_av         lcrMEOHP_av      TRUE 0.267227169
+lcrPb_T3               lcrPb_T3      TRUE 0.284813448
+lcrNi_T1               lcrNi_T1      TRUE 0.301662664
+lBROM_T1               lBROM_T1      TRUE 0.319040948
+lcrZn_T3               lcrZn_T3      TRUE 0.322538864
+lCHCL3_T1             lCHCL3_T1      TRUE 0.334545833
+lcrPb_T1               lcrPb_T1      TRUE 0.348624471
+lpcb180_lip         lpcb180_lip      TRUE 0.357147601
+lTHM_T1                 lTHM_T1      TRUE 0.358261469
+lcrSe_T1               lcrSe_T1      TRUE 0.363442572
+lcrSe_T3               lcrSe_T3      TRUE 0.367419093
+lcrbpa_av             lcrbpa_av      TRUE 0.369969524
+lcr_5cxMEP_v       lcr_5cxMEP_v      TRUE 0.387179704
+lbde47_lip           lbde47_lip      TRUE 0.390140539
+lbde209_lip         lbde209_lip      TRUE 0.393214538
+lbde190_lip         lbde190_lip      TRUE 0.408565277
+lpcb138_lip         lpcb138_lip      TRUE 0.445819570
+lbde28_lip           lbde28_lip      TRUE 0.454731210
+lBROM_T2               lBROM_T2      TRUE 0.457309595
+loghg                     loghg      TRUE 0.472584852
+le_pb_T3               le_pb_T3      TRUE 0.477949574
+lcrMEHP_av           lcrMEHP_av      TRUE 0.479350110
+lcrCo_T3               lcrCo_T3      TRUE 0.484284545
+lcrSb_T1               lcrSb_T1      TRUE 0.487518526
+lBROM_preg           lBROM_preg      TRUE 0.487601645
+lcr_2cxMMHP_av   lcr_2cxMMHP_av      TRUE 0.495648950
+lcrCo_T1               lcrCo_T1      TRUE 0.503113185
+NDVI250                 NDVI250      TRUE 0.505047206
+ldde_lip               ldde_lip      TRUE 0.505453941
+lTHM_T3                 lTHM_T3      TRUE 0.506581971
+logmPFHxS             logmPFHxS      TRUE 0.507935108
+lbde66_lip           lbde66_lip      TRUE 0.513453430
+l_25_dcp_T3         l_25_dcp_T3      TRUE 0.514040151
+lcrMo_T1               lcrMo_T1      TRUE 0.517028050
+lcrCu_T3               lcrCu_T3      TRUE 0.530328238
+lbde99_lip           lbde99_lip      TRUE 0.533829217
+NO2_T2                   NO2_T2      TRUE 0.534257315
+ltcs_T3                 ltcs_T3      TRUE 0.538984934
+NO2_T3                   NO2_T3      TRUE 0.549592457
+lb_pb_T3               lb_pb_T3      TRUE 0.549774843
+lddt_lip               lddt_lip      TRUE 0.557161610
+lbde100_lip         lbde100_lip      TRUE 0.561583406
+lbde183_lip         lbde183_lip      TRUE 0.576315191
+logmPFNA               logmPFNA      TRUE 0.582999588
+NO2_T1                   NO2_T1      TRUE 0.599229867
+lcrCs_T3               lcrCs_T3      TRUE 0.604106877
+Ben_T3                   Ben_T3      TRUE 0.606207844
+NDVI500                 NDVI500      TRUE 0.606711106
+lp_pb_T3               lp_pb_T3      TRUE 0.628107503
+lTHM_preg             lTHM_preg      TRUE 0.638030290
+lTHM_T2                 lTHM_T2      TRUE 0.638466841
+lcrMo_T3               lcrMo_T3      TRUE 0.645496709
+lcr_5cxMEPP_av   lcr_5cxMEPP_av      TRUE 0.661696807
+lbde138_lip         lbde138_lip      TRUE 0.687275106
+lcrAs_T3               lcrAs_T3      TRUE 0.688746214
+lcrSb_T3               lcrSb_T3      TRUE 0.690137753
+lcrCd_T1               lcrCd_T1      TRUE 0.697123701
+lbde153_lip         lbde153_lip      TRUE 0.699889839
+lpcb153_lip         lpcb153_lip      TRUE 0.704927115
+lcrZn_T1               lcrZn_T1      TRUE 0.712348630
+lCHCL3_preg         lCHCL3_preg      TRUE 0.720324607
+Ben_T2                   Ben_T2      TRUE 0.741070907
+Ben_preg               Ben_preg      TRUE 0.777058657
+Ben_T1                   Ben_T1      TRUE 0.787090434
+NO2_preg               NO2_preg      TRUE 0.793610087
+lcrTl_T3               lcrTl_T3      TRUE 0.794521481
+logcbPFHxS           logcbPFHxS      TRUE 0.794742124
+lCHCL3_T2             lCHCL3_T2      TRUE 0.800369147
+lCHCL3_T3             lCHCL3_T3      TRUE 0.812950992
+lbde17_lip           lbde17_lip      TRUE 0.844294722
+lcrMnBP_av           lcrMnBP_av      TRUE 0.893561297
+lbde71_lip           lbde71_lip      TRUE 0.903573465
+lcr_7OHMMe_v       lcr_7OHMMe_v      TRUE 0.912945937
+logpb                     logpb      TRUE 0.940367895
+lpcb118_lip         lpcb118_lip      TRUE 0.943632934
+l_24_dcp_T3         l_24_dcp_T3      TRUE 0.981490405
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pca-methods")
+> ### * pca-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pca
+> ### Title: Creation of an ExposomePCA from an ExposomeSet.
+> ### Aliases: pca
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> epca <- pca(expo[12:20, ])
+> 
+> 
+> 
+> cleanEx()
+> nameEx("phenotypeNames-methods")
+> ### * phenotypeNames-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: phenotypeNames
+> ### Title: Getter to obtain the phenotype's names of an ExposomeSet or
+> ###   ExposomePCA.
+> ### Aliases: phenotypeNames
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> phenotypeNames(expo)
+[1] "asthma" "BMI"    "sex"    "age"   
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotClassification-methods")
+> ### * plotClassification-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotClassification
+> ### Title: Draw the profile of the levels exposures after a classification
+> ###   with a clustering method
+> ### Aliases: plotClassification
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data("eclust")
+> ##D plotClassification(expo_c)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotCorrelation-methods")
+> ### * plotCorrelation-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotCorrelation
+> ### Title: It draws both circos or matrix plot for the correlation in
+> ###   ExposomeCorr
+> ### Aliases: plotCorrelation
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> expo.c <- correlation(expo)
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...) :
+  Chi-squared approximation may be incorrect
+> plotCorrelation(expo.c, type="circos")
+> plotCorrelation(expo.c, type="matrix")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotEXP-methods")
+> ### * plotEXP-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotEXP
+> ### Title: Plot correlation between exposures and PCA
+> ### Aliases: plotEXP
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> epca <- pca(expo[3:7, 1:100])
+> plotEXP(epca)
+Using Exposure as id variables
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotEffect-methods")
+> ### * plotEffect-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotEffect
+> ### Title: Function to draw a plot of the pvalues stored in an 'ExWAS'
+> ###   object
+> ### Aliases: plotEffect
+> 
+> ### ** Examples
+> 
+> data(exposome)
+> w1 <- exwas(expo[1:5, ], asthma~1, family = "binomial")
+Warning in exwas(expo[1:5, ], asthma ~ 1, family = "binomial") :
+  Data from 'asthma~lddt_lip+1' was reduced from 1200 to 1185
+> w2 <- exwas(expo[1:5, ], asthma~sex+age, family = "binomial")
+Warning in exwas(expo[1:5, ], asthma ~ sex + age, family = "binomial") :
+  Data from 'asthma~lddt_lip+sex + age' was reduced from 1200 to 1185
+> plotEffect(w1, w2)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotExwas-methods")
+> ### * plotExwas-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotExwas
+> ### Title: Function to draw a plot of the pvalues stored in an 'ExWAS'
+> ###   object
+> ### Aliases: plotExwas
+> 
+> ### ** Examples
+> 
+> data(exposome)
+> w1 <- exwas(expo[1:5, ], asthma~1, family = "binomial")
+Warning in exwas(expo[1:5, ], asthma ~ 1, family = "binomial") :
+  Data from 'asthma~lddt_lip+1' was reduced from 1200 to 1185
+> plotExwas(w1)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotFamily-methods")
+> ### * plotFamily-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotFamily
+> ### Title: It draws the profile of the exposome in an ExposomeSet
+> ### Aliases: plotFamily
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> plt <- plotFamily(expo, family = "Metals")
+> plt <- plt + ggplot2::ggtitle("Metals")
+> plt
+> plt <- plotFamily(expo, family = "Indoor air")
+> plt <- plt + ggplot2::ggtitle("Indoor air")
+> plt
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotHistogram-methods")
+> ### * plotHistogram-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotHistogram
+> ### Title: It draws a histogram for each exposure in an ExposomeSet
+> ### Aliases: plotHistogram
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> plotHistogram(expo[1:3, ], select = "ldde_lip")
+Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(density)` instead.
+ℹ The deprecated feature was likely used in the rexposome package.
+  Please report the issue to the authors.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotLOD-methods")
+> ### * plotLOD-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotLOD
+> ### Title: It draws a chart with the percentage of under-LOD values in an
+> ###   ExposomeSet
+> ### Aliases: plotLOD
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> # The included has no missing data
+> plotLOD(expo)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotMissings-methods")
+> ### * plotMissings-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotMissings
+> ### Title: It draws a chart with the percentage of missing in an
+> ###   ExposomeSet
+> ### Aliases: plotMissings
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> # The included has no missing data
+> plotMissings(expo, set = "exposures")
+> plotMissings(expo, set = "phenotypes")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotPCA-methods")
+> ### * plotPCA-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotPCA
+> ### Title: Ploting PCA
+> ### Aliases: plotPCA
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> epca <- pca(expo[3:7, 1:100])
+> # A grid with exposures space, samples space and explained variance
+> plotPCA(epca, set = "all")
+> # Only exposures space
+> plotPCA(epca, set = "exposures") + ggplot2::theme(legend.position = "bottom")
+> # Only samples space
+> plotPCA(epca, set = "samples")
+> # Only samples space but coloured by phenotype
+> plotPCA(epca, set = "samples", phenotype = "sex") +
++ ggplot2::theme(legend.position = "bottom")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotPHE-methods")
+> ### * plotPHE-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotPHE
+> ### Title: Plot association score between phentoypes and PCA
+> ### Aliases: plotPHE
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> epca <- pca(expo[3:7, 1:100])
+> plotPHE(epca)
+Using Dim as id variables
+> 
+> 
+> 
+> cleanEx()
+> nameEx("readExposome")
+> ### * readExposome
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: readExposome
+> ### Title: Creation of an ExposomeSet from files
+> ### Aliases: readExposome
+> 
+> ### ** Examples
+> 
+> ## Locate the data-files
+> path <- file.path(path.package("rexposome"), "extdata")
+> description <- file.path(path, "description.csv")
+> phenotype <- file.path(path, "phenotypes.csv")
+> exposures <- file.path(path, "exposures.csv")
+> 
+> ## Create ExposomeSet from files
+> exp <- readExposome(
++   exposures = exposures,
++   description = description,
++   phenotype = phenotype,
++   exposures.samCol = 1,
++   description.expCol = 2,
++   description.famCol = 1,
++   phenotype.samCol = 1
++ )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("standardize-methods")
+> ### * standardize-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: standardize
+> ### Title: #' Summary of an ExposomeSet. #' #' Given an ExposomeSet is
+> ###   shows a summary for its exposures or #' its phenotypes. #' #' @name
+> ###   Summary #' @rdname Summary-methods #' @aliases Summary #' @param
+> ###   object codeExposomeSet with 'set' will be summarized. #' @param set
+> ###   Set to be sumarized ('"exposures"' or '"phenotypes"'). #' @param
+> ###   select Subseting of exposures of phenotypes. #' @return A basic
+> ###   description of the exposures in the 'ExposomeSet' #' @examples #'
+> ###   data("exposome") #' Summary(expo, set = "exposures") #' @export
+> ###   Summary setGeneric("Summary", function(object, set=c("exposures",
+> ###   "phenotypes"), select) standardGeneric("Summary") ) Standardize of an
+> ###   ExposomeSet.
+> ### Aliases: standardize
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> exp.sn <- standardize(expo, method = "normal", select = "lbde100_lip")
+Warning in standardize(expo, method = "normal", select = "lbde100_lip") :
+  Categorical exposures will not be standardized.
+> exp.rs <- standardize(expo, method = "iqr", select = "lbde100_lip")
+Warning in standardize(expo, method = "iqr", select = "lbde100_lip") :
+  Categorical exposures will not be standardized.
+> exp.rs <- standardize(expo, method = "robust", select = "lbde100_lip")
+Warning in standardize(expo, method = "robust", select = "lbde100_lip") :
+  Categorical exposures will not be standardized.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("tableLOD-methods")
+> ### * tableLOD-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: tableLOD
+> ### Title: It creates a vector with the amount of under-LOD exposures in an
+> ###   ExposomeSet
+> ### Aliases: tableLOD
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> # The included has no missing data
+> tableLOD(expo, output = "n")
+         lcrCu_T1          lcrCu_T3          ldde_lip          lddt_lip 
+              484               300                 0                 0 
+         lhcb_lip         lbhch_lip       lpcb118_lip       lpcb153_lip 
+                0                 0                 0                 0 
+      lpcb180_lip       lpcb138_lip        lbde17_lip        lbde28_lip 
+                0                 0                 0                 0 
+       lbde71_lip        lbde47_lip        lbde66_lip       lbde100_lip 
+                0                 0                 0                 0 
+       lbde99_lip        lbde85_lip       lbde154_lip       lbde153_lip 
+                0                 0                 0                 0 
+      lbde138_lip       lbde183_lip       lbde190_lip       lbde209_lip 
+                0                 0                 0                 0 
+       logcbPFHxS         logcbPFOA         logcbPFOS         logcbPFNA 
+                0                 0                 0                 0 
+        logmPFHxS          logmPFOA          logmPFOS          logmPFNA 
+                0                 0                 0                 0 
+            loghg             logpb          lcrCo_T1          lcrNi_T1 
+                0                 0                 0                 0 
+         lcrZn_T1          lcrAs_T1          lcrSe_T1          lcrMo_T1 
+                0                 0                 0                 0 
+         lcrCd_T1          lcrSb_T1          lcrCs_T1          lcrTl_T1 
+                0                 0                 0                 0 
+         lcrPb_T1          lcrCo_T3          lcrNi_T3          lcrZn_T3 
+                0                 0                 0                 0 
+         lcrAs_T3          lcrSe_T3          lcrMo_T3          lcrCd_T3 
+                0                 0                 0                 0 
+         lcrSb_T3          lcrCs_T3          lcrTl_T3          lcrPb_T3 
+                0                 0                 0                 0 
+       lcrMEHP_av       lcrMEHHP_av      lcr_5cxMEP_v    lcr_5cxMEPP_av 
+                0                 0                 0                 0 
+   lcr_2cxMMHP_av        lcrMiBP_av        lcrMnBP_av      lcr_7OHMMe_v 
+                0                 0                 0                 0 
+  lcr_7OHMMeOP_av       lcrMEOHP_av         lcrbpa_av       l_24_dcp_T3 
+                0                 0                 0                 0 
+      l_25_dcp_T3          lb_pb_T3          le_pb_T3          lm_pb_T3 
+                0                 0                 0                 0 
+         lp_pb_T3          lbp_3_T3           ltcs_T3         lTHM_preg 
+                0                 0                 0                 0 
+          lTHM_T1           lTHM_T2           lTHM_T3       lCHCL3_preg 
+                0                 0                 0                 0 
+        lCHCL3_T1         lCHCL3_T2         lCHCL3_T3        lBROM_preg 
+                0                 0                 0                 0 
+         lBROM_T1          lBROM_T2          lBROM_T3         lcotinine 
+                0                 0                 0                 0 
+           NO2_T1            NO2_T2            NO2_T3          NO2_preg 
+                0                 0                 0                 0 
+           Ben_T1            Ben_T2            Ben_T3          Ben_preg 
+                0                 0                 0                 0 
+          NDVI100           NDVI250           NDVI500        gascooking 
+                0                 0                 0                 0 
+              ETS cleaning_products   home_pesticides garden_pesticides 
+                0                 0                 0                 0 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("tableMissings-methods")
+> ### * tableMissings-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: tableMissings
+> ### Title: It creates a vector with the amount of missing in an ExposomeSet
+> ### Aliases: tableMissings
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> # The included has no missing data
+> tableMissings(expo, set = "exposures")
+         ldde_lip          lhcb_lip         lbhch_lip       lpcb118_lip 
+                0                 0                 0                 0 
+      lpcb153_lip        lbde71_lip        lbde47_lip        lbde66_lip 
+                0                 0                 0                 0 
+      lbde100_lip        lbde99_lip        lbde85_lip       lbde154_lip 
+                0                 0                 0                 0 
+      lbde153_lip       lbde138_lip       lbde183_lip       lbde190_lip 
+                0                 0                 0                 0 
+      lbde209_lip        logcbPFHxS         logcbPFOA         logcbPFOS 
+                0                 0                 0                 0 
+        logcbPFNA         logmPFHxS          logmPFOA          logmPFOS 
+                0                 0                 0                 0 
+         logmPFNA             loghg             logpb          lcrNi_T1 
+                0                 0                 0                 0 
+         lcrCu_T1          lcrZn_T1          lcrSe_T1          lcrMo_T1 
+                0                 0                 0                 0 
+         lcrCd_T1          lcrSb_T1          lcrCs_T1          lcrTl_T1 
+                0                 0                 0                 0 
+         lcrPb_T1          lcrNi_T3          lcrCu_T3          lcrZn_T3 
+                0                 0                 0                 0 
+         lcrAs_T3          lcrSe_T3          lcrMo_T3          lcrCd_T3 
+                0                 0                 0                 0 
+         lcrSb_T3          lcrCs_T3          lcrTl_T3          lcrPb_T3 
+                0                 0                 0                 0 
+       lcrMEHP_av       lcrMEHHP_av      lcr_5cxMEP_v    lcr_5cxMEPP_av 
+                0                 0                 0                 0 
+   lcr_2cxMMHP_av        lcrMiBP_av        lcrMnBP_av      lcr_7OHMMe_v 
+                0                 0                 0                 0 
+  lcr_7OHMMeOP_av       lcrMEOHP_av         lcrbpa_av       l_24_dcp_T3 
+                0                 0                 0                 0 
+      l_25_dcp_T3          lb_pb_T3          le_pb_T3          lm_pb_T3 
+                0                 0                 0                 0 
+         lp_pb_T3          lbp_3_T3           ltcs_T3         lTHM_preg 
+                0                 0                 0                 0 
+          lTHM_T1           lTHM_T2           lTHM_T3       lCHCL3_preg 
+                0                 0                 0                 0 
+        lCHCL3_T1         lCHCL3_T2         lCHCL3_T3        lBROM_preg 
+                0                 0                 0                 0 
+         lBROM_T1          lBROM_T2          lBROM_T3         lcotinine 
+                0                 0                 0                 0 
+           NO2_T1            NO2_T2            NO2_T3          NO2_preg 
+                0                 0                 0                 0 
+           Ben_T1            Ben_T2            Ben_T3          Ben_preg 
+                0                 0                 0                 0 
+      lpcb138_lip        lbde17_lip        lbde28_lip        gascooking 
+                1                 1                 1                 1 
+              ETS   home_pesticides garden_pesticides       lpcb180_lip 
+                1                 1                 1                 2 
+          NDVI100           NDVI250           NDVI500          lcrAs_T1 
+                2                 2                 2                 3 
+cleaning_products          lcrCo_T1          lcrCo_T3          lddt_lip 
+                6                10                10                15 
+> tableMissings(expo, set = "phenotypes")
+asthma    BMI    sex    age 
+     0      0      0      0 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("tef-methods")
+> ### * tef-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: tef
+> ### Title: Function to get the Threshold for effective tests (TEF)
+> ### Aliases: tef
+> 
+> ### ** Examples
+> 
+> data(exposome)
+> w1 <- exwas(expo[1:5, ], asthma~1, family = "binomial")
+Warning in exwas(expo[1:5, ], asthma ~ 1, family = "binomial") :
+  Data from 'asthma~lddt_lip+1' was reduced from 1200 to 1185
+> w2 <- exwas(expo[1:5, ], asthma~sex+age, family = "binomial")
+Warning in exwas(expo[1:5, ], asthma ~ sex + age, family = "binomial") :
+  Data from 'asthma~lddt_lip+sex + age' was reduced from 1200 to 1185
+> tef(w1)
+[1] 0.01370794
+> tef(w2)
+[1] 0.01370794
+> 
+> 
+> 
+> cleanEx()
+> nameEx("toES")
+> ### * toES
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: toES
+> ### Title: Method to convert an imExposomeSet to an ExposomeSet
+> ### Aliases: toES
+> 
+> ### ** Examples
+> 
+> data("ex_imp")
+> toES(ex_imp, rid = 1)
+Object of class 'ExposomeSet' (storageMode: environment)
+ . exposures description:
+    . categorical:  4 
+    . continuous:  43 
+ . exposures transformation:
+    . categorical: 0 
+    . transformed: 0 
+    . standardized: 0 
+    . imputed: 0 
+ . assayData: 47 exposures 109 individuals
+    . element names: exp 
+    . exposures: AbsPM25, ..., Temp 
+    . individuals: id001, ..., id108 
+ . phenoData: 109 individuals 10 phenotypes
+    . individuals: id001, ..., id108 
+    . phenotypes: whistling_chest, ..., .imp.1 
+ . featureData: 47 exposures 7 explanations
+    . exposures: AbsPM25, ..., Temp 
+    . descriptions: Family, ..., .imp 
+experimentData: use 'experimentData(object)'
+Annotation:  
+> 
+> 
+> 
+> cleanEx()
+> nameEx("trans-methods")
+> ### * trans-methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: trans
+> ### Title: Function to apply a transformation to the exposures of an
+> ###   ExposomeSet
+> ### Aliases: trans
+> 
+> ### ** Examples
+> 
+> data("exposome")
+> exp.t <- trans(expo, fun = log, select = "ldde_lip")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("volcano_plot")
+> ### * volcano_plot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: volcano_plot
+> ### Title: Function to draw a Volcano Plot
+> ### Aliases: volcano_plot
+> 
+> ### ** Examples
+> 
+> data(exposome)
+> w1 <- extract(exwas(expo[1:20, ], asthma~1, family = "binomial"))
+Warning in exwas(expo[1:20, ], asthma ~ 1, family = "binomial") :
+  Data from 'asthma~lddt_lip+1' was reduced from 1200 to 1185
+Warning in exwas(expo[1:20, ], asthma ~ 1, family = "binomial") :
+  Data from 'asthma~lpcb180_lip+1' was reduced from 1200 to 1198
+Warning in exwas(expo[1:20, ], asthma ~ 1, family = "binomial") :
+  Data from 'asthma~lpcb138_lip+1' was reduced from 1200 to 1199
+Warning in exwas(expo[1:20, ], asthma ~ 1, family = "binomial") :
+  Data from 'asthma~lbde17_lip+1' was reduced from 1200 to 1199
+Warning in exwas(expo[1:20, ], asthma ~ 1, family = "binomial") :
+  Data from 'asthma~lbde28_lip+1' was reduced from 1200 to 1199
+> volcano_plot(w1$pvalue, w1$effect, rownames(w1))
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  25.493 0.4 26.22 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

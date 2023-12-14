@@ -1,0 +1,23 @@
+* using log directory ‘/Users/clauswilke/github/ggridges/revdep/checks.noindex/CATALYST/new/CATALYST.Rcheck’
+* using R version 4.3.1 (2023-06-16)
+* using platform: aarch64-apple-darwin20 (64-bit)
+* R was compiled by
+    Apple clang version 14.0.0 (clang-1400.0.29.202)
+    GNU Fortran (GCC) 12.2.0
+* running under: macOS Ventura 13.6
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘CATALYST/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘CATALYST’ version ‘1.26.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘scater’
+
+Package suggested but not available for checking: ‘openCyto’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR

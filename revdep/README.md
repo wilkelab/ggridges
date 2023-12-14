@@ -2,30 +2,30 @@
 
 |field    |value                        |
 |:--------|:----------------------------|
-|version  |R version 3.6.0 (2019-04-26) |
-|os       |macOS Mojave 10.14.5         |
-|system   |x86_64, darwin15.6.0         |
+|version  |R version 4.3.1 (2023-06-16) |
+|os       |macOS Ventura 13.6           |
+|system   |aarch64, darwin20            |
 |ui       |X11                          |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |America/Chicago              |
-|date     |2020-01-11                   |
+|date     |2023-12-14                   |
+|pandoc   |NA                           |
 
 # Dependencies
 
 |package  |old   |new   |Δ  |
 |:--------|:-----|:-----|:--|
-|ggridges |0.5.1 |0.5.2 |*  |
-|plyr     |NA    |1.8.5 |*  |
+|ggridges |0.5.4 |0.5.5 |*  |
+|ggplot2  |NA    |3.4.4 |*  |
+|scales   |NA    |1.3.0 |*  |
 
 # Revdeps
 
-## Failed to check (3)
+## Failed to check (1)
 
-|package      |version |error |warning |note |
-|:------------|:-------|:-----|:-------|:----|
-|BayesPostEst |0.2.0   |1     |        |     |
-|HistDAWass   |1.0.3   |1     |        |     |
-|mfbvar       |0.5.2   |1     |        |     |
+|package   |version |error |warning |note |
+|:---------|:-------|:-----|:-------|:----|
+|dextergui |0.2.6   |1     |        |     |
 

@@ -1,0 +1,11 @@
+variable,friendly_name,description,units,codes,values
+cellsource,Cellphone money source,The source of money for paying cellphone bills,,1|2|3|4,job|other|parent|pocket
+rightfoot,Right foot length,Length of student's right foot,cm,,
+travel,Travel method,Mode of travel to get to school,,1|2|3|4|5|6,bike|bus|motor|other|train|walk
+getlunch,Get lunch from,Where student gets their lunch from,,1|2|3|4|5|6,dairy|friend|home|none|school|tuckshop
+height,Height,Student's height,cm,,
+gender,Gender,Student's gender,,1|2,female|male
+age,Age,Student's age,years,,
+year,Year,Student's school year,,,
+armspan,Armspan,Student's armspan,cm,,
+cellcost,Cellphone monthly cost,Monthly cellphone cost,dollars,,
