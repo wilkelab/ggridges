@@ -12,7 +12,12 @@ test_that("basic tests", {
   expect_equal(d$colour, rep(c("#F00000", "#0000F0"), 13))
 
   # make sure there is no legend being generated
-  expect_equal("guide-box" %in% ggplotGrob(p)$layout$name, FALSE)
+  # in ggplot2 >= 3.5.0 legend structure in gtable changed
+  if ("get_guide_data" %in% getNamespaceExports("ggplot2")) {
+    expect_null(get_guide_data(p, "colour"))
+  } else {
+    expect_equal("guide-box" %in% ggplotGrob(p)$layout$name, FALSE)
+  }
 
   # once again, different aesthetic, different cyclical pattern, now with legend
   p <- ggplot(df, aes(x, y, label=letters, color=factor(x))) + geom_text() +
@@ -23,7 +28,12 @@ test_that("basic tests", {
   expect_equal(d$colour[order(d$x)], rep(c("#F00000", "#0000F0", "#F0F000"), 9)[1:26])
 
   # make sure there is a legend
-  expect_equal("guide-box" %in% ggplotGrob(p)$layout$name, TRUE)
+  # in ggplot2 >= 3.5.0 legend structure in gtable changed
+  if ("get_guide_data" %in% getNamespaceExports("ggplot2")) {
+    expect_s3_class(get_guide_data(p, "colour"), "data.frame")
+  } else {
+    expect_equal("guide-box" %in% ggplotGrob(p)$layout$name, TRUE)
+  }
 
   # test that breaks must match labels
   expect_error(
