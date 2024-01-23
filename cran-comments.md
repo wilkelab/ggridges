@@ -1,4 +1,4 @@
-This release contains some minor bug fixes.
+Minor bug fixes for upcoming ggplot2 release.
 
 One data file contains UTF-8 marked strings. The file contains election results from Catalania, and the municipality names contain non-ASCII characters. None of these names make it into the example figure that is generated from this file, so it is best to leave the file as is for completeness.
 
