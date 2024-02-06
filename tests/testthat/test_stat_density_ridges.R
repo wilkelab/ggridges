@@ -112,21 +112,21 @@ test_that("alternative quantile function can be provided", {
 })
 
 test_that("unweighted densities are calculated correctly", {
-  df <- data.frame(x = rnorm(100),wts = runif(100))
+  df <- data.frame(x = rnorm(100), wts = runif(100))
   df$wts <- df$wts / sum(df$wts)
 
   gg_no_wts <- layer_data(ggplot(df, aes(x = x, y = 0)) + stat_density_ridges())
   d_no_wts <- stats::density(df$x)
 
-  expect_equal(gg_no_wts$density,d_no_wts$y)
+  expect_equal(gg_no_wts$density, d_no_wts$y)
 })
 
 test_that("weighted densities are calculated correctly", {
-  df <- data.frame(x = rnorm(100),wts = runif(100))
+  df <- data.frame(x = rnorm(100), wts = runif(100))
   df$wts <- df$wts / sum(df$wts)
 
   gg_wts <- layer_data(ggplot(df, aes(x = x, y = 0, weight = wts)) + stat_density_ridges())
-  d_wts <- stats::density(df$x,weights = df$wts)
+  d_wts <- stats::density(df$x, weights = df$wts)
 
-  expect_equal(gg_wts$density,d_wts$y)
+  expect_equal(gg_wts$density, d_wts$y)
 })
