@@ -99,7 +99,9 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
 StatDensityRidges <- ggproto("StatDensityRidges", Stat,
   required_aes = "x",
 
-  default_aes = aes(height = after_stat(density)),
+  default_aes = aes(height = after_stat(density), weight = NULL),
+
+  dropped_aes = "weight",
 
   calc_panel_params = function(data, params) {
     if (is.null(params$bandwidth)) {
@@ -166,8 +168,15 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     }
     panel_id <- as.numeric(panel)
 
+    if (is.null(data$weight)) {
+      weights <- NULL
+    } else {
+      weights <- data$weight / sum(data$weight)
+    }
+
     d <- stats::density(
       data$x,
+      weights = weights,
       bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE,
       n = n
     )
