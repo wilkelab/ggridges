@@ -390,6 +390,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #'
 #' * **`x`**
 #' * **`y`**
+#' * `weight` Optional case weights passed to `stats::density` to calculate a weighted density estimate
 #' * `group` Defines the grouping. Not needed if a categorical variable is mapped onto `y`, but needed otherwise. Will typically be the same
 #' variable as is mapped to `y`.
 #' * `height` The height of each ridgeline at the respective x value. Automatically calculated and
@@ -475,7 +476,7 @@ GeomDensityRidges <- ggproto("GeomDensityRidges", GeomRidgeline,
 
   required_aes = c("x", "y", "height"),
 
-  optional_aes = c("point_color", "vline_color", "vline_size", "vline_width"),
+  optional_aes = c("point_color", "vline_color", "vline_size", "vline_width", "weight"),
 
   extra_params = c("na.rm", "panel_scaling"),
 

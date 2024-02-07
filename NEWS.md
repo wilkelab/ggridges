@@ -1,6 +1,7 @@
 ggridges 0.5.6.9000
 ----------------------------------------------------------------
-
+- Add support for weighted density estimates in `stat_density_ridges()` by 
+  allowing the use of the `weight` aesthetic (@joranE, #90)
 
 ggridges 0.5.6
 ----------------------------------------------------------------

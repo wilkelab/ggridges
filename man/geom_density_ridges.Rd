@@ -96,6 +96,7 @@ Required aesthetics are in bold.
 \itemize{
 \item \strong{\code{x}}
 \item \strong{\code{y}}
+\item \code{weight} Optional case weights passed to \code{stats::density} to calculate a weighted density estimate
 \item \code{group} Defines the grouping. Not needed if a categorical variable is mapped onto \code{y}, but needed otherwise. Will typically be the same
 variable as is mapped to \code{y}.
 \item \code{height} The height of each ridgeline at the respective x value. Automatically calculated and
