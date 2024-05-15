@@ -333,7 +333,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 #'   theme_ridges() +
 #'   theme(legend.position = 'none')
 #'
-#' library(ggplot2movies)
+#' if (require(ggplot2movies)) {
 #' ggplot(movies[movies$year>1989,], aes(x = length, y = year, fill = factor(year))) +
 #'    stat_binline(scale = 1.9, bins = 40) +
 #'    scale_x_continuous(limits = c(1, 180), expand = c(0, 0)) +
@@ -343,6 +343,7 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 #'    labs(title = "Movie lengths 1990 - 2005") +
 #'    theme_ridges() +
 #'    theme(legend.position = "none")
+#' }
 #'
 #' count_data <- data.frame(
 #'   group = rep(letters[1:5], each = 10),
