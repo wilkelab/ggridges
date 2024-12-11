@@ -2,6 +2,8 @@ ggridges 0.5.6.9000
 ----------------------------------------------------------------
 - Add support for weighted density estimates in `stat_density_ridges()` by 
   allowing the use of the `weight` aesthetic (@joranE, #90)
+- Add support for `grid::pattern()`, `grid::linearGradient()`, and `grid::radialGradient()` values for `fill` and `point_fill` aesthetics
+  by using [`ggplot2::fill_alpha()`](https://ggplot2.tidyverse.org/reference/fill_alpha.html) (@trevorld, #94)
 
 ggridges 0.5.6
 ----------------------------------------------------------------
