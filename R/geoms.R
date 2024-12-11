@@ -157,7 +157,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
       height = grid::unit(1, "npc") - grid::unit(lwd, "mm"),
       gp = grid::gpar(
         col = data$colour,
-        fill = alpha(data$fill, data$alpha),
+        fill = ggplot2::fill_alpha(data$fill, data$alpha),
         lty = data$linetype,
         lwd = lwd * .pt,
         linejoin = "mitre"
@@ -191,7 +191,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
             data$point_colour %||% data$point_color %||% data$colour,
             data$point_alpha %||% data$alpha
           ),
-          fill = alpha(
+          fill = ggplot2::fill_alpha(
             data$point_fill %||% data$fill,
             data$point_alpha %||% data$alpha
           ),
@@ -304,7 +304,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
                  data$point_colour %||% data$point_color %||% data$colour,
                  data$point_alpha %||% data$alpha
                ),
-               fill = alpha(
+               fill = ggplot2::fill_alpha(
                  data$point_fill %||% data$fill,
                  data$point_alpha %||% data$alpha
                ),
@@ -355,7 +355,7 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
              munched_poly$x, munched_poly$y, id = munched_poly$id,
              default.units = "native",
              gp = grid::gpar(
-               fill = ggplot2::alpha(aes$fill, aes$alpha),
+               fill = ggplot2::fill_alpha(aes$fill, aes$alpha),
                lty = 0)
              )
            )
@@ -591,7 +591,7 @@ GeomDensityRidges2 <- ggproto("GeomDensityRidges2", GeomDensityRidges,
              munched_poly$x, munched_poly$y, id = munched_poly$id,
              default.units = "native",
              gp = grid::gpar(
-             fill = ggplot2::alpha(aes$fill, aes$alpha),
+             fill = ggplot2::fill_alpha(aes$fill, aes$alpha),
              col = aes$colour,
              lwd = aes$linewidth * .pt,
              lty = aes$linetype)

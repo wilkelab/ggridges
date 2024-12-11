@@ -164,7 +164,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
             data$point_colour %||% data$point_color %||% data$colour,
             data$point_alpha %||% data$alpha
           ),
-          fill = alpha(
+          fill = ggplot2::fill_alpha(
             data$point_fill %||% data$fill,
             data$point_alpha %||% data$alpha
           ),
@@ -303,7 +303,7 @@ GeomRidgelineGradient <- ggproto("GeomRidgelineGradient", Geom,
                  data$point_colour %||% data$point_color %||% data$colour,
                  data$point_alpha %||% data$alpha
                ),
-               fill = alpha(
+               fill = ggplot2::fill_alpha(
                  data$point_fill %||% data$fill,
                  data$point_alpha %||% data$alpha
                ),
