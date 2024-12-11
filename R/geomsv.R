@@ -207,7 +207,7 @@ GeomVRidgeline <- ggproto("GeomVRidgeline", Geom,
                  munched_poly$x, munched_poly$y, id = munched_poly$id,
                  default.units = "native",
                  gp = grid::gpar(
-                   fill = ggplot2::alpha(aes$fill, aes$alpha),
+                   fill = ggplot2::fill_alpha(aes$fill, aes$alpha),
                    lty = 0)
                ))
     grid::grobTree(ag, lg)
