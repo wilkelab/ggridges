@@ -77,7 +77,7 @@ The grouping aesthetic does not need to be provided if a categorical variable is
 iris_num <- transform(iris, Species_num = as.numeric(Species))
 
 # does not work, causes error
-# ggplot(iris_num, aes(x = Sepal.Length, y = Species)) + geom_density_ridges()
+# ggplot(iris_num, aes(x = Sepal.Length, y = Species_num)) + geom_density_ridges()
 
 # works 
 ggplot(iris_num, aes(x = Sepal.Length, y = Species_num, group = Species_num)) + 
