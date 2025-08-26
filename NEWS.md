@@ -1,5 +1,6 @@
-ggridges 0.5.6.9000
+ggridges 0.5.7
 ----------------------------------------------------------------
+- Various fixes for latest versions of R and ggplot2.
 - Add support for weighted density estimates in `stat_density_ridges()` by 
   allowing the use of the `weight` aesthetic (@joranE, #90)
 - Add support for `grid::pattern()`, `grid::linearGradient()`, and `grid::radialGradient()` values for `fill` and `point_fill` aesthetics
@@ -7,7 +8,7 @@ ggridges 0.5.6.9000
 
 ggridges 0.5.6
 ----------------------------------------------------------------
-- fix issues with upcoming ggplot 3.5.0.
+- fix issues with upcoming ggplot2 3.5.0.
 
 ggridges 0.5.5
 ----------------------------------------------------------------
