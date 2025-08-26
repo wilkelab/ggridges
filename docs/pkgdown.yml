@@ -1,8 +1,10 @@
-pandoc: 3.1.1
-pkgdown: 2.0.7
+pandoc: '3.2'
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   gallery: gallery.html
   introduction: introduction.html
-last_built: 2024-01-22T23:32Z
-
+last_built: 2025-08-26T23:09Z
+urls:
+  reference: https://wilkelab.org/ggridges/reference
+  article: https://wilkelab.org/ggridges/articles

@@ -4,92 +4,67 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Introduction to ggridges • ggridges</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to ggridges">
-<meta property="og:description" content="ggridges">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to ggridges">
 </head>
-<body data-spy="scroll" data-target="#toc">
-    
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">ggridges</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.6</span>
-      </span>
-    </div>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/gallery.html">Gallery of ggridges examples</a>
-    </li>
-    <li>
-      <a href="../articles/introduction.html">Introduction to ggridges</a>
-    </li>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
+    <a class="navbar-brand me-2" href="../index.html">ggridges</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.7</small>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/gallery.html">Gallery of ggridges examples</a></li>
+    <li><a class="dropdown-item" href="../articles/introduction.html">Introduction to ggridges</a></li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/wilkelab/ggridges/" class="external-link">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/wilkelab/ggridges/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
-      
 
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Introduction to ggridges</h1>
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+
+      <h1>Introduction to ggridges</h1>
                         <h4 data-toc-skip class="author">Claus O.
 Wilke</h4>
             
-            <h4 data-toc-skip class="date">2024-01-22</h4>
+            <h4 data-toc-skip class="date">2025-08-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wilkelab/ggridges/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
-      <div class="hidden name"><code>introduction.Rmd</code></div>
-
+      <div class="d-none name"><code>introduction.Rmd</code></div>
     </div>
 
     
@@ -112,11 +87,11 @@ ridgelines.</p>
 filled area underneath.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggridges/" class="external-link">ggridges</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggridges/">ggridges</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span>, height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, height <span class="op">=</span> <span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_ridgeline.html">geom_ridgeline</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>Negative heights are allowed, but are cut off unless the
 <code>min_height</code> parameter is set negative as well.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -126,7 +101,7 @@ filled area underneath.</p>
 <span><span class="va">plot_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, height <span class="op">=</span> <span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot_base</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_ridgeline.html">geom_ridgeline</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|</span> <span class="va">plot_base</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_ridgeline.html">geom_ridgeline</a></span><span class="op">(</span>min_height <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-2-1.png" width="864"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-3-1.png" width="864"></p>
 <p>Multiple ridgelines can be drawn at the same time. They will be
 ordered such that the ones drawn higher up are in the background. When
 drawing multiple ridgelines at once, the <code>group</code> aesthetic
@@ -141,7 +116,7 @@ to which ridgeline.</p>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, height <span class="op">=</span> <span class="va">height</span>, group <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_ridgeline.html">geom_ridgeline</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"lightblue"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>It is also possible to draw ridgelines with
 <code>geom_density_ridges</code> if we set
 <code>stat = "identity"</code>. In this case, the heights are
@@ -150,7 +125,7 @@ one above at <code>scale = 1</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, height <span class="op">=</span> <span class="va">height</span>, group <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"identity"</span>, scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="density-ridgeline-plots">Density ridgeline plots<a class="anchor" aria-label="anchor" href="#density-ridgeline-plots"></a>
@@ -161,13 +136,13 @@ ridgeline visualization. The <code>height</code> aesthetic does not need
 to be specified in this case.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>There is also <code>geom_density_ridges2</code>, which is identical
 to <code>geom_density_ridges</code> except it uses closed polygons
 instead of ridgelines for drawing.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges2</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>The grouping aesthetic does not need to be provided if a categorical
 variable is mapped onto the y axis, but it does need to be provided if
 the variable is numerical.</p>
@@ -181,7 +156,7 @@ the variable is numerical.</p>
 <span><span class="co"># works </span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris_num</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species_num</span>, group <span class="op">=</span> <span class="va">Species_num</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <p>Trailing tails can be cut off using the <code>rel_min_height</code>
 aesthetic. This aesthetic sets a percent cutoff relative to the highest
 point of any of the density curves. A value of 0.01 usually works well,
@@ -189,7 +164,7 @@ but you may have to modify this parameter for different datasets.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>rel_min_height <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>The extent to which the different densities overlap can be controlled
 with the <code>scale</code> parameter. A setting of <code>scale=1</code>
 means the tallest density curve just touches the baseline of the next
@@ -198,15 +173,15 @@ larger values create more overlap.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># scale = 0.9, not quite touching</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># scale = 1, exactly touching</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-9-2.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-10-2.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># scale = 5, substantial overlap</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-9-3.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-10-3.png" width="700"></p>
 <p>The scaling is calculated separately per panel, so if we facet-wrap
 by species each density curve exactly touches the next higher baseline.
 (This can be disabled by setting
@@ -214,7 +189,7 @@ by species each density curve exactly touches the next higher baseline.
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="varying-fill-colors-along-the-x-axis">Varying fill colors along the x axis<a class="anchor" aria-label="anchor" href="#varying-fill-colors-along-the-x-axis"></a>
@@ -239,7 +214,7 @@ we can have changing fill colors or transparency but not both.</p>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, height <span class="op">=</span> <span class="va">height</span>, group <span class="op">=</span> <span class="va">y</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_ridgeline_gradient.html">geom_ridgeline_gradient</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <p>And here is an example using
 <code>geom_density_ridges_gradient</code>. Note that we need to map the
 calculated x value (<code>stat(x)</code>) onto the fill aesthetic, not
@@ -257,7 +232,7 @@ calculates new x values as part of its density calculation.</p>
 <span><span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
 <span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
 <span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
-<p><img src="introduction_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -278,7 +253,7 @@ to the first, second, and third quartile:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_density_ridges.html">stat_density_ridges</a></span><span class="op">(</span>quantile_lines <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>We can change the number of quantiles by specifying it via the
 <code>quantiles</code> option. Note that <code>quantiles = 2</code>
 implies one line (the median) at the boundary between the two
@@ -286,13 +261,13 @@ quantiles.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_density_ridges.html">stat_density_ridges</a></span><span class="op">(</span>quantile_lines <span class="op">=</span> <span class="cn">TRUE</span>, quantiles <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <p>We can also specify quantiles by cut points rather than number. E.g.,
 we can indicate the 2.5% and 97.5% tails.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_density_ridges.html">stat_density_ridges</a></span><span class="op">(</span>quantile_lines <span class="op">=</span> <span class="cn">TRUE</span>, quantiles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>Using the geom <code>geom_density_ridges_gradient</code> we can also
 color by quantile, via the calculated <code>stat(quantile)</code>
 aesthetic. Note that this aesthetic is only calculated if
@@ -304,7 +279,7 @@ aesthetic. Note that this aesthetic is only calculated if
 <span>    quantiles <span class="op">=</span> <span class="fl">4</span>, quantile_lines <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Quartiles"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>We can use the same approach to highlight the tails of the
 distributions.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -318,7 +293,7 @@ distributions.</p>
 <span>    name <span class="op">=</span> <span class="st">"Probability"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#FF0000A0"</span>, <span class="st">"#A0A0A0A0"</span>, <span class="st">"#0000FFA0"</span><span class="op">)</span>,</span>
 <span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"(0, 0.025]"</span>, <span class="st">"(0.025, 0.975]"</span>, <span class="st">"(0.975, 1]"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p>Finally, when <code>calc_ecdf = TRUE</code>, we also have access to a
 calculated aesthetic <code>stat(ecdf)</code>, which represents the
 empirical cumulative density function for the distribution. This allows
@@ -327,7 +302,7 @@ us to map the probabilities directly onto color.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span>, fill <span class="op">=</span> <span class="fl">0.5</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fl">0.5</span> <span class="op">-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">stat</a></span><span class="op">(</span><span class="va">ecdf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_density_ridges.html">stat_density_ridges</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"density_ridges_gradient"</span>, calc_ecdf <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tail probability"</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="jittering-points">Jittering points<a class="anchor" aria-label="anchor" href="#jittering-points"></a>
@@ -341,7 +316,7 @@ generated. This can be done by setting
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>jittered_points <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 <p>Where the points are shown can be controlled with position options,
 e.g. “raincloud” for the raincloud effect:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
@@ -350,7 +325,7 @@ e.g. “raincloud” for the raincloud effect:</p>
 <span>    jittered_points <span class="op">=</span> <span class="cn">TRUE</span>, position <span class="op">=</span> <span class="st">"raincloud"</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">0.7</span>, scale <span class="op">=</span> <span class="fl">0.9</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 <p>We can also simulate a rug:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -359,7 +334,7 @@ e.g. “raincloud” for the raincloud effect:</p>
 <span>    position <span class="op">=</span> <span class="fu"><a href="../reference/position_points_jitter.html">position_points_jitter</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.05</span>, height <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
 <span>    point_shape <span class="op">=</span> <span class="st">'|'</span>, point_size <span class="op">=</span> <span class="fl">3</span>, point_alpha <span class="op">=</span> <span class="fl">1</span>, alpha <span class="op">=</span> <span class="fl">0.7</span>,</span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <p>Note that we are using <code><a href="../reference/position_points_jitter.html">position_points_jitter()</a></code> here,
 not <code><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter()</a></code>. We do this because
 <code><a href="../reference/position_points_jitter.html">position_points_jitter()</a></code> knows to jitter only the points in
@@ -379,7 +354,7 @@ documentation for these scales for more details.</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_point.html">scale_point_color_hue</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fl">40</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_discrete_manual</a></span><span class="op">(</span>aesthetics <span class="op">=</span> <span class="st">"point_shape"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fl">22</span>, <span class="fl">23</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 <p>All common aesthetics for points can be applied to the jittered
 points. However, the aesthetic names start with <code>point_</code>. In
 the next example, we have mapped an additional variable onto the size of
@@ -392,7 +367,7 @@ the points.</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_point.html">scale_point_color_hue</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fl">40</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/scale_point.html">scale_point_size_continuous</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_discrete_manual</a></span><span class="op">(</span>aesthetics <span class="op">=</span> <span class="st">"point_shape"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fl">22</span>, <span class="fl">23</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-23-1.png" width="576"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-24-1.png" width="576"></p>
 <p>Similarly, we have aesthetics for the vertical lines, named
 <code>vline_</code>. And the vertical lines can also be shifted so they
 are aligned with the jittered points. This allows us to generate figures
@@ -401,21 +376,11 @@ such as the following:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span></span>
 <span>    jittered_points <span class="op">=</span> <span class="cn">TRUE</span>, quantile_lines <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="fl">0.9</span>, alpha <span class="op">=</span> <span class="fl">0.7</span>,</span>
-<span>    vline_size <span class="op">=</span> <span class="fl">1</span>, vline_color <span class="op">=</span> <span class="st">"red"</span>,</span>
+<span>    vline_width <span class="op">=</span> <span class="fl">1</span>, vline_color <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>    point_size <span class="op">=</span> <span class="fl">0.4</span>, point_alpha <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    position <span class="op">=</span> <span class="fu"><a href="../reference/position_raincloud.html">position_raincloud</a></span><span class="op">(</span>adjust_vlines <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Use of the `vline_size` or `size` aesthetic are deprecated, please use</span></span>
-<span><span class="co">## `linewidth` instead of `size` and `vline_width` instead of `vline_size`.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Use of the `vline_size` aesthetics is deprecated, please use</span></span>
-<span><span class="co">## `vline_width` instead of `vline_size`.</span></span>
-<span></span>
-<span><span class="co">## Warning: Use of the `vline_size` aesthetics is deprecated, please use</span></span>
-<span><span class="co">## `vline_width` instead of `vline_size`.</span></span>
-<span></span>
-<span><span class="co">## Warning: Use of the `vline_size` aesthetics is deprecated, please use</span></span>
-<span><span class="co">## `vline_width` instead of `vline_size`.</span></span></code></pre>
-<p><img src="introduction_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="using-alternative-stats">Using alternative stats<a class="anchor" aria-label="anchor" href="#using-alternative-stats"></a>
@@ -432,10 +397,10 @@ or <code>stat_density</code>. This problem can be remedied by using
 <code>stat_density</code> with <code>geom_density_ridges</code>. This
 works just fine, we just need to make sure that we map the calculated
 density onto the <code>height</code> aesthetic.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span>, height <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">stat</a></span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 <p>Second, there may be scenarios in which you don’t want
 <code>geom_density_ridges</code> to do any density estimation, for
 example because you have done so already yourself. In this case, you can
@@ -445,7 +410,7 @@ using <code>geom_ridgeline</code> directly is that
 <code>geom_density_ridges</code> provides automatic scaling.</p>
 <p>As an example, assume we have calculated density curves for the
 <code>Sepal.Length</code> column in the <code>iris</code> dataset:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">iris_densities</span> <span class="op">&lt;-</span> <span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -458,22 +423,22 @@ using <code>geom_ridgeline</code> directly is that
 <span><span class="co">## <span style="color: #949494;"># Groups:   Species [3]</span></span></span>
 <span><span class="co">##    Species Sepal.Length  density   scaled ndensity  count     n</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> setosa          3.93 0.000<span style="text-decoration: underline;">869</span> 0.000<span style="text-decoration: underline;">701</span> 0.000<span style="text-decoration: underline;">701</span> 0.043<span style="text-decoration: underline;">5</span>    50</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> setosa          3.94 0.000<span style="text-decoration: underline;">973</span> 0.000<span style="text-decoration: underline;">785</span> 0.000<span style="text-decoration: underline;">785</span> 0.048<span style="text-decoration: underline;">7</span>    50</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> setosa          3.94 0.001<span style="text-decoration: underline;">09</span>  0.000<span style="text-decoration: underline;">876</span> 0.000<span style="text-decoration: underline;">876</span> 0.054<span style="text-decoration: underline;">3</span>    50</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> setosa          3.94 0.001<span style="text-decoration: underline;">21</span>  0.000<span style="text-decoration: underline;">975</span> 0.000<span style="text-decoration: underline;">975</span> 0.060<span style="text-decoration: underline;">4</span>    50</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> setosa          3.95 0.001<span style="text-decoration: underline;">35</span>  0.001<span style="text-decoration: underline;">09</span>  0.001<span style="text-decoration: underline;">09</span>  0.067<span style="text-decoration: underline;">3</span>    50</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> setosa          3.95 0.001<span style="text-decoration: underline;">50</span>  0.001<span style="text-decoration: underline;">21</span>  0.001<span style="text-decoration: underline;">21</span>  0.074<span style="text-decoration: underline;">9</span>    50</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> setosa          3.96 0.001<span style="text-decoration: underline;">66</span>  0.001<span style="text-decoration: underline;">34</span>  0.001<span style="text-decoration: underline;">34</span>  0.083<span style="text-decoration: underline;">1</span>    50</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> setosa          3.96 0.001<span style="text-decoration: underline;">84</span>  0.001<span style="text-decoration: underline;">49</span>  0.001<span style="text-decoration: underline;">49</span>  0.092<span style="text-decoration: underline;">2</span>    50</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> setosa          3.97 0.002<span style="text-decoration: underline;">05</span>  0.001<span style="text-decoration: underline;">65</span>  0.001<span style="text-decoration: underline;">65</span>  0.102     50</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> setosa          3.97 0.002<span style="text-decoration: underline;">26</span>  0.001<span style="text-decoration: underline;">83</span>  0.001<span style="text-decoration: underline;">83</span>  0.113     50</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> setosa          3.93 0.000<span style="text-decoration: underline;">861</span> 0.000<span style="text-decoration: underline;">695</span> 0.000<span style="text-decoration: underline;">695</span> 0.043<span style="text-decoration: underline;">0</span>    50</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> setosa          3.94 0.000<span style="text-decoration: underline;">964</span> 0.000<span style="text-decoration: underline;">778</span> 0.000<span style="text-decoration: underline;">778</span> 0.048<span style="text-decoration: underline;">2</span>    50</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> setosa          3.94 0.001<span style="text-decoration: underline;">08</span>  0.000<span style="text-decoration: underline;">868</span> 0.000<span style="text-decoration: underline;">868</span> 0.053<span style="text-decoration: underline;">8</span>    50</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> setosa          3.94 0.001<span style="text-decoration: underline;">20</span>  0.000<span style="text-decoration: underline;">966</span> 0.000<span style="text-decoration: underline;">966</span> 0.059<span style="text-decoration: underline;">9</span>    50</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> setosa          3.95 0.001<span style="text-decoration: underline;">33</span>  0.001<span style="text-decoration: underline;">08</span>  0.001<span style="text-decoration: underline;">08</span>  0.066<span style="text-decoration: underline;">7</span>    50</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> setosa          3.95 0.001<span style="text-decoration: underline;">49</span>  0.001<span style="text-decoration: underline;">20</span>  0.001<span style="text-decoration: underline;">20</span>  0.074<span style="text-decoration: underline;">3</span>    50</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> setosa          3.96 0.001<span style="text-decoration: underline;">65</span>  0.001<span style="text-decoration: underline;">33</span>  0.001<span style="text-decoration: underline;">33</span>  0.082<span style="text-decoration: underline;">4</span>    50</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> setosa          3.96 0.001<span style="text-decoration: underline;">83</span>  0.001<span style="text-decoration: underline;">48</span>  0.001<span style="text-decoration: underline;">48</span>  0.091<span style="text-decoration: underline;">4</span>    50</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> setosa          3.97 0.002<span style="text-decoration: underline;">03</span>  0.001<span style="text-decoration: underline;">64</span>  0.001<span style="text-decoration: underline;">64</span>  0.101     50</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> setosa          3.97 0.002<span style="text-decoration: underline;">25</span>  0.001<span style="text-decoration: underline;">81</span>  0.001<span style="text-decoration: underline;">81</span>  0.112     50</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 1,526 more rows</span></span></span></code></pre>
 <p>We can plot these as follows:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris_densities</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span>, height <span class="op">=</span> <span class="va">density</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
 <p>Notice how this plot looks different from the one generated using
 <code>stat = "density"</code>, even though the density computation was
 exactly the same: (i) The density curves extend all the way to zero.
@@ -485,10 +450,10 @@ strange, so this option is probably best used with a <code>scale</code>
 parameter &lt; 1. The option <code>draw_baseline = FALSE</code> removes
 trailing lines to either side of the histogram. (For histograms, the
 <code>rel_min_height</code> parameter doesn’t work very well.)</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span>, height <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">stat</a></span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"binline"</span>, bins <span class="op">=</span> <span class="fl">20</span>, scale <span class="op">=</span> <span class="fl">0.95</span>, draw_baseline <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -500,48 +465,48 @@ aligned so that they are flush with the axis ticks rather than
 vertically centered. The ggridges package provides a theme
 <code>theme_ridges</code> that does this and a few other theme
 modifications.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/theme_ridges.html">theme_ridges</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
 <p>However, without any further modifications, there are still a few
 issues with this plot. First, the ridgeline for the virginica species is
 slightly cut off at the very top point. Second, the space between the x
 and y axis labels and the ridgelines is too large. We can fix both
 issues using the <code>expand</code> option for the axis scales.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_y_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expand_scale</a></span><span class="op">(</span>mult <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">.7</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_ridges.html">theme_ridges</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
 <p>Instead of expanding the axis, you can also turn off clipping for the
 plot panel.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_y_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>clip <span class="op">=</span> <span class="st">"off"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_ridges.html">theme_ridges</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 <p>By default, <code>theme_ridges</code> adds a grid, but the grid can
 be switched off when not needed. Also, axis titles can be centered.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_y_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>clip <span class="op">=</span> <span class="st">"off"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/theme_ridges.html">theme_ridges</a></span><span class="op">(</span>grid <span class="op">=</span> <span class="cn">FALSE</span>, center_axis_labels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 <p>If you prefer to use a different theme than
 <code>theme_ridges</code>, for example <code>theme_minimal</code>, it is
 still advisable to adjust the alignment of the axis tick labels and the
 axis scales.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>, y <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -549,7 +514,7 @@ axis scales.</p>
 <span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>clip <span class="op">=</span> <span class="st">"off"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">14</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>vjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="cyclical-scales">Cyclical scales<a class="anchor" aria-label="anchor" href="#cyclical-scales"></a>
@@ -561,22 +526,22 @@ that cycle through the aesthetic values provided. For example, if we use
 <code>scale_fill_cyclical(values = c("blue", "green"))</code> then
 <code>ggplot</code> will cycle through these two fill colors throughout
 the plot.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">diamonds</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">price</span>, y <span class="op">=</span> <span class="va">cut</span>, fill <span class="op">=</span> <span class="va">cut</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu"><a href="../reference/scale_cyclical.html">scale_fill_cyclical</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
 <p>By default, the cyclical scales will not draw a legend, because the
 legend will usually be confusing unless the labels are manually altered.
 Legends can be switched on via the <code>guide = "legend"</code> option,
 just like for all other scales.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">diamonds</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">price</span>, y <span class="op">=</span> <span class="va">cut</span>, fill <span class="op">=</span> <span class="va">cut</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu"><a href="../reference/scale_cyclical.html">scale_fill_cyclical</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span>, guide <span class="op">=</span> <span class="st">"legend"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-35-1.png" width="528"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-36-1.png" width="528"></p>
 <p>Legends can be modified as usual.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">diamonds</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">price</span>, y <span class="op">=</span> <span class="va">cut</span>, fill <span class="op">=</span> <span class="va">cut</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu"><a href="../reference/scale_cyclical.html">scale_fill_cyclical</a></span><span class="op">(</span></span>
@@ -585,13 +550,13 @@ just like for all other scales.</p>
 <span>     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Fair"</span> <span class="op">=</span> <span class="st">"blue"</span>, <span class="st">"Good"</span> <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span>,</span>
 <span>     guide <span class="op">=</span> <span class="st">"legend"</span></span>
 <span>   <span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-36-1.png" width="528"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-37-1.png" width="528"></p>
 <p>Cyclical scales are defined for all the common aesthetics one might
 want to change, such as color, size, alpha, and linetype, and the
-legends are combined when possible</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+legends are combined when possible.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">diamonds</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">price</span>, y <span class="op">=</span> <span class="va">cut</span>, fill <span class="op">=</span> <span class="va">cut</span>, color <span class="op">=</span> <span class="va">cut</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>   <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">4</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>   <span class="fu"><a href="../reference/geom_density_ridges.html">geom_density_ridges</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">4</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>   <span class="fu"><a href="../reference/scale_cyclical.html">scale_fill_cyclical</a></span><span class="op">(</span></span>
 <span>     name <span class="op">=</span> <span class="st">"Color scheme"</span>,</span>
 <span>     values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span>, guide <span class="op">=</span> <span class="st">"legend"</span>,</span>
@@ -602,16 +567,14 @@ legends are combined when possible</p>
 <span>     values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"yellow"</span><span class="op">)</span>, guide <span class="op">=</span> <span class="st">"legend"</span>,</span>
 <span>     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Fair"</span> <span class="op">=</span> <span class="st">"blue w/ black outline"</span>, <span class="st">"Good"</span> <span class="op">=</span> <span class="st">"green w/ yellow outline"</span><span class="op">)</span></span>
 <span>   <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in geom_density_ridges(scale = 4, size = 1): Ignoring unknown</span></span>
-<span><span class="co">## parameters: `size`</span></span></code></pre>
-<p><img src="introduction_files/figure-html/unnamed-chunk-37-1.png" width="624"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-38-1.png" width="624"></p>
 <p>Because these cyclical scales are generic <strong>ggplot2</strong>
 scales, they work with any geom that accepts the respective aesthetic.
 Thus, for example, we can make histograms with alternatingly colored
 bars.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">class</span>, fill <span class="op">=</span> <span class="va">class</span>, color <span class="op">=</span> <span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_cyclical.html">scale_fill_cyclical</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"Color scheme"</span>,</span>
 <span>    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span>, guide <span class="op">=</span> <span class="st">"legend"</span>,</span>
@@ -622,15 +585,10 @@ bars.</p>
 <span>    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"yellow"</span><span class="op">)</span>, guide <span class="op">=</span> <span class="st">"legend"</span>,</span>
 <span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue w/ black outline"</span>, <span class="st">"green w/ yellow outline"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
-<span><span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
-<span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
-<span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
-<p><img src="introduction_files/figure-html/unnamed-chunk-38-1.png" width="624"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-39-1.png" width="624"></p>
 <p>While the previous example won’t win any design awards, more subtle
 effects can be helpful.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mpg</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">tally</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -640,37 +598,28 @@ effects can be helpful.</p>
 <span>  <span class="fu"><a href="../reference/scale_cyclical.html">scale_fill_cyclical</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4040B0"</span>, <span class="st">"#9090F0"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-39-1.png" width="528"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-40-1.png" width="528"></p>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
-
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Claus O. Wilke.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Claus O. Wilke.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
-  
 
 
-  
+
 
   </body>
 </html>

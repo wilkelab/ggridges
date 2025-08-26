@@ -25,7 +25,7 @@ Data from the IMDB, as provided in the ggplot2movies package.
 library(ggplot2movies)
 
 ggplot(movies[movies$year>1912,], aes(x = length, y = year, group = year)) +
-  geom_density_ridges(scale = 10, size = 0.25, rel_min_height = 0.03) +
+  geom_density_ridges(scale = 10, linewidth = 0.25, rel_min_height = 0.03) +
   theme_ridges() +
   scale_x_continuous(limits = c(1, 200), expand = c(0, 0)) +
   scale_y_reverse(
@@ -135,7 +135,7 @@ ggplot(pois_data, aes(x = value, y = group, group = group)) +
  ggplot(Aus_athletes, aes(x = height, y = sport, color = sex, point_color = sex, fill = sex)) +
   geom_density_ridges(
     jittered_points = TRUE, scale = .95, rel_min_height = .01,
-    point_shape = "|", point_size = 3, size = 0.25,
+    point_shape = "|", point_size = 3, linewidth = 0.25,
     position = position_points_jitter(height = 0)
   ) +
   scale_y_discrete(expand = c(0, 0)) +
@@ -178,7 +178,7 @@ cheese <- data.frame(
 ggplot(cheese, aes(x = x, point_size = size, y = cheese, fill = cheese, color = cheese)) +
   geom_density_ridges(
     jittered_points = TRUE, point_color="white", scale = .8, rel_min_height = .2,
-    size = 1.5
+    linewidth = 1.5
   ) +
   scale_y_discrete(expand = c(0, 0)) +
   scale_x_continuous(limits = c(0, 1), expand = c(0, 0), name = "", breaks = NULL) +

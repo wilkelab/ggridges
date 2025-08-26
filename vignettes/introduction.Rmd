@@ -12,6 +12,12 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
+```{r echo=FALSE, include=FALSE}
+library(ggplot2)
+library(ggridges)
+```
+
+
 Ridgeline plots are partially overlapping line plots that create the impression of a mountain range. They can be quite useful for visualizing changes in distributions over time or space.
 
 ## Geoms
@@ -255,7 +261,7 @@ shifted so they are aligned with the jittered points. This allows us to generate
 ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_density_ridges(
     jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
-    vline_size = 1, vline_color = "red",
+    vline_width = 1, vline_color = "red",
     point_size = 0.4, point_alpha = 1,
     position = position_raincloud(adjust_vlines = TRUE)
   )
@@ -383,10 +389,10 @@ Legends can be modified as usual.
    )
 ```
 
-Cyclical scales are defined for all the common aesthetics one might want to change, such as color, size, alpha, and linetype, and the legends are combined when possible
+Cyclical scales are defined for all the common aesthetics one might want to change, such as color, size, alpha, and linetype, and the legends are combined when possible.
 ```{r message=FALSE, fig.width = 6.5}
  ggplot(diamonds, aes(x = price, y = cut, fill = cut, color = cut)) + 
-   geom_density_ridges(scale = 4, size = 1) + 
+   geom_density_ridges(scale = 4, linewidth = 1) + 
    scale_fill_cyclical(
      name = "Color scheme",
      values = c("blue", "green"), guide = "legend",
@@ -403,7 +409,7 @@ Because these cyclical scales are generic **ggplot2** scales, they work with any
 
 ```{r message=FALSE, fig.width = 6.5}
 ggplot(mpg, aes(x = class, fill = class, color = class)) + 
-  geom_bar(size = 1.5) +
+  geom_bar(linewidth = 1.5) +
   scale_fill_cyclical(
     name = "Color scheme",
     values = c("blue", "green"), guide = "legend",

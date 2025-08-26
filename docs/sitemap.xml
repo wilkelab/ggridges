@@ -1,93 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/ISSUE_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/articles/gallery.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/introduction.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Aus_athletes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Catalan_elections.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geom_density_line.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geom_density_ridges.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geom_ridgeline.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geom_ridgeline_gradient.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geom_vridgeline.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ggridges-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ggridges.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/lincoln_weather.html</loc>
-  </url>
-  <url>
-    <loc>/reference/position_points_jitter.html</loc>
-  </url>
-  <url>
-    <loc>/reference/position_points_sina.html</loc>
-  </url>
-  <url>
-    <loc>/reference/position_raincloud.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reduce.html</loc>
-  </url>
-  <url>
-    <loc>/reference/scale_cyclical.html</loc>
-  </url>
-  <url>
-    <loc>/reference/scale_point.html</loc>
-  </url>
-  <url>
-    <loc>/reference/scale_vline.html</loc>
-  </url>
-  <url>
-    <loc>/reference/stat_binline.html</loc>
-  </url>
-  <url>
-    <loc>/reference/stat_density_ridges.html</loc>
-  </url>
-  <url>
-    <loc>/reference/theme_ridges.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://wilkelab.org/ggridges/404.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/ISSUE_TEMPLATE.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/LICENSE-text.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/articles/gallery.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/articles/index.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/articles/introduction.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/authors.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/index.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/news/index.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/Aus_athletes.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/Catalan_elections.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/geom_density_line.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/geom_density_ridges.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/geom_ridgeline.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/geom_ridgeline_gradient.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/geom_vridgeline.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/ggridges-package.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/index.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/lincoln_weather.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/position_points_jitter.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/position_points_sina.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/position_raincloud.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/reduce.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/scale_cyclical.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/scale_point.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/scale_vline.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/stat_binline.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/stat_density_ridges.html</loc></url>
+<url><loc>https://wilkelab.org/ggridges/reference/theme_ridges.html</loc></url>
 </urlset>
+

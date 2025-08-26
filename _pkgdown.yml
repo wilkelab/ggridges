@@ -24,3 +24,9 @@ reference:
   - Aus_athletes
   - Catalan_elections
   - lincoln_weather
+
+template:
+  bootstrap: 5
+
+url: https://wilkelab.org/ggridges/
+
