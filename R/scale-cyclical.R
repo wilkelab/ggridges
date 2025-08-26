@@ -11,7 +11,7 @@
 #' @param values The aesthetic values that the scale should cycle through, e.g. colors if it is
 #'   a scale for the color or fill aesthetic.
 #' @param ... Common discrete scale parameters: `name`, `breaks`, `labels`, `na.value`, `limits` and `guide`.
-#'   See [`discrete_scale`] for more details.
+#'   See [ggplot2::discrete_scale] for more details.
 #'
 #' @examples
 #' library(ggplot2)

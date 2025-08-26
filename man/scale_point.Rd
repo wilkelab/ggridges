@@ -54,5 +54,5 @@ ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
 }
 \seealso{
 See \code{\link[=scale_vline_color_hue]{scale_vline_color_hue()}} for specific scales for vline aesthetics
-and \code{\link[=scale_discrete_manual]{scale_discrete_manual()}} for a general discrete scale.
+and \code{\link[ggplot2:scale_manual]{ggplot2::scale_discrete_manual()}} for a general discrete scale.
 }

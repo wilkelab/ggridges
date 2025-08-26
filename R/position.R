@@ -2,7 +2,7 @@
 #'
 #' This is a position adjustment specifically for [`geom_density_ridges()`] and related geoms. It
 #' only jitters the points drawn by these geoms, if any. If no points are present, the plot
-#' remains unchanged. The effect is similar to [`position_jitter()`]: points are randomly shifted up and down
+#' remains unchanged. The effect is similar to [ggplot2::position_jitter()]: points are randomly shifted up and down
 #' and/or left and right.
 #'
 #' @param width Width for horizontal jittering. By default set to 0.

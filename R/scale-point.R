@@ -6,7 +6,7 @@
 #'
 #' @name scale_point
 #' @seealso See [`scale_vline_color_hue()`] for specific scales for vline aesthetics
-#' and [`scale_discrete_manual()`] for a general discrete scale.
+#' and [ggplot2::scale_discrete_manual()] for a general discrete scale.
 #' @examples
 #' library(ggplot2)
 #'
@@ -39,7 +39,7 @@
 #' @aliases NULL
 NULL
 
-#' `scale_point_shape()`: Equivalent to [`scale_shape()`].
+#' `scale_point_shape()`: Equivalent to [ggplot2::scale_shape()].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
@@ -48,7 +48,7 @@ scale_point_shape <- function(..., solid = TRUE, aesthetics = "point_shape")
   discrete_scale(aesthetics, "shape_d", scales::shape_pal(solid), ...)
 }
 
-#' `scale_point_size_continuous()`: Equivalent to [`scale_size_continuous()`].
+#' `scale_point_size_continuous()`: Equivalent to [ggplot2::scale_size_continuous()].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
@@ -60,7 +60,7 @@ scale_point_size_continuous <- function(name = ggplot2::waiver(), breaks = ggplo
                    guide = guide)
 }
 
-#' `scale_point_colour_hue()`: Equivalent to [`scale_colour_hue()`].
+#' `scale_point_colour_hue()`: Equivalent to [ggplot2::scale_colour_hue()].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
@@ -81,13 +81,13 @@ scale_point_color_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.st
                           scales::hue_pal(h, c, l, h.start, direction), na.value = na.value, ...)
 }
 
-#' `scale_point_fill_hue()`: Equivalent to [`scale_fill_hue()`].
+#' `scale_point_fill_hue()`: Equivalent to [ggplot2::scale_fill_hue()].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
 scale_point_fill_hue <- function(...) scale_point_color_hue(..., aesthetics = "point_fill")
 
-#' `scale_point_colour_gradient()`: Equivalent to [`scale_colour_gradient()`].
+#' `scale_point_colour_gradient()`: Equivalent to [ggplot2::scale_colour_gradient()].
 #' @rdname scale_point
 #' @usage NULL
 #' @export
@@ -109,8 +109,8 @@ scale_point_color_gradient <- function(..., low = "#132B43", high = "#56B1F7", s
 }
 
 
-#' `scale_point_fill_gradient()`: Equivalent to [`scale_fill_gradient()`]. Note that this scale cannot
-#'   draw a legend, however, because of limitations in [`guide_colorbar()`].
+#' `scale_point_fill_gradient()`: Equivalent to [ggplot2::scale_fill_gradient()]. Note that this scale cannot
+#'   draw a legend, however, because of limitations in [ggplot2::guide_colorbar()].
 #' @rdname scale_point
 #' @usage NULL
 #' @export

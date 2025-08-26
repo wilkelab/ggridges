@@ -6,7 +6,7 @@
 #'
 #' @name scale_vline
 #' @seealso See [`scale_point_color_hue()`] for specific scales for point aesthetics
-#' and [`scale_discrete_manual()`] for a general discrete scale.
+#' and [ggplot2::scale_discrete_manual()] for a general discrete scale.
 #' @examples
 #' library(ggplot2)
 #'
@@ -30,7 +30,7 @@
 #' @aliases NULL
 NULL
 
-#' `scale_vline_linetype()`: Equivalent to [`scale_linetype()`].
+#' `scale_vline_linetype()`: Equivalent to [ggplot2::scale_linetype()].
 #' @rdname scale_vline
 #' @usage NULL
 #' @export
@@ -40,7 +40,7 @@ scale_vline_linetype <- function(..., na.value = "blank", aesthetics = "vline_li
                  na.value = na.value, ...)
 }
 
-#' `scale_vline_width_continuous()`: Equivalent to [`scale_linewidth_continuous()`].
+#' `scale_vline_width_continuous()`: Equivalent to [ggplot2::scale_linewidth_continuous()].
 #' @rdname scale_vline
 #' @usage NULL
 #' @export
@@ -52,7 +52,7 @@ scale_vline_width_continuous <- function(name = ggplot2::waiver(), breaks = ggpl
                    guide = guide)
 }
 
-#' `scale_vline_colour_hue()`: Equivalent to [`scale_colour_hue()`].
+#' `scale_vline_colour_hue()`: Equivalent to [ggplot2::scale_colour_hue()].
 #' @rdname scale_vline
 #' @usage NULL
 #' @export
@@ -74,7 +74,7 @@ scale_vline_color_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.st
 }
 
 
-#' `scale_vline_colour_gradient()`: Equivalent to [`scale_colour_gradient()`].
+#' `scale_vline_colour_gradient()`: Equivalent to [ggplot2::scale_colour_gradient()].
 #' @rdname scale_vline
 #' @usage NULL
 #' @export

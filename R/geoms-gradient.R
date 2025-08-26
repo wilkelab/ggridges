@@ -5,15 +5,14 @@
 #' these geoms should be considered experimental. Don't use them unless you really need to. Note that due to limitations
 #' in R's graphics system, transparency (`alpha`) has to be disabled for gradient fills.
 #'
-#' @param mapping Set of aesthetic mappings created by [`aes()`] or
-#'   [`aes_()`]. If specified and `inherit.aes = TRUE` (the
+#' @param mapping Set of aesthetic mappings created by [ggplot2::aes()]. If specified and `inherit.aes = TRUE` (the
 #'   default), it is combined with the default mapping at the top level of the
 #'   plot. You must supply `mapping` if there is no plot mapping.
 #' @param data The data to be displayed in this layer. There are three
 #'    options:
 #'
 #'    If `NULL`, the default, the data is inherited from the plot
-#'    data as specified in the call to [`ggplot()`].
+#'    data as specified in the call to `ggplot()`.
 #'
 #'    A `data.frame`, or other object, will override the plot
 #'    data.
@@ -34,7 +33,7 @@
 #'   a warning. If `TRUE`, missing values are silently removed.
 #' @param gradient_lwd A parameter to needed to remove rendering artifacts inside the
 #'   rendered gradients. Should ideally be 0, but often needs to be around 0.5 or higher.
-#' @param ... other arguments passed on to [`layer()`]. These are
+#' @param ... other arguments passed on to [ggplot2::layer()]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
 #'   `color = "red"` or `linewidth = 3`. They may also be parameters
 #'   to the paired geom/stat.

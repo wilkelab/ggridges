@@ -24,7 +24,7 @@ scale_size_cyclical(..., values)
 }
 \arguments{
 \item{...}{Common discrete scale parameters: \code{name}, \code{breaks}, \code{labels}, \code{na.value}, \code{limits} and \code{guide}.
-See \code{\link{discrete_scale}} for more details.}
+See \link[ggplot2:discrete_scale]{ggplot2::discrete_scale} for more details.}
 
 \item{values}{The aesthetic values that the scale should cycle through, e.g. colors if it is
 a scale for the color or fill aesthetic.}

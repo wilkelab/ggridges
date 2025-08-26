@@ -27,8 +27,8 @@ stat_density_ridges(
 )
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
-\code{\link[=aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{ggplot2::aes()}}.
+If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -36,7 +36,7 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 options:
 
 If \code{NULL}, the default, the data is inherited from the plot
-data as specified in the call to \code{\link[=ggplot]{ggplot()}}.
+data as specified in the call to \code{ggplot()}.
 
 A \code{data.frame}, or other object, will override the plot
 data.
@@ -63,7 +63,7 @@ rather than combining with them.}
 \item{bandwidth}{Bandwidth used for density calculation. If not provided, is estimated from the data.}
 
 \item{from, to}{The left and right-most points of the grid at which the density is to be estimated,
-as in \code{\link[=density]{density()}}. If not provided, these are estimated from the data range and the bandwidth.}
+as in \code{\link[stats:density]{stats::density()}}. If not provided, these are estimated from the data range and the bandwidth.}
 
 \item{jittered_points}{If \code{TRUE}, carries the original point data over to the processed data frame,
 so that individual points can be drawn by the various ridgeline geoms. The specific position of these
@@ -87,13 +87,13 @@ define the quantiles. Default is \code{quantile}.}
 \item{n}{The number of equally spaced points at which the density is to be estimated. Should be a power of 2. Default
 is 512.}
 
-\item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
+\item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{color = "red"} or \code{linewidth = 3}. They may also be parameters
 to the paired geom/stat.}
 }
 \description{
-This stat is the default stat used by \code{\link{geom_density_ridges}}. It is very similar to \code{\link{stat_density}},
+This stat is the default stat used by \code{\link{geom_density_ridges}}. It is very similar to \link[ggplot2:geom_density]{ggplot2::stat_density},
 however there are a few differences. Most importantly, the density bandwidth is chosen across
 the entire dataset.
 }

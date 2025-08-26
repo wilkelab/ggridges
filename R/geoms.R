@@ -8,15 +8,15 @@
 #' The stat [`stat_density_ridges()`] takes advantage of this option to generate ridgeline plots with overlaid
 #' jittered points.
 #'
-#' @param mapping Set of aesthetic mappings created by [`aes()`] or
-#'   [`aes_()`]. If specified and `inherit.aes = TRUE` (the
+#' @param mapping Set of aesthetic mappings created by [ggplot2::aes()].
+#'   If specified and `inherit.aes = TRUE` (the
 #'   default), it is combined with the default mapping at the top level of the
 #'   plot. You must supply `mapping` if there is no plot mapping.
 #' @param data The data to be displayed in this layer. There are three
 #'    options:
 #'
 #'    If `NULL`, the default, the data is inherited from the plot
-#'    data as specified in the call to [`ggplot()`].
+#'    data as specified in the call to `ggplot()`.
 #'
 #'    A `data.frame`, or other object, will override the plot
 #'    data.
@@ -35,7 +35,7 @@
 #'   rather than combining with them.
 #' @param na.rm If `FALSE`, the default, missing values are removed with
 #'   a warning. If `TRUE`, missing values are silently removed.
-#' @param ... other arguments passed on to [`layer()`]. These are
+#' @param ... other arguments passed on to [ggplot2::layer()]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
 #'   `color = "red"` or `linewidth = 3`. They may also be parameters
 #'   to the paired geom/stat.
@@ -377,7 +377,8 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
 #' be provided.
 #'
 #' Note that the default [`stat_density_ridges`] makes joint density estimation across all datasets. This may not generate
-#' the desired result when using faceted plots. As an alternative, you can set `stat = "density"` to use [`stat_density`].
+#' the desired result when using faceted plots. As an alternative, you can set `stat = "density"` to use
+#' [ggplot2::stat_density].
 #' In this case, it is required to add the aesthetic mapping `height = after_stat(density)` (see examples).
 #'
 #' @param panel_scaling If `TRUE`, the default, relative scaling is calculated separately

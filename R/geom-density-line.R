@@ -1,9 +1,9 @@
 #' Smoothed density estimates drawn with a ridgeline rather than area
 #'
-#' This function is a drop-in replacement for ggplot2's [geom_density()]. The only difference is that
+#' This function is a drop-in replacement for ggplot2's [ggplot2::geom_density()]. The only difference is that
 #' the geom draws a ridgeline (line with filled area underneath) rather than a polygon.
 #'
-#' @seealso See [geom_density()].
+#' @seealso See [ggplot2::geom_density()].
 #' @importFrom ggplot2 layer
 #' @importFrom ggplot2 geom_density
 #' @inheritParams ggplot2::layer
