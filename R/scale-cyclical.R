@@ -31,13 +31,13 @@
 #'
 #' # Cyclical scales are also available for the various other aesthetics
 #' ggplot(diamonds, aes(x = price, y = cut, fill = cut,
-#'                      color = cut, size = cut,
+#'                      color = cut, linewidth = cut,
 #'                      alpha = cut, linetype = cut)) +
 #'   geom_density_ridges(scale = 4, fill = "blue") +
 #'   scale_fill_cyclical(values = c("blue", "green")) +
 #'   scale_color_cyclical(values = c("black", "white")) +
-#'   scale_size_cyclical(values = c(2, 1)) +
 #'   scale_alpha_cyclical(values = c(0.4, 0.8)) +
+#'   scale_linewidth_cyclical(values = c(2, 1)) +
 #'   scale_linetype_cyclical(values = c(1, 2))
 #'
 #' @name scale_cyclical
@@ -79,6 +79,13 @@ scale_size_cyclical <- function(..., values) {
   cyclical_scale("size", values, ...)
 }
 
+#' @rdname scale_cyclical
+#' @export
+scale_linewidth_cyclical <- function(..., values) {
+  cyclical_scale("linewidth", values, ...)
+}
+
+
 
 #' @format NULL
 #' @usage NULL
@@ -108,7 +115,7 @@ cyclical_scale <- function(aesthetics, values, name = waiver(),
     call = match.call(),
 
     aesthetics = aesthetics,
-    scale_name = "cyclical",
+    # scale_name = "cyclical", # deprecated
     palette = pal,
 
     range = discrete_range(),

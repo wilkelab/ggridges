@@ -8,6 +8,7 @@
 \alias{scale_alpha_cyclical}
 \alias{scale_linetype_cyclical}
 \alias{scale_size_cyclical}
+\alias{scale_linewidth_cyclical}
 \alias{cyclical_scale}
 \alias{ScaleCyclical}
 \title{Create a discrete scale that cycles between values}
@@ -21,6 +22,8 @@ scale_alpha_cyclical(..., values)
 scale_linetype_cyclical(..., values)
 
 scale_size_cyclical(..., values)
+
+scale_linewidth_cyclical(..., values)
 }
 \arguments{
 \item{...}{Common discrete scale parameters: \code{name}, \code{breaks}, \code{labels}, \code{na.value}, \code{limits} and \code{guide}.
@@ -56,13 +59,13 @@ ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +
 
 # Cyclical scales are also available for the various other aesthetics
 ggplot(diamonds, aes(x = price, y = cut, fill = cut,
-                     color = cut, size = cut,
+                     color = cut, linewidth = cut,
                      alpha = cut, linetype = cut)) +
   geom_density_ridges(scale = 4, fill = "blue") +
   scale_fill_cyclical(values = c("blue", "green")) +
   scale_color_cyclical(values = c("black", "white")) +
-  scale_size_cyclical(values = c(2, 1)) +
   scale_alpha_cyclical(values = c(0.4, 0.8)) +
+  scale_linewidth_cyclical(values = c(2, 1)) +
   scale_linetype_cyclical(values = c(1, 2))
 
 }
