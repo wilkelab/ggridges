@@ -60,6 +60,6 @@ test_that("visual appearance of scale_*_cyclical", {
 
   p <- ggplot(df, aes(x, y, color = factor(x))) + geom_point(size = 3) +
     scale_color_cyclical(values = c("#F00000", "#00F000", "#0000F0"), guide = "legend")
-  expect_doppelganger("scale_fill_cyclical red-green-blue dots, with legend", p)
+  expect_doppelganger("scale_fill_cyclical red-green-blue dots, w legend", p)
 
 })

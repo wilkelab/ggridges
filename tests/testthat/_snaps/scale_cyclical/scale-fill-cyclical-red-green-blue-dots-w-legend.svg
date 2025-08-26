@@ -89,6 +89,6 @@
 <text x='696.93' y='277.36' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>1</text>
 <text x='696.93' y='294.64' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>2</text>
 <text x='696.93' y='311.92' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>3</text>
-<text x='32.79' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='293.52px' lengthAdjust='spacingAndGlyphs'>scale_fill_cyclical red-green-blue dots, with legend</text>
+<text x='32.79' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='279.58px' lengthAdjust='spacingAndGlyphs'>scale_fill_cyclical red-green-blue dots, w legend</text>
 </g>
 </svg>

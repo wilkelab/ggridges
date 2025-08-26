@@ -100,6 +100,6 @@
 <text x='698.75' y='294.64' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>3</text>
 <text x='698.75' y='311.92' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>4</text>
 <text x='698.75' y='329.20' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>5</text>
-<text x='60.67' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='350.80px' lengthAdjust='spacingAndGlyphs'>geom_density_ridges_gradient quantile lines match shading</text>
+<text x='60.67' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='261.26px' lengthAdjust='spacingAndGlyphs'>geom_density_ridges_gradient quantile lines</text>
 </g>
 </svg>

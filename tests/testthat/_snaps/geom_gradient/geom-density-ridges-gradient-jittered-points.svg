@@ -1104,6 +1104,6 @@
 <text x='709.63' y='296.48' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>6</text>
 <text x='709.63' y='278.10' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>7</text>
 <text x='709.63' y='259.72' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>8</text>
-<text x='60.67' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='365.48px' lengthAdjust='spacingAndGlyphs'>geom_density_ridges_gradient jittered points can be turned on</text>
+<text x='60.67' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='262.72px' lengthAdjust='spacingAndGlyphs'>geom_density_ridges_gradient jittered points</text>
 </g>
 </svg>

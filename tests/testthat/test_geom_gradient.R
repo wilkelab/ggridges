@@ -26,11 +26,11 @@ test_that("visual appearance of gradient geoms", {
 
   p <- ggplot(iris, aes(x = Sepal.Length, y = Species, fill = after_stat(quantile))) +
     geom_density_ridges_gradient(calc_ecdf = TRUE, quantiles = 5, quantile_lines = TRUE)
-  expect_doppelganger("geom_density_ridges_gradient quantile lines match shading", p)
+  expect_doppelganger("geom_density_ridges_gradient quantile lines", p)
 
   set.seed(1234)
   p <- ggplot(iris, aes(x = Sepal.Length, y = Species, fill = after_stat(x))) +
     geom_density_ridges_gradient(jittered_points = TRUE)
-  expect_doppelganger("geom_density_ridges_gradient jittered points can be turned on", p)
+  expect_doppelganger("geom_density_ridges_gradient jittered points", p)
 
 })
