@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   gallery: gallery.html
   introduction: introduction.html
-last_built: 2025-08-26T23:09Z
+last_built: 2025-08-26T23:23Z
 urls:
   reference: https://wilkelab.org/ggridges/reference
   article: https://wilkelab.org/ggridges/articles
