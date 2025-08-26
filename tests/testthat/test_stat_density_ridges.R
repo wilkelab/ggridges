@@ -125,8 +125,8 @@ test_that("weighted densities are calculated correctly", {
   df <- data.frame(x = rnorm(100), wts = runif(100))
   df$wts <- df$wts / sum(df$wts)
 
-  gg_wts <- layer_data(ggplot(df, aes(x = x, y = 0, weight = wts)) + stat_density_ridges())
-  d_wts <- stats::density(df$x, weights = df$wts)
+  gg_wts <- layer_data(ggplot(df, aes(x = x, y = 0, weight = wts)) + stat_density_ridges(bandwidth = 0.3))
+  d_wts <- stats::density(df$x, weights = df$wts, bw = 0.3)
 
   expect_equal(gg_wts$density, d_wts$y)
 })
