@@ -110,7 +110,9 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       xs_mask <- vapply(xs, length, numeric(1)) > 1
       bws <- vapply(xs[xs_mask], bw.nrd0, numeric(1))
       bw <- mean(bws, na.rm = TRUE)
-      message("Picking joint bandwidth of ", signif(bw, 3))
+      rlang::inform(
+        c("i" = paste0("Picking joint bandwidth of ", signif(bw, 3), "."))
+      )
 
       params$bandwidth <- bw
     }
@@ -138,7 +140,13 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 
     if (length(params$quantiles) > 1 &&
         (max(params$quantiles, na.rm = TRUE) > 1 || min(params$quantiles, na.rm = TRUE) < 0)) {
-      stop('invalid quantiles used: c(', paste0(params$quantiles, collapse = ','), ') must be within [0, 1] range')
+      rlang::abort(
+        c(
+          "All `quantiles` must be within the [0, 1] range.",
+          "x" = paste0("Got: c(", paste0(params$quantiles, collapse = ", "), ").")
+        ),
+        call = rlang::caller_env()
+      )
     }
 
     params$bandwidth <- pardata$bandwidth
@@ -164,7 +172,10 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 
     panel <- unique(data$PANEL)
     if (length(panel) > 1) {
-      stop("Error: more than one panel in compute group; something's wrong.")
+      rlang::abort(
+        "More than one panel in compute group.",
+        call = rlang::caller_env()
+      )
     }
     panel_id <- as.numeric(panel)
 
@@ -433,11 +444,22 @@ StatBinline <- ggproto("StatBinline", StatBin,
     }
 
     if (!is.null(params$boundary) && !is.null(params$center)) {
-      stop("Only one of `boundary` and `center` may be specified.", call. = FALSE)
+      rlang::abort(
+        c(
+          "Only one of `boundary` and `center` may be specified.",
+          "i" = "Remove one of the two arguments."
+        ),
+        call = rlang::caller_env()
+      )
     }
 
     if (is.null(params$breaks) && is.null(params$binwidth) && is.null(params$bins)) {
-      message("`stat_binline()` using `bins = 30`. Pick better value with `binwidth`.")
+      rlang::inform(
+        c(
+          "i" = "`stat_binline()` using `bins = 30`.",
+          "i" = "Pick a better value with the `binwidth` argument."
+        )
+      )
       params$bins <- 30
     }
 

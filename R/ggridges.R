@@ -4,6 +4,7 @@
 #' check out the examples for [`geom_density_ridges()`].
 #'
 #' @import ggplot2
+#' @importFrom rlang abort warn inform caller_env
 #' @keywords internal
 "_PACKAGE"
 

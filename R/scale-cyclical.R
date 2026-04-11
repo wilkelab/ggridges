@@ -163,7 +163,13 @@ check_breaks_labels <- function(breaks, labels) {
   bad_labels <- is.atomic(breaks) && is.atomic(labels) &&
     length(breaks) != length(labels)
   if (bad_labels) {
-    stop("`breaks` and `labels` must have the same length", call. = FALSE)
+    rlang::abort(
+      c(
+        "`breaks` and `labels` must have the same length.",
+        "x" = paste0("`breaks` has ", length(breaks), " elements, but `labels` has ", length(labels), ".")
+      ),
+      call = rlang::caller_env()
+    )
   }
 
   TRUE
