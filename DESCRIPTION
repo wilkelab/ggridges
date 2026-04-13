@@ -18,6 +18,7 @@ Depends:
 Imports:
     ggplot2 (>= 3.5.0),
     grid (>= 3.0.0),
+    rlang (>= 1.1.0),
     scales (>= 0.4.1),
     withr (>= 2.1.1)
 License: GPL-2 | file LICENSE

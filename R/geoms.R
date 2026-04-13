@@ -249,7 +249,13 @@ GeomRidgeline <- ggproto("GeomRidgeline", Geom,
     # Check that aesthetics are constant
     aes <- unique(data[c("colour", "fill", "linewidth", "linetype", "alpha")])
     if (nrow(aes) > 1) {
-      stop("Aesthetics can not vary along a ridgeline")
+      rlang::abort(
+        c(
+          "Aesthetics can not vary along a ridgeline.",
+          "i" = "Ensure `colour`, `fill`, `linewidth`, `linetype`, and `alpha` are constant within each group."
+        ),
+        call = rlang::caller_env()
+      )
     }
     aes <- as.list(aes)
 

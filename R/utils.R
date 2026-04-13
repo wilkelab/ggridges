@@ -20,7 +20,13 @@ reduce <- function(.x, .f, ..., .init) {
 
   if (missing(.init)) {
     if (length(.x) == 0)
-      stop('`.x` is empty, and no `.init` supplied')
+      rlang::abort(
+        c(
+          "`.x` is empty, and no `.init` was supplied.",
+          "i" = "Provide `.init` or ensure `.x` is non-empty."
+        ),
+        call = rlang::caller_env()
+      )
     v <- .x[[1]]
     i <- 2
   }
@@ -39,7 +45,13 @@ reduce <- function(.x, .f, ..., .init) {
 
 check_vline_size <- function(data) {
   if (is.null(data$vline_width) && !is.null(data$vline_size)) {
-    warning("  Use of the `vline_size` aesthetics is deprecated, please use `vline_width` instead of `vline_size`.", call. = FALSE)
+    rlang::warn(
+      c(
+        "The `vline_size` aesthetic is deprecated.",
+        "i" = "Use `vline_width` instead."
+      ),
+      call = rlang::caller_env()
+    )
     data$vline_width <- data$vline_size
   }
   data
@@ -47,7 +59,13 @@ check_vline_size <- function(data) {
 
 check_size <- function(data) {
   if (is.null(data$linewidth) && !is.null(data$size)) {
-    warning("  Use of the `size` aesthetic is deprecated, please use `linewidth` instead of `size`", call. = FALSE)
+    rlang::warn(
+      c(
+        "The `size` aesthetic is deprecated.",
+        "i" = "Use `linewidth` instead."
+      ),
+      call = rlang::caller_env()
+    )
     data$width <- data$size
   }
   data
@@ -55,7 +73,13 @@ check_size <- function(data) {
 
 check_vline_size_param <- function(params) {
   if ("vline_size" %in% names(params)) {
-    warning("  Use of the `vline_size` or `size` aesthetic are deprecated, please use `linewidth` instead of `size` and `vline_width` instead of `vline_size`.", call. = FALSE)
+    rlang::warn(
+      c(
+        "The `vline_size` and `size` aesthetics are deprecated.",
+        "i" = "Use `vline_width` and `linewidth` instead."
+      ),
+      call = rlang::caller_env()
+    )
     params$vline_width <- params$vline_size
   }
   params
@@ -63,7 +87,13 @@ check_vline_size_param <- function(params) {
 
 check_size_param <- function(params) {
   if ("size" %in% names(params)) {
-    warning("  Use of the `size` aesthetic is deprecated, please use `linewidth` instead of `size`.", call. = FALSE)
+    rlang::warn(
+      c(
+        "The `size` aesthetic is deprecated.",
+        "i" = "Use `linewidth` instead."
+      ),
+      call = rlang::caller_env()
+    )
     params$linewidth <- params$size
   }
   params
