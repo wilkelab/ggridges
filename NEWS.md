@@ -1,5 +1,15 @@
 ggridges 0.5.7.9000
 ----------------------------------------------------------------
+- `stat_density_ridges()` no longer drops groups with fewer than three
+  observations entirely. The density estimate is still omitted for such groups
+  (a density is not meaningful for so few points), but the group is now retained
+  so that its raw data points are drawn when `jittered_points = TRUE`, and
+  whether a group is retained no longer depends on `jittered_points`.
+  **Behavior change:** code that relied on small groups being dropped
+  automatically will now see those groups (and their points) in the output.
+  The new `min_obs` argument sets the minimum group size for which a density is
+  computed (default 3; set to 1 to also estimate densities for one- and
+  two-observation groups) (#105).
 
 
 ggridges 0.5.7

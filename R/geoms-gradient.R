@@ -475,29 +475,10 @@ GeomDensityRidgesGradient <- ggproto("GeomDensityRidgesGradient", GeomRidgelineG
       params$panel_scaling <- TRUE
     }
 
-    # calculate internal scale
-    yrange = max(data$y) - min(data$y)
-    n = length(unique(data$y))
-    if (n<2) {
-      hmax <- max(data$height, na.rm = TRUE)
-      iscale <- 1
-    }
-    else {
-      # scale per panel or globally?
-      if (params$panel_scaling) {
-        heights <- split(data$height, data$PANEL)
-        max_heights <- vapply(heights, max, numeric(1), na.rm = TRUE)
-        hmax <- max_heights[data$PANEL]
-        iscale <- yrange/((n-1)*hmax)
-      }
-      else {
-        hmax <- max(data$height, na.rm = TRUE)
-        iscale <- yrange/((n-1)*hmax)
-      }
-    }
-
-    #print(iscale)
-    #print(hmax)
+    # calculate internal scale (robust to groups with omitted densities)
+    scaling <- ridgeline_internal_scale(data, params$panel_scaling)
+    iscale <- scaling$iscale
+    hmax <- scaling$hmax
 
     data <- cbind(data, iscale)
 
