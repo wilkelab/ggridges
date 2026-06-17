@@ -99,6 +99,54 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
   )
 }
 
+# Output of StatDensityRidges$compute_group() for a group that gets no density
+# estimate (too few observations, or no estimable joint bandwidth). The group is
+# kept rather than dropped: an empty ridgeline row that draws nothing, plus its
+# raw points at the baseline (height 0) when `jittered_points = TRUE`. This keeps
+# group retention independent of `jittered_points`.
+empty_density_group <- function(data, jittered_points, calc_ecdf) {
+  df_points <- NULL
+  df_points_dummy <- NULL
+  if (jittered_points) {
+    df_points <- data.frame(
+      x = data$x, density = 0, ndensity = 0,
+      datatype = "point", stringsAsFactors = FALSE
+    )
+    # carry over point_* aesthetics, as in compute_group()
+    point_cols <- data[grepl("point_", names(data))]
+    if (ncol(point_cols) > 0) {
+      df_points <- cbind(df_points, point_cols)
+      df_points_dummy <- na.omit(point_cols)[1, , drop = FALSE]
+    }
+  }
+
+  if (calc_ecdf) {
+    df_density <- data.frame(
+      x = NA_real_, density = NA_real_, ndensity = NA_real_,
+      ecdf = NA_real_, quantile = NA_real_,
+      datatype = "ridgeline", stringsAsFactors = FALSE
+    )
+    if (!is.null(df_points)) {
+      df_points$ecdf <- NA_real_
+      df_points$quantile <- NA_real_
+    }
+  } else {
+    df_density <- data.frame(
+      x = NA_real_, density = NA_real_, ndensity = NA_real_,
+      datatype = "ridgeline", stringsAsFactors = FALSE
+    )
+  }
+  if (!is.null(df_points_dummy)) {
+    df_density <- data.frame(df_density, as.list(df_points_dummy))
+  }
+
+  df_final <- rbind(df_density, df_points)
+  if ("quantile" %in% names(df_final)) {
+    df_final$quantile <- factor(df_final$quantile)
+  }
+  df_final
+}
+
 #' @rdname stat_density_ridges
 #' @format NULL
 #' @usage NULL
@@ -185,15 +233,13 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     }
     panel_id <- as.numeric(panel)
 
-    # A density estimate requires two things: at least `min_obs` observations,
-    # and a finite joint bandwidth for the panel (not estimable when no group has
-    # more than one observation). A group lacking either is NOT dropped: it is
-    # retained with its density omitted, so its raw points can still be drawn.
-    # Group survival is therefore independent of `jittered_points` -- the flag
-    # only controls whether point rows are added.
-    enough_obs       <- nrow(data) >= min_obs
-    finite_bandwidth <- is.finite(bandwidth[panel_id])
-    have_density     <- enough_obs && finite_bandwidth
+    # A density estimate needs at least `min_obs` observations and a finite joint
+    # bandwidth (not estimable when no group has more than one observation). A
+    # group without one is kept rather than dropped, but gets no density curve;
+    # its raw points are still drawn, independent of `jittered_points`.
+    if (nrow(data) < min_obs || !is.finite(bandwidth[panel_id])) {
+      return(empty_density_group(data, jittered_points, calc_ecdf))
+    }
 
     if (is.null(data$weight)) {
       weights <- NULL
@@ -201,31 +247,26 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       weights <- data$weight / sum(data$weight)
     }
 
-    if (have_density) {
-      d <- stats::density(
-        data$x,
-        weights = weights,
-        bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE,
-        n = n
-      )
+    d <- stats::density(
+      data$x,
+      weights = weights,
+      bw = bandwidth[panel_id], from = from[panel_id], to = to[panel_id], na.rm = TRUE,
+      n = n
+    )
 
-      # calculate maximum density for scaling
-      maxdens <- max(d$y, na.rm = TRUE)
+    # calculate maximum density for scaling
+    maxdens <- max(d$y, na.rm = TRUE)
 
-      # make interpolating function for density line
-      densf <- approxfun(d$x, d$y, rule = 2)
-    }
+    # make interpolating function for density line
+    densf <- approxfun(d$x, d$y, rule = 2)
 
     # calculate jittered original points if requested
     if (jittered_points) {
-      # points from groups with no density estimate are placed at the baseline
-      # (height 0) so they still draw (see `min_obs`); actual jittering is
-      # handled in the position argument
-      point_density <- if (have_density) densf(data$x) else 0
       df_jittered <- data.frame(
         x = data$x,
-        density = point_density,
-        ndensity = if (have_density) point_density / maxdens else 0,
+        # actual jittering is handled in the position argument
+        density = densf(data$x),
+        ndensity = densf(data$x) / maxdens,
         datatype = "point", stringsAsFactors = FALSE)
 
       # see if we need to carry over other point data
@@ -250,39 +291,35 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       df_points_dummy <- NULL
     }
 
-    # quantiles and quantile lines require a density estimate, so they are only
-    # computed for sufficiently large groups
-    qx <- numeric(0)
-    df_quantiles <- NULL
-    if (have_density) {
-      # calculate quantiles, needed for both quantile lines and ecdf
-      if ((length(quantiles)==1) && (all(quantiles >= 1))) {
-        if (quantiles > 1) {
-          probs <- seq(0, 1, length.out = quantiles + 1)[2:quantiles]
-        }
-        else {
-          probs <- NA
-        }
-      } else {
-        probs <- quantiles
-        probs[probs < 0 | probs > 1] <- NA
+    # calculate quantiles, needed for both quantile lines and ecdf
+    if ((length(quantiles)==1) && (all(quantiles >= 1))) {
+      if (quantiles > 1) {
+        probs <- seq(0, 1, length.out = quantiles + 1)[2:quantiles]
       }
-      qx <- na.omit(quantile_fun(data$x, probs = probs))
+      else {
+        probs <- NA
+      }
+    } else {
+      probs <- quantiles
+      probs[probs < 0 | probs > 1] <- NA
+    }
+    qx <- na.omit(quantile_fun(data$x, probs = probs))
 
-      # if requested, add data frame for quantile lines
-      if (quantile_lines && length(qx) > 0) {
-        qy <- densf(qx)
-        df_quantiles <- data.frame(
-          x = qx,
-          density = qy,
-          ndensity = qy / maxdens,
-          datatype = "vline",
-          stringsAsFactors = FALSE
-        )
-        if (!is.null(df_points_dummy)){
-          # add in dummy points data if necessary
-          df_quantiles <- data.frame(df_quantiles, as.list(df_points_dummy))
-        }
+    # if requested, add data frame for quantile lines
+    df_quantiles <- NULL
+
+    if (quantile_lines && length(qx) > 0) {
+      qy <- densf(qx)
+      df_quantiles <- data.frame(
+        x = qx,
+        density = qy,
+        ndensity = qy / maxdens,
+        datatype = "vline",
+        stringsAsFactors = FALSE
+      )
+      if (!is.null(df_points_dummy)){
+        # add in dummy points data if necessary
+        df_quantiles <- data.frame(df_quantiles, as.list(df_points_dummy))
       }
     }
 
@@ -290,76 +327,38 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
     df_nondens <- rbind(df_quantiles, df_jittered)
 
     if (calc_ecdf) {
-      if (have_density) {
-        nx <- length(d$x)
-        ecdf <- c(0, cumsum(d$y[1:(nx-1)]*(d$x[2:nx]-d$x[1:(nx-1)])))
-        ecdf_fun <- approxfun(d$x, ecdf, rule = 2)
-        ntile <- findInterval(d$x, qx, left.open = TRUE) + 1 # if make changes here, make them also below
+      n <- length(d$x)
+      ecdf <- c(0, cumsum(d$y[1:(n-1)]*(d$x[2:n]-d$x[1:(n-1)])))
+      ecdf_fun <- approxfun(d$x, ecdf, rule = 2)
+      ntile <- findInterval(d$x, qx, left.open = TRUE) + 1 # if make changes here, make them also below
 
-        if (!is.null(df_nondens)) {
-          # we add data for ecdf and quantiles back to all other data points
-          df_nondens <- data.frame(
-            df_nondens,
-            ecdf = ecdf_fun(df_nondens$x),
-            quantile = findInterval(df_nondens$x, qx, left.open = TRUE) + 1
-          )
-        }
-
-        df_density <- data.frame(
-          x = d$x,
-          density = d$y,
-          ndensity = d$y / maxdens,
-          ecdf = ecdf,
-          quantile = ntile,
-          datatype = "ridgeline",
-          stringsAsFactors = FALSE
+      if (!is.null(df_nondens)) {
+        # we add data for ecdf and quantiles back to all other data points
+        df_nondens <- data.frame(
+          df_nondens,
+          ecdf = ecdf_fun(df_nondens$x),
+          quantile = findInterval(df_nondens$x, qx, left.open = TRUE) + 1
         )
       }
-      else {
-        # group with no density estimate: emit an empty placeholder so the group
-        # is retained (it draws nothing). Its columns must match the real-density
-        # frame above, including the ecdf/quantile columns added in this branch.
-        if (!is.null(df_nondens)) {
-          df_nondens <- data.frame(
-            df_nondens,
-            ecdf = NA_real_,
-            quantile = NA_real_
-          )
-        }
 
-        df_density <- data.frame(
-          x = NA_real_,
-          density = NA_real_,
-          ndensity = NA_real_,
-          ecdf = NA_real_,
-          quantile = NA_real_,
-          datatype = "ridgeline",
-          stringsAsFactors = FALSE
-        )
-      }
+      df_density <- data.frame(
+        x = d$x,
+        density = d$y,
+        ndensity = d$y / maxdens,
+        ecdf = ecdf,
+        quantile = ntile,
+        datatype = "ridgeline",
+        stringsAsFactors = FALSE
+      )
     }
     else {
-      if (have_density) {
-        df_density <- data.frame(
-          x = d$x,
-          density = d$y,
-          ndensity = d$y / maxdens,
-          datatype = "ridgeline",
-          stringsAsFactors = FALSE
-        )
-      }
-      else {
-        # group with no density estimate: emit an empty placeholder so the group
-        # is retained (it draws nothing). Columns must match the real-density
-        # frame above.
-        df_density <- data.frame(
-          x = NA_real_,
-          density = NA_real_,
-          ndensity = NA_real_,
-          datatype = "ridgeline",
-          stringsAsFactors = FALSE
-        )
-      }
+      df_density <- data.frame(
+        x = d$x,
+        density = d$y,
+        ndensity = d$y / maxdens,
+        datatype = "ridgeline",
+        stringsAsFactors = FALSE
+      )
     }
 
     if (!is.null(df_points_dummy)){
