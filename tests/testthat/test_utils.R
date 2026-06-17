@@ -9,5 +9,5 @@ test_that('reduce works', {
   expect_equal(reduce(c('the', 'fish', 'was', 'delish'), paste), 'the fish was delish')
 
   expect_equal(reduce(list(), .init=0), 0)
-  expect_error(reduce(list()), "`.x` is empty, and no `.init` supplied")
+  expect_error(reduce(list()), "`.x` is empty, and no `.init` was supplied")
 })

@@ -24,7 +24,6 @@ Imports:
 License: GPL-2 | file LICENSE
 LazyData: true
 Suggests:
-    covr,
     dplyr,
     patchwork,
     ggplot2movies,
@@ -49,6 +48,6 @@ Collate:
     'theme.R'
     'utils_ggplot2.R'
     'utils.R'
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
