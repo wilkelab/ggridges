@@ -99,3 +99,35 @@ check_size_param <- function(params) {
   params
 }
 
+# Internal vertical scaling shared by the density-ridgeline geoms
+# (`GeomDensityRidges`, `GeomDensityRidgesGradient`). Groups with no density
+# estimate contribute non-finite or non-positive heights; a panel made up only
+# of such groups gets a scale of 1, so raw points at the baseline still draw and
+# `max()` is never called on an all-missing vector. For ordinary (finite,
+# positive) heights this matches the original scaling. `hmax` is per-row under
+# `panel_scaling` and scalar otherwise, with non-finite values normalised to 0
+# so callers can use it directly for `min_height`.
+ridgeline_internal_scale <- function(data, panel_scaling) {
+  finite_pos_max <- function(x) {
+    x <- x[is.finite(x) & x > 0]
+    if (length(x) == 0) NA_real_ else max(x)
+  }
+  yrange <- max(data$y) - min(data$y)
+  n <- length(unique(data$y))
+  if (n < 2) {
+    hmax <- finite_pos_max(data$height)
+    iscale <- 1
+  } else if (isTRUE(panel_scaling)) {
+    heights <- split(data$height, data$PANEL)
+    max_heights <- vapply(heights, finite_pos_max, numeric(1))
+    hmax <- max_heights[data$PANEL]
+    iscale <- yrange / ((n - 1) * hmax)
+  } else {
+    hmax <- finite_pos_max(data$height)
+    iscale <- yrange / ((n - 1) * hmax)
+  }
+  # no positive finite height: draw at baseline (scale 1, min_height 0)
+  iscale[!is.finite(iscale)] <- 1
+  hmax[!is.finite(hmax)] <- 0
+  list(iscale = iscale, hmax = hmax)
+}

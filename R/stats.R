@@ -26,6 +26,13 @@
 #'   define the quantiles. Default is `quantile`.
 #' @param n The number of equally spaced points at which the density is to be estimated. Should be a power of 2. Default
 #'   is 512.
+#' @param min_obs The minimum number of observations a group must have for a density estimate to be
+#'   computed. Groups with fewer observations are not dropped: their density is omitted, but the
+#'   group is retained so that its raw points can still be drawn when `jittered_points = TRUE`.
+#'   Whether a group is retained does not depend on `jittered_points`. Defaults to 3; set to 1 to
+#'   also estimate densities for one- and two-observation groups. A density additionally requires a
+#'   finite joint bandwidth, which cannot be estimated for a panel in which no group has more than
+#'   one observation; such groups likewise have their density omitted.
 #' @inheritParams geom_ridgeline
 #' @importFrom ggplot2 layer
 #' @examples
@@ -68,7 +75,7 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
                      position = "identity", na.rm = FALSE, show.legend = NA,
                      inherit.aes = TRUE, bandwidth = NULL, from = NULL, to = NULL,
                      jittered_points = FALSE, quantile_lines = FALSE, calc_ecdf = FALSE, quantiles = 4,
-                     quantile_fun = quantile, n = 512, ...)
+                     quantile_fun = quantile, n = 512, min_obs = 3, ...)
 {
   layer(
     stat = StatDensityRidges,
@@ -87,8 +94,57 @@ stat_density_ridges <- function(mapping = NULL, data = NULL, geom = "density_rid
                   quantile_lines = quantile_lines,
                   quantile_fun = quantile_fun,
                   n = n,
+                  min_obs = min_obs,
                   na.rm = na.rm, ...)
   )
+}
+
+# Output of StatDensityRidges$compute_group() for a group that gets no density
+# estimate (too few observations, or no estimable joint bandwidth). The group is
+# kept rather than dropped: an empty ridgeline row that draws nothing, plus its
+# raw points at the baseline (height 0) when `jittered_points = TRUE`. This keeps
+# group retention independent of `jittered_points`.
+empty_density_group <- function(data, jittered_points, calc_ecdf) {
+  df_points <- NULL
+  df_points_dummy <- NULL
+  if (jittered_points) {
+    df_points <- data.frame(
+      x = data$x, density = 0, ndensity = 0,
+      datatype = "point", stringsAsFactors = FALSE
+    )
+    # carry over point_* aesthetics, as in compute_group()
+    point_cols <- data[grepl("point_", names(data))]
+    if (ncol(point_cols) > 0) {
+      df_points <- cbind(df_points, point_cols)
+      df_points_dummy <- na.omit(point_cols)[1, , drop = FALSE]
+    }
+  }
+
+  if (calc_ecdf) {
+    df_density <- data.frame(
+      x = NA_real_, density = NA_real_, ndensity = NA_real_,
+      ecdf = NA_real_, quantile = NA_real_,
+      datatype = "ridgeline", stringsAsFactors = FALSE
+    )
+    if (!is.null(df_points)) {
+      df_points$ecdf <- NA_real_
+      df_points$quantile <- NA_real_
+    }
+  } else {
+    df_density <- data.frame(
+      x = NA_real_, density = NA_real_, ndensity = NA_real_,
+      datatype = "ridgeline", stringsAsFactors = FALSE
+    )
+  }
+  if (!is.null(df_points_dummy)) {
+    df_density <- data.frame(df_density, as.list(df_points_dummy))
+  }
+
+  df_final <- rbind(df_density, df_points)
+  if ("quantile" %in% names(df_final)) {
+    df_final$quantile <- factor(df_final$quantile)
+  }
+  df_final
 }
 
 #' @rdname stat_density_ridges
@@ -157,13 +213,11 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
 
   compute_group = function(data, scales, from, to, bandwidth = 1,
                            calc_ecdf = FALSE, jittered_points = FALSE, quantile_lines = FALSE,
-                           quantiles = 4, quantile_fun = quantile, n = 512) {
-    # ignore too small groups
-    if(nrow(data) < 3) return(data.frame())
-
+                           quantiles = 4, quantile_fun = quantile, n = 512, min_obs = 3) {
     if (is.null(calc_ecdf)) calc_ecdf <- FALSE
     if (is.null(jittered_points)) jittered_points <- FALSE
     if (is.null(quantile_lines)) quantile_lines <- FALSE
+    if (is.null(min_obs)) min_obs <- 3
 
     # when quantile lines are requested, we also calculate ecdf
     # this simplifies things for now; in principle, could disentangle
@@ -178,6 +232,14 @@ StatDensityRidges <- ggproto("StatDensityRidges", Stat,
       )
     }
     panel_id <- as.numeric(panel)
+
+    # A density estimate needs at least `min_obs` observations and a finite joint
+    # bandwidth (not estimable when no group has more than one observation). A
+    # group without one is kept rather than dropped, but gets no density curve;
+    # its raw points are still drawn, independent of `jittered_points`.
+    if (nrow(data) < min_obs || !is.finite(bandwidth[panel_id])) {
+      return(empty_density_group(data, jittered_points, calc_ecdf))
+    }
 
     if (is.null(data$weight)) {
       weights <- NULL

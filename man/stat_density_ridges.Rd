@@ -23,6 +23,7 @@ stat_density_ridges(
   quantiles = 4,
   quantile_fun = quantile,
   n = 512,
+  min_obs = 3,
   ...
 )
 }
@@ -86,6 +87,14 @@ define the quantiles. Default is \code{quantile}.}
 
 \item{n}{The number of equally spaced points at which the density is to be estimated. Should be a power of 2. Default
 is 512.}
+
+\item{min_obs}{The minimum number of observations a group must have for a density estimate to be
+computed. Groups with fewer observations are not dropped: their density is omitted, but the group
+is retained so that its raw points can still be drawn when \code{jittered_points = TRUE}. Whether a
+group is retained does not depend on \code{jittered_points}. Defaults to 3; set to 1 to also
+estimate densities for one- and two-observation groups. A density additionally requires a finite
+joint bandwidth, which cannot be estimated for a panel in which no group has more than one
+observation; such groups likewise have their density omitted.}
 
 \item{...}{other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
